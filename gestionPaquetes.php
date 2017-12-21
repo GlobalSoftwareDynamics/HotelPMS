@@ -11,12 +11,10 @@ include('navbarRecepcion.php');
     function myFunction() {
         // Declare variables
         var input, input2, input3, filter, filter2, filter3, table, tr, td, td2, td3, i;
-        input = document.getElementById("numero");
-        input2 = document.getElementById("tipo");
-        input3 = document.getElementById("vista");
+        input = document.getElementById("nombre");
+        input2 = document.getElementById("descripcion");
         filter = input.value.toUpperCase();
         filter2 = input2.value.toUpperCase();
-        filter3 = input3.value.toUpperCase();
         table = document.getElementById("myTable");
         tr = table.getElementsByTagName("tr");
 
@@ -24,15 +22,10 @@ include('navbarRecepcion.php');
         for (i = 0; i < tr.length; i++) {
             td = tr[i].getElementsByTagName("td")[0];
             td2 = tr[i].getElementsByTagName("td")[1];
-            td3 = tr[i].getElementsByTagName("td")[2];
             if ((td)&&(td2)) {
                 if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
                     if(td2.innerHTML.toUpperCase().indexOf(filter2) > -1){
-                        if(td3.innerHTML.toUpperCase().indexOf(filter3) > -1){
-                            tr[i].style.display = "";
-                        }else{
-                            tr[i].style.display = "none";
-                        }
+                        tr[i].style.display = "";
                     }else{
                         tr[i].style.display = "none";
                     }
@@ -48,7 +41,7 @@ include('navbarRecepcion.php');
     <div class="card">
         <div class="card-header card-inverse card-info">
             <i class="fa fa-list"></i>
-            Gestión de Habitaciones
+            Gestión de Paquetes
             <div class="float-right">
                 <div class="dropdown">
                     <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -56,7 +49,7 @@ include('navbarRecepcion.php');
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <form method="post">
-                            <a class="dropdown-item" href="#" style="font-size: 14px;">Registrar Nueva Habitación</a>
+                            <a class="dropdown-item" href="nuevoPaquete_DatosGenerales.php" style="font-size: 14px;">Registrar Nuevo Paquete</a>
                         </form>
                     </div>
                 </div>
@@ -71,12 +64,10 @@ include('navbarRecepcion.php');
                 <div class="col-12">
                     <div id="collapsed" class="collapse">
                         <form class="form-inline justify-content-center" method="post" action="#">
-                            <label class="sr-only" for="numero">Nro. Habitacion</label>
-                            <input type="number" class="form-control mt-2 mb-2 mr-2" id="numero" placeholder="Número" onkeyup="myFunction()">
-                            <label class="sr-only" for="tipo">Tipo</label>
-                            <input type="text" class="form-control mt-2 mb-2 mr-2" id="tipo" placeholder="Tipo" onkeyup="myFunction()">
-                            <label class="sr-only" for="vista">Vista</label>
-                            <input type="text" class="form-control mt-2 mb-2 mr-2" id="vista" placeholder="Vista" onkeyup="myFunction()">
+                            <label class="sr-only" for="nombre">Nombre</label>
+                            <input type="text" class="form-control mt-2 mb-2 mr-2" id="nombre" placeholder="Nombre" onkeyup="myFunction()">
+                            <label class="sr-only" for="descripcion">Descripción</label>
+                            <input type="text" class="form-control mt-2 mb-2 mr-2" id="descripcion" placeholder="Descripción" onkeyup="myFunction()">
                             <input type="submit" class="btn btn-primary" value="Limpiar" style="padding-left:28px; padding-right: 28px;">
                         </form>
                     </div>
@@ -88,17 +79,17 @@ include('navbarRecepcion.php');
                     <table class="table table-bordered text-center" id="myTable">
                         <thead class="thead-default">
                         <tr>
-                            <th class="text-center">Nro. Habitación</th>
-                            <th class="text-center">Tipo</th>
-                            <th class="text-center">Vista</th>
-                            <th class="text-center">Acciones</th>
+                            <th class="text-center" style="width: 30%">Nombre</th>
+                            <th class="text-center" style="width: 50%">Descripción</th>
+                            <th class="text-center" style="width: 10%">Valor</th>
+                            <th class="text-center" style="width: 10%">Acciones</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <td>103</td>
-                            <td>Simple</td>
-                            <td>Pasillo</td>
+                            <td>Paquete Noche de Bodas</td>
+                            <td>Estadía: 1 Noche; Habitaciones: Matrimonial; Cantidad de Habitaciones: 1; Incluye decoración, botella de Champagne, Bouquet de Rosas.</td>
+                            <td>$ 200.00</td>
                             <td>
                                 <form method='post'>
                                     <div class='dropdown'>
@@ -106,17 +97,17 @@ include('navbarRecepcion.php');
                                             Acciones
                                         </button>
                                         <div class='dropdown-menu' aria-labelledby='dropdownMenuButton'>
-                                            <button name='editar' class='dropdown-item' type='submit' formaction='#'>Ver Detalle</button>
-                                            <button name='desactivar' class='dropdown-item' type='submit' formaction='#'>Editar</button>
+                                            <button name='editar' class='dropdown-item' type='submit' formaction='detallePaquete.php'>Ver Detalle</button>
+                                            <button name='desactivar' class='dropdown-item' type='submit' formaction='editarPaquete.php'>Editar</button>
                                         </div>
                                     </div>
                                 </form>
                             </td>
                         </tr>
                         <tr>
-                            <td>203</td>
-                            <td>Doble</td>
-                            <td>Calle</td>
+                            <td>Paquete Noche de Bodas Plus</td>
+                            <td>Estadía: 1 Noche; Habitaciones: Suite; Cantidad de Habitaciones: 1; Incluye decoración, botella de Champagne, Bouquet de Rosas, Desayuno Especial a la Habitación.</td>
+                            <td>$ 400.00</td>
                             <td>
                                 <form method='post'>
                                     <div class='dropdown'>
@@ -124,44 +115,8 @@ include('navbarRecepcion.php');
                                             Acciones
                                         </button>
                                         <div class='dropdown-menu' aria-labelledby='dropdownMenuButton'>
-                                            <button name='editar' class='dropdown-item' type='submit' formaction='#'>Ver Detalle</button>
-                                            <button name='desactivar' class='dropdown-item' type='submit' formaction='#'>Editar</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>303</td>
-                            <td>Matrimonial</td>
-                            <td>Jardines</td>
-                            <td>
-                                <form method='post'>
-                                    <div class='dropdown'>
-                                        <button class='btn btn-outline-primary btn-sm dropdown-toggle' type='button' id='dropdownMenuButton' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-                                            Acciones
-                                        </button>
-                                        <div class='dropdown-menu' aria-labelledby='dropdownMenuButton'>
-                                            <button name='editar' class='dropdown-item' type='submit' formaction='#'>Ver Detalle</button>
-                                            <button name='desactivar' class='dropdown-item' type='submit' formaction='#'>Editar</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>403</td>
-                            <td>Suite</td>
-                            <td>Jardines</td>
-                            <td>
-                                <form method='post'>
-                                    <div class='dropdown'>
-                                        <button class='btn btn-outline-primary btn-sm dropdown-toggle' type='button' id='dropdownMenuButton' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-                                            Acciones
-                                        </button>
-                                        <div class='dropdown-menu' aria-labelledby='dropdownMenuButton'>
-                                            <button name='editar' class='dropdown-item' type='submit' formaction='#'>Ver Detalle</button>
-                                            <button name='desactivar' class='dropdown-item' type='submit' formaction='#'>Editar</button>
+                                            <button name='editar' class='dropdown-item' type='submit' formaction='detallePaquete.php'>Ver Detalle</button>
+                                            <button name='desactivar' class='dropdown-item' type='submit' formaction='editarPaquete.php'>Editar</button>
                                         </div>
                                     </div>
                                 </form>
