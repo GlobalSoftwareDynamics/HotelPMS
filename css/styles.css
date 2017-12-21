@@ -1,0 +1,278 @@
+/*General*/
+
+@import url('https://fonts.googleapis.com/css?family=Didact+Gothic');
+
+* {
+    font-family: 'Didact Gothic', sans-serif;
+}
+
+.form-control,input,button {
+    font-family: 'Didact Gothic', sans-serif;
+    font-size: 14px;
+}
+
+label,p,th,td {
+    font-size: 14px;
+}
+
+/* Remover los controles de inputs */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+/* Clases */
+tr.textoRed>td{
+    font-size: 13px;
+}
+
+.card-header{
+    background-color: #3498DB;
+    border-bottom-color: #3489cd;
+    color: white;
+}
+
+.card-block{
+    padding: 0px 15px;
+}
+
+.btn.btn-outline-primary{
+    border-color: #3498DB;
+    color: #338ccd;
+}
+
+.btn-outline-primary:hover {
+    color: #fff;
+    background-color: #3498DB;
+    border-color: #3489cd;
+}
+
+.btn-outline-primary:focus, .btn-outline-primary.focus {
+    -webkit-box-shadow: 0 0 0 2px #3498DB;
+    box-shadow: 0 0 0 2px #3489cd;
+}
+
+.btn-outline-primary.disabled, .btn-outline-primary:disabled {
+    background-color: #3498DB;
+    border-color: #3489cd;
+}
+
+.btn-outline-primary:not([disabled]):not(.disabled):active, .btn-outline-primary:not([disabled]):not(.disabled).active,
+.show > .btn-outline-primary.dropdown-toggle {
+    color: #fff;
+    background-color: #3498DB;
+    border-color: #3498DB;
+    box-shadow: 0 0 0 0.2rem #3489cd;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #3498DB;
+    border-color: #3489cd;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #3489cd;
+    border-color: #3489cd;
+}
+
+.btn-primary:focus, .btn-primary.focus {
+    box-shadow: 0 0 0 0.2rem #3498DB;
+}
+
+.btn-primary.disabled, .btn-primary:disabled {
+    background-color: #3498DB;
+    border-color: #3498DB;
+}
+
+.btn-primary:not([disabled]):not(.disabled):active, .btn-primary:not([disabled]):not(.disabled).active,
+.show > .btn-primary.dropdown-toggle {
+    color: #fff;
+    background-color: #3498DB;
+    border-color: #3498DB;
+    box-shadow: 0 0 0 0.2rem #3489cd;
+}
+
+a{
+    color: black;
+}
+
+.image-preview-input {
+    position: relative;
+    overflow: hidden;
+    margin: 0px;
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+.image-preview-input input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+.image-preview-input-title {
+    margin-left:2px;
+}
+
+input[type='file']>.fotografia{
+    opacity: 0;
+}
+
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.inputfile + label {
+    max-width: 80%;
+    font-size: 16px;
+    /* 20px */
+    font-weight: 500;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    padding: 0.625rem 1.25rem;
+    /* 10px 20px */
+}
+
+.no-js .inputfile + label {
+    display: none;
+}
+
+.inputfile:focus + label,
+.inputfile.has-focus + label {
+    outline: 1px dotted #000;
+    outline: -webkit-focus-ring-color auto 5px;
+}
+
+.inputfile + label * {
+    /* pointer-events: none; */
+    /* in case of FastClick lib use */
+}
+
+.inputfile + label svg {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    fill: currentColor;
+    margin-top: -0.25em;
+    /* 4px */
+    margin-right: 0.25em;
+    /* 4px */
+}
+
+
+/* style 1 */
+
+.inputfile-1 + label {
+    color: #f1e5e6;
+    background-color: #3498DB;
+}
+
+.inputfile-1:focus + label,
+.inputfile-1.has-focus + label,
+.inputfile-1 + label:hover {
+    background-color: #3489cd;
+}
+
+/*NavBar*/
+
+.navbar {
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-bottom:30px;
+}
+
+.navbar-brand {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: #78746f;
+    font-weight: 600;
+}
+
+.navbar-light .navbar-nav .nav-link:focus, .navbar-light .navbar-nav .nav-link:hover {
+    color: #78746f;
+    font-weight: 600;
+}
+
+/* Spacers */
+
+.spacer5 { height: 5px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer10 { height: 10px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer15 { height: 15px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer20 { height: 20px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer25 { height: 25px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer30 { height: 30px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer35 { height: 35px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer40 { height: 40px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer45 { height: 45px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer50 { height: 50px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer100 { height: 100px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer200 { height: 200px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+
+/*Dashboard*/
+
+.card-body-icon {
+    position: absolute;
+    z-index: 0;
+    top: -25px;
+    right: -25px;
+    font-size: 4.5rem;
+    -webkit-transform: rotate(15deg);
+    -ms-transform: rotate(15deg);
+    transform: rotate(15deg);
+}
+
+.smaller {
+    font-size: 0.7rem;
+}
+
+.o-hidden {
+    overflow: hidden !important;
+}
+
+.z-0 {
+    z-index: 0;
+}
+
+.z-1 {
+    z-index: 1;
+}
+
+.bg-card {
+    background-color: #3498DB;
+}
+
+/*Estilos CV*/
+
+.datosCV p {
+    margin-bottom: 0px;
+}
+
+/*Estilos HE*/
+
+a.crowded.nav-link{
+    font-size:13px;
+}
+
+.fotografiaProducto{
+    height: 220px;
+}

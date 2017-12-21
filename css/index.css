@@ -1,0 +1,61 @@
+@import url("//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css");
+
+body{
+    height: 100%;
+    background: #0a89af;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, #0f95cd, #0a89af);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #0e9acd, #0a89af); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.login-block{
+    float:left;
+    width:100%;
+    padding : 50px 0;
+    margin-top: 100px;
+    margin-bottom: 500px;
+}
+
+@media (max-width: 1199px) {
+    .login-block{
+        margin-top: 0px;
+    }
+}
+
+#logo{
+    width:100%;
+    text-align: center;
+}
+
+.centered{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.banner-sec{background:url(../img/indexFoto.jpg)  no-repeat left bottom; background-size:cover; min-height:500px; border-radius: 0 10px 10px 0; padding:0;}
+.container{background:#fff; border-radius: 10px; box-shadow:15px 20px 0px rgba(0,0,0,0.1);}
+.carousel-inner{border-radius:0 10px 10px 0;}
+.carousel-caption{text-align:left; left:5%;}
+.login-sec{padding: 50px 30px; position:relative;}
+.login-sec .copy-text{position:absolute; width:80%; bottom:20px; font-size:13px; text-align:center;}
+.login-sec .copy-text i{color:#FEB58A;}
+.login-sec .copy-text a{color:#E36262;}
+.login-sec h2{margin-bottom:30px; font-weight:800; font-size:30px; color: #DE6262;}
+.login-sec h2:after{content:" "; width:100px; height:5px; background: #0a6187; display:block; margin-top:20px; border-radius:3px; margin-left:auto;margin-right:auto}
+.btn-login{background: #0a6187; color:#fff; font-weight:600;}
+.banner-text{width:70%; position:absolute; bottom:40px; padding-left:20px;}
+.banner-text h2{color:#fff; font-weight:600;}
+.banner-text h2:after{content:" "; width:100px; height:5px; background:#FFF; display:block; margin-top:20px; border-radius:3px;}
+.banner-text p{color:#fff;}
+
+.spacer5 { height: 5px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer10 { height: 10px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer15 { height: 15px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer20 { height: 20px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer25 { height: 25px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer30 { height: 30px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer35 { height: 35px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer40 { height: 40px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer45 { height: 45px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer50 { height: 50px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer100 { height: 100px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer200 { height: 200px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
