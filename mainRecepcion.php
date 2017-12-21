@@ -13,48 +13,34 @@ if(isset($_SESSION['login'])){
 						<div class="card-body-icon">
 							<i class="fa fa-fw fa-car"></i>
 						</div>
-						<div>11 Arribos</div>
+                        <div class="spacer15"></div>
+						<div class="card-body-text">11 Arribos</div>
 					</div>
-					<a class="card-footer text-white clearfix small z-1" href="#">
-						<span class="float-left">Ver Listado</span>
-						<span class="float-right">
-                <i class="fa fa-angle-right"></i>
-              </span>
-					</a>
 				</div>
 			</div>
 			<div class="col-4 mb-3">
-				<div class="card text-white bg-card o-hidden h-100">
-					<div class="card-body">
-						<div class="card-body-icon">
-							<i class="fa fa-fw fa-tags"></i>
-						</div>
-						<div>13 Check-outs</div>
-					</div>
-					<a class="card-footer text-white clearfix small z-1" href="#">
-						<span class="float-left">Ver Listado</span>
-						<span class="float-right">
-                <i class="fa fa-angle-right"></i>
-              </span>
-					</a>
-				</div>
+                <div class="card text-white bg-card o-hidden h-100">
+                    <div class="card-body">
+                        <div class="card-body-icon">
+                            <i class="fa fa-fw fa-tags"></i>
+                        </div>
+                        <div class="spacer15"></div>
+                        <div class="card-body-text">17 Salidas</div>
+                    </div>
+                </div>
 			</div>
 			<div class="col-4 mb-3">
-				<div class="card text-white bg-card o-hidden h-100">
-					<div class="card-body">
-						<div class="card-body-icon">
-							<i class="fa fa-fw fa-bed"></i>
-						</div>
-						<div>20 Habitaciones Ocupadas</div>
-					</div>
-					<a class="card-footer text-white clearfix small z-1" href="#">
-						<span class="float-left">Ver Listado</span>
-						<span class="float-right">
-                <i class="fa fa-angle-right"></i>
-              </span>
-					</a>
-				</div>
-			</div>
+                <div class="card text-white bg-card o-hidden h-100">
+                    <div class="card-body">
+                        <div class="card-body-icon">
+                            <i class="fa fa-fw fa-bed"></i>
+                        </div>
+                        <div class="spacer15"></div>
+                        <div class="card-body-text">23 Huespedes</div>
+                        <div class="spacer20"></div>
+                    </div>
+                </div>
+            </div>
 		</div>
 		<div class="spacer20"></div>
 		<div class="row">
@@ -318,19 +304,67 @@ if(isset($_SESSION['login'])){
 					</div>
 					<div class="modal-body">
 						<div class="container-fluid">
-							<div class="form-group row">
-								<label class="col-form-label" for="ruc">DNI:</label>
-								<input type="text" name="ruc" id="ruc" class="form-control">
+							<div class="row">
+								<div class="form-group col-6">
+									<label class="col-form-label" for="fechaInicio">Fecha Inicio:</label>
+									<input type="date" name="fechaInicio" id="fechaInicio" class="form-control">
+								</div>
+								<div class="form-group col-6">
+									<label class="col-form-label" for="fechaFin">Fecha Fin:</label>
+									<input type="date" name="fechaFin" id="fechaFin" class="form-control">
+								</div>
 							</div>
 							<div class="form-group row">
-								<label class="col-form-label" for="razonSocial">Razón Social:</label>
-								<input type="text" name="razonSocial" id="razonSocial" class="form-control">
+								<label class="col-form-label" for="tipoHabitacion">Tipo de Habitación:</label>
+								<select class="form-control" id="tipoHabitacion" name="tipoHabitacion">
+									<option>Seleccionar</option>
+								</select>
+							</div>
+							<div class="form-group row">
+								<label class="col-form-label" for="tarifa">Tarifa:</label>
+								<select class="form-control" id="tarifa" name="tarifa">
+									<option>Seleccionar</option>
+								</select>
+							</div>
+							<div class="row">
+								<div class="form-group col-4">
+									<label class="col-form-label" for="adultos">Adultos:</label>
+									<input type="number" name="adultos" id="adultos" class="form-control">
+								</div>
+								<div class="form-group col-4">
+									<label class="col-form-label" for="niños">Niños:</label>
+									<input type="number" name="niños" id="niños" class="form-control">
+								</div>
+								<div class="form-group col-4">
+									<label class="col-form-label" for="numHabitaciones">Habitaciones:</label>
+									<input type="number" name="numHabitaciones" id="numHabitaciones" class="form-control">
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-6">
+									<label class="col-form-label" for="dni">DNI Titular:</label>
+									<input type="number" name="dni" id="dni" class="form-control">
+								</div>
+								<div class="form-group col-6">
+									<label class="col-form-label" for="nombres">Nombre Completo:</label>
+									<input type="text" name="nombres" id="nombres" class="form-control">
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-6">
+									<label class="col-form-label" for="telefono">Teléfono:</label>
+									<input type="text" name="telefono" id="telefono" class="form-control">
+								</div>
+								<div class="form-group col-6">
+									<label class="col-form-label" for="email">Correo Electrónico:</label>
+									<input type="email" name="email" id="email" class="form-control">
+								</div>
 							</div>
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						<button type="submit" class="btn btn-primary" form="formProducto" value="Submit" name="addCliente">Guardar Cambios</button>
+						<input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar">
+						<input type="submit" class="btn btn-primary" name="addReserva" value="Guardar Cambios">
 					</div>
 				</div>
 			</div>

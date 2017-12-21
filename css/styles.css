@@ -15,15 +15,12 @@ label,p,th,td {
     font-size: 14px;
 }
 
-/* Remover los controles de inputs */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    /* display: none; <- Crashes Chrome on hover */
-    -webkit-appearance: none;
-    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+/* Clases */
+.modal-header{
+    background-color: #3498DB;
+    color: white;
 }
 
-/* Clases */
 tr.textoRed>td{
     font-size: 13px;
 }
@@ -235,10 +232,11 @@ input[type='file']>.fotografia{
     z-index: 0;
     top: -25px;
     right: -25px;
-    font-size: 4.5rem;
-    -webkit-transform: rotate(15deg);
-    -ms-transform: rotate(15deg);
-    transform: rotate(15deg);
+    font-size: 6rem;
+}
+
+.card-body-text{
+    font-size: 1.5rem;
 }
 
 .smaller {
