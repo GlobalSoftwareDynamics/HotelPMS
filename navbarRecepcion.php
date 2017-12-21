@@ -25,12 +25,12 @@
 							Gestión de Información
 						</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" href=".php">Habitaciones</a>
-							<a class="dropdown-item" href=".php">Paquetes</a>
-							<a class="dropdown-item" href=".php">Tarifas</a>
-							<a class="dropdown-item" href=".php">Clientes</a>
-							<a class="dropdown-item" href=".php">Empresas</a>
-							<a class="dropdown-item" href=".php">Usuarios</a>
+							<a class="dropdown-item" href="gestionHabitaciones.php">Habitaciones</a>
+							<a class="dropdown-item" href="gestionPaquetes.php">Paquetes</a>
+							<a class="dropdown-item" href="gestionTarifas.php">Tarifas</a>
+							<a class="dropdown-item" href="gestionClientes.php">Clientes</a>
+							<a class="dropdown-item" href="gestionEmpresas.php">Empresas</a>
+							<a class="dropdown-item" href="gestionUsuarios.php">Usuarios</a>
 						</div>
 					</li>
 				</ul>
