@@ -124,6 +124,12 @@ if(isset($_SESSION['login'])){
 
 	<nav id="context-menu" class="context-menu">
 		<ul class="context-menu__items">
+            <li class="context-menu__item">
+                <a href="#" class="context-menu__link" data-action="Checkin" id="checkin"><i class="fa fa-sign-in"></i> Registrar Check-In</a>
+            </li>
+            <li class="context-menu__item">
+                <a href="#" class="context-menu__link" data-action="Checkout" id="checkout"><i class="fa fa-sign-out"></i> Registrar Check-Out</a>
+            </li>
 			<li class="context-menu__item">
 				<a href="#" class="context-menu__link" data-action="View" data-id="ver" id="ver"><i class="fa fa-eye"></i> Ver Reserva</a>
 			</li>
