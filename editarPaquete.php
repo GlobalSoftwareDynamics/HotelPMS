@@ -111,14 +111,14 @@ while($row = mysqli_fetch_array($result)) {
                                     <td>Matrimonial</td>
                                     <td>1</td>
                                     <td>Regular: $ 120.00</td>
-                                    <td><input type="submit" name="eliminarTarifa" value="Eliminar" class="btn btn-outline-primary"></td>
+                                    <td><input type="submit" name="eliminarTarifa" value="Eliminar" class="btn btn-sm btn-outline-primary"></td>
                                 </tr>
                                 </tbody>
                             </table>
                         </form>
                     </div>
                     <div class="col-12">
-                        <button type="button" class="btn btn-outline-primary col-4 offset-4 mb-3" data-toggle="modal" data-target="#modalHabitaciones">Agregar Habitaciones</button>
+                        <button type="button" class="btn btn-sm btn-primary col-4 offset-4 mb-3" data-toggle="modal" data-target="#modalHabitaciones">Agregar Habitaciones</button>
                     </div>
                 </div>
             </div>

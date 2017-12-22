@@ -23,7 +23,7 @@ if (isset($_POST['submit'])) {
 		$rows = mysqli_num_rows($query);
 		if ($rows == 1) {
 			while($row = mysqli_fetch_array($query)){
-				$codigoEmpleado = $row['idEmpleado'];
+				$codigoEmpleado = $row['idColaborador'];
 				$_SESSION['login']=$username; // Initializing Session
 				$_SESSION['user']=$codigoEmpleado; // Session User
 				if($row['idTipoUsuario'] == 1){
