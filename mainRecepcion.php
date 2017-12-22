@@ -58,7 +58,7 @@ if(isset($_SESSION['login'])){
 								<a class="nav-link active" data-toggle="tab" href="#arribos" role="tab">Arribos</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" data-toggle="tab" href="#checkout" role="tab">Check-outs</a>
+								<a class="nav-link" data-toggle="tab" href="#checkout" role="tab">Registrados</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" data-toggle="tab" href="#sobrestadia" role="tab">Sobrestadía</a>
@@ -80,7 +80,7 @@ if(isset($_SESSION['login'])){
 								<div class="spacer10"></div>
 								<div class="tab-content">
 									<div class="tab-pane active" id="hoy" role="tabpanel">
-										<table class="table">
+										<table class="table text-center">
 											<thead>
 											<tr>
 												<th>Huésped</th>
@@ -90,6 +90,29 @@ if(isset($_SESSION['login'])){
 												<th>Acciones</th>
 											</tr>
 											</thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>Juan Pérez</td>
+                                                <td>R170872</td>
+                                                <td>Suite Junior</td>
+                                                <td>Confirmado</td>
+                                                <td>
+                                                    <form method='post'>
+                                                        <div class="dropdown">
+                                                            <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            Acciones
+                                                            </button>
+                                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                <input type="submit" value="Registrar Check-In" class="dropdown-item" formaction="#">
+                                                                <input type="submit" value="Ver Reserva" class="dropdown-item" formaction="verReserva.php">
+                                                                <input type="submit" value="Editar Reserva" class="dropdown-item" formaction="editarReserva.php">
+                                                                <input type="submit" value="Eliminar" class="dropdown-item" formaction="#">
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            </tbody>
 										</table>
 									</div>
 									<div class="tab-pane" id="manana" role="tabpanel">
@@ -125,10 +148,30 @@ if(isset($_SESSION['login'])){
 												<th>Huésped</th>
 												<th>ID Reserva</th>
 												<th>Habitación</th>
-												<th>Estado</th>
 												<th>Acciones</th>
 											</tr>
 											</thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>Juan Pérez</td>
+                                                <td>R170872</td>
+                                                <td>Suite Junior</td>
+                                                <td>
+                                                    <form method='post'>
+                                                        <div class="dropdown">
+                                                            <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                Acciones
+                                                            </button>
+                                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                <input type="submit" value="Registrar Consumo" class="dropdown-item" formaction="#">
+                                                                <input type="submit" value="Ver Reserva" class="dropdown-item" formaction="verReserva.php">
+                                                                <input type="submit" value="Registrar Check-out" class="dropdown-item" formaction="checkout.php">
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            </tbody>
 										</table>
 									</div>
 									<div class="tab-pane" id="manana2" role="tabpanel">
@@ -138,7 +181,6 @@ if(isset($_SESSION['login'])){
 												<th>Huésped</th>
 												<th>ID Reserva</th>
 												<th>Habitación</th>
-												<th>Estado</th>
 												<th>Acciones</th>
 											</tr>
 											</thead>
@@ -257,6 +299,28 @@ if(isset($_SESSION['login'])){
 										<th>Acciones</th>
 									</tr>
 									</thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>Juan Pérez</td>
+                                        <td>R170872</td>
+                                        <td>Suite Junior</td>
+                                        <td>08:18am</td>
+                                        <td>
+                                            <form method='post'>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Acciones
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                        <input type="submit" value="Registrar Check-Out" class="dropdown-item" formaction="checkout.php">
+                                                        <input type="submit" value="Ver Reserva" class="dropdown-item" formaction="verReserva.php">
+                                                        <input type="submit" value="Registrar Consumo" class="dropdown-item" formaction="#">
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    </tbody>
 								</table>
 							</div>
 							<div class="tab-pane" id="checkout2" role="tabpanel">

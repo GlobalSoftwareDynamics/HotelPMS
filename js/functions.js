@@ -230,6 +230,10 @@
         if(link.getAttribute("data-action") == "Delete"){
             window.location.href = 'agenda.php?delete=true&idReserva=' + taskItemInContext.getAttribute("data-id");
         }
+        if(link.getAttribute("data-action") == "Checkout"){
+            window.location.href = 'checkout.php?delete=true&idReserva=' + taskItemInContext.getAttribute("data-id");
+        }
+
 
         console.log( "Task ID - " + taskItemInContext.getAttribute("data-id") + ", Task action - " + link.getAttribute("data-action"));
         toggleMenuOff();
