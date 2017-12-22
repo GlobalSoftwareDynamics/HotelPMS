@@ -53,23 +53,6 @@ include('funciones.php');
                                     <div class="col-3"><p><b>Vista:</b></p></div>
                                     <div class="col-9"><p>Jardines</p></div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-3"><p><b>Caracteristicas:</b></p></div>
-                                    <div class="col-11 offset-1 row">
-                                        <div class="col-3"><p><b>Capacidad:</b></p></div>
-                                        <div class="col-9"><p>4</p></div>
-                                        <div class="col-3"><p><b>Nro. Camas:</b></p></div>
-                                        <div class="col-9"><p>1</p></div>
-                                        <div class="col-3"><p><b>Tipo de Cama:</b></p></div>
-                                        <div class="col-9"><p>King</p></div>
-                                        <div class="col-3"><p><b>Jacuzzi:</b></p></div>
-                                        <div class="col-9"><p>Si</p></div>
-                                        <div class="col-3"><p><b>Sala:</b></p></div>
-                                        <div class="col-9"><p>Si</p></div>
-                                        <div class="col-3"><p><b>Balcón:</b></p></div>
-                                        <div class="col-9"><p>Si</p></div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -80,7 +63,7 @@ include('funciones.php');
         <div class="spacer15"></div>
         <section class="container">
             <div class="row">
-                <div class="col-12">
+                <div class="col-6">
                     <div class="card">
                         <div class="card-header card-inverse card-info">
                             <div class="float-left">
@@ -90,7 +73,7 @@ include('funciones.php');
                         </div>
                         <div class="card-block">
                             <div class="col-12">
-                                <table class="table text-center">
+                                <table class="table">
                                     <tbody>
                                     <tr>
                                         <th>Capacidad:</th>
@@ -122,13 +105,7 @@ include('funciones.php');
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <div class="spacer15"></div>
-        <section class="container">
-            <div class="row">
-                <div class="col-12">
+                <div class="col-6">
                     <div class="card">
                         <div class="card-header card-inverse card-info">
                             <div class="float-left">
@@ -170,7 +147,6 @@ include('funciones.php');
                 </div>
             </div>
         </section>
-
         <?php
     /*}*/
     include('footer.php');

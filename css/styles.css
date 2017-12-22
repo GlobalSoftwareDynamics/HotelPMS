@@ -16,6 +16,93 @@ label,p,th,td {
 }
 
 /* Clases */
+.input-thin{
+    padding: 0.21rem 0.75rem;
+}
+
+.no-padding{
+    padding-left: 0;
+    padding-right: 0;
+    max-width: 4%;
+}
+
+.no-padding-lg{
+    padding-left: 0;
+    padding-right: 0;
+    max-width: 15%;
+}
+
+.reserva{
+    background-color: #0a6187;
+    border: 1px solid white;
+    color: white;
+}
+
+th,td{
+    height: 35px;
+}
+
+table.bordered-calendar th,table.bordered-calendar td{
+    border: solid 1px lightgray;
+}
+
+/* Context Menu */
+
+
+.context-menu {
+    display: none;
+    position: absolute;
+    z-index: 10;
+    padding: 12px 0;
+    width: 240px;
+    background-color: #fff;
+    border: solid 1px #dfdfdf;
+    box-shadow: 1px 1px 2px #cfcfcf;
+}
+
+.context-menu--active {
+    display: block;
+}
+
+.context-menu__items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.context-menu__item {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.context-menu__item:last-child {
+    margin-bottom: 0;
+}
+
+.context-menu__link {
+    display: block;
+    padding: 4px 12px;
+    color: #0066aa;
+    text-decoration: none;
+}
+
+.context-menu__link:hover {
+    color: #fff;
+    background-color: #0066aa;
+}
+
+/* Otros */
+
+.habitacion{
+    width: 120px;
+}
+
+.fecha{
+    width: 70px;
+    height: 30px;
+    overflow: hidden;
+}
+
 .modal-header{
     background-color: #3498DB;
     color: white;

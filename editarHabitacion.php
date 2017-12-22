@@ -43,7 +43,7 @@ while($row = mysqli_fetch_array($result)) {
                         <form method="post" action="gestionHabitaciones.php" id="form">
                             <div class="form-group row">
                                 <label for="numero" class="col-2 col-form-label">Nro. Habitación:</label>
-                                <div class="col-1">
+                                <div class="col-2">
                                     <input class="form-control" type="number" id="numero" name="numero" value="303">
                                 </div>
                             </div>
@@ -83,7 +83,7 @@ while($row = mysqli_fetch_array($result)) {
 <div class="spacer15"></div>
 <section class="container">
     <div class="row">
-        <div class="col-12">
+        <div class="col-6">
             <div class="card">
                 <div class="card-header card-inverse card-info">
                     <div class="float-left">
@@ -106,50 +106,45 @@ while($row = mysqli_fetch_array($result)) {
                                 <tr>
                                     <td>Capacidad:</td>
                                     <td>4</td>
-                                    <td><input type="submit" name="eliminarCaracteristica" value="Eliminar" class="btn btn-outline-primary"></td>
+                                    <td><input type="submit" name="eliminarCaracteristica" value="Eliminar" class="btn btn-sm btn-outline-primary"></td>
                                 </tr>
                                 <tr>
                                     <td>Nro. Camas:</td>
                                     <td>1</td>
-                                    <td><input type="submit" name="eliminarCaracteristica" value="Eliminar" class="btn btn-outline-primary"></td>
+                                    <td><input type="submit" name="eliminarCaracteristica" value="Eliminar" class="btn btn-sm btn-outline-primary"></td>
                                 </tr>
                                 <tr>
                                     <td>Tipo de Cama:</td>
                                     <td>King Size</td>
-                                    <td><input type="submit" name="eliminarCaracteristica" value="Eliminar" class="btn btn-outline-primary"></td>
+                                    <td><input type="submit" name="eliminarCaracteristica" value="Eliminar" class="btn btn-sm btn-outline-primary"></td>
                                 </tr>
                                 <tr>
                                     <td>Jacuzzi:</td>
                                     <td>Si</td>
-                                    <td><input type="submit" name="eliminarCaracteristica" value="Eliminar" class="btn btn-outline-primary"></td>
+                                    <td><input type="submit" name="eliminarCaracteristica" value="Eliminar" class="btn btn-sm btn-outline-primary"></td>
                                 </tr>
                                 <tr>
                                     <td>Sala:</td>
                                     <td>Si</td>
-                                    <td><input type="submit" name="eliminarCaracteristica" value="Eliminar" class="btn btn-outline-primary"></td>
+                                    <td><input type="submit" name="eliminarCaracteristica" value="Eliminar" class="btn btn-sm btn-outline-primary"></td>
                                 </tr>
                                 <tr>
                                     <td>Balcón:</td>
                                     <td>Si</td>
-                                    <td><input type="submit" name="eliminarCaracteristica" value="Eliminar" class="btn btn-outline-primary"></td>
+                                    <td><input type="submit" name="eliminarCaracteristica" value="Eliminar" class="btn btn-sm btn-outline-primary"></td>
                                 </tr>
                                 </tbody>
                             </table>
                         </form>
                     </div>
-                    <div class="col-12">
-                        <button type="button" class="btn btn-outline-primary col-4 offset-4 mb-3" data-toggle="modal" data-target="#modalCaracteristica">Agregar Característica</button>
+                    <div class="col-12 text-center">
+                        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalCaracteristica">Agregar Característica</button>
                     </div>
+                    <div class="spacer20"></div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-
-<div class="spacer15"></div>
-<section class="container">
-    <div class="row">
-        <div class="col-12">
+        <div class="col-6">
             <div class="card">
                 <div class="card-header card-inverse card-info">
                     <div class="float-left">
@@ -172,30 +167,32 @@ while($row = mysqli_fetch_array($result)) {
                                 <tr>
                                     <td>Regular</td>
                                     <td>$ 120.00</td>
-                                    <td><input type="submit" name="eliminarTarifa" value="Eliminar" class="btn btn-outline-primary"></td>
+                                    <td><input type="submit" name="eliminarTarifa" value="Eliminar" class="btn btn-sm btn-outline-primary"></td>
                                 </tr>
                                 <tr>
                                     <td>Temp. Alta</td>
                                     <td>$ 180.00</td>
-                                    <td><input type="submit" name="eliminarTarifa" value="Eliminar" class="btn btn-outline-primary"></td>
+                                    <td><input type="submit" name="eliminarTarifa" value="Eliminar" class="btn btn-sm btn-outline-primary"></td>
                                 </tr>
                                 <tr>
                                     <td>Temp. Baja</td>
                                     <td>$ 100.00</td>
-                                    <td><input type="submit" name="eliminarTarifa" value="Eliminar" class="btn btn-outline-primary"></td>
+                                    <td><input type="submit" name="eliminarTarifa" value="Eliminar" class="btn btn-sm btn-outline-primary"></td>
                                 </tr>
                                 <tr>
                                     <td>Noche de Bodas</td>
                                     <td>$ 80.00</td>
-                                    <td><input type="submit" name="eliminarTarifa" value="Eliminar" class="btn btn-outline-primary"></td>
+                                    <td><input type="submit" name="eliminarTarifa" value="Eliminar" class="btn btn-sm btn-outline-primary"></td>
                                 </tr>
                                 </tbody>
                             </table>
                         </form>
                     </div>
-                    <div class="col-12">
-                        <button type="button" class="btn btn-outline-primary col-4 offset-4 mb-3" data-toggle="modal" data-target="#modalTarifa">Asignar Nueva Tarifa</button>
+                    <div class="col-12 text-center">
+                        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalTarifa">Asignar Nueva Tarifa</button>
+                        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalCrearTarifa">Crear Nueva Tarifa</button>
                     </div>
+                    <div class="spacer20"></div>
                 </div>
             </div>
         </div>
@@ -263,6 +260,66 @@ while($row = mysqli_fetch_array($result)) {
                                 <option value="3">Noche de Bodas</option>
                                 <option value="3">Viaje de Negocios</option>
                             </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button form="formTarifa" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button class="btn btn-primary" form="formTarifa" value="Submit" name="addTarifa">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalCrearTarifa" tabindex="-1" role="dialog" aria-labelledby="modalCrearTarifa" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Crear Nueva Tarifa</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <form id="formTarifa" method="post" action="#">
+                        <div class="form-group row">
+                            <label for="descripcion" class="col-4 col-form-label">Descripción:</label>
+                            <div class="col-8">
+                                <input class="form-control" type="text" id="descripcion" name="descripcion" value="Regular Matrimonial">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="tipoHabitacion" class="col-4 col-form-label">Tipo de Habitación:</label>
+                            <div class="col-8">
+                                <select class="form-control" name="tipoHabitacion" id="tipoHabitacion">
+                                    <option>Seleccionar</option>
+                                    <option value="1">Simple</option>
+                                    <option value="2">Doble</option>
+                                    <option value="3" selected>Matrimonial</option>
+                                    <option value="3">Suite</option>
+                                    <option value="3">Suite Ejecutiva</option>
+                                    <option>Todas</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="valor" class="col-4 col-form-label">Valor:</label>
+                            <div class="col-3">
+                                <input class="form-control" type="number" id="valor" name="valor" value="150">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="moneda" class="col-4 col-form-label">Moneda:</label>
+                            <div class="col-8">
+                                <select name="moneda" id="moneda" class="form-control">
+                                    <option>Seleccionar</option>
+                                    <option value="1" selected>Dólares</option>
+                                    <option value="2">Soles</option>
+                                    <option value="3">Euros</option>
+                                </select>
+                            </div>
                         </div>
                     </form>
                 </div>

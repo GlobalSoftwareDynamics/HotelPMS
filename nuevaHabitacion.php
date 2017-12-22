@@ -28,7 +28,7 @@ include('declaracionFechas.php');
                             <div class="spacer20"></div>
                             <div class="form-group row">
                                 <label for="numero" class="col-2 col-form-label">Nro. Habitación:</label>
-                                <div class="col-1">
+                                <div class="col-2">
                                     <input class="form-control" type="number" id="numero" name="numero" value="304">
                                 </div>
                             </div>
