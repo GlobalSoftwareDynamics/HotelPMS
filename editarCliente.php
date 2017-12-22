@@ -1,11 +1,29 @@
 <?php
+include('session.php');
 include('funciones.php');
 include('declaracionFechas.php');
-/*if(isset($_SESSION['login'])){*/
-include('header.php');
-include('navbarRecepcion.php');
+if(isset($_SESSION['login'])){
+    include('header.php');
+    include('navbarRecepcion.php');
 
-?>
+    $result = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$_POST['idHuesped']}'");
+    while ($fila = mysqli_fetch_array($result)){
+        $result1 = mysqli_query($link,"SELECT * FROM Ciudad WHERE idCiudad = '{$fila['idCiudad']}'");
+        while ($fila1 = mysqli_fetch_array($result1)){
+            $ciudad = $fila1['nombre'];
+        }
+        $result1 = mysqli_query($link,"SELECT * FROM Empresa WHERE idEmpresa = '{$fila['idEmpresa']}'");
+        $numrows = mysqli_num_rows($result1);
+        if($numrows == 0){
+            $empresa = "Sin Empresa";
+            $idEmpresa = "Sin Empresa";
+        }else{
+            while ($fila1 = mysqli_fetch_array($result1)){
+                $empresa = $fila1['razonSocial'];
+                $idEmpresa = $fila['idEmpresa'];
+            }
+        }
+    ?>
     <form method="post" id="formInsumo">
         <section class="container">
             <div class="row">
@@ -18,7 +36,7 @@ include('navbarRecepcion.php');
                             </div>
                             <div class="float-right">
                                 <div class="dropdown">
-                                    <input name="addCliente" type="submit" form="formInsumo" class="btn btn-light btn-sm" formaction="gestionClientes.php" value="Guardar">
+                                    <input name="editar" type="submit" form="formInsumo" class="btn btn-light btn-sm" formaction="gestionClientes.php" value="Guardar">
                                     <input name="regresar" type="submit" form="formInsumo" class="btn btn-light btn-sm" formaction="gestionClientes.php" value="Regresar">
                                 </div>
                             </div>
@@ -27,25 +45,30 @@ include('navbarRecepcion.php');
                             <div class="row">
                                 <div class="spacer20"></div>
                                 <div class="col-6">
+                                    <input type="hidden" name="idHuesped" value="<?php echo $_POST['idHuesped']?>">
                                     <div class="form-group row">
                                         <label for="dni" class="col-4 col-form-label">DNI:</label>
                                         <div class="col-4">
-                                            <input class="form-control" type="number" id="dni" name="dni" value="46815489">
+                                            <input class="form-control" type="number" id="dni" name="dni" value="<?php echo $_POST['idHuesped']?>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="nombreCompleto" class="col-4 col-form-label">Nombre Completo:</label>
                                         <div class="col-8">
-                                            <input class="form-control" type="text" id="nombreCompleto" name="nombreCompleto" value="Juan Veracruz">
+                                            <input class="form-control" type="text" id="nombreCompleto" name="nombreCompleto" value="<?php echo $fila['nombreCompleto']?>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="genero" class="col-4 col-form-label">Genero:</label>
                                         <div class="col-8">
                                             <select class="form-control" name="genero" id="genero">
-                                                <option>Seleccionar</option>
-                                                <option value="1" selected>Masculino</option>
-                                                <option value="2">Femenino</option>
+                                                <option selected><?php echo $fila['idGenero']?></option>
+                                                <?php
+                                                $result1 = mysqli_query($link,"SELECT * FROM Genero");
+                                                while ($fila1 = mysqli_fetch_array($result1)){
+                                                    echo "<option>{$fila1['idGenero']}</option>";
+                                                }
+                                                ?>
                                             </select>
                                         </div>
                                     </div>
@@ -53,23 +76,26 @@ include('navbarRecepcion.php');
                                         <label for="empresa" class="col-4 col-form-label">Empresa:</label>
                                         <div class="col-8">
                                             <select class="form-control" name="empresa" id="empresa">
-                                                <option>Seleccionar</option>
-                                                <option value="1" selected>GSDynamics</option>
-                                                <option value="2">Fesla</option>
-                                                <option value="2">Google</option>
+                                                <option value="<?php echo $idEmpresa?>" selected><?php echo $empresa?></option>
+                                                <?php
+                                                $result1 = mysqli_query($link,"SELECT * FROM Empresa ORDER BY razonSocial DESC");
+                                                while ($fila1 = mysqli_fetch_array($result1)){
+                                                    echo "<option value='{$fila1['idEmpresa']}'>{$fila1['razonSocial']}</option>";
+                                                }
+                                                ?>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="nacimiento" class="col-4 col-form-label">Fecha de Nacimiento:</label>
                                         <div class="col-8">
-                                            <input class="form-control" type="date" id="nacimiento" name="nacimiento">
+                                            <input class="form-control" type="text" id="nacimiento" name="nacimiento" value="<?php echo $fila['fechaNacimiento']?>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="email" class="col-4 col-form-label">Email:</label>
                                         <div class="col-8">
-                                            <input class="form-control" type="text" id="email" name="email" value="juan.veracruz@gsdynamics.com">
+                                            <input class="form-control" type="text" id="email" name="email" value="<?php echo $fila['correoElectronico']?>">
                                         </div>
                                     </div>
                                 </div>
@@ -77,37 +103,49 @@ include('navbarRecepcion.php');
                                     <div class="form-group row">
                                         <label for="celular" class="col-3 col-form-label">Celular:</label>
                                         <div class="col-9">
-                                            <input class="form-control" type="text" id="celular" name="celular" value="959784565">
+                                            <input class="form-control" type="text" id="celular" name="celular" value="<?php echo $fila['telefonoCelular']?>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="telFijo" class="col-3 col-form-label">Tel. Fijo:</label>
                                         <div class="col-9">
-                                            <input class="form-control" type="text" id="telFijo" name="telFijo" value="5488795135">
+                                            <input class="form-control" type="text" id="telFijo" name="telFijo" value="<?php echo $fila['telefonoFijo']?>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="direccion" class="col-3 col-form-label">Dirección:</label>
                                         <div class="col-9">
-                                            <input class="form-control" type="text" id="direccion" name="direccion" value="Urb. Los Girasoles L-3, Umacollo">
+                                            <input class="form-control" type="text" id="direccion" name="direccion" value="<?php echo $fila['direccion']?>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="ciudad" class="col-3 col-form-label">Ciudad:</label>
                                         <div class="col-9">
                                             <select class="form-control" name="ciudad" id="ciudad">
-                                                <option>Seleccionar</option>
-                                                <option value="1">Lima</option>
-                                                <option value="2" selected>Arequipa</option>
-                                                <option value="3">Cuzco</option>
-                                                <option value="3">Bogota</option>
+                                                <option value="<?php echo $fila['idCiudad']?>" selected><?php echo $ciudad?></option>
+                                                <?php
+                                                $result1 = mysqli_query($link,"SELECT * FROM Ciudad ORDER BY nombre DESC");
+                                                while ($fila1 = mysqli_fetch_array($result1)){
+                                                    echo "<option value='{$fila1['idCiudad']}'>{$fila1['nombre']}</option>";
+                                                }
+                                                ?>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="codPostal" class="col-3 col-form-label">ZIP Code:</label>
                                         <div class="col-9">
-                                            <input class="form-control" type="text" id="codPostal" name="codPostal" value="010104">
+                                            <input class="form-control" type="text" id="codPostal" name="codPostal" value="<?php echo $fila['codigoPostal']?>">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group row">
+                                        <label for="preferencias" class="col-3 col-form-label">Preferencias:</label>
+                                        <div class="col-12">
+                                            <textarea name="preferencias" id="preferencias" rows="3" class="form-control"><?php echo $fila['preferencias']?></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -119,7 +157,8 @@ include('navbarRecepcion.php');
         </section>
     </form>
 
-<?php
-include('footer.php');
-/*}*/
+    <?php
+    include('footer.php');
+    }
+}
 ?>
