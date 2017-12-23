@@ -1,11 +1,16 @@
 <?php
+include('session.php');
 include('funciones.php');
 include('declaracionFechas.php');
-/*if(isset($_SESSION['login'])){*/
-include('header.php');
-include('navbarRecepcion.php');
+if(isset($_SESSION['login'])){
+    include('header.php');
+    include('navbarRecepcion.php');
 
-?>
+    $result = mysqli_query($link,"SELECT * FROM Paquete");
+    $numrow = mysqli_num_rows($result);
+    $idPaquete = $numrow + 1;
+
+    ?>
     <form method="post" id="formPaquete">
         <section class="container">
             <div class="row">
@@ -27,15 +32,16 @@ include('navbarRecepcion.php');
                             <div class="col-12">
                                 <div class="spacer20"></div>
                                 <div class="form-group row">
+                                    <input type="hidden" name="idPaquete" value="<?php echo $idPaquete;?>">
                                     <label for="nombre" class="col-2 col-form-label">Nombre:</label>
                                     <div class="col-10">
-                                        <input class="form-control" type="text" id="nombre" name="nombre" value="Paquete Turismo Cultural Familiar">
+                                        <input class="form-control" type="text" id="nombre" name="nombre">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="noches" class="col-2 col-form-label">Nro. de Noches:</label>
                                     <div class="col-1">
-                                        <input class="form-control" type="number" id="noches" name="noches" value="4">
+                                        <input class="form-control" type="number" id="noches" name="noches">
                                     </div>
                                 </div>
                             </div>
@@ -45,7 +51,7 @@ include('navbarRecepcion.php');
             </div>
         </section>
 
-<?php
-include('footer.php');
-/*}*/
+    <?php
+    include('footer.php');
+}
 ?>
