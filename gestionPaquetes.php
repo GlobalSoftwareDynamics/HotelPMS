@@ -20,12 +20,12 @@ if(isset($_SESSION['login'])){
                 while ($fila2 = mysqli_fetch_array($result2)){
                     $tipoHabitacion = $fila2['descripcion'];
                 }
-                $stringHabitaciones .= $tipoHabitacion.": ".$fila1['nroHabitaciones'].",";
+                $stringHabitaciones .= $tipoHabitacion.": ".$fila1['nroHabitaciones'].", ";
             }
             $stringHabitaciones .= "; ";
         }
 
-        $descripcion = $stringDuracion.$stringHabitaciones.$_POST['descripcionAdicionales'];
+        $descripcion = $stringDuracion.$stringHabitaciones."Incluye: ".$_POST['descripcionAdicionales'];
 
         $query = mysqli_query($link,"UPDATE Paquete SET descripcion = '{$descripcion}', valor = '{$_POST['valorAdicionales']}' WHERE idPaquete = '{$_POST['idPaquete']}'");
 
@@ -154,7 +154,7 @@ if(isset($_SESSION['login'])){
                                                 <div class='dropdown-menu' aria-labelledby='dropdownMenuButton'>
                                                     <input type='hidden' value='{$fila['idPaquete']}' name='idPaquete'>
                                                     <button name='detalle' class='dropdown-item' type='submit' formaction='detallePaquete.php'>Ver Detalle</button>
-                                                    <button name='editar' class='dropdown-item' type='submit' formaction='editarTarifa.php'>Editar</button>
+                                                    <button name='edit' class='dropdown-item' type='submit' formaction='editarPaquete.php'>Editar</button>
                                                 </div>
                                             </div>
                                         </form>

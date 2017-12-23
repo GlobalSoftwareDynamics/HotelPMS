@@ -144,7 +144,7 @@ if(isset($_SESSION['login'])){
                                                             <button name='eliminar' class='btn btn-sm btn-outline-primary' type='submit' formaction='nuevoPaquete_Caracteristicas.php'>Eliminar</button>
                                                         </form>
                                                     </td>
-                                                ";
+                                                    ";
                                                     echo "</tr>";
                                                 }
                                             }
