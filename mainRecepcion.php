@@ -1,5 +1,7 @@
 <?php
 include('session.php');
+include('declaracionFechas.php');
+include('funciones.php');
 if(isset($_SESSION['login'])){
 	include('header.php');
 	include('navbarRecepcion.php');

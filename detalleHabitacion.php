@@ -1,24 +1,29 @@
 <?php
+include('session.php');
 include('declaracionFechas.php');
 include('funciones.php');
-/*if(isset($_SESSION['login'])){*/
+if(isset($_SESSION['login'])){
     include('header.php');
     include('navbarRecepcion.php');
 
-    /*$result = mysqli_query($link,"SELECT * FROM Proveedor WHERE idProveedor = '{$_POST['idProveedor']}'");
-    while($row = mysqli_fetch_array($result)) {
-        $result1 = mysqli_query($link,"SELECT * FROM Direccion WHERE idDireccion = '{$row['idDireccion']}'");
-        while ($fila = mysqli_fetch_array($result1)){
-            $direccion = $fila['direccion'];
-            $result2 = mysqli_query($link,"SELECT * FROM Ciudad WHERE idCiudad = '{$fila['idCiudad']}'");
-            while ($fila1 = mysqli_fetch_array($result2)){
-                $ciudad = $fila1['nombre'];
-                $result3 = mysqli_query($link,"SELECT * FROM Pais WHERE idPais = '{$fila1['idPais']}'");
-                while ($fila2 = mysqli_fetch_array($result3)){
-                    $pais = $fila2['pais'];
-                }
-            }
-        }*/
+    $idHabitacion = null;
+    $idTipoHabitacion = null;
+    $tipoHabitacion = null;
+    $vista = null;
+
+    $query = mysqli_query($link,"SELECT * FROM Habitacion WHERE idHabitacion = '{$_POST['idHabitacionSeleccionada']}'");
+    while($row = mysqli_fetch_array($query)) {
+        $idHabitacion = $row['idHabitacion'];
+	    $query2 = mysqli_query($link, "SELECT * FROM TipoHabitacion WHERE idTipoHabitacion = '{$row['idTipoHabitacion']}'");
+	    while ($row2 = mysqli_fetch_array($query2)) {
+	        $idTipoHabitacion = $row['idTipoHabitacion'];
+	        $tipoHabitacion = $row2['descripcion'];
+	    }
+	    $query2 = mysqli_query($link, "SELECT * FROM TipoVista WHERE idTipoVista = '{$row['idTipoVista']}'");
+	    while ($row2 = mysqli_fetch_array($query2)) {
+		    $vista = $row2['descripcion'];
+	    }
+    }
         ?>
 
         <section class="container">
@@ -43,15 +48,15 @@ include('funciones.php');
                                 <div class="spacer15"></div>
                                 <div class="row">
                                     <div class="col-3"><p><b>Nro Habitación:</b></p></div>
-                                    <div class="col-9"><p>303</p></div>
+                                    <div class="col-9"><p><?php echo $idHabitacion;?></p></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-3"><p><b>Tipo:</b></p></div>
-                                    <div class="col-9"><p>Matrimonial</p></div>
+                                    <div class="col-9"><p><?php echo $tipoHabitacion;?></p></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-3"><p><b>Vista:</b></p></div>
-                                    <div class="col-9"><p>Jardines</p></div>
+                                    <div class="col-9"><p><?php echo $vista;?></p></div>
                                 </div>
                             </div>
                         </div>
@@ -75,30 +80,18 @@ include('funciones.php');
                             <div class="col-12">
                                 <table class="table">
                                     <tbody>
-                                    <tr>
-                                        <th>Capacidad:</th>
-                                        <td>4</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Nro. Camas:</th>
-                                        <td>1</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Tipo de Cama:</th>
-                                        <td>King Size</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Jacuzzi:</th>
-                                        <td>Si</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Sala:</th>
-                                        <td>Si</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Balcón:</th>
-                                        <td>Si</td>
-                                    </tr>
+                                    <?php
+                                    $query = mysqli_query($link,"SELECT * FROM CaracteristicaHabitacion WHERE idHabitacion = '{$idHabitacion}'");
+                                    while($row = mysqli_fetch_array($query)){
+                                        echo "<tr>";
+                                        $query2 = mysqli_query($link,"SELECT * FROM Caracteristica WHERE idCaracteristica = '{$row['idCaracteristica']}'");
+                                        while($row2 = mysqli_fetch_array($query2)){
+	                                        echo "<td><strong>{$row2['descripcion']}:</strong></td>";
+                                        }
+                                            echo "<td>{$row['valor']}</td>";
+                                        echo "</tr>";
+                                    }
+                                    ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -123,22 +116,15 @@ include('funciones.php');
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td>Regular</td>
-                                        <td>$ 120.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Temp. Alta</td>
-                                        <td>$ 180.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Temp. Baja</td>
-                                        <td>$ 100.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Noche de Bodas</td>
-                                        <td>$ 80.00</td>
-                                    </tr>
+                                    <?php
+                                    $query = mysqli_query($link,"SELECT * FROM Tarifa WHERE idTipoHabitacion = '{$idTipoHabitacion}'");
+                                    while($row = mysqli_fetch_array($query)){
+                                        echo "<tr>";
+                                            echo "<td>{$row['descripcion']}</td>";
+                                            echo "<td>{$row['moneda']} {$row['valor']}</td>";
+                                        echo "</tr>";
+                                    }
+                                    ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -148,7 +134,6 @@ include('funciones.php');
             </div>
         </section>
         <?php
-    /*}*/
     include('footer.php');
-/*}*/
+}
 ?>

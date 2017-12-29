@@ -1,7 +1,8 @@
 <?php
+include('session.php');
 include('funciones.php');
 include('declaracionFechas.php');
-/*if(isset($_SESSION['login'])){*/
+if(isset($_SESSION['login'])){
     include('header.php');
     include('navbarRecepcion.php');
 
@@ -18,7 +19,7 @@ include('declaracionFechas.php');
                         </div>
                         <div class="float-right">
                             <div class="dropdown">
-                                <input name="addHabitacion" type="submit" form="formInsumo" class="btn btn-light btn-sm" formaction="gestionHabitaciones.php" value="Guardar">
+                                <input name="addHabitacion" type="submit" form="formInsumo" class="btn btn-light btn-sm" formaction="nuevaHabitacion2.php" value="Siguiente">
                                 <input name="regresar" type="submit" form="formInsumo" class="btn btn-light btn-sm" formaction="gestionHabitaciones.php" value="Regresar">
                             </div>
                         </div>
@@ -29,19 +30,20 @@ include('declaracionFechas.php');
                             <div class="form-group row">
                                 <label for="numero" class="col-2 col-form-label">Nro. Habitación:</label>
                                 <div class="col-2">
-                                    <input class="form-control" type="number" id="numero" name="numero" value="304">
+                                    <input class="form-control" type="number" id="numero" name="numero">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="tipoHabitacion" class="col-2 col-form-label">Tipo de Habitación:</label>
                                 <div class="col-10">
                                     <select class="form-control" name="tipoHabitacion" id="tipoHabitacion">
-                                        <option>Seleccionar</option>
-                                        <option value="1">Simple</option>
-                                        <option value="2">Doble</option>
-                                        <option value="3">Matrimonial</option>
-                                        <option value="3" selected>Suite</option>
-                                        <option value="3">Suite Ejecutiva</option>
+                                        <option selected disabled>Seleccionar</option>
+                                        <?php
+                                        $query = mysqli_query($link,"SELECT * FROM TipoHabitacion");
+                                        while($row = mysqli_fetch_array($query)){
+                                            echo "<option value='{$row['idTipoHabitacion']}'>{$row['descripcion']}</option>";
+                                        }
+                                        ?>
                                     </select>
                                 </div>
                             </div>
@@ -50,10 +52,12 @@ include('declaracionFechas.php');
                                 <div class="col-10">
                                     <select class="form-control" name="vista" id="vista">
                                         <option disabled selected>Seleccionar</option>
-                                        <option>Seleccionar</option>
-                                        <option value="1">Calle</option>
-                                        <option value="2" selected>Jardines</option>
-                                        <option value="3">Pasillo</option>
+	                                    <?php
+	                                    $query = mysqli_query($link,"SELECT * FROM TipoVista");
+	                                    while($row = mysqli_fetch_array($query)){
+		                                    echo "<option value='{$row['idTipoVista']}'>{$row['descripcion']}</option>";
+	                                    }
+	                                    ?>
                                     </select>
                                 </div>
                             </div>
@@ -66,5 +70,5 @@ include('declaracionFechas.php');
 
     <?php
     include('footer.php');
-/*}*/
+}
 ?>

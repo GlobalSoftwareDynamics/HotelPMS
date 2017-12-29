@@ -1,9 +1,15 @@
 <?php
 include('declaracionFechas.php');
 include('funciones.php');
-/*if(isset($_SESSION['login'])){*/
+include('session.php');
+if(isset($_SESSION['login'])){
 include('header.php');
 include('navbarRecepcion.php');
+
+if(isset($_POST['editEmpresa'])){
+    $update = mysqli_query($link,"UPDATE Empresa SET razonSocial = '{$_POST['razonSocial']}', rubro = '{$_POST['rubro']}', direccionFiscal = '{$_POST['direccion']}',
+              descuentoCorporativo = '{$_POST['descuento']}' WHERE idEmpresa = '{$_POST['idEmpresa']}'");
+}
 
 ?>
 
@@ -48,7 +54,7 @@ include('navbarRecepcion.php');
     <div class="card">
         <div class="card-header card-inverse card-info">
             <i class="fa fa-list"></i>
-            Gestión de Habitaciones
+            Gestión de Empresas
             <div class="float-right">
                 <div class="dropdown">
                     <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -64,7 +70,7 @@ include('navbarRecepcion.php');
             <span class="float-right">&nbsp;&nbsp;&nbsp;&nbsp;</span>
             <span class="float-right">
                     <button href="#collapsed" class="btn btn-light btn-sm" data-toggle="collapse">Mostrar Filtros</button>
-                </span>
+            </span>
         </div>
         <div class="card-block">
             <div class="row">
@@ -91,49 +97,36 @@ include('navbarRecepcion.php');
                             <th class="text-center">RUC</th>
                             <th class="text-center">Razón Social</th>
                             <th class="text-center">Rubro</th>
-                            <th class="text-center">Desc. Corpotativo</th>
+                            <th class="text-center">Dscto. Corporativo</th>
                             <th class="text-center">Acciones</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>102654879800</td>
-                            <td>GSDynamics</td>
-                            <td>Desarrollo Software</td>
-                            <td>10%</td>
-                            <td>
-                                <form method='post'>
-                                    <div class='dropdown'>
-                                        <button class='btn btn-outline-primary btn-sm dropdown-toggle' type='button' id='dropdownMenuButton' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-                                            Acciones
-                                        </button>
-                                        <div class='dropdown-menu' aria-labelledby='dropdownMenuButton'>
-                                            <button name='editar' class='dropdown-item' type='submit' formaction='detalleEmpresa.php'>Ver Detalle</button>
-                                            <button name='desactivar' class='dropdown-item' type='submit' formaction='editarEmpresa.php'>Editar</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>104898652600</td>
-                            <td>Fesla</td>
-                            <td>Automotriz</td>
-                            <td>10%</td>
-                            <td>
-                                <form method='post'>
-                                    <div class='dropdown'>
-                                        <button class='btn btn-outline-primary btn-sm dropdown-toggle' type='button' id='dropdownMenuButton' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-                                            Acciones
-                                        </button>
-                                        <div class='dropdown-menu' aria-labelledby='dropdownMenuButton'>
-                                            <button name='editar' class='dropdown-item' type='submit' formaction='detalleEmpresa.php'>Ver Detalle</button>
-                                            <button name='desactivar' class='dropdown-item' type='submit' formaction='editarEmpresa.php'>Editar</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </td>
-                        </tr>
+                        <?php
+                        $query = mysqli_query($link,"SELECT * FROM Empresa");
+                        while($row = mysqli_fetch_array($query)){
+                            echo "<tr>";
+                                echo "<td>{$row['idEmpresa']}</td>";
+                                echo "<td>{$row['razonSocial']}</td>";
+                                echo "<td>{$row['rubro']}</td>";
+                                echo "<td>{$row['descuentoCorporativo']}%</td>";
+                                echo " <td>
+                                        <form method='post'>
+                                            <input type='hidden' value='{$row['idEmpresa']}' name='idEmpresa'>
+                                            <div class='dropdown'>
+                                                <button class='btn btn-outline-primary btn-sm dropdown-toggle' type='button' id='dropdownMenuButton' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
+                                                    Acciones
+                                                </button>
+                                                <div class='dropdown-menu' aria-labelledby='dropdownMenuButton'>
+                                                    <button name='detalle' class='dropdown-item' type='submit' formaction='detalleEmpresa.php'>Ver Detalle</button>
+                                                    <button name='editar' class='dropdown-item' type='submit' formaction='editarEmpresa.php'>Editar</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </td>";
+                            echo "</tr>";
+                        }
+                        ?>
                         </tbody>
                     </table>
                 </div>
@@ -144,5 +137,5 @@ include('navbarRecepcion.php');
 
 <?php
 include('footer.php');
-/*}*/
+}
 ?>

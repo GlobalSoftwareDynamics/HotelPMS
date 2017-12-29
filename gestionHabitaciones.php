@@ -1,7 +1,8 @@
 <?php
+include('session.php');
 include('declaracionFechas.php');
 include('funciones.php');
-/*if(isset($_SESSION['login'])){*/
+if(isset($_SESSION['login'])){
     include('header.php');
     include('navbarRecepcion.php');
 
@@ -95,12 +96,22 @@ include('funciones.php');
                             </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>103</td>
-                                    <td>Simple</td>
-                                    <td>Pasillo</td>
-                                    <td>
+                            <?php
+                            $query = mysqli_query($link,"SELECT * FROM Habitacion");
+                            while($row = mysqli_fetch_array($query)){
+                                echo "<tr>";
+                                    echo "<td>{$row['idHabitacion']}</td>";
+                                    $query2 = mysqli_query($link,"SELECT * FROM TipoHabitacion WHERE idTipoHabitacion = '{$row['idTipoHabitacion']}'");
+                                    while($row2 = mysqli_fetch_array($query2)){
+                                        echo "<td>{$row2['descripcion']}</td>";
+                                    }
+                                    $query2 = mysqli_query($link,"SELECT * FROM TipoVista WHERE idTipoVista = '{$row['idTipoVista']}'");
+                                    while($row2 = mysqli_fetch_array($query2)){
+                                        echo "<td>{$row2['descripcion']}</td>";
+                                    }
+                                    echo "<td>
                                         <form method='post'>
+                                            <input type='hidden' name='idHabitacionSeleccionada' value='{$row['idHabitacion']}'>
                                             <div class='dropdown'>
                                                 <button class='btn btn-outline-primary btn-sm dropdown-toggle' type='button' id='dropdownMenuButton' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
                                                     Acciones
@@ -111,62 +122,10 @@ include('funciones.php');
                                                 </div>
                                             </div>
                                         </form>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>203</td>
-                                    <td>Doble</td>
-                                    <td>Calle</td>
-                                    <td>
-                                        <form method='post'>
-                                            <div class='dropdown'>
-                                                <button class='btn btn-outline-primary btn-sm dropdown-toggle' type='button' id='dropdownMenuButton' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-                                                    Acciones
-                                                </button>
-                                                <div class='dropdown-menu' aria-labelledby='dropdownMenuButton'>
-                                                    <button name='editar' class='dropdown-item' type='submit' formaction='#'>Ver Detalle</button>
-                                                    <button name='desactivar' class='dropdown-item' type='submit' formaction='#'>Editar</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>303</td>
-                                    <td>Matrimonial</td>
-                                    <td>Jardines</td>
-                                    <td>
-                                        <form method='post'>
-                                            <div class='dropdown'>
-                                                <button class='btn btn-outline-primary btn-sm dropdown-toggle' type='button' id='dropdownMenuButton' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-                                                    Acciones
-                                                </button>
-                                                <div class='dropdown-menu' aria-labelledby='dropdownMenuButton'>
-                                                    <button name='editar' class='dropdown-item' type='submit' formaction='detalleHabitacion.php'>Ver Detalle</button>
-                                                    <button name='desactivar' class='dropdown-item' type='submit' formaction='editarHabitacion.php'>Editar</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>403</td>
-                                    <td>Suite</td>
-                                    <td>Jardines</td>
-                                    <td>
-                                        <form method='post'>
-                                            <div class='dropdown'>
-                                                <button class='btn btn-outline-primary btn-sm dropdown-toggle' type='button' id='dropdownMenuButton' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-                                                    Acciones
-                                                </button>
-                                                <div class='dropdown-menu' aria-labelledby='dropdownMenuButton'>
-                                                    <button name='editar' class='dropdown-item' type='submit' formaction='#'>Ver Detalle</button>
-                                                    <button name='desactivar' class='dropdown-item' type='submit' formaction='#'>Editar</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </td>
-                                </tr>
+                                    </td>";
+                                echo "</tr>";
+                            }
+                            ?>
                             </tbody>
                         </table>
                     </div>
@@ -177,5 +136,5 @@ include('funciones.php');
 
     <?php
     include('footer.php');
-/*}*/
+}
 ?>
