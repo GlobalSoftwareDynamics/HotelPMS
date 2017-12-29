@@ -106,7 +106,7 @@ if(isset($_SESSION['login'])){
                                     <div class="form-group row">
                                         <label for="valorAdicionales" class="col-2 col-form-label">Valor Adicionales:</label>
                                         <div class="col-2">
-                                            <input class="form-control" type="number" id="valorAdicionales" name="valorAdicionales" value="<?php echo $valorAdicionales;?>">
+                                            <input class="form-control" type="number" id="valorAdicionales" name="valorAdicionales" value="<?php echo $valorAdicionales;?>" min="0">
                                         </div>
                                     </div>
                                     <div class="form-group row">

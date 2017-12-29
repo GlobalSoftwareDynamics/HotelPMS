@@ -30,7 +30,7 @@ include('navbarRecepcion.php');
                                     <div class="form-group row">
                                         <label for="ruc" class="col-4 col-form-label">RUC:</label>
                                         <div class="col-4">
-                                            <input class="form-control" type="number" id="ruc" name="ruc" value="109887546500">
+                                            <input class="form-control" type="number" id="ruc" name="ruc" value="109887546500" min="0">
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -58,7 +58,7 @@ include('navbarRecepcion.php');
                                     <div class="form-group row">
                                         <label for="descuento" class="col-4 col-form-label">Desc. Corporativc:</label>
                                         <div class="col-2">
-                                            <input class="form-control" type="number" id="descuento" name="descuento" value="10">
+                                            <input class="form-control" type="number" id="descuento" name="descuento" value="10" min="0">
                                         </div>
                                     </div>
                                 </div>

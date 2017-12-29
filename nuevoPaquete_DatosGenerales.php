@@ -41,7 +41,18 @@ if(isset($_SESSION['login'])){
                                 <div class="form-group row">
                                     <label for="noches" class="col-2 col-form-label">Nro. de Noches:</label>
                                     <div class="col-1">
-                                        <input class="form-control" type="number" id="noches" name="noches">
+                                        <input class="form-control" type="number" id="noches" name="noches" min="0">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="moneda" class="col-2 col-form-label">Moneda:</label>
+                                    <div class="col-10">
+                                        <select name="moneda" id="moneda" class="form-control">
+                                            <option selected disabled>Seleccionar</option>
+                                            <option value="1">Dólares</option>
+                                            <option value="2">Soles</option>
+                                            <option value="3">Euros</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>

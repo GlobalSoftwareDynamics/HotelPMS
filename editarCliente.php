@@ -49,7 +49,7 @@ if(isset($_SESSION['login'])){
                                     <div class="form-group row">
                                         <label for="dni" class="col-4 col-form-label">DNI:</label>
                                         <div class="col-4">
-                                            <input class="form-control" type="number" id="dni" name="dni" value="<?php echo $_POST['idHuesped']?>">
+                                            <input class="form-control" type="number" id="dni" name="dni" value="<?php echo $_POST['idHuesped']?>" min="0">
                                         </div>
                                     </div>
                                     <div class="form-group row">

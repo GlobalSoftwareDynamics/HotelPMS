@@ -12,7 +12,17 @@ if(isset($_SESSION['login'])){
         $descripcion = explode("Incluye: ",$row['descripcion']);
         $duracion = $row['duracion'];
         $valorAdicionales = $row['valor'];
-
+        switch ($row['moneda']){
+            case 1:
+                $simboloMoneda = "$";
+                break;
+            case 2:
+                $simboloMoneda = "S/.";
+                break;
+            case 3:
+                $simboloMoneda = "€";
+                break;
+        }
         ?>
 
         <section class="container">
@@ -49,7 +59,7 @@ if(isset($_SESSION['login'])){
                                 </div>
                                 <div class="row">
                                     <div class="col-3"><p><b>Costo Adicionales:</b></p></div>
-                                    <div class="col-9"><p><?php echo $valorAdicionales;?></p></div>
+                                    <div class="col-9"><p><?php echo $simboloMoneda." ".$valorAdicionales;?></p></div>
                                 </div>
                             </div>
                         </div>

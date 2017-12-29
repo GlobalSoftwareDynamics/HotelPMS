@@ -8,9 +8,9 @@ if(isset($_SESSION['login'])){
 
     if(isset($_POST['addPaquete'])){
 
-        $query = mysqli_query($link,"INSERT INTO Paquete(idPaquete,nombre,duracion) VALUES ('{$_POST['idPaquete']}','{$_POST['nombre']}','{$_POST['noches']}')");
+        $query = mysqli_query($link,"INSERT INTO Paquete(idPaquete,nombre,duracion,moneda) VALUES ('{$_POST['idPaquete']}','{$_POST['nombre']}','{$_POST['noches']}','{$_POST['moneda']}')");
 
-        $queryPerformed = "INSERT INTO Paquete(idPaquete,nombre,duracion) VALUES ({$_POST['idPaquete']},{$_POST['nombre']},{$_POST['noches']})";
+        $queryPerformed = "INSERT INTO Paquete(idPaquete,nombre,duracion,moneda) VALUES ({$_POST['idPaquete']},{$_POST['nombre']},{$_POST['noches']},{$_POST['moneda']})";
 
         $databaseLog = mysqli_query($link, "INSERT INTO DatabaseLog (idColaborador,fechaHora,evento,tipo,consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','Paquete','{$queryPerformed}')");
 

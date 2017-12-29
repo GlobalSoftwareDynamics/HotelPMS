@@ -114,10 +114,21 @@ if(isset($_SESSION['login'])){
                                 while ($fila1 = mysqli_fetch_array($result1)){
                                     $tipoHabitacion = $fila1['descripcion'];
                                 }
+                                switch ($fila['moneda']){
+                                    case 1:
+                                        $simboloMoneda = "$";
+                                        break;
+                                    case 2:
+                                        $simboloMoneda = "S/.";
+                                        break;
+                                    case 3:
+                                        $simboloMoneda = "€";
+                                        break;
+                                }
                                 echo "<tr>";
                                 echo "<td>{$fila['descripcion']}</td>";
                                 echo "<td>{$tipoHabitacion}</td>";
-                                echo "<td>{$fila['valor']}</td>";
+                                echo "<td>{$simboloMoneda} {$fila['valor']}</td>";
                                 echo "
                                     <td>
                                         <form method='post'>

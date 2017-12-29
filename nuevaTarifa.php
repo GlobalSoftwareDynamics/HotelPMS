@@ -50,7 +50,7 @@ if(isset($_SESSION['login'])){
                             <div class="form-group row">
                                 <label for="valor" class="col-2 col-form-label">Valor:</label>
                                 <div class="col-2">
-                                    <input class="form-control" type="number" id="valor" name="valor">
+                                    <input class="form-control" type="number" id="valor" name="valor" min="0">
                                 </div>
                             </div>
                             <div class="form-group row">
