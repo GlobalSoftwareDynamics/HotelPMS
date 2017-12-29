@@ -7,8 +7,13 @@ if(isset($_SESSION['login'])){
 	include('navbarRecepcion.php');
 
 	if(isset($_POST['addContacto'])){
-	    $insert = mysqli_query($link,"INSERT INTO Contacto VALUES ('{$_POST['dni']}','{$_POST['nombreCompleto']}','{$_POST['telefono']}','{$_POST['email']}')");
-	    $insert = mysqli_query($link,"INSERT INTO ContactoEmpresa VALUES ('{$_POST['idEmpresa']}','{$_POST['dni']}')");
+		$insert = mysqli_query($link,"INSERT INTO Contacto VALUES ('{$_POST['dni']}','{$_POST['nombreCompleto']}','{$_POST['telefono']}','{$_POST['anexo']}','{$_POST['email']}','{$_POST['area']}','{$_POST['cargo']}')");
+		$insert = mysqli_query($link,"INSERT INTO ContactoEmpresa VALUES ('{$_POST['idEmpresa']}','{$_POST['dni']}')");
+	}
+
+	if(isset($_POST['eliminar'])){
+	    $delete = mysqli_query($link,"DELETE FROM ContactoEmpresa WHERE idContacto = '{$_POST['eliminar']}'");
+		$delete = mysqli_query($link,"DELETE FROM Contacto WHERE idContacto = '{$_POST['eliminar']}'");
     }
 
 	$result = mysqli_query($link,"SELECT * FROM Empresa WHERE idEmpresa = '{$_POST['idEmpresa']}'");
@@ -59,7 +64,7 @@ if(isset($_SESSION['login'])){
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="descuento" class="col-4 col-form-label">Desc. Corporativc:</label>
+                                            <label for="descuento" class="col-4 col-form-label">Dscto. Corporativc:</label>
                                             <div class="col-2">
                                                 <input class="form-control" type="number" id="descuento" name="descuento" value="<?php echo $row['descuentoCorporativo'];?>" min="0">
                                             </div>
@@ -91,12 +96,16 @@ if(isset($_SESSION['login'])){
                             </form>
                         </div>
                         <div class="card-block">
-                            <table class="table">
+                            <table class="table text-center">
                                 <thead>
                                 <tr>
                                     <th>Nombre</th>
+                                    <th>Área</th>
+                                    <th>Cargo</th>
                                     <th>Teléfono</th>
+                                    <th>Anexo</th>
                                     <th>E-Mail</th>
+                                    <th>Acciones</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -105,8 +114,17 @@ if(isset($_SESSION['login'])){
 								while($fila = mysqli_fetch_array($query)){
 									echo "<tr>";
 									echo "<td>{$fila['nombreCompleto']}</td>";
+									echo "<td>{$fila['area']}</td>";
+									echo "<td>{$fila['cargo']}</td>";
 									echo "<td>{$fila['telefono']}</td>";
+									echo "<td>{$fila['anexo']}</td>";
 									echo "<td>{$fila['correoElectronico']}</td>";
+									echo "<td>
+                                            <form method='post' action='#' id='deleteForm'>
+                                                <input type='hidden' name='idEmpresa' value='{$_POST['idEmpresa']}'>
+                                                <button type='submit' name='eliminar' value='{$fila['idContacto']}' class='btn btn-sm btn-outline-danger' form='deleteForm'>Eliminar</button>
+                                            </form>
+                                        </td>";
 									echo "</tr>";
 								}
 								?>
@@ -123,7 +141,7 @@ if(isset($_SESSION['login'])){
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Agregar Cliente</h5>
+                            <h5 class="modal-title">Agregar Contacto</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -139,8 +157,20 @@ if(isset($_SESSION['login'])){
                                     <input type="text" name="nombreCompleto" id="nombreCompleto" class="form-control">
                                 </div>
                                 <div class="form-group row">
+                                    <label class="col-form-label" for="area">Área:</label>
+                                    <input type="text" name="area" id="area" class="form-control">
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label" for="cargo">Cargo:</label>
+                                    <input type="text" name="cargo" id="cargo" class="form-control">
+                                </div>
+                                <div class="form-group row">
                                     <label class="col-form-label" for="telefono">Teléfono:</label>
                                     <input type="text" name="telefono" id="telefono" class="form-control">
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label" for="anexo">Anexo:</label>
+                                    <input type="text" name="anexo" id="anexo" class="form-control">
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-form-label" for="email">E-Mail:</label>
