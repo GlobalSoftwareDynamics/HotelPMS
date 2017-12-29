@@ -102,6 +102,34 @@ if(isset($_SESSION['login'])){
                                         </div>
                                     </div>
                                     <div class="form-group row">
+                                        <label for="pais" class="col-3 col-form-label">Pais:</label>
+                                        <div class="col-9">
+                                            <select class="form-control" name="pais" id="pais" onchange="getEstado(this.value)">
+                                                <option selected disabled>Seleccionar</option>
+                                                <?php
+                                                $result = mysqli_query($link,"SELECT * FROM Pais ORDER BY nombre ASC");
+                                                while ($fila = mysqli_fetch_array($result)){
+                                                    echo "<option value='{$fila['idPais']}'>{$fila['nombre']}</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="estado" class="col-3 col-form-label">Estado:</label>
+                                        <div class="col-9">
+                                            <select class="form-control" name="estado" id="estado" onchange="getCiudad(this.value)">
+                                                <option selected disabled>Seleccionar</option>
+                                                <?php
+                                                $result = mysqli_query($link,"SELECT * FROM EstadoPais ORDER BY nombre ASC");
+                                                while ($fila = mysqli_fetch_array($result)){
+                                                    echo "<option value='{$fila['idEstadoPais']}'>{$fila['nombre']}</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
                                         <label for="ciudad" class="col-3 col-form-label">Ciudad:</label>
                                         <div class="col-9">
                                             <select class="form-control" name="ciudad" id="ciudad">

@@ -8,9 +8,20 @@ if(isset($_SESSION['login'])){
 
     $result = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$_POST['idHuesped']}'");
     while ($fila = mysqli_fetch_array($result)){
+        $codigoPostal = $fila['codigoPostal'];
         $result1 = mysqli_query($link,"SELECT * FROM Ciudad WHERE idCiudad = '{$fila['idCiudad']}'");
         while ($fila1 = mysqli_fetch_array($result1)){
             $ciudad = $fila1['nombre'];
+            $result2 = mysqli_query($link,"SELECT * FROM EstadoPais WHERE idEstadoPais = '{$fila1['idEstadoPais']}'");
+            while ($fila2 =  mysqli_fetch_array($result2)){
+                $estado = $fila2['nombre'];
+                $idEstado = $fila2['idEstadoPais'];
+                $result3 = mysqli_query($link,"SELECT * FROM Pais WHERE idPais = '{$fila2['idPais']}'");
+                while ($fila3 =  mysqli_fetch_array($result3)){
+                    $pais = $fila3['nombre'];
+                    $idPais = $fila3['idPais'];
+                }
+            }
         }
         $result1 = mysqli_query($link,"SELECT * FROM Empresa WHERE idEmpresa = '{$fila['idEmpresa']}'");
         $numrows = mysqli_num_rows($result1);
@@ -89,13 +100,13 @@ if(isset($_SESSION['login'])){
                                     <div class="form-group row">
                                         <label for="nacimiento" class="col-4 col-form-label">Fecha de Nacimiento:</label>
                                         <div class="col-8">
-                                            <input class="form-control" type="text" id="nacimiento" name="nacimiento" value="<?php echo $fila['fechaNacimiento']?>">
+                                            <input class="form-control" type="text" id="nacimiento" name="nacimiento" value="<?php echo $fila['fechaNacimiento'];?>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="email" class="col-4 col-form-label">Email:</label>
                                         <div class="col-8">
-                                            <input class="form-control" type="text" id="email" name="email" value="<?php echo $fila['correoElectronico']?>">
+                                            <input class="form-control" type="text" id="email" name="email" value="<?php echo $fila['correoElectronico'];?>">
                                         </div>
                                     </div>
                                 </div>
@@ -103,26 +114,54 @@ if(isset($_SESSION['login'])){
                                     <div class="form-group row">
                                         <label for="celular" class="col-3 col-form-label">Celular:</label>
                                         <div class="col-9">
-                                            <input class="form-control" type="text" id="celular" name="celular" value="<?php echo $fila['telefonoCelular']?>">
+                                            <input class="form-control" type="text" id="celular" name="celular" value="<?php echo $fila['telefonoCelular'];?>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="telFijo" class="col-3 col-form-label">Tel. Fijo:</label>
                                         <div class="col-9">
-                                            <input class="form-control" type="text" id="telFijo" name="telFijo" value="<?php echo $fila['telefonoFijo']?>">
+                                            <input class="form-control" type="text" id="telFijo" name="telFijo" value="<?php echo $fila['telefonoFijo'];?>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="direccion" class="col-3 col-form-label">Dirección:</label>
                                         <div class="col-9">
-                                            <input class="form-control" type="text" id="direccion" name="direccion" value="<?php echo $fila['direccion']?>">
+                                            <input class="form-control" type="text" id="direccion" name="direccion" value="<?php echo $fila['direccion'];?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="pais" class="col-3 col-form-label">Pais:</label>
+                                        <div class="col-9">
+                                            <select class="form-control" name="pais" id="pais" onchange="getEstado(this.value)">
+                                                <option value="<?php echo $idPais;?>" selected><?php echo $pais;?></option>
+                                                <?php
+                                                $result = mysqli_query($link,"SELECT * FROM Pais ORDER BY nombre ASC");
+                                                while ($fila = mysqli_fetch_array($result)){
+                                                    echo "<option value='{$fila['idPais']}'>{$fila['nombre']}</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="estado" class="col-3 col-form-label">Estado:</label>
+                                        <div class="col-9">
+                                            <select class="form-control" name="estado" id="estado" onchange="getCiudad(this.value)">
+                                                <option value="<?php echo $idEstado;?>" selected><?php echo $estado;?></option>
+                                                <?php
+                                                $result = mysqli_query($link,"SELECT * FROM EstadoPais ORDER BY nombre ASC");
+                                                while ($fila = mysqli_fetch_array($result)){
+                                                    echo "<option value='{$fila['idEstadoPais']}'>{$fila['nombre']}</option>";
+                                                }
+                                                ?>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="ciudad" class="col-3 col-form-label">Ciudad:</label>
                                         <div class="col-9">
                                             <select class="form-control" name="ciudad" id="ciudad">
-                                                <option value="<?php echo $fila['idCiudad']?>" selected><?php echo $ciudad?></option>
+                                                <option value="<?php echo $fila['idCiudad'];?>" selected><?php echo $ciudad;?></option>
                                                 <?php
                                                 $result1 = mysqli_query($link,"SELECT * FROM Ciudad ORDER BY nombre DESC");
                                                 while ($fila1 = mysqli_fetch_array($result1)){
@@ -135,7 +174,7 @@ if(isset($_SESSION['login'])){
                                     <div class="form-group row">
                                         <label for="codPostal" class="col-3 col-form-label">ZIP Code:</label>
                                         <div class="col-9">
-                                            <input class="form-control" type="text" id="codPostal" name="codPostal" value="<?php echo $fila['codigoPostal']?>">
+                                            <input class="form-control" type="text" id="codPostal" name="codPostal" value="<?php echo $codigoPostal;?>">
                                         </div>
                                     </div>
                                 </div>
@@ -145,7 +184,7 @@ if(isset($_SESSION['login'])){
                                     <div class="form-group row">
                                         <label for="preferencias" class="col-3 col-form-label">Preferencias:</label>
                                         <div class="col-12">
-                                            <textarea name="preferencias" id="preferencias" rows="3" class="form-control"><?php echo $fila['preferencias']?></textarea>
+                                            <textarea name="preferencias" id="preferencias" rows="3" class="form-control"><?php echo $fila['preferencias'];?></textarea>
                                         </div>
                                     </div>
                                 </div>

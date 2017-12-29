@@ -245,3 +245,26 @@
     init();
 
 })();
+
+function getEstado(val) {
+    $.ajax({
+        type: "POST",
+        url: "getAjax.php",
+        data:{'idPais':val},
+        success: function(data){
+            $("#estado").html(data);
+        }
+    });
+}
+
+function getCiudad(val) {
+    $.ajax({
+        type: "POST",
+        url: "getAjax.php",
+        data:{'idEstado':val},
+        success: function(data){
+            $("#ciudad").html(data);
+        }
+    });
+}
+
