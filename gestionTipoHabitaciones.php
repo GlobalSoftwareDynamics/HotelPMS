@@ -21,7 +21,7 @@ if(isset($_POST['deleteTipoHabitacion'])){
 		<div class="card">
 			<div class="card-header card-inverse card-info">
 				<i class="fa fa-list"></i>
-				Gestión de Habitaciones
+				Gestión de Tipo de Habitaciones
 				<div class="float-right">
 					<div class="dropdown">
 						<button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

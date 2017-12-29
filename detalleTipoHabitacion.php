@@ -41,7 +41,7 @@ if(isset($_SESSION['login'])){
 			<div class="col-12">
 				<div class="card">
 					<div class="card-header card-inverse card-info">
-						<form method="post" action="gestionHabitaciones.php" id="form">
+						<form method="post" action="gestionTipoHabitaciones.php" id="form">
 							<div class="float-left">
 								<i class="fa fa-bed"></i>
 								Detalle de Tipo de Habitación - <?php echo $tipoHabitacion;?>
