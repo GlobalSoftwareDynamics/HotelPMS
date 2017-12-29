@@ -8,6 +8,8 @@ if(isset($_SESSION['login'])){
 
 	if(isset($_POST['addColaborador'])){
 		$insert = mysqli_query($link,"INSERT INTO Colaborador VALUES ('{$_POST['dni']}','{$_POST['tipoUsuario']}','{$_POST['nombreCompleto']}','{$_POST['usuario']}','{$_POST['contrasena']}')");
+		$queryPerformed = "INSERT INTO Colaborador VALUES ({$_POST['dni']},{$_POST['tipoUsuario']},{$_POST['nombreCompleto']},{$_POST['usuario']},{$_POST['contrasena']})";
+		$databaseLog = mysqli_query($link, "INSERT INTO DatabaseLog (idColaborador,fechaHora,evento,tipo,consulta) VALUES ('{$_SESSION['user']}','{$date}','INSERT COLABORADOR','INSERT','{$queryPerformed}')");
 	}
 
 	if(isset($_POST['editColaborador'])){
@@ -15,8 +17,7 @@ if(isset($_SESSION['login'])){
               usuario = '{$_POST['usuario']}', contraseña = '{$_POST['contrasena']}' WHERE idColaborador = '{$_POST['idColaborador']}'");
 		$queryPerformed = "UPDATE Colaborador SET idColaborador = {$_POST['dni']}, idTipoUsuario = {$_POST['tipoUsuario']}, nombreCompleto = {$_POST['nombreCompleto']},
               usuario = {$_POST['usuario']}, contraseña = {$_POST['contrasena']} WHERE idColaborador = {$_POST['idColaborador']}";
-		$databaseLog = mysqli_query($link, "INSERT INTO DatabaseLog (idColaborador,fechaHora,evento,tipo,consulta) VALUES ('{$_SESSION['user']}','{$date}','UPDATE USUARIO','UPDATE','{$queryPerformed}')");
-		echo "INSERT INTO DatabaseLog (idColaborador,fechaHora,evento,tipo,consulta) VALUES ('{$_SESSION['user']}','{$date}','UPDATE USUARIO','UPDATE','{$queryPerformed}')";
+		$databaseLog = mysqli_query($link, "INSERT INTO DatabaseLog (idColaborador,fechaHora,evento,tipo,consulta) VALUES ('{$_SESSION['user']}','{$date}','UPDATE COLABORADOR','UPDATE','{$queryPerformed}')");
 	}
 
 	?>

@@ -28,9 +28,9 @@ if(isset($_SESSION['login'])){
                         <div class="col-12">
                             <div class="spacer20"></div>
                             <div class="form-group row">
-                                <label for="numero" class="col-2 col-form-label">Nro. Habitación:</label>
+                                <label for="numero" class="col-2 col-form-label">Nro./Nombre Habitación:</label>
                                 <div class="col-2">
-                                    <input class="form-control" type="number" id="numero" name="numero">
+                                    <input class="form-control" type="text" id="numero" name="numero">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -67,6 +67,7 @@ if(isset($_SESSION['login'])){
             </div>
         </div>
     </section>
+    </form>
 
     <?php
     include('footer.php');
