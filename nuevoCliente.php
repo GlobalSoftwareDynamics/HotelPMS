@@ -31,7 +31,7 @@ if(isset($_SESSION['login'])){
                                     <div class="form-group row">
                                         <label for="dni" class="col-4 col-form-label">DNI:</label>
                                         <div class="col-4">
-                                            <input class="form-control" type="number" id="dni" name="dni">
+                                            <input class="form-control" type="number" id="dni" name="dni" min="0">
                                         </div>
                                     </div>
                                     <div class="form-group row">

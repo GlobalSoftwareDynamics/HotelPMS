@@ -33,7 +33,7 @@ while($row = mysqli_fetch_array($query)){
                                 <div class="form-group row">
                                     <label for="dni" class="col-2 col-form-label">DNI:</label>
                                     <div class="col-10">
-                                        <input class="form-control" type="number" id="dni" name="dni" value="<?php echo $_POST['idColaborador'];?>" disabled>
+                                        <input class="form-control" type="number" id="dni" name="dni" value="<?php echo $_POST['idColaborador'];?>" disabled  min="0">
                                     </div>
                                 </div>
                                 <div class="form-group row">

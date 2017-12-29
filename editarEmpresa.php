@@ -37,7 +37,7 @@ if(isset($_SESSION['login'])){
                                         <div class="form-group row">
                                             <label for="ruc" class="col-4 col-form-label">RUC:</label>
                                             <div class="col-4">
-                                                <input class="form-control" type="number" id="ruc" name="ruc" value="<?php echo $row['idEmpresa'];?>" disabled>
+                                                <input class="form-control" type="number" id="ruc" name="ruc" value="<?php echo $row['idEmpresa'];?>" disabled min="0">
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -61,7 +61,7 @@ if(isset($_SESSION['login'])){
                                         <div class="form-group row">
                                             <label for="descuento" class="col-4 col-form-label">Desc. Corporativc:</label>
                                             <div class="col-2">
-                                                <input class="form-control" type="number" id="descuento" name="descuento" value="<?php echo $row['descuentoCorporativo'];?>">
+                                                <input class="form-control" type="number" id="descuento" name="descuento" value="<?php echo $row['descuentoCorporativo'];?>" min="0">
                                             </div>
                                         </div>
                                     </div>
