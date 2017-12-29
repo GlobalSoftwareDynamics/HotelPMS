@@ -27,6 +27,7 @@
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<a class="dropdown-item" href="gestionHabitaciones.php">Habitaciones</a>
                             <a class="dropdown-item" href="gestionTipoHabitaciones.php">Tipo de Habitaciones</a>
+                            <a class="dropdown-item" href="gestionCaracteristicas.php">Características</a>
 							<a class="dropdown-item" href="gestionPaquetes.php">Paquetes</a>
 							<a class="dropdown-item" href="gestionTarifas.php">Tarifas</a>
 							<a class="dropdown-item" href="gestionClientes.php">Clientes</a>
