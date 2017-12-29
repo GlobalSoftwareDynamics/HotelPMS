@@ -25,8 +25,12 @@ if(isset($_SESSION['login'])){
 		$databaseLog = mysqli_query($link, "INSERT INTO DatabaseLog (idColaborador,fechaHora,evento,tipo,consulta) VALUES ('{$_SESSION['user']}','{$date}','INSERT HABITACION','INSERT','{$queryPerformed}')");
 	}
 
+	if(isset($_POST['deleteCaracteristica'])){
+		$delete = mysqli_query($link,"DELETE FROM CaracteristicaHabitacion WHERE idHabitacion = '{$_POST['numero']}' AND idCaracteristica = '{$_POST['deleteCaracteristica']}'");
+	}
+
 	?>
-	<form method="post" id="formInsumo">
+
 	<section class="container">
 		<div class="row">
 			<div class="col-12">
@@ -37,18 +41,21 @@ if(isset($_SESSION['login'])){
 							&nbsp;&nbsp;Características de Habitación
 						</div>
 						<div class="float-right">
-							<button type="button" class="btn btn-sm btn-light" data-toggle="modal" data-target="#modalCaracteristica">Agregar Caracteristica</button>
-							<input name="regresar" type="submit" form="formInsumo" class="btn btn-light btn-sm" formaction="gestionHabitaciones.php" value="Regresar">
+							<form method="post" id="formInsumo">
+								<button type="button" class="btn btn-sm btn-light" data-toggle="modal" data-target="#modalCaracteristica">Agregar Caracteristica</button>
+								<input name="fin" type="submit" form="formInsumo" class="btn btn-light btn-sm" formaction="gestionHabitaciones.php" value="Finalizar">
+							</form>
 						</div>
 					</div>
 					<div class="card-block">
 						<div class="col-12">
 							<div class="spacer20"></div>
-							<table class="table">
+							<table class="table text-center">
 								<thead>
 								<tr>
 									<th>Característica</th>
 									<th>Valor</th>
+									<th>Acciones</th>
 								</tr>
 								</thead>
 								<tbody>
@@ -57,8 +64,16 @@ if(isset($_SESSION['login'])){
 								while($row = mysqli_fetch_array($query)){
 									$query2 = mysqli_query($link,"SELECT * FROM Caracteristica WHERE idCaracteristica = '{$row['idCaracteristica']}'");
 									while($row2 = mysqli_fetch_array($query2)){
-										echo "<td>{$row2['descripcion']}</td>";
-										echo "<td>{$row['valor']}</td>";
+										echo "<tr>";
+											echo "<td>{$row2['descripcion']}</td>";
+											echo "<td>{$row['valor']}</td>";
+											echo "<td>
+													<form method='post' id='caractForm'>
+			                                            <input type='hidden' value='{$_POST['numero']}' name='numero'>
+			                                            <button type='submit' class='btn btn-sm btn-outline-danger' value='{$row['idCaracteristica']}' formaction='#' form='caractForm' name='deleteCaracteristica'>Eliminar</button>
+			                                        </form>
+												</td>";
+										echo "</tr>";
 									}
 								}
 								?>
@@ -70,7 +85,7 @@ if(isset($_SESSION['login'])){
 			</div>
 		</div>
 	</section>
-	</form>
+
 
 	<form method="post" action="nuevaHabitacion2.php" id="formModal">
 		<input type="hidden" name="numero" value="<?php echo $_POST['numero'];?>">
