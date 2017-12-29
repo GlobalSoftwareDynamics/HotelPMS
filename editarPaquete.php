@@ -114,9 +114,9 @@ if(isset($_SESSION['login'])){
                                         <div class="col-10">
                                             <select name="moneda" id="moneda" class="form-control">
                                                 <option selected disabled>Seleccionar</option>
-                                                <option value="1">Dólares</option>
-                                                <option value="2">Soles</option>
-                                                <option value="3">Euros</option>
+                                                <option value="$">Dólares</option>
+                                                <option value="S/.">Soles</option>
+                                                <option value="€">Euros</option>
                                             </select>
                                         </div>
                                     </div>
@@ -162,17 +162,7 @@ if(isset($_SESSION['login'])){
                                             $result2 = mysqli_query($link,"SELECT * FROM Tarifa WHERE idTarifa = '{$fila['idTarifa']}'");
                                             while ($fila1 = mysqli_fetch_array($result2)){
                                                 $valorTarifa = $fila1['valor'];
-                                                switch ($fila1['moneda']){
-                                                    case 1:
-                                                        $simboloMoneda = "$";
-                                                        break;
-                                                    case 2:
-                                                        $simboloMoneda = "S/.";
-                                                        break;
-                                                    case 3:
-                                                        $simboloMoneda = "€";
-                                                        break;
-                                                }
+                                                $simboloMoneda = $fila1['moneda'];
                                             }
                                             echo "<tr>";
                                             echo "<td>{$tipoHabitacion}</td>";

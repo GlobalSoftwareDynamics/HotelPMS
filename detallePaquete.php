@@ -12,17 +12,7 @@ if(isset($_SESSION['login'])){
         $descripcion = explode("Incluye: ",$row['descripcion']);
         $duracion = $row['duracion'];
         $valorAdicionales = $row['valor'];
-        switch ($row['moneda']){
-            case 1:
-                $simboloMoneda = "$";
-                break;
-            case 2:
-                $simboloMoneda = "S/.";
-                break;
-            case 3:
-                $simboloMoneda = "€";
-                break;
-        }
+        $simboloMoneda = $row['moneda']
         ?>
 
         <section class="container">
@@ -100,17 +90,7 @@ if(isset($_SESSION['login'])){
                                         $result2 = mysqli_query($link,"SELECT * FROM Tarifa WHERE idTarifa = '{$fila['idTarifa']}'");
                                         while ($fila1 = mysqli_fetch_array($result2)){
                                             $valorTarifa = $fila1['valor'];
-                                            switch ($fila1['moneda']){
-                                                case 1:
-                                                    $simboloMoneda = "$";
-                                                    break;
-                                                case 2:
-                                                    $simboloMoneda = "S/.";
-                                                    break;
-                                                case 3:
-                                                    $simboloMoneda = "€";
-                                                    break;
-                                            }
+                                            $simboloMoneda = $fila1['moneda'];
                                         }
                                         echo "<tr>";
                                         echo "<td>{$tipoHabitacion}</td>";

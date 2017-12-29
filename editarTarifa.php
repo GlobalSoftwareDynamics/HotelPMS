@@ -83,9 +83,9 @@ if(isset($_SESSION['login'])){
                                     <div class="col-10">
                                         <select name="moneda" id="moneda" class="form-control">
                                             <option value="<?php echo $numMoneda;?>"><?php echo $moneda;?></option>
-                                            <option value="1">Dólares</option>
-                                            <option value="2">Soles</option>
-                                            <option value="3">Euros</option>
+                                            <option value="$">Dólares</option>
+                                            <option value="S/.">Soles</option>
+                                            <option value="€">Euros</option>
                                         </select>
                                     </div>
                                 </div>

@@ -120,17 +120,6 @@ if(isset($_SESSION['login'])){
                             $totalpaquete = 0;
                             $result = mysqli_query($link,"SELECT * FROM Paquete");
                             while ($fila = mysqli_fetch_array($result)){
-                                switch ($fila['moneda']){
-                                    case 1:
-                                        $simboloMoneda = "$";
-                                        break;
-                                    case 2:
-                                        $simboloMoneda = "S/.";
-                                        break;
-                                    case 3:
-                                        $simboloMoneda = "€";
-                                        break;
-                                }
                                 $totalhabitaciones = 0;
                                 $result1 = mysqli_query($link,"SELECT * FROM TipoHabitacionPaquete WHERE idPaquete = '{$fila['idPaquete']}'");
                                 $numFilas = mysqli_num_rows($result1);
@@ -154,7 +143,7 @@ if(isset($_SESSION['login'])){
                                 echo "<tr>";
                                 echo "<td>{$fila['nombre']}</td>";
                                 echo "<td>{$fila['descripcion']}</td>";
-                                echo "<td>{$simboloMoneda} {$totalpaquete}</td>";
+                                echo "<td>{$fila['moneda']} {$totalpaquete}</td>";
                                 echo "
                                     <td>
                                         <form method='post'>
