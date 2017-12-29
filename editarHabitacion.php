@@ -1,24 +1,10 @@
 <?php
 include('declaracionFechas.php');
 include('funciones.php');
-/*if(isset($_SESSION['login'])){*/
+include('session.php');
+if(isset($_SESSION['login'])){
 include('header.php');
 include('navbarRecepcion.php');
-
-/*$result = mysqli_query($link,"SELECT * FROM Proveedor WHERE idProveedor = '{$_POST['idProveedor']}'");
-while($row = mysqli_fetch_array($result)) {
-    $result1 = mysqli_query($link,"SELECT * FROM Direccion WHERE idDireccion = '{$row['idDireccion']}'");
-    while ($fila = mysqli_fetch_array($result1)){
-        $direccion = $fila['direccion'];
-        $result2 = mysqli_query($link,"SELECT * FROM Ciudad WHERE idCiudad = '{$fila['idCiudad']}'");
-        while ($fila1 = mysqli_fetch_array($result2)){
-            $ciudad = $fila1['nombre'];
-            $result3 = mysqli_query($link,"SELECT * FROM Pais WHERE idPais = '{$fila1['idPais']}'");
-            while ($fila2 = mysqli_fetch_array($result3)){
-                $pais = $fila2['pais'];
-            }
-        }
-    }*/
 ?>
 
 <section class="container">
