@@ -47,9 +47,9 @@ if(isset($_SESSION['login'])){
 
         $descripcion = $stringDuracion.$stringHabitaciones."Incluye: ".$_POST['descripcionAdicionales'];
 
-        $query = mysqli_query($link,"UPDATE Paquete SET nombre = '{$_POST['nombre']}', descripcion = '{$descripcion}', valor = '{$_POST['valorAdicionales']}', duracion = '{$_POST['noches']}' WHERE idPaquete = '{$_POST['idPaquete']}'");
+        $query = mysqli_query($link,"UPDATE Paquete SET nombre = '{$_POST['nombre']}', descripcion = '{$descripcion}', valor = '{$_POST['valorAdicionales']}', duracion = '{$_POST['noches']}', moneda = '{$_POST['moneda']}' WHERE idPaquete = '{$_POST['idPaquete']}'");
 
-        $queryPerformed = "UPDATE Paquete SET nombre = {$_POST['nombre']}, descripcion = {$descripcion}, valor = {$_POST['valorAdicionales']}, duracion = {$_POST['noches']} WHERE idPaquete = {$_POST['idPaquete']}";
+        $queryPerformed = "UPDATE Paquete SET nombre = {$_POST['nombre']}, descripcion = {$descripcion}, valor = {$_POST['valorAdicionales']}, duracion = {$_POST['noches']}, moneda = {$_POST['moneda']} WHERE idPaquete = {$_POST['idPaquete']}";
 
         $databaseLog = mysqli_query($link, "INSERT INTO DatabaseLog (idColaborador,fechaHora,evento,tipo,consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','Paquete','{$queryPerformed}')");
 
