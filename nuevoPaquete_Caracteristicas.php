@@ -169,17 +169,6 @@ if(isset($_SESSION['login'])){
                                                 <input class="form-control" type="number" id="valorAdicionales" name="valorAdicionales">
                                             </div>
                                         </div>
-                                        <div class="form-group row">
-                                            <label for="moneda" class="col-2 col-form-label">Moneda:</label>
-                                            <div class="col-10">
-                                                <select name="moneda" id="moneda" class="form-control">
-                                                    <option>Seleccionar</option>
-                                                    <option value="$">Dólares</option>
-                                                    <option value="S/.">Soles</option>
-                                                    <option value="€">Euros</option>
-                                                </select>
-                                            </div>
-                                        </div>
                                     </form>
                                 </div>
                             </div>
