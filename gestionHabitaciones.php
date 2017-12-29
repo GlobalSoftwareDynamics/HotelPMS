@@ -6,6 +6,9 @@ if(isset($_SESSION['login'])){
     include('header.php');
     include('navbarRecepcion.php');
 
+    if(isset($_POST['editHabitacion'])){
+        $update = mysqli_query($link,"UPDATE Habitacion SET idTipoHabitacion = '{$_POST['tipoHabitacion']}', idTipoVista = '{$_POST['vista']}' WHERE idHabitacion = '{$_POST['numero']}'");
+    }
     ?>
 
     <script>
