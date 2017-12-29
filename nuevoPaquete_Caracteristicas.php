@@ -127,7 +127,6 @@ if(isset($_SESSION['login'])){
                                                     $result1 = mysqli_query($link,"SELECT * FROM Tarifa WHERE idTarifa = '{$fila['idTarifa']}'");
                                                     while ($fila1 = mysqli_fetch_array($result1)){
                                                         $tarifa = $fila1['descripcion'];
-                                                        $simboloMoneda = $fila1['moneda'];
                                                     }
                                                     $result1 = mysqli_query($link,"SELECT * FROM TipoHabitacion WHERE idTipoHabitacion = '{$fila['idTipoHabitacion']}'");
                                                     while ($fila1 = mysqli_fetch_array($result1)){
@@ -136,7 +135,7 @@ if(isset($_SESSION['login'])){
                                                     echo "<tr>";
                                                     echo "<td>{$habitacion}</td>";
                                                     echo "<td>{$fila['nroHabitaciones']}</td>";
-                                                    echo "<td>{$simboloMoneda} {$tarifa}</td>";
+                                                    echo "<td>{$tarifa}</td>";
                                                     echo "
                                                     <td>
                                                         <form method='post'>
