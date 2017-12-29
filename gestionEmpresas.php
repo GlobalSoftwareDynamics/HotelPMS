@@ -11,6 +11,9 @@ if(isset($_POST['editEmpresa'])){
               descuentoCorporativo = '{$_POST['descuento']}' WHERE idEmpresa = '{$_POST['idEmpresa']}'");
 }
 
+if(isset($_POST['delete'])){
+    $delete = mysqli_query($link,"DELETE FROM Empresa WHERE idEmpresa = '{$_POST['idEmpresa']}'");
+}
 ?>
 
 <script>
@@ -120,6 +123,7 @@ if(isset($_POST['editEmpresa'])){
                                                 <div class='dropdown-menu' aria-labelledby='dropdownMenuButton'>
                                                     <button name='detalle' class='dropdown-item' type='submit' formaction='detalleEmpresa.php'>Ver Detalle</button>
                                                     <button name='editar' class='dropdown-item' type='submit' formaction='editarEmpresa.php'>Editar</button>
+                                                    <button name='delete' class='dropdown-item' type='submit' formaction='#'>Eliminar</button>
                                                 </div>
                                             </div>
                                         </form>

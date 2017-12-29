@@ -12,7 +12,7 @@ while($row = mysqli_fetch_array($result)) {
 
 <section class="container">
     <div class="row">
-        <div class="col-6">
+        <div class="col-5">
             <div class="card">
                 <div class="card-header card-inverse card-info">
                     <form method="post" action="gestionEmpresas.php" id="form">
@@ -51,7 +51,7 @@ while($row = mysqli_fetch_array($result)) {
                 </div>
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-7">
             <div class="card">
                 <div class="card-header card-inverse card-info">
                     <form method="post" action="gestionEmpresas.php" id="form">
@@ -65,11 +65,14 @@ while($row = mysqli_fetch_array($result)) {
                     </form>
                 </div>
                 <div class="card-block">
-                    <table class="table">
+                    <table class="table text-center">
                         <thead>
                         <tr>
                             <th>Nombre</th>
+                            <th>Área</th>
+                            <th>Cargo</th>
                             <th>Teléfono</th>
+                            <th>Anexo</th>
                             <th>E-Mail</th>
                         </tr>
                         </thead>
@@ -77,10 +80,13 @@ while($row = mysqli_fetch_array($result)) {
                         <?php
                         $query = mysqli_query($link,"SELECT * FROM Contacto WHERE idContacto IN (SELECT idContacto FROM ContactoEmpresa WHERE idEmpresa = '{$_POST['idEmpresa']}')");
                         while($fila = mysqli_fetch_array($query)){
-                            echo "<tr>";
-                                echo "<td>{$fila['nombreCompleto']}</td>";
-	                            echo "<td>{$fila['telefono']}</td>";
-	                            echo "<td>{$fila['correoElectronico']}</td>";
+	                        echo "<tr>";
+	                        echo "<td>{$fila['nombreCompleto']}</td>";
+	                        echo "<td>{$fila['area']}</td>";
+	                        echo "<td>{$fila['cargo']}</td>";
+	                        echo "<td>{$fila['telefono']}</td>";
+	                        echo "<td>{$fila['anexo']}</td>";
+	                        echo "<td>{$fila['correoElectronico']}</td>";
 	                        echo "</tr>";
                         }
                         ?>
