@@ -3,6 +3,14 @@ include('session.php');
 if(isset($_SESSION['login'])){
 	include('header.php');
 	include('navbarRecepcion.php');
+    include('declaracionFechas.php');
+	if(isset($_POST['addReserva'])){
+	    $insert = mysqli_query($link,"INSERT INTO Reserva VALUES ('{$_POST['idReserva']}',{$_SESSION['user']},{$_POST['dni']},1,'{$dateTime}',0,0)");
+	    $queryPerformed = "INSERT INTO Reserva VALUES ({$_POST['idReserva']}{$_SESSION['user']},{$_POST['dni']},1,{$dateTime},0,0)";
+	    $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','CREAR RESERVA','{$queryPerformed}')");
+    }
+
+    $queryReserva = mysqli_query($link,"SELECT * FROM Reserva WHERE idReserva = {$_POST['idReserva']}");
 	?>
 
 	<section class="container">
@@ -18,17 +26,12 @@ if(isset($_SESSION['login'])){
 					<div class="card-body">
 						<div class="row">
 							<div class="col-6">
-								<p><strong>Nombre:</strong> Juan Pérez Salinas</p>
-								<p><strong>Teléfono:</strong> 975685485</p>
+								<p><strong>Nombre:</strong> <?php echo $_POST['nombres']?></p>
+								<p><strong>Teléfono:</strong> <?php echo $_POST['telefono']?></p>
 							</div>
 							<div class="col-6">
-								<p><strong>DNI:</strong> 29240383</p>
-								<p><strong>Email:</strong> Juan.Perez@correo.com</p>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-12 text-center">
-								<button type="button" class="btn btn-sm btn-primary">Añadir / Editar Detalles</button>
+								<p><strong>DNI:</strong> <?php echo $_POST['dni']?></p>
+								<p><strong>Email:</strong> <?php echo $_POST['email']?></p>
 							</div>
 						</div>
 						<hr>
@@ -54,6 +57,7 @@ if(isset($_SESSION['login'])){
                                         <td>Sí</td>
                                         <td>
                                             <form method="post">
+                                                <input type="hidden" name="idReserva" value="<?php echo $_POST['idReserva'];?>">
                                                 <input type="submit" class="btn btn-sm btn-danger" value="Eliminar">
                                             </form>
                                         </td>

@@ -268,3 +268,47 @@ function getCiudad(val) {
     });
 }
 
+function getID(val){
+    $.ajax({
+        type: "POST",
+        url: "getAjax.php",
+        data:{'nombreHuesped':val},
+        success: function(data){
+            $("#divDni").html(data);
+        }
+    });
+}
+
+function getTelf(val){
+    $.ajax({
+        type: "POST",
+        url: "getAjax.php",
+        data:{'nombreHuesped2':val},
+        success: function(data){
+            $("#divTelf").html(data);
+        }
+    });
+}
+
+function getEmail(val){
+    $.ajax({
+        type: "POST",
+        url: "getAjax.php",
+        data:{'nombreHuesped3':val},
+        success: function(data){
+            $("#divEmail").html(data);
+        }
+    });
+}
+
+function getNombre(val){
+    $.ajax({
+        type: "POST",
+        url: "getAjax.php",
+        data:{'nombreHuesped4':val},
+        success: function(data){
+            $("#divNombre").html(data);
+        }
+    });
+}
+

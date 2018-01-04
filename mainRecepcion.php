@@ -370,58 +370,23 @@ if(isset($_SESSION['login'])){
 					</div>
 					<div class="modal-body">
 						<div class="container-fluid">
+                            <input type="hidden" name="idReserva" value="<?php $idReserva = idgen("R"); echo $idReserva?>">
 							<div class="row">
-								<div class="form-group col-6">
-									<label class="col-form-label" for="fechaInicio">Fecha Inicio:</label>
-									<input type="date" name="fechaInicio" id="fechaInicio" class="form-control">
-								</div>
-								<div class="form-group col-6">
-									<label class="col-form-label" for="fechaFin">Fecha Fin:</label>
-									<input type="date" name="fechaFin" id="fechaFin" class="form-control">
-								</div>
-							</div>
-							<div class="form-group row">
-								<label class="col-form-label" for="tipoHabitacion">Tipo de Habitación:</label>
-								<select class="form-control" id="tipoHabitacion" name="tipoHabitacion">
-									<option>Seleccionar</option>
-								</select>
-							</div>
-							<div class="form-group row">
-								<label class="col-form-label" for="tarifa">Tarifa:</label>
-								<select class="form-control" id="tarifa" name="tarifa">
-									<option>Seleccionar</option>
-								</select>
-							</div>
-							<div class="row">
-								<div class="form-group col-4">
-									<label class="col-form-label" for="adultos">Adultos:</label>
-									<input type="number" name="adultos" id="adultos" class="form-control">
-								</div>
-								<div class="form-group col-4">
-									<label class="col-form-label" for="niños">Niños:</label>
-									<input type="number" name="niños" id="niños" class="form-control">
-								</div>
-								<div class="form-group col-4">
-									<label class="col-form-label" for="numHabitaciones">Habitaciones:</label>
-									<input type="number" name="numHabitaciones" id="numHabitaciones" class="form-control">
-								</div>
-							</div>
-							<div class="row">
-								<div class="form-group col-6">
+								<div class="form-group col-6" id="divDni">
 									<label class="col-form-label" for="dni">DNI Titular:</label>
-									<input type="number" name="dni" id="dni" class="form-control">
+									<input type="number" name="dni" id="dni" class="form-control" onchange="getNombre(this.value);getTelf(this.value);getEmail(this.value);">
 								</div>
-								<div class="form-group col-6">
+								<div class="form-group col-6" id="divNombre">
 									<label class="col-form-label" for="nombres">Nombre Completo:</label>
-									<input type="text" name="nombres" id="nombres" class="form-control">
+									<input type="text" name="nombres" id="nombres" class="form-control" onchange="getID(this.value);getTelf(this.value);getEmail(this.value);">
 								</div>
 							</div>
 							<div class="row">
-								<div class="form-group col-6">
-									<label class="col-form-label" for="telefono">Teléfono:</label>
+								<div class="form-group col-6" id="divTelf">
+									<label class="col-form-label" for="telefono">Teléfono Celular:</label>
 									<input type="text" name="telefono" id="telefono" class="form-control">
 								</div>
-								<div class="form-group col-6">
+								<div class="form-group col-6" id="divEmail">
 									<label class="col-form-label" for="email">Correo Electrónico:</label>
 									<input type="email" name="email" id="email" class="form-control">
 								</div>
