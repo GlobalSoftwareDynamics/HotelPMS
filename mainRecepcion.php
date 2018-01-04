@@ -391,6 +391,16 @@ if(isset($_SESSION['login'])){
 									<input type="email" name="email" id="email" class="form-control">
 								</div>
 							</div>
+                            <div class="row">
+                                <div class="form-group col-12">
+                                    <label class="col-form-label" for="tipoReserva">Tipo de Reserva:</label>
+                                    <select class="form-control" name="tipoReserva" id="tipoReserva">
+                                        <option selected disabled>Seleccionar</option>
+                                        <option value="3">Reserva Confirmada</option>
+                                        <option value="9">Reserva Pendiente</option>
+                                    </select>
+                                </div>
+                            </div>
 						</div>
 					</div>
 					<div class="modal-footer">

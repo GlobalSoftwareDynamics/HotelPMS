@@ -12,8 +12,15 @@ if(isset($_SESSION['login'])){
 	}
 
 	if(isset($_POST['eliminar'])){
-	    $delete = mysqli_query($link,"DELETE FROM ContactoEmpresa WHERE idContacto = '{$_POST['eliminar']}'");
-		$delete = mysqli_query($link,"DELETE FROM Contacto WHERE idContacto = '{$_POST['eliminar']}'");
+	    $flag = false;
+	    $delete = mysqli_query($link,"DELETE FROM ContactoEmpresa WHERE idContacto = '{$_POST['eliminar']}' AND idEmpresa = '{$_POST['idEmpresa']}'");
+	    $query = mysqli_query($link,"SELECT * FROM ContactoEmpresa WHERE idContacto = '{$_POST['eliminar']}'");
+	    while($row = mysqli_fetch_array($query)){
+	        $flag = true;
+        }
+        if(!$flag){
+	        $delete = mysqli_query($link,"DELETE FROM Contacto WHERE idContacto = '{$_POST['eliminar']}'");
+        }
     }
 
 	$result = mysqli_query($link,"SELECT * FROM Empresa WHERE idEmpresa = '{$_POST['idEmpresa']}'");

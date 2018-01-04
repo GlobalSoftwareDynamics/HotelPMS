@@ -57,4 +57,16 @@ if(!empty($_POST['nombreHuesped4'])){
 	}
 }
 
+if(!empty($_POST['tipoHabitacion'])){
+	$result = mysqli_query($link,"SELECT * FROM Habitacion WHERE idTipoHabitacion = '{$_POST['tipoHabitacion']}'");
+	while($row = mysqli_fetch_array($result)){
+		echo "<option value='{$row['idHabitacion']}'>{$row['idHabitacion']}</option>";
+	}
+}
 
+if(!empty($_POST['tipoHabitacion2'])){
+	$result = mysqli_query($link,"SELECT * FROM Tarifa WHERE idTipoHabitacion = '{$_POST['tipoHabitacion2']}'");
+	while($row = mysqli_fetch_array($result)){
+		echo "<option value='{$row['idTarifa']}'>{$row['descripcion']} - {$row['valor']}</option>";
+	}
+}

@@ -312,3 +312,24 @@ function getNombre(val){
     });
 }
 
+function getHabitacion(val){
+    $.ajax({
+        type: "POST",
+        url: "getAjax.php",
+        data:{'tipoHabitacion':val},
+        success: function(data){
+            $("#nroHabitacion").html(data);
+        }
+    });
+}
+
+function getTarifa(val){
+    $.ajax({
+        type: "POST",
+        url: "getAjax.php",
+        data:{'tipoHabitacion2':val},
+        success: function(data){
+            $("#tarifa").html(data);
+        }
+    });
+}
