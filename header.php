@@ -66,6 +66,16 @@
             });
         </script>
 		<?php
+	$arrayDNIHuespedes = autocompletar('Huesped','idHuesped',$link);
+	?>
+    <script>
+        $( function() {
+            $( "#dni" ).autocomplete({
+                source: <?php echo $arrayDNIHuespedes;?>
+            });
+        } );
+    </script>
+	<?php
 	}
 	?>
 </head>

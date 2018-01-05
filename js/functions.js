@@ -279,6 +279,17 @@ function getID(val){
     });
 }
 
+function getID2(val){
+    $.ajax({
+        type: "POST",
+        url: "getAjax.php",
+        data:{'nombreHuespedReserva':val},
+        success: function(data){
+            $("#divDni").html(data);
+        }
+    });
+}
+
 function getTelf(val){
     $.ajax({
         type: "POST",
@@ -306,6 +317,17 @@ function getNombre(val){
         type: "POST",
         url: "getAjax.php",
         data:{'nombreHuesped4':val},
+        success: function(data){
+            $("#divNombre").html(data);
+        }
+    });
+}
+
+function getNombre2(val){
+    $.ajax({
+        type: "POST",
+        url: "getAjax.php",
+        data:{'nombreHuespedReserva2':val},
         success: function(data){
             $("#divNombre").html(data);
         }
