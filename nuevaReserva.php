@@ -5,6 +5,12 @@ if(isset($_SESSION['login'])){
 	include('header.php');
 	include('navbarRecepcion.php');
 	include('declaracionFechas.php');
+	if(isset($_POST['clienteNuevo'])){
+		$insert = mysqli_query($link,"INSERT INTO Huesped VALUES ('{$_POST['dni']}',null,null,null,null,'{$_POST['nombres']}',null,'{$_POST['email']}',null,null,'{$_POST['telefono']}',null,null)");
+		$queryPerformed = "INSERT INTO Huesped VALUES ({$_POST['dni']},null,null,null,null,{$_POST['nombres']},null,{$_POST['email']},null,null,{$_POST['telefono']},null,null)";
+		$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','CREAR HUESPED','{$queryPerformed}')");
+	}
+
 	if(isset($_POST['addReserva'])){
 		$insert = mysqli_query($link,"INSERT INTO Reserva VALUES ('{$_POST['idReserva']}','{$_SESSION['user']}',{$_POST['dni']},{$_POST['tipoReserva']},'{$dateTime}',0,0,null)");
 		$queryPerformed = "INSERT INTO Reserva VALUES ({$_POST['idReserva']},{$_SESSION['user']},{$_POST['dni']},1,{$dateTime},0,0,null)";
@@ -38,6 +44,10 @@ if(isset($_SESSION['login'])){
 	}
 
 	if(isset($_POST['addOcupante'])){
+		$insert = mysqli_query($link,"INSERT INTO Huesped VALUES ('{$_POST['dni']}',null,null,null,null,'{$_POST['nombres']}',null,null,null,null,null,null,null)");
+		$queryPerformed = "INSERT INTO Huesped VALUES ({$_POST['dni']},null,null,null,null,{$_POST['nombres']},null,null,null,null,null,null,null)";
+		$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','CREAR HUESPED','{$queryPerformed}')");
+
 	    $idHuesped = null;
 	    $query = mysqli_query($link,"SELECT * FROM Huesped WHERE nombreCompleto = '{$_POST['nombres']}'");
 	    while($row = mysqli_fetch_array($query)){
@@ -48,6 +58,12 @@ if(isset($_SESSION['login'])){
 	    $insert = mysqli_query($link,"INSERT INTO Ocupantes VALUES ('{$_POST['idReserva']}','{$idHuesped}','{$_POST['idHabitacion']}','{$cargos}')");
 		$queryPerformed = "INSERT INTO Ocupantes VALUES ({$_POST['idReserva']},{$idHuesped},{$_POST['idHabitacion']},{$cargos})";
 		$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','OCUPANTE','{$queryPerformed}')");
+    }
+
+    if(isset($_POST['deleteOcupante'])){
+	    $delete = mysqli_query($link,"DELETE FROM Ocupantes WHERE idReserva = '{$_POST['idReserva']}' AND idHuesped = '{$_POST['idHuesped']}'");
+	    $queryPerformed = "DELETE FROM Ocupantes WHERE idReserva = {$_POST['idReserva']} AND idHuesped = {$_POST['idHuesped']}";
+	    $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','DELETE','OCUPANTE ','{$queryPerformed}')");
     }
 
 	if($estadoReserva == '3') {
@@ -176,24 +192,26 @@ if(isset($_SESSION['login'])){
                             </div>
                             <hr>
                             <div class="row">
-                                <div class="col-8 offset-2 text-center">
+                                <div class="col-10 offset-1 text-center">
                                     <table class="table">
                                         <thead>
                                         <tr>
-                                            <th>Huésped</th>
+                                            <th colspan="2">Huésped</th>
                                             <th>Habitación</th>
                                             <th>Cargos</th>
                                             <th>Acciones</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <form method="post" action="#">
+                                        <form method="post" action="#" id="formOcupante">
                                             <input type="hidden" value="<?php echo $_POST['idReserva'];?>" name="idReserva">
                                             <tr>
-                                                <td>
+                                                <td id="divDni">
+                                                    <input type="text" name="dni" id="dni" class="form-control" placeholder="DNI" onchange="getNombre2(this.value)">
+                                                </td>
+                                                <td id="divNombre">
                                                     <div class="input-group">
-                                                        <input type="text" name="nombres" id="nombres" class="form-control">&nbsp;&nbsp;&nbsp;&nbsp;
-                                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalHuesped">Nuevo Huésped</button>
+                                                        <input type="text" name="nombres" id="nombres" class="form-control" placeholder="Nombre Completo" onchange="getID2(this.value)">&nbsp;&nbsp;&nbsp;&nbsp;
                                                     </div>
                                                 </td>
                                                 <td>
