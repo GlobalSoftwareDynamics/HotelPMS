@@ -54,6 +54,19 @@
         </script>
 		<?php
 	}
+
+	if($_SERVER['REQUEST_URI'] == '/hotelPMS/nuevaReserva.php') {
+		$arrayNombresHuespedes = autocompletar('Huesped', 'nombreCompleto', $link);
+		?>
+        <script>
+            $(function () {
+                $("#nombres").autocomplete({
+                    source: <?php echo $arrayNombresHuespedes;?>
+                });
+            });
+        </script>
+		<?php
+	}
 	?>
 </head>
 

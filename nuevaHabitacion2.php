@@ -7,8 +7,8 @@ if(isset($_SESSION['login'])){
 	include('navbarRecepcion.php');
 
 	if(isset($_POST['addHabitacion'])){
-		$insert = mysqli_query($link,"INSERT INTO Habitacion VALUES ('{$_POST['numero']}','{$_POST['tipoHabitacion']}','{$_POST['vista']}')");
-		$queryPerformed = "INSERT INTO Habitacion VALUES ({$_POST['numero']},{$_POST['tipoHabitacion']},{$_POST['vista']})";
+		$insert = mysqli_query($link,"INSERT INTO Habitacion VALUES ('{$_POST['numero']}','{$_POST['tipoHabitacion']}','{$_POST['vista']}',1)");
+		$queryPerformed = "INSERT INTO Habitacion VALUES ({$_POST['numero']},{$_POST['tipoHabitacion']},{$_POST['vista']},1)";
 		$databaseLog = mysqli_query($link, "INSERT INTO DatabaseLog (idColaborador,fechaHora,evento,tipo,consulta) VALUES ('{$_SESSION['user']}','{$date}','INSERT HABITACION','INSERT','{$queryPerformed}')");
 
 		$search = mysqli_query($link,"SELECT * FROM CaracteristicaTipoHabitacion WHERE idTipoHabitacion = '{$_POST['tipoHabitacion']}'");
