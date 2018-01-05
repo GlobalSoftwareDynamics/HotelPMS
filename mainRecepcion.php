@@ -113,7 +113,7 @@ if(isset($_SESSION['login'])){
                                             <tbody>
                                             <?php
                                             $date = date("Y-m-d");
-                                            $result = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE fechaInicio = '{$date}' AND idEstado = '3'");
+                                            $result = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE fechaInicio = '{$date}' AND idEstado = '3' ORDER BY fechaInicio DESC");
                                             while ($fila = mysqli_fetch_array($result)){
                                                 echo "<tr>";
                                                 $result1 = mysqli_query($link,"SELECT * FROM Ocupantes WHERE idReserva = '{$fila['idReserva']}' AND idHabitacion = '{$fila['idHabitacion']}'");
@@ -140,7 +140,7 @@ if(isset($_SESSION['login'])){
                                                                 <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuButton\">
                                                                     <input type='hidden' name='idReserva' value='{$fila['idReserva']}'>
                                                                     <input type='hidden' name='idHabitacion' value='{$fila['idHabitacion']}'>
-                                                                    <input type=\"submit\" value=\"Registrar Check-In\" class=\"dropdown-item\" formaction=\"#\">
+                                                                    <input type=\"submit\" value=\"Registrar Check-In\" class=\"dropdown-item\" formaction=\"registrarCheckIn.php\">
                                                                     <input type=\"submit\" value=\"Ver Reserva\" class=\"dropdown-item\" formaction=\"verReserva.php\">
                                                                     <input type=\"submit\" value=\"Editar Reserva\" class=\"dropdown-item\" formaction=\"editarReserva.php\">
                                                                     <input type=\"submit\" value=\"Eliminar\" class=\"dropdown-item\" formaction=\"#\">
@@ -170,7 +170,7 @@ if(isset($_SESSION['login'])){
                                             <?php
                                             $date = date("Y-m-d");
                                             $date = date('Y-m-d', strtotime($date . ' +1 day'));
-                                            $result = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE fechaInicio = '{$date}' AND idEstado = '3'");
+                                            $result = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE fechaInicio = '{$date}' AND idEstado = '3' ORDER BY fechaInicio DESC");
                                             while ($fila = mysqli_fetch_array($result)){
                                                 echo "<tr>";
                                                 $result1 = mysqli_query($link,"SELECT * FROM Ocupantes WHERE idReserva = '{$fila['idReserva']}' AND idHabitacion = '{$fila['idHabitacion']}'");
@@ -237,7 +237,7 @@ if(isset($_SESSION['login'])){
                                             <tbody>
                                             <?php
                                             $date = date("Y-m-d");
-                                            $result = mysqli_query($link,"SELECT * FROM Ocupantes WHERE (idReserva, idHabitacion) IN (SELECT idReserva, idHabitacion FROM HabitacionReservada WHERE fechaFin >= '{$date}' AND idEstado = '4')");
+                                            $result = mysqli_query($link,"SELECT * FROM Ocupantes WHERE (idReserva, idHabitacion) IN (SELECT idReserva, idHabitacion FROM HabitacionReservada WHERE fechaFin >= '{$date}' AND idEstado = '4' ORDER BY fechaInicio DESC)");
                                             while ($fila = mysqli_fetch_array($result)){
                                                 $result1 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$fila['idHuesped']}'");
                                                 while ($fila1 = mysqli_fetch_array($result1)){
@@ -287,7 +287,7 @@ if(isset($_SESSION['login'])){
                                             <?php
                                             $date = date("Y-m-d");
                                             $date = date('Y-m-d', strtotime($date . ' +1 day'));
-                                            $result = mysqli_query($link,"SELECT * FROM Ocupantes WHERE (idReserva, idHabitacion) IN (SELECT idReserva, idHabitacion FROM HabitacionReservada WHERE fechaFin >= '{$date}' AND idEstado = '4')");
+                                            $result = mysqli_query($link,"SELECT * FROM Ocupantes WHERE (idReserva, idHabitacion) IN (SELECT idReserva, idHabitacion FROM HabitacionReservada WHERE fechaFin >= '{$date}' AND idEstado = '4' ORDER BY fechaInicio DESC)");
                                             while ($fila = mysqli_fetch_array($result)){
                                                 $result1 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$fila['idHuesped']}'");
                                                 while ($fila1 = mysqli_fetch_array($result1)){
@@ -350,7 +350,7 @@ if(isset($_SESSION['login'])){
                                             <tbody>
                                             <?php
                                             $date = date("Y-m-d");
-                                            $result = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE idEstado = '8'");
+                                            $result = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE idEstado = '8' ORDER BY fechaInicio DESC");
                                             while ($fila = mysqli_fetch_array($result)){
                                                 $result1 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped IN (SELECT idHuesped FROM Ocupantes WHERE idReserva = '{$fila['idReserva']}' AND idHabitacion = '{$fila['idHabitacion']}')");
                                                 while ($fila1 = mysqli_fetch_array($result1)){
@@ -400,7 +400,7 @@ if(isset($_SESSION['login'])){
                                             <?php
                                             $date = date("Y-m-d");
                                             $date = date('Y-m-d', strtotime($date . ' +1 day'));
-                                            $result = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE idEstado = '8'");
+                                            $result = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE idEstado = '8' ORDER BY fechaInicio DESC");
                                             while ($fila = mysqli_fetch_array($result)){
                                                 $result1 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped IN (SELECT idHuesped FROM Ocupantes WHERE idReserva = '{$fila['idReserva']}' AND idHabitacion = '{$fila['idHabitacion']}')");
                                                 while ($fila1 = mysqli_fetch_array($result1)){
@@ -467,29 +467,27 @@ if(isset($_SESSION['login'])){
 										<th>ID Reserva</th>
 										<th>Habitación</th>
 										<th>Hora</th>
-										<th>Acciones</th>
 									</tr>
 									</thead>
                                     <tbody>
-                                    <tr>
-                                        <td>Juan Pérez</td>
-                                        <td>R170872</td>
-                                        <td>Suite Junior</td>
-                                        <td>08:18am</td>
-                                        <td>
-                                            <form method='post'>
-                                                <div class="dropdown">
-                                                    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        Acciones
-                                                    </button>
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        <input type="submit" value="Ver Reserva" class="dropdown-item" formaction="verReserva.php">
-                                                        <input type="submit" value="Registrar Consumo" class="dropdown-item" formaction="#">
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </td>
-                                    </tr>
+                                    <?php
+                                    $date = date("Y-m-d");
+                                    $result = mysqli_query($link,"SELECT * FROM HistorialReserva WHERE fechaHora LIKE '{$date} %' AND tipo = 'Check In' ORDER BY fechaHora DESC");
+                                    while ($fila =  mysqli_fetch_array($result)){
+                                        $result1 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped IN (SELECT idHuesped FROM Ocupantes WHERE idReseva = '{$fila['idReserva']}' AND idHabitacion = '{$fila['idHabitacion']}')");
+                                        while ($fila1 = mysqli_fetch_array($result1)){
+                                            $nombre = $fila1['nombreCompleto'];
+                                            $idHuesped = $fila['idHuesped'];
+                                        }
+                                        $hora = explode(" ",$fila['fechaHora']);
+                                        echo "<tr>";
+                                        echo "<td>{$nombre}</td>";
+                                        echo "<td>{$fila['idReserva']}</td>";
+                                        echo "<td>{$fila['idHabitacion']}</td>";
+                                        echo "<td>{$hora[1]}</td>";
+                                        echo "</tr>";
+                                    }
+                                    ?>
                                     </tbody>
 								</table>
 							</div>
@@ -501,9 +499,28 @@ if(isset($_SESSION['login'])){
 										<th>ID Reserva</th>
 										<th>Habitación</th>
 										<th>Hora</th>
-										<th>Acciones</th>
 									</tr>
 									</thead>
+                                    <tbody>
+                                    <?php
+                                    $date = date("Y-m-d");
+                                    $result = mysqli_query($link,"SELECT * FROM HistorialReserva WHERE fechaHora LIKE '{$date} %' AND tipo = 'Check Out' ORDER BY fechaHora DESC");
+                                    while ($fila =  mysqli_fetch_array($result)){
+                                        $result1 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped IN (SELECT idHuesped FROM Ocupantes WHERE idReseva = '{$fila['idReserva']}' AND idHabitacion = '{$fila['idHabitacion']}')");
+                                        while ($fila1 = mysqli_fetch_array($result1)){
+                                            $nombre = $fila1['nombreCompleto'];
+                                            $idHuesped = $fila['idHuesped'];
+                                        }
+                                        $hora = explode(" ",$fila['fechaHora']);
+                                        echo "<tr>";
+                                        echo "<td>{$nombre}</td>";
+                                        echo "<td>{$fila['idReserva']}</td>";
+                                        echo "<td>{$fila['idHabitacion']}</td>";
+                                        echo "<td>{$hora[1]}</td>";
+                                        echo "</tr>";
+                                    }
+                                    ?>
+                                    </tbody>
 								</table>
 							</div>
 							<div class="tab-pane" id="consumos" role="tabpanel">
@@ -514,9 +531,43 @@ if(isset($_SESSION['login'])){
 										<th>ID Reserva</th>
 										<th>Habitación</th>
 										<th>Monto</th>
-										<th>Detalle</th>
+										<th>Acciones</th>
 									</tr>
 									</thead>
+                                    <tbody>
+                                    <?php
+                                    $date = date("Y-m-d");
+                                    $result = mysqli_query($link,"SELECT * FROM Transaccion WHERE fechaTransaccion = '{$date}' ORDER BY fechaTransaccion DESC");
+                                    while ($fila =  mysqli_fetch_array($result)){
+                                        $result1 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$fila['idHuesped']}'");
+                                        while ($fila1 = mysqli_fetch_array($result1)){
+                                            $nombre = $fila1['nombreCompleto'];
+                                            $idHuesped = $fila['idHuesped'];
+                                        }
+                                        $hora = explode(" ",$fila['fechaHora']);
+                                        echo "<tr>";
+                                        echo "<td>{$nombre}</td>";
+                                        echo "<td>{$fila['idReserva']}</td>";
+                                        echo "<td>{$fila['idHabitacion']}</td>";
+                                        echo "<td>{$fila['monto']}</td>";
+                                        echo "<td>
+                                                        <form method='post'>
+                                                            <div class=\"dropdown\">
+                                                                <button class=\"btn btn-primary btn-sm dropdown-toggle\" type=\"button\" id=\"dropdownMenuButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
+                                                                    Acciones
+                                                                </button>
+                                                                <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuButton\">
+                                                                    <input type='hidden' name='idTransaccion' value='{$fila['idTransaccion']}'>
+                                                                    <input type=\"submit\" value=\"Ver Detalle\" class=\"dropdown-item\" formaction=\"verDetalleConsumo.php\">
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                      </td>
+                                                ";
+                                        echo "</tr>";
+                                    }
+                                    ?>
+                                    </tbody>
 								</table>
 							</div>
 						</div>
