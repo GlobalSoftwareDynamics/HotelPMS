@@ -147,7 +147,7 @@ if(isset($_SESSION['login'])){
                                                                     <input type='hidden' name='idHabitacion' value='{$fila['idHabitacion']}'>
                                                                     <input type=\"submit\" value=\"Registrar Check-In\" class=\"dropdown-item\" formaction=\"editarReserva.php\">
                                                                     <input type=\"submit\" value=\"Ver Reserva\" class=\"dropdown-item\" formaction=\"verReserva.php\">
-                                                                    <input type=\"submit\" value=\"Editar Reserva\" class=\"dropdown-item\" formaction=\"editarReserva.php\">
+                                                                    <input type=\"submit\" value=\"Editar Reserva\" class=\"dropdown-item\" formaction=\"nuevaReserva.php\">
                                                                     <input type=\"submit\" value=\"Eliminar\" class=\"dropdown-item\" formaction=\"#\">
                                                                 </div>
                                                             </div>

@@ -6,6 +6,12 @@ if(isset($_SESSION['login'])){
 	include('navbarRecepcion.php');
 	include('declaracionFechas.php');
 
+	if(isset($_POST['confirmaReserva'])){
+	    $update = mysqli_query($link,"UPDATE Reserva SET idEstado = 3 WHERE idReserva = '{$_POST['idReserva']}'");
+	    $queryPerformed = "UPDATE Reserva SET idEstado = 3 WHERE idReserva = {$_POST['idReserva']}";
+		$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','CONFIRMACION RESERVA ','{$queryPerformed}')");
+    }
+
 	if(isset($_POST['addRecojo'])){
 	    $flag = false;
 	    $query = mysqli_query($link,"SELECT * FROM Recojo WHERE idReserva = '{$_POST['idReserva']}'");
@@ -20,9 +26,9 @@ if(isset($_SESSION['login'])){
 	        $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','RECOJO RESERVA ','{$queryPerformed}')");
         }else{
             $update = mysqli_query($link,"UPDATE Recojo SET nroTicket = '{$_POST['nroTicket']}', fechaHora = '{$_POST['fechaRecojo']}', lugarRecojo = '{$_POST['lugarRecojo']}', 
-            numPersonas = '{$_POST['numPersonas']}', personaPrincipal = '{$_POST['personaPrincipal']}'");
+            numPersonas = '{$_POST['numPersonas']}', personaPrincipal = '{$_POST['personaPrincipal']}' WHERE idReserva = '{$_POST['idReserva']}'");
             $queryPerformed = "UPDATE Recojo SET nroTicket = {$_POST['nroTicket']}, fechaHora = {$_POST['fechaRecojo']}, lugarRecojo = {$_POST['lugarRecojo']}, 
-            numPersonas = {$_POST['numPersonas']}, personaPrincipal = {$_POST['personaPrincipal']}";
+            numPersonas = {$_POST['numPersonas']}, personaPrincipal = {$_POST['personaPrincipal']} WHERE idReserva = {$_POST['idReserva']}";
 	        $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','RECOJO RESERVA ','{$queryPerformed}')");
         }
 	}
@@ -33,8 +39,8 @@ if(isset($_SESSION['login'])){
 		$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','CREAR HUESPED','{$queryPerformed}')");
 
 		if(!$insert){
-		    $update = mysqli_query($link,"UPDATE Huesped SET nombreCompleto = '{$_POST['nombres']}', correoElectronico = '{$_POST['email']}', telefonoCelular = '{$_POST['telefono']}'");
-		    $queryPerformed = "UPDATE Huesped SET nombreCompleto = {$_POST['nombres']}, correoElectronico = {$_POST['email']}, telefonoCelular = {$_POST['telefono']}";
+		    $update = mysqli_query($link,"UPDATE Huesped SET nombreCompleto = '{$_POST['nombres']}', correoElectronico = '{$_POST['email']}', telefonoCelular = '{$_POST['telefono']}' WHERE idHuesped = '{$_POST['dni']}'");
+		    $queryPerformed = "UPDATE Huesped SET nombreCompleto = {$_POST['nombres']}, correoElectronico = {$_POST['email']}, telefonoCelular = {$_POST['telefono']} WHERE idHuesped = {$_POST['dni']}";
 			$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','HUESPED','{$queryPerformed}')");
         }
 
@@ -433,8 +439,10 @@ if(isset($_SESSION['login'])){
                         <div class="card-header">
                             <i class="fa fa-table"></i> Detalles de la Reserva
                             <div class="float-right">
-                                <form method="get" action="agenda.php" id="formReservaPendiente">
-                                    <button type="submit" class="btn btn-sm btn-light" form="formReservaPendiente" formaction="agenda.php?idReserva=<?php echo $_POST['idReserva'];?>">Guardar</button>
+                                <form method="post" action="agenda.php" id="formReservaPendiente">
+                                    <input type="hidden" value="<?php echo $_POST['idReserva'];?>" name="idReserva">
+                                    <button type="submit" class="btn btn-sm btn-light" form="formReservaPendiente" formaction="agenda.php">Guardar</button>
+                                    <button type="submit" class="btn btn-sm btn-light" form="formReservaPendiente" formaction="#" name="confirmaReserva">Confirmar Reserva</button>
                                 </form>
                             </div>
                         </div>
