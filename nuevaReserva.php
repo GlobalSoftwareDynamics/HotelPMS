@@ -5,13 +5,39 @@ if(isset($_SESSION['login'])){
 	include('header.php');
 	include('navbarRecepcion.php');
 	include('declaracionFechas.php');
-	if(isset($_POST['clienteNuevo'])){
-		$insert = mysqli_query($link,"INSERT INTO Huesped VALUES ('{$_POST['dni']}',null,null,null,null,'{$_POST['nombres']}',null,'{$_POST['email']}',null,null,'{$_POST['telefono']}',null,null)");
-		$queryPerformed = "INSERT INTO Huesped VALUES ({$_POST['dni']},null,null,null,null,{$_POST['nombres']},null,{$_POST['email']},null,null,{$_POST['telefono']},null,null)";
-		$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','CREAR HUESPED','{$queryPerformed}')");
+
+	if(isset($_POST['addRecojo'])){
+	    $flag = false;
+	    $query = mysqli_query($link,"SELECT * FROM Recojo WHERE idReserva = '{$_POST['idReserva']}'");
+	    while($row = mysqli_fetch_array($query)){
+	        $flag = true;
+        }
+        if(!$flag){
+	        $insert = mysqli_query($link,"INSERT INTO Recojo (idReserva, nroTicket, fechaHora, lugarRecojo, numPersonas, personaPrincipal) 
+                  VALUES ('{$_POST['idReserva']}','{$_POST['nroTicket']}','{$_POST['fechaRecojo']}','{$_POST['lugarRecojo']}','{$_POST['numPersonas']}','{$_POST['personaPrincipal']}')");
+	        $queryPerformed = "INSERT INTO Recojo (idReserva, nroTicket, fechaHora, lugarRecojo, numPersonas, personaPrincipal) 
+                  VALUES ({$_POST['idReserva']},{$_POST['nroTicket']},{$_POST['fechaRecojo']},{$_POST['lugarRecojo']},{$_POST['numPersonas']},{$_POST['personaPrincipal']})";
+	        $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','RECOJO RESERVA ','{$queryPerformed}')");
+        }else{
+            $update = mysqli_query($link,"UPDATE Recojo SET nroTicket = '{$_POST['nroTicket']}', fechaHora = '{$_POST['fechaRecojo']}', lugarRecojo = '{$_POST['lugarRecojo']}', 
+            numPersonas = '{$_POST['numPersonas']}', personaPrincipal = '{$_POST['personaPrincipal']}'");
+            $queryPerformed = "UPDATE Recojo SET nroTicket = {$_POST['nroTicket']}, fechaHora = {$_POST['fechaRecojo']}, lugarRecojo = {$_POST['lugarRecojo']}, 
+            numPersonas = {$_POST['numPersonas']}, personaPrincipal = {$_POST['personaPrincipal']}";
+	        $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','RECOJO RESERVA ','{$queryPerformed}')");
+        }
 	}
 
 	if(isset($_POST['addReserva'])){
+		$insert = mysqli_query($link,"INSERT INTO Huesped VALUES ('{$_POST['dni']}',null,null,null,null,'{$_POST['nombres']}',null,'{$_POST['email']}',null,null,'{$_POST['telefono']}',null,null)");
+		$queryPerformed = "INSERT INTO Huesped VALUES ({$_POST['dni']},null,null,null,null,{$_POST['nombres']},null,{$_POST['email']},null,null,{$_POST['telefono']},null,null)";
+		$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','CREAR HUESPED','{$queryPerformed}')");
+
+		if(!$insert){
+		    $update = mysqli_query($link,"UPDATE Huesped SET nombreCompleto = '{$_POST['nombres']}', correoElectronico = '{$_POST['email']}', telefonoCelular = '{$_POST['telefono']}'");
+		    $queryPerformed = "UPDATE Huesped SET nombreCompleto = {$_POST['nombres']}, correoElectronico = {$_POST['email']}, telefonoCelular = {$_POST['telefono']}";
+			$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','HUESPED','{$queryPerformed}')");
+        }
+
 		$insert = mysqli_query($link,"INSERT INTO Reserva VALUES ('{$_POST['idReserva']}','{$_SESSION['user']}',{$_POST['dni']},{$_POST['tipoReserva']},'{$dateTime}',0,0,null)");
 		$queryPerformed = "INSERT INTO Reserva VALUES ({$_POST['idReserva']},{$_SESSION['user']},{$_POST['dni']},1,{$dateTime},0,0,null)";
 		$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','CREAR RESERVA','{$queryPerformed}')");
@@ -76,23 +102,94 @@ if(isset($_SESSION['login'])){
                         <div class="card-header">
                             <i class="fa fa-table"></i> Detalles de la Reserva
                             <div class="float-right">
-                                <button type="button" class="btn btn-sm btn-light" data-toggle="modal"
-                                        data-target="#modalReserva">Nueva Reserva
-                                </button>
+                                <button name="addRecojo" type="submit" form="formRecojo" class="btn btn-light btn-sm" formaction="agenda.php">Guardar Reserva</button>
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-3 offset-3">
-                                    <p><strong>Nombre:</strong> <?php echo $nombreHuesped; ?></p>
-                                    <p><strong>Teléfono:</strong> <?php echo $telefonoHuesped; ?></p>
+                            <form method="post" action="#" id="formRecojo">
+                                <input type="hidden" name="idReserva" value="<?php echo $_POST['idReserva'];?>">
+                                <div class="row">
+                                    <div class="col-3 offset-1">
+                                        <p><strong>Nombre:</strong> <?php echo $nombreHuesped; ?></p>
+                                        <p><strong>Teléfono:</strong> <?php echo $telefonoHuesped; ?></p>
+                                        <p><strong>DNI:</strong> <?php echo $idHuesped; ?></p>
+                                        <p><strong>Email:</strong> <?php echo $emailHuesped; ?></p>
+                                    </div>
+                                    <?php
+                                    $flagRecojo = false;
+                                    $search = mysqli_query($link, "SELECT * FROM Recojo WHERE idReserva = '{$_POST['idReserva']}'");
+                                    while($searchRow = mysqli_fetch_array($search)) {
+                                        $flagRecojo = true;
+	                                    ?>
+                                        <div class="col-3 offset-1">
+                                            <select class="form-control" name="lugarRecojo">
+                                                <?php
+                                                if($searchRow['lugarRecojo'] == 'Aeropuerto'){
+	                                                echo "<option selected value='Aeropuerto'>Aeropuerto</option>";
+	                                                echo "<option value='Terminal Terrestre'>Terminal Terrestre</option>";
+                                                }else{
+	                                                echo "<option value='Aeropuerto'>Aeropuerto</option>";
+	                                                echo "<option selected value='Terminal Terrestre'>Terminal Terrestre</option>";
+                                                }
+                                                ?>
+                                            </select><br>
+                                            <input type="text" class="form-control" name="personaPrincipal" placeholder="Persona Principal" value="<?php echo $searchRow['personaPrincipal'];?>">
+                                            <br>
+                                            <input type="text" class="form-control" name="nroTicket" placeholder="Número de Vuelo/Bus" value="<?php echo $searchRow['nroTicket'];?>">
+                                        </div>
+                                        <div class="col-3 text-center">
+                                            <?php
+                                            $fechaRecojo = $searchRow['fechaHora'];
+                                            $arrayFecha = explode(" ",$fechaRecojo);
+                                            $hora = explode(":",$arrayFecha[1]);
+                                            $fechaRecojo = $arrayFecha[0]."T".$hora[0].":".$hora[1];
+                                            ?>
+                                            <input type="datetime-local" class="form-control" name="fechaRecojo" placeholder="Fecha y Hora de Recojo" value="<?php echo $fechaRecojo;?>">
+                                            <br>
+                                            <input type="number" class="form-control" name="numPersonas" placeholder="Número de Personas" value="<?php echo $searchRow['numPersonas'];?>">
+                                            <br>
+                                            <input type="submit" value="Guardar Recojo" class="btn btn-primary" name="addRecojo">
+                                        </div>
+	                                    <?php
+                                    }
+                                    if(!$flagRecojo){
+                                        ?>
+                                        <div class="col-3 offset-1">
+                                            <select class="form-control" name="lugarRecojo">
+                                                <option selected disabled>Seleccionar lugar de recojo</option>
+                                                <option value="Aeropuerto">Aeropuerto</option>
+                                                <option value="Terminal Terrestre">Terminal Terrestre</option>
+                                            </select><br>
+                                            <input type="text" class="form-control" name="personaPrincipal" placeholder="Persona Principal">
+                                            <br>
+                                            <input type="text" class="form-control" name="nroTicket" placeholder="Número de Vuelo/Bus">
+                                        </div>
+                                        <div class="col-3 text-center">
+                                            <input type="datetime-local" class="form-control" name="fechaRecojo" placeholder="Fecha y Hora de Recojo">
+                                            <br>
+                                            <input type="number" class="form-control" name="numPersonas" placeholder="Número de Personas">
+                                            <br>
+                                            <input type="submit" value="Guardar Recojo" class="btn btn-primary" name="addRecojo">
+                                        </div>
+                                        <?php
+                                    }
+                                        ?>
                                 </div>
-                                <div class="col-5">
-                                    <p><strong>DNI:</strong> <?php echo $idHuesped; ?></p>
-                                    <p><strong>Email:</strong> <?php echo $emailHuesped; ?></p>
-                                </div>
-                            </div>
-                            <hr>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <i class="fa fa-table"></i> Habitaciones
+                        </div>
+                        <div class="card-body">
                             <div class="row">
                                 <div class="col-12 text-center">
                                     <table class="table">
@@ -190,6 +287,20 @@ if(isset($_SESSION['login'])){
                                     </table>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <i class="fa fa-table"></i> Ocupantes
+                        </div>
+                        <div class="card-body">
                             <hr>
                             <div class="row">
                                 <div class="col-10 offset-1 text-center">
