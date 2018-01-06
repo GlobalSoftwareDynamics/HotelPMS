@@ -231,7 +231,7 @@
             window.location.href = 'agenda.php?delete=true&idReserva=' + taskItemInContext.getAttribute("data-id");
         }
         if(link.getAttribute("data-action") == "Checkout"){
-            window.location.href = 'checkout.php?delete=true&idReserva=' + taskItemInContext.getAttribute("data-id");
+            window.location.href = 'registrarCheckout.php?delete=true&idReserva=' + taskItemInContext.getAttribute("data-id");
         }
 
 

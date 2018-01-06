@@ -145,7 +145,7 @@ if(isset($_SESSION['login'])){
                                                                 <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuButton\">
                                                                     <input type='hidden' name='idReserva' value='{$fila['idReserva']}'>
                                                                     <input type='hidden' name='idHabitacion' value='{$fila['idHabitacion']}'>
-                                                                    <input type=\"submit\" value=\"Registrar Check-In\" class=\"dropdown-item\" formaction=\"editarReserva.php\">
+                                                                    <input type=\"submit\" value=\"Check-In\" class=\"dropdown-item\" formaction=\"editarReserva.php\">
                                                                     <input type=\"submit\" value=\"Ver Reserva\" class=\"dropdown-item\" formaction=\"verReserva.php\">
                                                                     <input type=\"submit\" value=\"Editar Reserva\" class=\"dropdown-item\" formaction=\"nuevaReserva.php\">
                                                                     <input type=\"submit\" value=\"Eliminar\" class=\"dropdown-item\" formaction=\"#\">
@@ -263,8 +263,8 @@ if(isset($_SESSION['login'])){
                                                                     <input type='hidden' name='idReserva' value='{$fila['idReserva']}'>
                                                                     <input type='hidden' name='idHabitacion' value='{$fila['idHabitacion']}'>
                                                                     <input type='hidden' name='idHuesped' value='{$idHuesped}'>
-                                                                    <input type=\"submit\" value=\"Registrar Consumo\" class=\"dropdown-item\" formaction=\"#\">
-                                                                    <input type=\"submit\" value=\"Registrar Check-out\" class=\"dropdown-item\" formaction=\"checkout.php\">
+                                                                    <input type=\"submit\" value=\"Registrar Consumo\" class=\"dropdown-item\" formaction=\"nuevoConsumo.php\">
+                                                                    <input type=\"submit\" value=\"Registrar Check-out\" class=\"dropdown-item\" formaction=\"registrarCheckout.php\">
                                                                     <input type=\"submit\" value=\"Ver Reserva\" class=\"dropdown-item\" formaction=\"verReserva.php\">
                                                                     <input type=\"submit\" value=\"Editar Reserva\" class=\"dropdown-item\" formaction=\"editarReserva.php\">
                                                                 </div>
@@ -313,8 +313,8 @@ if(isset($_SESSION['login'])){
                                                                     <input type='hidden' name='idReserva' value='{$fila['idReserva']}'>
                                                                     <input type='hidden' name='idHabitacion' value='{$fila['idHabitacion']}'>
                                                                     <input type='hidden' name='idHuesped' value='{$idHuesped}'>
-                                                                    <input type=\"submit\" value=\"Registrar Consumo\" class=\"dropdown-item\" formaction=\"#\">
-                                                                    <input type=\"submit\" value=\"Registrar Check-out\" class=\"dropdown-item\" formaction=\"checkout.php\">
+                                                                    <input type=\"submit\" value=\"Registrar Consumo\" class=\"dropdown-item\" formaction=\"nuevoConsumo.php\">
+                                                                    <input type=\"submit\" value=\"Registrar Check-out\" class=\"dropdown-item\" formaction=\"registrarCheckout.php\">
                                                                     <input type=\"submit\" value=\"Ver Reserva\" class=\"dropdown-item\" formaction=\"verReserva.php\">
                                                                     <input type=\"submit\" value=\"Editar Reserva\" class=\"dropdown-item\" formaction=\"editarReserva.php\">
                                                                 </div>
@@ -376,8 +376,8 @@ if(isset($_SESSION['login'])){
                                                                     <input type='hidden' name='idReserva' value='{$fila['idReserva']}'>
                                                                     <input type='hidden' name='idHabitacion' value='{$fila['idHabitacion']}'>
                                                                     <input type='hidden' name='idHuesped' value='{$idHuesped}'>
-                                                                    <input type=\"submit\" value=\"Registrar Consumo\" class=\"dropdown-item\" formaction=\"#\">
-                                                                    <input type=\"submit\" value=\"Registrar Check-out\" class=\"dropdown-item\" formaction=\"checkout.php\">
+                                                                    <input type=\"submit\" value=\"Registrar Consumo\" class=\"dropdown-item\" formaction=\"nuevoConsumo.php\">
+                                                                    <input type=\"submit\" value=\"Registrar Check-out\" class=\"dropdown-item\" formaction=\"registrarCheckout.php\">
                                                                     <input type=\"submit\" value=\"Ver Reserva\" class=\"dropdown-item\" formaction=\"verReserva.php\">
                                                                 </div>
                                                             </div>
@@ -426,8 +426,8 @@ if(isset($_SESSION['login'])){
                                                                     <input type='hidden' name='idReserva' value='{$fila['idReserva']}'>
                                                                     <input type='hidden' name='idHabitacion' value='{$fila['idHabitacion']}'>
                                                                     <input type='hidden' name='idHuesped' value='{$idHuesped}'>
-                                                                    <input type=\"submit\" value=\"Registrar Consumo\" class=\"dropdown-item\" formaction=\"#\">
-                                                                    <input type=\"submit\" value=\"Registrar Check-out\" class=\"dropdown-item\" formaction=\"checkout.php\">
+                                                                    <input type=\"submit\" value=\"Registrar Consumo\" class=\"dropdown-item\" formaction=\"nuevoConsumo.php\">
+                                                                    <input type=\"submit\" value=\"Registrar Check-out\" class=\"dropdown-item\" formaction=\"registrarCheckout.php\">
                                                                     <input type=\"submit\" value=\"Ver Reserva\" class=\"dropdown-item\" formaction=\"verReserva.php\">
                                                                 </div>
                                                             </div>
@@ -465,7 +465,7 @@ if(isset($_SESSION['login'])){
                                             <tbody>
                                             <?php
                                             $date = date("Y-m-d");
-                                            $result = mysqli_query($link,"SELECT * FROM Reserva WHERE idEstado = '9' ORDER BY fechaInicio DESC");
+                                            $result = mysqli_query($link,"SELECT * FROM Reserva WHERE idEstado = '9' ORDER BY fechaReserva DESC");
                                             while ($fila = mysqli_fetch_array($result)){
                                                 echo "<tr>";
                                                 echo "<td>{$fila['idReserva']}</td>";
@@ -506,7 +506,7 @@ if(isset($_SESSION['login'])){
                                             <?php
                                             $date = date("Y-m-d");
                                             $date = date('Y-m-d', strtotime($date . ' +1 day'));
-                                            $result = mysqli_query($link,"SELECT * FROM Reserva WHERE idEstado = '9' ORDER BY fechaInicio DESC");
+                                            $result = mysqli_query($link,"SELECT * FROM Reserva WHERE idEstado = '9' ORDER BY fechaReserva DESC");
                                             while ($fila = mysqli_fetch_array($result)){
                                                 echo "<tr>";
                                                 echo "<td>{$fila['idReserva']}</td>";
@@ -558,13 +558,13 @@ if(isset($_SESSION['login'])){
 						<div class="spacer10"></div>
 						<div class="tab-content">
 							<div class="tab-pane active" id="checkin" role="tabpanel">
-								<table class="table">
+								<table class="table text-center">
 									<thead>
 									<tr>
-										<th>Huésped</th>
-										<th>ID Reserva</th>
-										<th>Habitación</th>
-										<th>Hora</th>
+										<th class="text-center">Huésped</th>
+										<th class="text-center">ID Reserva</th>
+										<th class="text-center">Habitación</th>
+										<th class="text-center">Hora</th>
 									</tr>
 									</thead>
                                     <tbody>
@@ -590,13 +590,13 @@ if(isset($_SESSION['login'])){
 								</table>
 							</div>
 							<div class="tab-pane" id="checkout2" role="tabpanel">
-								<table class="table">
+								<table class="table text-center">
 									<thead>
 									<tr>
-										<th>Huésped</th>
-										<th>ID Reserva</th>
-										<th>Habitación</th>
-										<th>Hora</th>
+										<th class="text-center">Huésped</th>
+										<th class="text-center">ID Reserva</th>
+										<th class="text-center">Habitación</th>
+										<th class="text-center">Hora</th>
 									</tr>
 									</thead>
                                     <tbody>
@@ -622,14 +622,14 @@ if(isset($_SESSION['login'])){
 								</table>
 							</div>
 							<div class="tab-pane" id="consumos" role="tabpanel">
-								<table class="table">
+								<table class="table text-center">
 									<thead>
 									<tr>
-										<th>Huésped</th>
-										<th>ID Reserva</th>
-										<th>Habitación</th>
-										<th>Monto</th>
-										<th>Acciones</th>
+										<th class="text-center">Huésped</th>
+										<th class="text-center">ID Reserva</th>
+										<th class="text-center">Habitación</th>
+										<th class="text-center">Monto</th>
+										<th class="text-center">Acciones</th>
 									</tr>
 									</thead>
                                     <tbody>
@@ -642,12 +642,11 @@ if(isset($_SESSION['login'])){
                                             $nombre = $fila1['nombreCompleto'];
                                             $idHuesped = $fila['idHuesped'];
                                         }
-                                        $hora = explode(" ",$fila['fechaHora']);
                                         echo "<tr>";
                                         echo "<td>{$nombre}</td>";
                                         echo "<td>{$fila['idReserva']}</td>";
                                         echo "<td>{$fila['idHabitacion']}</td>";
-                                        echo "<td>{$fila['monto']}</td>";
+                                        echo "<td>S/. {$fila['monto']}</td>";
                                         echo "<td>
                                                         <form method='post'>
                                                             <div class=\"dropdown\">
