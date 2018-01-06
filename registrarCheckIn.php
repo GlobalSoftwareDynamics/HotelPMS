@@ -8,6 +8,36 @@ if(isset($_SESSION['login'])){
 
     if (isset($_POST['addOcupante'])){
 
+        $result = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$_POST['dni']}'");
+        $numrow = mysqli_num_rows($result);
+        if($numrow == 0){
+
+            $query = mysqli_query($link,"INSERT INTO Huesped(idHuesped,idCiudad,idGenero,nacionalidad_idPais,nombreCompleto,direccion,correoElectronico,telefonoFijo,telefonoCelular,fechaNacimiento) VALUES 
+            ('{$_POST['dni']}','{$_POST['ciudad']}','{$_POST['genero']}','{$_POST['pais']}','{$_POST['nombres']}','{$_POST['direccion']}','{$_POST['email']}','{$_POST['fijo']}','{$_POST['celular']}','{$_POST['fechaNacimiento']}')");
+
+            $queryPerformed = "INSERT INTO Huesped(idHuesped,idCiudad,idGenero,nacionalidad_idPais,nombreCompleto,direccion,correoElectronico,telefonoFijo,telefonoCelular,fechaNacimiento) VALUES 
+            ({$_POST['dni']},{$_POST['ciudad']},{$_POST['genero']},{$_POST['pais']},{$_POST['nombres']},{$_POST['direccion']},{$_POST['email']},{$_POST['fijo']},{$_POST['celular']},{$_POST['fechaNacimiento']})";
+
+            $databaseLog = mysqli_query($link, "INSERT INTO DatabaseLog (idColaborador,fechaHora,evento,tipo,consulta) VALUES ('{$_SESSION['user']}','{$date}','INSERT','Huesped','{$queryPerformed}')");
+
+        }
+
+        $query = mysqli_query($link,"INSERT INTO Ocupantes(idReserva,idHuesped,idHabitacion,cargos) VALUES ('{$_POST['idReserva']}','{$_POST['dni']}','{$_POST['idHabitacion']}',0)");
+
+        $queryPerformed = "INSERT INTO Ocupantes(idReserva,idHuesped,idHabitacion,cargos) VALUES ({$_POST['idReserva']},{$_POST['dni']},{$_POST['idHabitacion']},0)";
+
+        $databaseLog = mysqli_query($link, "INSERT INTO DatabaseLog (idColaborador,fechaHora,evento,tipo,consulta) VALUES ('{$_SESSION['user']}','{$date}','INSERT','Ocupantes','{$queryPerformed}')");
+
+    }
+
+    if (isset($_POST['eliminarOcupante'])){
+
+        $query = mysqli_query($link,"DELETE FROM Ocupantes WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}' AND idHuesped = '{$_POST['idHuesped']}'");
+
+        $queryPerformed = "DELETE FROM Ocupantes WHERE idReserva = {$_POST['idReserva']} AND idHabitacion = {$_POST['idHabitacion']} AND idHuesped = {$_POST['idHuesped']}";
+
+        $databaseLog = mysqli_query($link, "INSERT INTO DatabaseLog (idColaborador,fechaHora,evento,tipo,consulta) VALUES ('{$_SESSION['user']}','{$date}','DELETE','Ocupantes','{$queryPerformed}')");
+
     }
 
     $result = mysqli_query($link,"SELECT * FROM Reserva WHERE idReserva = '{$_POST['idReserva']}'");
@@ -311,7 +341,7 @@ if(isset($_SESSION['login'])){
                                                 <tr>
                                                     <th class="text-center">DNI</th>
                                                     <th class="text-center">Nombre</th>
-                                                    <th class="text-center">Edad</th>
+                                                    <th class="text-center">Fecha de Nacimiento</th>
                                                     <th class="text-center">Email</th>
                                                     <th class="text-center">Acciones</th>
                                                 </tr>
@@ -325,14 +355,11 @@ if(isset($_SESSION['login'])){
                                                         $nombreCompleto = $fila3['nombreCompleto'];
                                                         $idHuesped = $fila3['idHuesped'];
                                                         $correo = $fila3['correoElectronico'];
-                                                        $today = explode("-",date("Y-m-d"));
-                                                        $fechaCumpleano = explode("-",$fila1['fechaNacimiento']);
-                                                        $anios = $today[0] - $fechaCumpleano[0];
                                                         echo "<tr>";
                                                         echo "<td>{$idHuesped}</td>";
                                                         echo "<td>{$nombreCompleto}</td>";
+                                                        echo "<td>{$fila3['fechaNacimiento']}</td>";
                                                         echo "<td>{$correo}</td>";
-                                                        echo "<td>{$anios}</td>";
                                                         echo "<td>
                                                                 <form method='post'>
                                                                     <div class=\"dropdown\">
@@ -340,10 +367,10 @@ if(isset($_SESSION['login'])){
                                                                         Acciones
                                                                         </button>
                                                                         <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuButton\">
-                                                                            <input type='hidden' name='idReserva' value='{$fila['idReserva']}'>
-                                                                            <input type='hidden' name='idHabitacion' value='{$fila['idHabitacion']}'>
+                                                                            <input type='hidden' name='idReserva' value='{$_POST['idReserva']}'>
+                                                                            <input type='hidden' name='idHabitacion' value='{$_POST['idHabitacion']}'>
                                                                             <input type='hidden' name='idHuesped' value='{$idHuesped}'>
-                                                                            <input type=\"submit\" value=\"Eliminar\" class=\"dropdown-item\" formaction=\"#\">
+                                                                            <input type=\"submit\" value=\"Eliminar\" class=\"dropdown-item\" formaction=\"#\" name='eliminarOcupante'>
                                                                         </div>
                                                                     </div>
                                                                 </form>
@@ -377,69 +404,12 @@ if(isset($_SESSION['login'])){
                                         <input type="hidden" name="idReserva" value="<?php echo $_POST['idReserva'];?>">
                                         <input type="hidden" name="idHabitacion" value="<?php echo $_POST['idHabitacion'];?>">
                                         <div class="row">
-                                            <div class="form-group col-6">
+                                            <div class="form-group col-12">
                                                 <label class="col-form-label" for="dni">DNI:</label>
-                                                <input type="number" min="0" name="dni" id="dni" class="form-control">
+                                                <input type="number" min="0" name="dni" id="dni" class="form-control" onchange="getDatosOcupante(this.value)">
                                             </div>
-                                            <div class="form-group col-6">
-                                                <label class="col-form-label" for="nombres">Nombre Completo:</label>
-                                                <input type="text" name="nombres" id="nombres" class="form-control">
-                                            </div>
-                                            <div class="form-group col-6">
-                                                <label class="col-form-label" for="celular">Teléfono Celular:</label>
-                                                <input type="number" min="0" name="celular" id="celular" class="form-control">
-                                            </div>
-                                            <div class="form-group col-6">
-                                                <label class="col-form-label" for="fijo">Teléfono Fijo:</label>
-                                                <input type="number" min="0" name="fijo" id="fijo" class="form-control">
-                                            </div>
-                                            <div class="form-group col-6">
-                                                <label class="col-form-label" for="fechaNacimiento">Fecha de Nacimiento:</label>
-                                                <input type="date" name="fechaNacimiento" id="fechaNacimiento" class="form-control">
-                                            </div>
-                                            <div class="form-group col-6">
-                                                <label class="col-form-label" for="email">Correo Electrónico:</label>
-                                                <input type="email" name="email" id="email" class="form-control">
-                                            </div>
-                                            <div class="form-group col-6">
-                                                <label class="col-form-label" for="direccion">Dirección:</label>
-                                                <input type="text" name="direccion" id="direccion" class="form-control">
-                                            </div>
-                                            <div class="form-group col-6">
-                                                <label class="col-form-label" for="direccion">País:</label>
-                                                <select class="form-control" name="pais" id="pais" onchange="getEstado(this.value)">
-                                                    <option selected disabled>Seleccionar</option>
-                                                    <?php
-                                                    $result = mysqli_query($link,"SELECT * FROM Pais ORDER BY nombre ASC");
-                                                    while ($fila = mysqli_fetch_array($result)){
-                                                        echo "<option value='{$fila['idPais']}'>{$fila['nombre']}</option>";
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-6">
-                                                <label class="col-form-label" for="direccion">Estado:</label>
-                                                <select class="form-control" name="estado" id="estado" onchange="getCiudad(this.value)">
-                                                    <option selected disabled>Seleccionar</option>
-                                                    <?php
-                                                    $result = mysqli_query($link,"SELECT * FROM EstadoPais ORDER BY nombre ASC");
-                                                    while ($fila = mysqli_fetch_array($result)){
-                                                        echo "<option value='{$fila['idEstadoPais']}'>{$fila['nombre']}</option>";
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-6">
-                                                <label class="col-form-label" for="direccion">Ciudad:</label>
-                                                <select class="form-control" name="ciudad" id="ciudad">
-                                                    <option selected disabled value="Seleccionar">Seleccionar</option>
-                                                    <?php
-                                                    $result = mysqli_query($link,"SELECT * FROM Ciudad ORDER BY nombre ASC");
-                                                    while ($fila = mysqli_fetch_array($result)){
-                                                        echo "<option value='{$fila['idCiudad']}'>{$fila['nombre']}</option>";
-                                                    }
-                                                    ?>
-                                                </select>
+                                            <div style="width: 100%; margin-left: 2px" class="row" id="contenidoModalOcupante">
+
                                             </div>
                                         </div>
                                     </div>

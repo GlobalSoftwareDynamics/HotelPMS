@@ -138,3 +138,92 @@ if(!empty($_POST['tipoHabitacion2'])){
 		echo "<option value='{$row['idTarifa']}'>{$row['descripcion']} - {$row['valor']}</option>";
 	}
 }
+
+if(!empty($_POST['datosOcupante'])){
+    $result = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$_POST['datosOcupante']}'");
+    $numrow = mysqli_num_rows($result);
+    if($numrow == 0){
+        echo "
+        <div class=\"form-group col-6\">
+            <label class=\"col-form-label\" for=\"nombres\">Nombre Completo:</label>
+            <input type=\"text\" name=\"nombres\" id=\"nombres\" class=\"form-control\">
+        </div>
+        <div class=\"form-group col-6\">
+            <label class=\"col-form-label\" for=\"genero\">Género:</label>
+            <select name=\"genero\" id=\"genero\" class=\"form-control\">
+                <option disabled selected>Seleccionar</option>";
+        $result1 = mysqli_query($link,"SELECT * FROM Genero");
+        while ($fila1 = mysqli_fetch_array($result1)){
+            echo "<option value='{$fila1['idGenero']}'>{$fila1['idGenero']}</option>";
+        }
+        echo "
+            </select>
+        </div>
+        <div class=\"form-group col-6\">
+            <label class=\"col-form-label\" for=\"celular\">Teléfono Celular:</label>
+            <input type=\"number\" min=\"0\" name=\"celular\" id=\"celular\" class=\"form-control\">
+        </div>
+        <div class=\"form-group col-6\">
+            <label class=\"col-form-label\" for=\"fijo\">Teléfono Fijo:</label>
+            <input type=\"number\" min=\"0\" name=\"fijo\" id=\"fijo\" class=\"form-control\">
+        </div>
+        <div class=\"form-group col-6\">
+            <label class=\"col-form-label\" for=\"fechaNacimiento\">Fecha de Nacimiento:</label>
+            <input type=\"date\" name=\"fechaNacimiento\" id=\"fechaNacimiento\" class=\"form-control\">
+        </div>
+        <div class=\"form-group col-6\">
+            <label class=\"col-form-label\" for=\"email\">Correo Electrónico:</label>
+            <input type=\"email\" name=\"email\" id=\"email\" class=\"form-control\">
+        </div>
+        <div class=\"form-group col-6\">
+            <label class=\"col-form-label\" for=\"direccion\">Dirección:</label>
+            <input type=\"text\" name=\"direccion\" id=\"direccion\" class=\"form-control\">
+        </div>
+        <div class=\"form-group col-6\">
+            <label class=\"col-form-label\" for=\"direccion\">País:</label>
+            <select class=\"form-control\" name=\"pais\" id=\"pais\" onchange=\"getEstado(this.value)\">
+                <option selected disabled>Seleccionar</option>";
+        $result = mysqli_query($link,"SELECT * FROM Pais ORDER BY nombre ASC");
+        while ($fila = mysqli_fetch_array($result)){
+            echo "<option value='{$fila['idPais']}'>{$fila['nombre']}</option>";
+        }
+        echo "
+            </select>
+        </div>
+        <div class=\"form-group col-6\">
+            <label class=\"col-form-label\" for=\"direccion\">Estado:</label>
+            <select class=\"form-control\" name=\"estado\" id=\"estado\" onchange=\"getCiudad(this.value)\">
+               <option selected disabled>Seleccionar</option>
+        ";
+        $result = mysqli_query($link,"SELECT * FROM EstadoPais ORDER BY nombre ASC");
+        while ($fila = mysqli_fetch_array($result)){
+            echo "<option value='{$fila['idEstadoPais']}'>{$fila['nombre']}</option>";
+        }
+        echo "
+            </select>
+        </div>
+        <div class=\"form-group col-6\">
+            <label class=\"col-form-label\" for=\"direccion\">Ciudad:</label>
+            <select class=\"form-control\" name=\"ciudad\" id=\"ciudad\">
+                <option selected disabled value=\"Seleccionar\">Seleccionar</option>
+        ";
+        $result = mysqli_query($link,"SELECT * FROM Ciudad ORDER BY nombre ASC");
+        while ($fila = mysqli_fetch_array($result)){
+            echo "<option value='{$fila['idCiudad']}'>{$fila['nombre']}</option>";
+        }
+        echo "
+            </select>
+        </div>
+        ";
+    }else{
+        while ($fila = mysqli_fetch_array($result)){
+            $nombreCompleto = $fila['nombreCompleto'];
+            echo "
+                  <div class=\"form-group col-12\">
+                       <label class=\"col-form-label\" for=\"nombres\">Nombre Completo:</label>
+                       <input type=\"text\" name=\"nombres\" id=\"nombres\" class=\"form-control\" value='{$nombreCompleto}'>
+                  </div>
+            ";
+        }
+    }
+}

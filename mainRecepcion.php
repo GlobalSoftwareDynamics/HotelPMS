@@ -5,6 +5,8 @@ include('funciones.php');
 if(isset($_SESSION['login'])){
 	include('header.php');
 	include('navbarRecepcion.php');
+
+	if (isset($_POST['']))
 	?>
 
 	<section class="container">
@@ -116,7 +118,7 @@ if(isset($_SESSION['login'])){
                                             $result = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE fechaInicio = '{$date}' AND idEstado = '3' ORDER BY fechaInicio DESC");
                                             while ($fila = mysqli_fetch_array($result)){
                                                 echo "<tr>";
-                                                $result1 = mysqli_query($link,"SELECT * FROM Ocupantes WHERE idReserva = '{$fila['idReserva']}' AND idHabitacion = '{$fila['idHabitacion']}'");
+                                                $result1 = mysqli_query($link,"SELECT * FROM Ocupantes WHERE idReserva = '{$fila['idReserva']}' AND idHabitacion = '{$fila['idHabitacion']}' AND cargos = 1");
                                                 while ($fila1 = mysqli_fetch_array($result1)){
                                                     $result2 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$fila1['idHuesped']}'");
                                                     while ($fila2 = mysqli_fetch_array($result2)){
@@ -173,7 +175,7 @@ if(isset($_SESSION['login'])){
                                             $result = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE fechaInicio = '{$date}' AND idEstado = '3' ORDER BY fechaInicio DESC");
                                             while ($fila = mysqli_fetch_array($result)){
                                                 echo "<tr>";
-                                                $result1 = mysqli_query($link,"SELECT * FROM Ocupantes WHERE idReserva = '{$fila['idReserva']}' AND idHabitacion = '{$fila['idHabitacion']}'");
+                                                $result1 = mysqli_query($link,"SELECT * FROM Ocupantes WHERE idReserva = '{$fila['idReserva']}' AND idHabitacion = '{$fila['idHabitacion']}' AND cargos = 1");
                                                 while ($fila1 = mysqli_fetch_array($result1)){
                                                     $result2 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$fila1['idHuesped']}'");
                                                     while ($fila2 = mysqli_fetch_array($result2)){

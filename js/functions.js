@@ -355,3 +355,14 @@ function getTarifa(val){
         }
     });
 }
+
+function getDatosOcupante(val){
+    $.ajax({
+        type: "POST",
+        url: "getAjax.php",
+        data:{'datosOcupante':val},
+        success: function(data){
+            $("#contenidoModalOcupante").html(data);
+        }
+    });
+}
