@@ -177,6 +177,9 @@ if(isset($_SESSION['login'])){
                                         $date2 = date_create("{$fechaFin[0]}-{$fechaFin[1]}-{$fechaFin[2]}");
                                         $interval = date_diff($date1,$date2);
                                         $interval = $interval->d;
+                                        if($date1 == $date2){
+                                            $interval = $interval +1;
+                                        }
                                         $result1 = mysqli_query($link,"SELECT * FROM Tarifa WHERE idTarifa = '{$fila['idTarifa']}'");
                                         while ($fila1 = mysqli_fetch_array($result1)){
                                             $valorTarifa = $fila1['valor'];
