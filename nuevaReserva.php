@@ -98,7 +98,70 @@ if(isset($_SESSION['login'])){
 	    $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','DELETE','OCUPANTE ','{$queryPerformed}')");
     }
 
+    if(isset($_POST['deleteHabitacion'])){
+        $delete = mysqli_query($link,"DELETE FROM HabitacionReservada WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
+        $queryPerformed = "DELETE FROM HabitacionReservada WHERE idReserva = {$_POST['idReserva']} AND idHabitacion = {$_POST['idHabitacion']}";
+	    $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','DELETE','HABITACION RESERVADA ','{$queryPerformed}')");
+    }
+
+    if(isset($_POST['checkinHabitacion'])){
+        $update = mysqli_query($link,"UPDATE HabitacionReservada SET idEstado = 4, fechaInicio = '{$dateTime}' WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
+        $queryPerformed = "UPDATE HabitacionReservada SET idEstado = 4 WHERE idReserva = {$_POST['idReserva']} AND idHabitacion = {$_POST['idHabitacion']}";
+	    $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','CHECKIN HABITACION','{$queryPerformed}')");
+    }
+
 	if($estadoReserva == '3') {
+
+        $pendiente = mysqli_query($link,"SELECT * FROM ReservaPendiente WHERE idReserva = '{$_POST['idReserva']}'");
+        while($rowPendiente = mysqli_fetch_array($pendiente)){
+            ?>
+            <section class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <i class="fa fa-table"></i> Detalles de la Reserva Preliminar
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <table class="table text-center">
+                                            <thead>
+                                            <tr>
+                                                <th>Tipo de Habitación</th>
+                                                <th>Cantidad</th>
+                                                <th>Fecha Inicio</th>
+                                                <th>Fecha Fin</th>
+                                                <th>Prefencias</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <?php
+                                            $query = mysqli_query($link,"SELECT * FROM ReservaPendiente WHERE idReserva = '{$_POST['idReserva']}'");
+                                            while($row = mysqli_fetch_array($query)){
+                                                echo "<tr>";
+                                                    $query2 = mysqli_query($link,"SELECT * FROM tipohabitacion WHERE idTipoHabitacion = '{$row['idTipoHabitacion']}'");
+                                                    while($row2 = mysqli_fetch_array($query2)){
+                                                        echo "<td>{$row2['descripcion']}</td>";
+                                                    }
+                                                    echo "<td>{$row['numeroHabitaciones']}</td>";
+	                                                echo "<td>{$row['fechaInicio']}</td>";
+	                                                echo "<td>{$row['fechaFin']}</td>";
+	                                                echo "<td>{$row['preferencias']}</td>";
+                                                echo "</tr>";
+                                            }
+                                            ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <?php
+        }
 		?>
 
         <section class="container">
@@ -208,6 +271,7 @@ if(isset($_SESSION['login'])){
                                             <th>Check-Out</th>
                                             <th>Tarifa</th>
                                             <th>Preferencias</th>
+                                            <th>Estado</th>
                                             <th>Acciones</th>
                                         </tr>
                                         </thead>
@@ -249,6 +313,9 @@ if(isset($_SESSION['login'])){
                                                     <input type="text" name="preferencias" class="form-control">
                                                 </td>
                                                 <td>
+                                                    <input disabled readonly class="form-control">
+                                                </td>
+                                                <td>
                                                     <input type="submit" name="addReservaConfirmada" class="btn btn-primary btn" value="Agregar">
                                                 </td>
                                             </tr>
@@ -279,13 +346,26 @@ if(isset($_SESSION['login'])){
 												echo "<td>{$row2['descripcion']}</td>";
 											}
 											echo "<td>{$row['preferencias']}</td>";
+											$query2 = mysqli_query($link,"SELECT * FROM Estado WHERE idEstado = {$row['idEstado']}");
+											while($row2 = mysqli_fetch_array($query2)){
+											    echo "<td>{$row2['descripcion']}</td>";
+                                            }
 											echo "<td>
-                                                    <form method='post' action='#'>
-                                                        <input type='hidden' name='idHabitacion' value='{$row['idHabitacion']}'>
-                                                        <input type='hidden' name='idReserva' value='{$_POST['idReserva']}'>
-                                                        <input type='submit' class='btn btn-sm btn-outline-danger' name='deleteHabitacion' value='Eliminar'>
-                                                    </form>
-	                                            </td>";
+                                                        <form method='post'>
+                                                            <div class=\"dropdown\">
+                                                                <button class=\"btn btn-outline btn-sm dropdown-toggle\" type=\"button\" id=\"dropdownMenuButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
+                                                                Acciones
+                                                                </button>
+                                                                <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuButton\">
+                                                                    <input type='hidden' name='idHabitacion' value='{$row['idHabitacion']}'>
+                                                                    <input type='hidden' name='idReserva' value='{$_POST['idReserva']}'>
+                                                                    <input type=\"submit\" value=\"Registrar Check-In\" class=\"dropdown-item\" formaction=\"#\" name='checkinHabitacion'>
+                                                                    <input type=\"submit\" value=\"Eliminar\" class=\"dropdown-item\" formaction=\"#\" name='deleteHabitacion'>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                      </td>
+                                                ";
 											echo "</tr>";
 										}
 										?>
