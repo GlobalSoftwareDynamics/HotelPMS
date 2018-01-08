@@ -145,7 +145,7 @@ if(isset($_SESSION['login'])){
                                                                 <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuButton\">
                                                                     <input type='hidden' name='idReserva' value='{$fila['idReserva']}'>
                                                                     <input type='hidden' name='idHabitacion' value='{$fila['idHabitacion']}'>
-                                                                    <input type=\"submit\" value=\"Check-In\" class=\"dropdown-item\" formaction=\"editarReserva.php\">
+                                                                    <input type=\"submit\" value=\"Check-In\" class=\"dropdown-item\" formaction=\"nuevaReserva.php\" name='confirmarReserva'>
                                                                     <input type=\"submit\" value=\"Ver Reserva\" class=\"dropdown-item\" formaction=\"verReserva.php\">
                                                                     <input type=\"submit\" value=\"Editar Reserva\" class=\"dropdown-item\" formaction=\"nuevaReserva.php\">
                                                                     <input type=\"submit\" value=\"Eliminar\" class=\"dropdown-item\" formaction=\"#\">
@@ -203,7 +203,7 @@ if(isset($_SESSION['login'])){
                                                                     <input type='hidden' name='idReserva' value='{$fila['idReserva']}'>
                                                                     <input type='hidden' name='idHabitacion' value='{$fila['idHabitacion']}'>
                                                                     <input type=\"submit\" value=\"Ver Reserva\" class=\"dropdown-item\" formaction=\"verReserva.php\">
-                                                                    <input type=\"submit\" value=\"Editar Reserva\" class=\"dropdown-item\" formaction=\"editarReserva.php\">
+                                                                    <input type=\"submit\" value=\"Editar Reserva\" class=\"dropdown-item\" formaction=\"nuevaReserva.php\">
                                                                     <input type=\"submit\" value=\"Eliminar\" class=\"dropdown-item\" formaction=\"#\">
                                                                 </div>
                                                             </div>
@@ -266,7 +266,6 @@ if(isset($_SESSION['login'])){
                                                                     <input type=\"submit\" value=\"Registrar Consumo\" class=\"dropdown-item\" formaction=\"nuevoConsumo.php\">
                                                                     <input type=\"submit\" value=\"Registrar Check-out\" class=\"dropdown-item\" formaction=\"registrarCheckout.php\">
                                                                     <input type=\"submit\" value=\"Ver Reserva\" class=\"dropdown-item\" formaction=\"verReserva.php\">
-                                                                    <input type=\"submit\" value=\"Editar Reserva\" class=\"dropdown-item\" formaction=\"editarReserva.php\">
                                                                 </div>
                                                             </div>
                                                         </form>
@@ -316,7 +315,6 @@ if(isset($_SESSION['login'])){
                                                                     <input type=\"submit\" value=\"Registrar Consumo\" class=\"dropdown-item\" formaction=\"nuevoConsumo.php\">
                                                                     <input type=\"submit\" value=\"Registrar Check-out\" class=\"dropdown-item\" formaction=\"registrarCheckout.php\">
                                                                     <input type=\"submit\" value=\"Ver Reserva\" class=\"dropdown-item\" formaction=\"verReserva.php\">
-                                                                    <input type=\"submit\" value=\"Editar Reserva\" class=\"dropdown-item\" formaction=\"editarReserva.php\">
                                                                 </div>
                                                             </div>
                                                         </form>
@@ -478,9 +476,7 @@ if(isset($_SESSION['login'])){
                                                                 </button>
                                                                 <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuButton\">
                                                                     <input type='hidden' name='idReserva' value='{$fila['idReserva']}'>
-                                                                    <input type='hidden' name='idHabitacion' value='{$fila['idHabitacion']}'>
-                                                                    <input type='hidden' name='idHuesped' value='{$idHuesped}'>
-                                                                    <input type=\"submit\" value=\"Confirmar Reserva\" class=\"dropdown-item\" formaction=\"editarReserva.php\">
+                                                                    <input type=\"submit\" value=\"Confirmar Reserva\" class=\"dropdown-item\" formaction=\"nuevaReserva.php\" name='confirmaReserva'>
                                                                     <input type=\"submit\" value=\"Ver Reserva\" class=\"dropdown-item\" formaction=\"verReserva.php\">
                                                                 </div>
                                                             </div>
@@ -520,7 +516,7 @@ if(isset($_SESSION['login'])){
                                                                 <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuButton\">
                                                                     <input type='hidden' name='idReserva' value='{$fila['idReserva']}'>
                                                                     <input type='hidden' name='idHabitacion' value='{$fila['idHabitacion']}'>
-                                                                    <input type=\"submit\" value=\"Confirmar Reserva\" class=\"dropdown-item\" formaction=\"editarReserva.php\">
+                                                                    <input type=\"submit\" value=\"Confirmar Reserva\" class=\"dropdown-item\" formaction=\"nuevaReserva.php\" name='confirmaReserva'>
                                                                     <input type=\"submit\" value=\"Ver Reserva\" class=\"dropdown-item\" formaction=\"verReserva.php\">
                                                                 </div>
                                                             </div>
