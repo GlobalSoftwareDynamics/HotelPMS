@@ -557,7 +557,6 @@ if(isset($_SESSION['login'])){
 								<table class="table text-center">
 									<thead>
 									<tr>
-										<th class="text-center">Huésped</th>
 										<th class="text-center">ID Reserva</th>
 										<th class="text-center">Habitación</th>
 										<th class="text-center">Hora</th>
@@ -568,14 +567,8 @@ if(isset($_SESSION['login'])){
                                     $date = date("Y-m-d");
                                     $result = mysqli_query($link,"SELECT * FROM HistorialReserva WHERE fechaHora LIKE '{$date} %' AND tipo = 'Check In' ORDER BY fechaHora DESC");
                                     while ($fila =  mysqli_fetch_array($result)){
-                                        $result1 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped IN (SELECT idHuesped FROM Ocupantes WHERE idReseva = '{$fila['idReserva']}' AND idHabitacion = '{$fila['idHabitacion']}')");
-                                        while ($fila1 = mysqli_fetch_array($result1)){
-                                            $nombre = $fila1['nombreCompleto'];
-                                            $idHuesped = $fila['idHuesped'];
-                                        }
                                         $hora = explode(" ",$fila['fechaHora']);
                                         echo "<tr>";
-                                        echo "<td>{$nombre}</td>";
                                         echo "<td>{$fila['idReserva']}</td>";
                                         echo "<td>{$fila['idHabitacion']}</td>";
                                         echo "<td>{$hora[1]}</td>";
@@ -589,7 +582,6 @@ if(isset($_SESSION['login'])){
 								<table class="table text-center">
 									<thead>
 									<tr>
-										<th class="text-center">Huésped</th>
 										<th class="text-center">ID Reserva</th>
 										<th class="text-center">Habitación</th>
 										<th class="text-center">Hora</th>
@@ -600,14 +592,8 @@ if(isset($_SESSION['login'])){
                                     $date = date("Y-m-d");
                                     $result = mysqli_query($link,"SELECT * FROM HistorialReserva WHERE fechaHora LIKE '{$date} %' AND tipo = 'Check Out' ORDER BY fechaHora DESC");
                                     while ($fila =  mysqli_fetch_array($result)){
-                                        $result1 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped IN (SELECT idHuesped FROM Ocupantes WHERE idReseva = '{$fila['idReserva']}' AND idHabitacion = '{$fila['idHabitacion']}')");
-                                        while ($fila1 = mysqli_fetch_array($result1)){
-                                            $nombre = $fila1['nombreCompleto'];
-                                            $idHuesped = $fila['idHuesped'];
-                                        }
                                         $hora = explode(" ",$fila['fechaHora']);
                                         echo "<tr>";
-                                        echo "<td>{$nombre}</td>";
                                         echo "<td>{$fila['idReserva']}</td>";
                                         echo "<td>{$fila['idHabitacion']}</td>";
                                         echo "<td>{$hora[1]}</td>";

@@ -108,6 +108,13 @@ if(isset($_SESSION['login'])){
         $update = mysqli_query($link,"UPDATE HabitacionReservada SET idEstado = 4, fechaInicio = '{$dateTime}' WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
         $queryPerformed = "UPDATE HabitacionReservada SET idEstado = 4 WHERE idReserva = {$_POST['idReserva']} AND idHabitacion = {$_POST['idHabitacion']}";
 	    $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','CHECKIN HABITACION','{$queryPerformed}')");
+
+        $query = mysqli_query($link,"INSERT INTO HistorialReserva(idHabitacion,idReserva,idColaborador,idEstado,fechaHora,descripcion,tipo) VALUES ('{$_POST['idHabitacion']}','{$_POST['idReserva']}','{$_SESSION['user']}',5,'{$dateTime}','Check In de habitación {$_POST['idHabitacion']} para reserva {$_POST['idReserva']}','Check In')");
+
+        $queryPerformed = "INSERT INTO HistorialReserva(idHabitacion,idReserva,idColaborador,idEstado,fechaHora,descripcion,tipo) VALUES ({$_POST['idHabitacion']},{$_POST['idReserva']},{$_SESSION['user']},5,{$dateTime},CheckIn de habitación {$_POST['idHabitacion']} para reserva {$_POST['idReserva']},CheckIn)";
+
+        $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','HistorialReserva','{$queryPerformed}')");
+
     }
 
 	if($estadoReserva == '3') {
