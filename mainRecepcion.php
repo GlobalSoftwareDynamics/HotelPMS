@@ -109,9 +109,9 @@ if(isset($_SESSION['login'])){
 											<thead>
 											<tr>
 												<th class="text-center">Huésped</th>
+                                                <th class="text-center">Empresa</th>
 												<th class="text-center">ID Reserva</th>
 												<th class="text-center">Habitación</th>
-												<th class="text-center">Estado</th>
 												<th class="text-center">Acciones</th>
 											</tr>
 											</thead>
@@ -125,6 +125,16 @@ if(isset($_SESSION['login'])){
                                                 while ($fila1 = mysqli_fetch_array($result1)){
                                                     $result2 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$fila1['idHuesped']}'");
                                                     while ($fila2 = mysqli_fetch_array($result2)){
+                                                        $idHuesped = $fila2['idHuesped'];
+                                                        $result3 = mysqli_query($link,"SELECT * FROM Empresa WHERE idEmpresa = '{$fila2['idEmpresa']}'");
+                                                        $numrows = mysqli_num_rows($result3);
+                                                        if ($numrows == 0){
+                                                            $empresa = "Sin Empresa";
+                                                        }else{
+                                                            while ($fila3 = mysqli_fetch_array($result3)){
+                                                                $empresa = $fila3['razonSocial'];
+                                                            }
+                                                        }
                                                         $nombre = $fila2['nombreCompleto'];
                                                     }
                                                 }
@@ -133,9 +143,9 @@ if(isset($_SESSION['login'])){
                                                     $estado = $fila1['descripcion'];
                                                 }
                                                 echo "<td>{$nombre}</td>";
+                                                echo "<td>{$empresa}</td>";
                                                 echo "<td>{$fila['idReserva']}</td>";
                                                 echo "<td>{$fila['idHabitacion']}</td>";
-                                                echo "<td>{$estado}</td>";
                                                 echo "<td>
                                                         <form method='post'>
                                                             <div class=\"dropdown\">
@@ -145,6 +155,7 @@ if(isset($_SESSION['login'])){
                                                                 <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuButton\">
                                                                     <input type='hidden' name='idReserva' value='{$fila['idReserva']}'>
                                                                     <input type='hidden' name='idHabitacion' value='{$fila['idHabitacion']}'>
+                                                                    <input type='hidden' name='idHuesped' value='$idHuesped'>
                                                                     <input type=\"submit\" value=\"Check-In\" class=\"dropdown-item\" formaction=\"nuevaReserva.php\" name='confirmarReserva'>
                                                                     <input type=\"submit\" value=\"Ver Reserva\" class=\"dropdown-item\" formaction=\"verReserva.php\">
                                                                     <input type=\"submit\" value=\"Editar Reserva\" class=\"dropdown-item\" formaction=\"nuevaReserva.php\">
@@ -164,11 +175,11 @@ if(isset($_SESSION['login'])){
 										<table class="table text-center">
 											<thead>
 											<tr>
-												<th class="text-center">Huésped</th>
-												<th class="text-center">ID Reserva</th>
-												<th class="text-center">Habitación</th>
-												<th class="text-center">Estado</th>
-												<th class="text-center">Acciones</th>
+                                                <th class="text-center">Huésped</th>
+                                                <th class="text-center">Empresa</th>
+                                                <th class="text-center">ID Reserva</th>
+                                                <th class="text-center">Habitación</th>
+                                                <th class="text-center">Acciones</th>
 											</tr>
 											</thead>
                                             <tbody>
@@ -182,6 +193,16 @@ if(isset($_SESSION['login'])){
                                                 while ($fila1 = mysqli_fetch_array($result1)){
                                                     $result2 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$fila1['idHuesped']}'");
                                                     while ($fila2 = mysqli_fetch_array($result2)){
+                                                        $idHuesped = $fila2['idHuesped'];
+                                                        $result3 = mysqli_query($link,"SELECT * FROM Empresa WHERE idEmpresa = '{$fila2['idEmpresa']}'");
+                                                        $numrows = mysqli_num_rows($result3);
+                                                        if ($numrows == 0){
+                                                            $empresa = "Sin Empresa";
+                                                        }else{
+                                                            while ($fila3 = mysqli_fetch_array($result3)){
+                                                                $empresa = $fila3['razonSocial'];
+                                                            }
+                                                        }
                                                         $nombre = $fila2['nombreCompleto'];
                                                     }
                                                 }
@@ -190,9 +211,9 @@ if(isset($_SESSION['login'])){
                                                     $estado = $fila1['descripcion'];
                                                 }
                                                 echo "<td>{$nombre}</td>";
+                                                echo "<td>{$empresa}</td>";
                                                 echo "<td>{$fila['idReserva']}</td>";
                                                 echo "<td>{$fila['idHabitacion']}</td>";
-                                                echo "<td>{$estado}</td>";
                                                 echo "<td>
                                                         <form method='post'>
                                                             <div class=\"dropdown\">
@@ -202,6 +223,7 @@ if(isset($_SESSION['login'])){
                                                                 <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuButton\">
                                                                     <input type='hidden' name='idReserva' value='{$fila['idReserva']}'>
                                                                     <input type='hidden' name='idHabitacion' value='{$fila['idHabitacion']}'>
+                                                                    <input type='hidden' name='idHuesped' value='$idHuesped'>
                                                                     <input type=\"submit\" value=\"Ver Reserva\" class=\"dropdown-item\" formaction=\"verReserva.php\">
                                                                     <input type=\"submit\" value=\"Editar Reserva\" class=\"dropdown-item\" formaction=\"nuevaReserva.php\">
                                                                     <input type=\"submit\" value=\"Eliminar\" class=\"dropdown-item\" formaction=\"#\">
@@ -234,6 +256,7 @@ if(isset($_SESSION['login'])){
 											<thead>
 											<tr>
 												<th class="text-center">Huésped</th>
+                                                <th class="text-center">Empresa</th>
 												<th class="text-center">ID Reserva</th>
 												<th class="text-center">Habitación</th>
 												<th class="text-center">Acciones</th>
@@ -246,11 +269,21 @@ if(isset($_SESSION['login'])){
                                             while ($fila = mysqli_fetch_array($result)){
                                                 $result1 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$fila['idHuesped']}'");
                                                 while ($fila1 = mysqli_fetch_array($result1)){
+                                                    $result3 = mysqli_query($link,"SELECT * FROM Empresa WHERE idEmpresa = '{$fila1['idEmpresa']}'");
+                                                    $numrows = mysqli_num_rows($result3);
+                                                    if ($numrows == 0){
+                                                        $empresa = "Sin Empresa";
+                                                    }else{
+                                                        while ($fila3 = mysqli_fetch_array($result3)){
+                                                            $empresa = $fila3['razonSocial'];
+                                                        }
+                                                    }
                                                     $nombre = $fila1['nombreCompleto'];
                                                     $idHuesped = $fila1['idHuesped'];
                                                 }
                                                 echo "<tr>";
                                                 echo "<td>{$nombre}</td>";
+                                                echo "<td>{$empresa}</td>";
                                                 echo "<td>{$fila['idReserva']}</td>";
                                                 echo "<td>{$fila['idHabitacion']}</td>";
                                                 echo "<td>
@@ -281,10 +314,11 @@ if(isset($_SESSION['login'])){
 										<table class="table text-center">
 											<thead>
 											<tr>
-												<th class="text-center">Huésped</th>
-												<th class="text-center">ID Reserva</th>
-												<th class="text-center">Habitación</th>
-												<th class="text-center">Acciones</th>
+                                                <th class="text-center">Huésped</th>
+                                                <th class="text-center">Empresa</th>
+                                                <th class="text-center">ID Reserva</th>
+                                                <th class="text-center">Habitación</th>
+                                                <th class="text-center">Acciones</th>
 											</tr>
 											</thead>
                                             <tbody>
@@ -295,11 +329,21 @@ if(isset($_SESSION['login'])){
                                             while ($fila = mysqli_fetch_array($result)){
                                                 $result1 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$fila['idHuesped']}'");
                                                 while ($fila1 = mysqli_fetch_array($result1)){
+                                                    $result3 = mysqli_query($link,"SELECT * FROM Empresa WHERE idEmpresa = '{$fila1['idEmpresa']}'");
+                                                    $numrows = mysqli_num_rows($result3);
+                                                    if ($numrows == 0){
+                                                        $empresa = "Sin Empresa";
+                                                    }else{
+                                                        while ($fila3 = mysqli_fetch_array($result3)){
+                                                            $empresa = $fila3['razonSocial'];
+                                                        }
+                                                    }
                                                     $nombre = $fila1['nombreCompleto'];
                                                     $idHuesped = $fila1['idHuesped'];
                                                 }
                                                 echo "<tr>";
                                                 echo "<td>{$nombre}</td>";
+                                                echo "<td>{$empresa}</td>";
                                                 echo "<td>{$fila['idReserva']}</td>";
                                                 echo "<td>{$fila['idHabitacion']}</td>";
                                                 echo "<td>
@@ -344,9 +388,9 @@ if(isset($_SESSION['login'])){
 											<thead>
 											<tr>
 												<th class="text-center">Huésped</th>
+                                                <th class="text-center">Empresa</th>
 												<th class="text-center">ID Reserva</th>
 												<th class="text-center">Habitación</th>
-												<th class="text-center">Estado</th>
 												<th class="text-center">Acciones</th>
 											</tr>
 											</thead>
@@ -357,11 +401,21 @@ if(isset($_SESSION['login'])){
                                             while ($fila = mysqli_fetch_array($result)){
                                                 $result1 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped IN (SELECT idHuesped FROM Ocupantes WHERE idReserva = '{$fila['idReserva']}' AND idHabitacion = '{$fila['idHabitacion']}')");
                                                 while ($fila1 = mysqli_fetch_array($result1)){
+                                                    $result3 = mysqli_query($link,"SELECT * FROM Empresa WHERE idEmpresa = '{$fila1['idEmpresa']}'");
+                                                    $numrows = mysqli_num_rows($result3);
+                                                    if ($numrows == 0){
+                                                        $empresa = "Sin Empresa";
+                                                    }else{
+                                                        while ($fila3 = mysqli_fetch_array($result3)){
+                                                            $empresa = $fila3['razonSocial'];
+                                                        }
+                                                    }
                                                     $nombre = $fila1['nombreCompleto'];
                                                     $idHuesped = $fila1['idHuesped'];
                                                 }
                                                 echo "<tr>";
                                                 echo "<td>{$nombre}</td>";
+                                                echo "<td>{$empresa}</td>";
                                                 echo "<td>{$fila['idReserva']}</td>";
                                                 echo "<td>{$fila['idHabitacion']}</td>";
                                                 echo "<td>
@@ -392,11 +446,11 @@ if(isset($_SESSION['login'])){
 										<table class="table text-center">
 											<thead>
 											<tr>
-												<th class="text-center">Huésped</th>
-												<th class="text-center">ID Reserva</th>
-												<th class="text-center">Habitación</th>
-												<th class="text-center">Estado</th>
-												<th class="text-center">Acciones</th>
+                                                <th class="text-center">Huésped</th>
+                                                <th class="text-center">Empresa</th>
+                                                <th class="text-center">ID Reserva</th>
+                                                <th class="text-center">Habitación</th>
+                                                <th class="text-center">Acciones</th>
 											</tr>
 											</thead>
                                             <tbody>
@@ -407,11 +461,21 @@ if(isset($_SESSION['login'])){
                                             while ($fila = mysqli_fetch_array($result)){
                                                 $result1 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped IN (SELECT idHuesped FROM Ocupantes WHERE idReserva = '{$fila['idReserva']}' AND idHabitacion = '{$fila['idHabitacion']}')");
                                                 while ($fila1 = mysqli_fetch_array($result1)){
+                                                    $result3 = mysqli_query($link,"SELECT * FROM Empresa WHERE idEmpresa = '{$fila1['idEmpresa']}'");
+                                                    $numrows = mysqli_num_rows($result3);
+                                                    if ($numrows == 0){
+                                                        $empresa = "Sin Empresa";
+                                                    }else{
+                                                        while ($fila3 = mysqli_fetch_array($result3)){
+                                                            $empresa = $fila3['razonSocial'];
+                                                        }
+                                                    }
                                                     $nombre = $fila1['nombreCompleto'];
                                                     $idHuesped = $fila1['idHuesped'];
                                                 }
                                                 echo "<tr>";
                                                 echo "<td>{$nombre}</td>";
+                                                echo "<td>{$empresa}</td>";
                                                 echo "<td>{$fila['idReserva']}</td>";
                                                 echo "<td>{$fila['idHabitacion']}</td>";
                                                 echo "<td>
@@ -441,34 +505,24 @@ if(isset($_SESSION['login'])){
 								</div>
 							</div>
                             <div class="tab-pane" id="pendientes" role="tabpanel">
-                                <ul class="nav nav-tabs" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" data-toggle="tab" href="#hoy4" role="tab">Hoy</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#manana4" role="tab">Mañana</a>
-                                    </li>
-                                </ul>
                                 <div class="spacer10"></div>
-                                <div class="tab-content">
-                                    <div class="tab-pane active" id="hoy4" role="tabpanel">
-                                        <table class="table text-center">
-                                            <thead>
-                                            <tr>
-                                                <th class="text-center">ID Reserva</th>
-                                                <th class="text-center">Fecha de Reservación</th>
-                                                <th class="text-center">Acciones</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <?php
-                                            $date = date("Y-m-d");
-                                            $result = mysqli_query($link,"SELECT * FROM Reserva WHERE idEstado = '9' ORDER BY fechaReserva DESC");
-                                            while ($fila = mysqli_fetch_array($result)){
-                                                echo "<tr>";
-                                                echo "<td>{$fila['idReserva']}</td>";
-                                                echo "<td>{$fila['fechaReserva']}</td>";
-                                                echo "<td>
+                                <table class="table text-center">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center">ID Reserva</th>
+                                        <th class="text-center">Fecha de Reservación</th>
+                                        <th class="text-center">Acciones</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    $date = date("Y-m-d");
+                                    $result = mysqli_query($link,"SELECT * FROM Reserva WHERE idEstado = '9' ORDER BY fechaReserva DESC");
+                                    while ($fila = mysqli_fetch_array($result)){
+                                        echo "<tr>";
+                                        echo "<td>{$fila['idReserva']}</td>";
+                                        echo "<td>{$fila['fechaReserva']}</td>";
+                                        echo "<td>
                                                         <form method='post'>
                                                             <div class=\"dropdown\">
                                                                 <button class=\"btn btn-primary btn-sm dropdown-toggle\" type=\"button\" id=\"dropdownMenuButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
@@ -483,53 +537,11 @@ if(isset($_SESSION['login'])){
                                                         </form>
                                                       </td>
                                                 ";
-                                                echo "</tr>";
-                                            }
-                                            ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="tab-pane" id="manana4" role="tabpanel">
-                                        <table class="table text-center">
-                                            <thead>
-                                            <tr>
-                                                <th class="text-center">ID Reserva</th>
-                                                <th class="text-center">Fecha de Reservación</th>
-                                                <th class="text-center">Acciones</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <?php
-                                            $date = date("Y-m-d");
-                                            $date = date('Y-m-d', strtotime($date . ' +1 day'));
-                                            $result = mysqli_query($link,"SELECT * FROM Reserva WHERE idEstado = '9' ORDER BY fechaReserva DESC");
-                                            while ($fila = mysqli_fetch_array($result)){
-                                                echo "<tr>";
-                                                echo "<td>{$fila['idReserva']}</td>";
-                                                echo "<td>{$fila['fechaReserva']}</td>";
-                                                echo "<td>
-                                                        <form method='post'>
-                                                            <div class=\"dropdown\">
-                                                                <button class=\"btn btn-primary btn-sm dropdown-toggle\" type=\"button\" id=\"dropdownMenuButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
-                                                                    Acciones
-                                                                </button>
-                                                                <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuButton\">
-                                                                    <input type='hidden' name='idReserva' value='{$fila['idReserva']}'>
-                                                                    <input type='hidden' name='idHabitacion' value='{$fila['idHabitacion']}'>
-                                                                    <input type=\"submit\" value=\"Confirmar Reserva\" class=\"dropdown-item\" formaction=\"nuevaReserva.php\" name='confirmaReserva'>
-                                                                    <input type=\"submit\" value=\"Ver Reserva\" class=\"dropdown-item\" formaction=\"verReserva.php\">
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                      </td>
-                                                ";
-                                                echo "</tr>";
-                                            }
-                                            ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                                        echo "</tr>";
+                                    }
+                                    ?>
+                                    </tbody>
+                                </table>
                             </div>
 						</div>
 					</div>
@@ -672,7 +684,7 @@ if(isset($_SESSION['login'])){
 							<div class="row">
 								<div class="form-group col-6" id="divDni">
 									<label class="col-form-label" for="dni">DNI Titular:</label>
-									<input type="number" name="dni" id="dni" class="form-control" onchange="getNombre(this.value);getTelf(this.value);getEmail(this.value);">
+									<input type="number" name="dni" id="dni" class="form-control" onchange="getNombre(this.value);getTelf(this.value);getEmail(this.value);" min="0" value="<?php $dni = idgenNum(); echo $dni;?>">
 								</div>
 								<div class="form-group col-6" id="divNombre">
 									<label class="col-form-label" for="nombres">Nombre Completo:</label>

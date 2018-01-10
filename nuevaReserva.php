@@ -44,8 +44,8 @@ if(isset($_SESSION['login'])){
 			$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','HUESPED','{$queryPerformed}')");
         }
 
-		$insert = mysqli_query($link,"INSERT INTO Reserva VALUES ('{$_POST['idReserva']}','{$_SESSION['user']}',{$_POST['dni']},{$_POST['tipoReserva']},'{$dateTime}',0,0,null)");
-		$queryPerformed = "INSERT INTO Reserva VALUES ({$_POST['idReserva']},{$_SESSION['user']},{$_POST['dni']},1,{$dateTime},0,0,null)";
+		$insert = mysqli_query($link,"INSERT INTO Reserva VALUES ('{$_POST['idReserva']}','{$_SESSION['user']}',{$_POST['dni']},{$_POST['tipoReserva']},'{$dateTime}',0,0)");
+		$queryPerformed = "INSERT INTO Reserva VALUES ({$_POST['idReserva']},{$_SESSION['user']},{$_POST['dni']},1,{$dateTime},0,0)";
 		$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','CREAR RESERVA','{$queryPerformed}')");
 	}
 
@@ -472,8 +472,7 @@ if(isset($_SESSION['login'])){
         </section>
 
         <form method="post" action="#">
-            <div class="modal fade" id="modalHuesped" tabindex="-1" role="dialog" aria-labelledby="modalReserva"
-                 aria-hidden="true">
+            <div class="modal fade" id="modalHuesped" tabindex="-1" role="dialog" aria-labelledby="modalReserva" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -488,7 +487,7 @@ if(isset($_SESSION['login'])){
                                 <div class="row">
                                     <div class="form-group col-6" id="divDni">
                                         <label class="col-form-label" for="dni">DNI Titular:</label>
-                                        <input type="number" name="dni" id="dni" class="form-control">
+                                        <input type="number" name="dni" id="dni" class="form-control" min="0" value="<?php $dni = idgenNum(); echo $dni;?>">
                                     </div>
                                     <div class="form-group col-6" id="divNombre">
                                         <label class="col-form-label" for="nombres">Nombre Completo:</label>
@@ -575,7 +574,7 @@ if(isset($_SESSION['login'])){
                                                     </select>
                                                 </td>
                                                 <td style="width: 10%">
-                                                    <input type="number" class="form-control" name="numHabitaciones" id="numHabitaciones">
+                                                    <input type="number" min='0' class="form-control" name="numHabitaciones" id="numHabitaciones">
                                                 </td>
                                                 <td>
                                                     <select class="form-control" name="tarifa" id="tarifa">

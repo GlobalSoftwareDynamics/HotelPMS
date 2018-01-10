@@ -244,7 +244,8 @@ if(isset($_SESSION['login'])){
                                             $totalhabitaciones = $totalHabitacion + $valorPaquete;
                                             $subtotal = $totalhabitaciones + $totalConsumo;
                                             $impestos = $subtotal * 0.18;
-                                            $totalEstadia = $subtotal + $impestos;
+                                            $subtotalSinImpuestos = $subtotal - $impestos;
+                                            $totalEstadia = $subtotalSinImpuestos + $impestos;
                                             ?>
                                             <tr>
                                                 <th>Total Habitación:</th>
@@ -253,10 +254,6 @@ if(isset($_SESSION['login'])){
                                             <tr>
                                                 <th>Total Consumos:</th>
                                                 <td>S/. <?php echo $totalConsumo;?></td>
-                                            </tr>
-                                            <tr>
-                                                <th>SubTotal:</th>
-                                                <td>S/. <?php echo $subtotal;?></td>
                                             </tr>
                                             <tr>
                                                 <th>Impuestos:</th>

@@ -167,13 +167,15 @@ if(isset($_SESSION['login'])){
                                     $subtotal = 0;
                                     $impestos = 0;
                                     $totalEstadia = 0;
+                                    $cargoExtra = 0;
                                     $result = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
                                     while ($fila = mysqli_fetch_array($result)){
                                         $fechaInicio = explode(" ",$fila['fechaInicio']);
                                         $fechaInicio = explode("-",$fechaInicio[0]);
                                         $date1 = date_create("{$fechaInicio[0]}-{$fechaInicio[1]}-{$fechaInicio[2]}");
-                                        $fechaFin = date("Y-m-d");
-                                        $fechaFin = explode("-",$fechaFin);
+                                        $fechaFin = explode(" ",date("Y-m-d H:m:s"));
+                                        $fechaFinHora = $fechaFin[1];
+                                        $fechaFin = explode("-",$fechaFin[0]);
                                         $date2 = date_create("{$fechaFin[0]}-{$fechaFin[1]}-{$fechaFin[2]}");
                                         $interval = date_diff($date1,$date2);
                                         $interval = $interval->d;
@@ -184,12 +186,17 @@ if(isset($_SESSION['login'])){
                                         while ($fila1 = mysqli_fetch_array($result1)){
                                             $valorTarifa = $fila1['valor'];
                                         }
+                                        $lateCheckOutTime = date("12:00:00");
+                                        if ($fechaFinHora > $lateCheckOutTime){
+                                            $cargoExtra = $valorTarifa / 2;
+                                        }
                                         $totalhabitaciones = $valorTarifa * $interval;
                                     }
                                     $totalhabitaciones = $totalhabitaciones + $valorPaquete;
-                                    $subtotal = $totalhabitaciones + $totalConsumo;
+                                    $subtotal = $totalhabitaciones + $totalConsumo + $cargoExtra;
                                     $impestos = $subtotal * 0.18;
-                                    $totalEstadia = $subtotal + $impestos;
+                                    $subtotalSinImpuestos = $subtotal - $impestos;
+                                    $totalEstadia = $subtotalSinImpuestos + $impestos;
                                     ?>
                                     <tr>
                                         <th>Total Habitación:</th>
@@ -200,12 +207,12 @@ if(isset($_SESSION['login'])){
                                         <td>S/. <?php echo round($totalConsumo,2);?></td>
                                     </tr>
                                     <tr>
-                                        <th>SubTotal:</th>
-                                        <td>S/. <?php echo round($subtotal,2);?></td>
-                                    </tr>
-                                    <tr>
                                         <th>Impuestos:</th>
                                         <td>S/. <?php echo round($impestos,2);?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Cargos:</th>
+                                        <td>S/. <?php echo round($cargoExtra,2);?></td>
                                     </tr>
                                     <tr>
                                         <th>Total a Pagar:</th>

@@ -91,7 +91,7 @@ if(isset($_SESSION['login'])){
 							<div class="container-fluid">
 								<div class="form-group row">
 									<label class="col-form-label" for="dni">DNI:</label>
-									<input type="text" name="dni" id="dni" class="form-control">
+									<input type="number" min="0" name="dni" id="dni" class="form-control" value="<?php $dni = idgenNum(); echo $dni;?>">
 								</div>
 								<div class="form-group row">
 									<label class="col-form-label" for="nombreCompleto">Nombre Completo:</label>
