@@ -182,30 +182,46 @@ if(isset($_SESSION['login'])){
                             </div>
                         </div>
                         <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <p><strong>Nombre:</strong> <?php echo $nombreHuesped; ?></p>
+                                    <p><strong>Teléfono:</strong> <?php echo $telefonoHuesped; ?></p>
+                                    <p><strong>DNI:</strong> <?php echo $idHuesped; ?></p>
+                                    <p><strong>Email:</strong> <?php echo $emailHuesped; ?></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <i class="fa fa-table"></i> Detalles del Recojo
+                        </div>
+                        <div class="card-body">
                             <form method="post" action="#" id="formRecojo">
                                 <input type="hidden" name="idReserva" value="<?php echo $_POST['idReserva'];?>">
                                 <div class="row">
-                                    <div class="col-3 offset-1">
-                                        <p><strong>Nombre:</strong> <?php echo $nombreHuesped; ?></p>
-                                        <p><strong>Teléfono:</strong> <?php echo $telefonoHuesped; ?></p>
-                                        <p><strong>DNI:</strong> <?php echo $idHuesped; ?></p>
-                                        <p><strong>Email:</strong> <?php echo $emailHuesped; ?></p>
-                                    </div>
                                     <?php
                                     $flagRecojo = false;
                                     $search = mysqli_query($link, "SELECT * FROM Recojo WHERE idReserva = '{$_POST['idReserva']}'");
                                     while($searchRow = mysqli_fetch_array($search)) {
                                         $flagRecojo = true;
-	                                    ?>
-                                        <div class="col-3 offset-1">
+                                        ?>
+                                        <div class="col-6 text-center">
                                             <select class="form-control" name="lugarRecojo">
                                                 <?php
                                                 if($searchRow['lugarRecojo'] == 'Aeropuerto'){
-	                                                echo "<option selected value='Aeropuerto'>Aeropuerto</option>";
-	                                                echo "<option value='Terminal Terrestre'>Terminal Terrestre</option>";
+                                                    echo "<option selected value='Aeropuerto'>Aeropuerto</option>";
+                                                    echo "<option value='Terminal Terrestre'>Terminal Terrestre</option>";
                                                 }else{
-	                                                echo "<option value='Aeropuerto'>Aeropuerto</option>";
-	                                                echo "<option selected value='Terminal Terrestre'>Terminal Terrestre</option>";
+                                                    echo "<option value='Aeropuerto'>Aeropuerto</option>";
+                                                    echo "<option selected value='Terminal Terrestre'>Terminal Terrestre</option>";
                                                 }
                                                 ?>
                                             </select><br>
@@ -213,7 +229,7 @@ if(isset($_SESSION['login'])){
                                             <br>
                                             <input type="text" class="form-control" name="nroTicket" placeholder="Número de Vuelo/Bus" value="<?php echo $searchRow['nroTicket'];?>">
                                         </div>
-                                        <div class="col-3 text-center">
+                                        <div class="col-6 text-center">
                                             <?php
                                             $fechaRecojo = $searchRow['fechaHora'];
                                             $arrayFecha = explode(" ",$fechaRecojo);
@@ -226,30 +242,52 @@ if(isset($_SESSION['login'])){
                                             <br>
                                             <input type="submit" value="Guardar Recojo" class="btn btn-primary" name="addRecojo">
                                         </div>
-	                                    <?php
+                                        <?php
                                     }
                                     if(!$flagRecojo){
                                         ?>
-                                        <div class="col-3 offset-1">
-                                            <select class="form-control" name="lugarRecojo">
-                                                <option selected disabled>Seleccionar lugar de recojo</option>
-                                                <option value="Aeropuerto">Aeropuerto</option>
-                                                <option value="Terminal Terrestre">Terminal Terrestre</option>
-                                            </select><br>
-                                            <input type="text" class="form-control" name="personaPrincipal" placeholder="Persona Principal">
-                                            <br>
-                                            <input type="text" class="form-control" name="nroTicket" placeholder="Número de Vuelo/Bus">
-                                        </div>
-                                        <div class="col-3 text-center">
-                                            <input type="datetime-local" class="form-control" name="fechaRecojo" placeholder="Fecha y Hora de Recojo">
-                                            <br>
-                                            <input type="number" class="form-control" name="numPersonas" placeholder="Número de Personas">
-                                            <br>
-                                            <input type="submit" value="Guardar Recojo" class="btn btn-primary" name="addRecojo">
-                                        </div>
+                                        <div class="col-12 text-center">
+                                            <table>
+                                                <thead>
+                                                <tr>
+                                                    <th>Lugar de Recojo</th>
+                                                    <th>Persona Principal</th>
+                                                    <th>Fecha y Hora</th>
+                                                    <th>Cantidad de personas</th>
+                                                    <th>Número de ticket</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td><select class="form-control" name="lugarRecojo">
+                                                            <option selected disabled>Seleccionar lugar de recojo</option>
+                                                            <option value="Aeropuerto">Aeropuerto</option>
+                                                            <option value="Terminal Terrestre">Terminal Terrestre</option>
+                                                        </select></td>
+                                                    <td><input type="text" class="form-control" name="personaPrincipal" placeholder="Persona Principal"></td>
+                                                    <td><input type="datetime-local" class="form-control" name="fechaRecojo" placeholder="Fecha y Hora de Recojo"></td>
+                                                    <td><input type="number" class="form-control" name="numPersonas" placeholder="Número de Personas"></td>
+                                                    <td><input type="text" class="form-control" name="nroTicket" placeholder="Número de Vuelo/Bus"></td>
+                                                    <td><input type="submit" value="Guardar Recojo" class="btn btn-primary" name="addRecojo"></td>
+                                                </tr>
+                                                <?php
+                                                $recojos = mysqli_query($link,"SELECT * FROM Recojo WHERE idReserva = '{$_POST['idReserva']}'");
+                                                while($rowRecojos = mysqli_fetch_array($recojos)){
+                                                    echo "<tr>";
+                                                        echo "<td>{$rowRecojos['lugarRecojo']}</td>";
+                                                        echo "<td>{$rowRecojos['personaPrincipal']}</td>";
+                                                        echo "<td>{$rowRecojos['fechaHora']}</td>";
+                                                        echo "<td>{$rowRecojos['numPersonas']}</td>";
+                                                        echo "<td>{$rowRecojos['nroTicket']}</td>";
+                                                    echo "</tr>";
+                                                }
+                                                ?>
+                                                </tbody>
+                                            </table>
                                         <?php
                                     }
-                                        ?>
+                                    ?>
                                 </div>
                             </form>
                         </div>
