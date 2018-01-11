@@ -34,18 +34,26 @@ if(isset($_SESSION['login'])){
 	}
 
 	if(isset($_POST['addReserva'])){
-		$insert = mysqli_query($link,"INSERT INTO Huesped VALUES ('{$_POST['dni']}',null,null,null,null,'{$_POST['nombres']}',null,'{$_POST['email']}',null,null,'{$_POST['telefono']}',null,null)");
-		$queryPerformed = "INSERT INTO Huesped VALUES ({$_POST['dni']},null,null,null,null,{$_POST['nombres']},null,{$_POST['email']},null,null,{$_POST['telefono']},null,null)";
+	    $dni = 0;
+	    if($_POST['dni'] != ''){
+	        $dni = $_POST['dni'];
+        }else{
+		    $id = mysqli_query($link, "SELECT * FROM Huesped");
+		    $dni = mysqli_num_rows($id);
+        }
+
+		$insert = mysqli_query($link,"INSERT INTO Huesped VALUES ('{$dni}',null,null,null,null,'{$_POST['nombres']}',null,'{$_POST['email']}',null,null,'{$_POST['telefono']}',null,null)");
+		$queryPerformed = "INSERT INTO Huesped VALUES ({$dni},null,null,null,null,{$_POST['nombres']},null,{$_POST['email']},null,null,{$_POST['telefono']},null,null)";
 		$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','CREAR HUESPED','{$queryPerformed}')");
 
 		if(!$insert){
-		    $update = mysqli_query($link,"UPDATE Huesped SET nombreCompleto = '{$_POST['nombres']}', correoElectronico = '{$_POST['email']}', telefonoCelular = '{$_POST['telefono']}' WHERE idHuesped = '{$_POST['dni']}'");
-		    $queryPerformed = "UPDATE Huesped SET nombreCompleto = {$_POST['nombres']}, correoElectronico = {$_POST['email']}, telefonoCelular = {$_POST['telefono']} WHERE idHuesped = {$_POST['dni']}";
+		    $update = mysqli_query($link,"UPDATE Huesped SET nombreCompleto = '{$_POST['nombres']}', correoElectronico = '{$_POST['email']}', telefonoCelular = '{$_POST['telefono']}' WHERE idHuesped = '{$dni}'");
+		    $queryPerformed = "UPDATE Huesped SET nombreCompleto = {$_POST['nombres']}, correoElectronico = {$_POST['email']}, telefonoCelular = {$_POST['telefono']} WHERE idHuesped = {$dni}";
 			$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','HUESPED','{$queryPerformed}')");
         }
 
-		$insert = mysqli_query($link,"INSERT INTO Reserva VALUES ('{$_POST['idReserva']}','{$_SESSION['user']}',{$_POST['dni']},{$_POST['tipoReserva']},'{$dateTime}',0,0)");
-		$queryPerformed = "INSERT INTO Reserva VALUES ({$_POST['idReserva']},{$_SESSION['user']},{$_POST['dni']},1,{$dateTime},0,0)";
+		$insert = mysqli_query($link,"INSERT INTO Reserva VALUES ('{$_POST['idReserva']}','{$_SESSION['user']}',{$dni},{$_POST['tipoReserva']},'{$dateTime}',0,0)");
+		$queryPerformed = "INSERT INTO Reserva VALUES ({$dni},{$_SESSION['user']},{$dni},1,{$dateTime},0,0)";
 		$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','CREAR RESERVA','{$queryPerformed}')");
 	}
 
@@ -76,8 +84,16 @@ if(isset($_SESSION['login'])){
 	}
 
 	if(isset($_POST['addOcupante'])){
-		$insert = mysqli_query($link,"INSERT INTO Huesped VALUES ('{$_POST['dni']}',null,null,null,null,'{$_POST['nombres']}',null,null,null,null,null,null,null)");
-		$queryPerformed = "INSERT INTO Huesped VALUES ({$_POST['dni']},null,null,null,null,{$_POST['nombres']},null,null,null,null,null,null,null)";
+		$dni = 0;
+		if($_POST['dni'] != ''){
+			$dni = $_POST['dni'];
+		}else{
+			$id = mysqli_query($link, "SELECT * FROM Huesped");
+			$dni = mysqli_num_rows($id);
+		}
+
+		$insert = mysqli_query($link,"INSERT INTO Huesped VALUES ('{$dni}',null,null,null,null,'{$_POST['nombres']}',null,null,null,null,null,null,null)");
+		$queryPerformed = "INSERT INTO Huesped VALUES ({$dni},null,null,null,null,{$_POST['nombres']},null,null,null,null,null,null,null)";
 		$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','CREAR HUESPED','{$queryPerformed}')");
 
 	    $idHuesped = null;
@@ -525,7 +541,7 @@ if(isset($_SESSION['login'])){
                                 <div class="row">
                                     <div class="form-group col-6" id="divDni">
                                         <label class="col-form-label" for="dni">DNI Titular:</label>
-                                        <input type="number" name="dni" id="dni" class="form-control" min="0" value="<?php $dni = idgenNum(); echo $dni;?>">
+                                        <input type="number" name="dni" id="dni" class="form-control" min="0">
                                     </div>
                                     <div class="form-group col-6" id="divNombre">
                                         <label class="col-form-label" for="nombres">Nombre Completo:</label>

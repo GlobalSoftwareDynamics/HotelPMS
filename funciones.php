@@ -137,13 +137,3 @@ function idgen($clase){
 	$id=$clase.$fecha[2].$fecha[0].$fecha[1].$aux.$hora[1].$hora[2];
 	return $id;
 }
-
-function idgenNum(){
-    date_default_timezone_set('America/Lima');
-    $hora = date('H:i:s');
-    $fecha = date('m/d/y');
-    $hora=explode(":",$hora);
-    $fecha=explode("/",$fecha);
-    $id=$fecha[2].$fecha[0].$fecha[1].$hora[0].$hora[1].$hora[2];
-    return $id;
-}
