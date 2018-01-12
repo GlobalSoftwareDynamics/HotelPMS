@@ -13,33 +13,20 @@ if(isset($_SESSION['login'])){
     }
 
 	if(isset($_POST['addRecojo'])){
-	    $flag = false;
-	    $query = mysqli_query($link,"SELECT * FROM Recojo WHERE idReserva = '{$_POST['idReserva']}'");
-	    while($row = mysqli_fetch_array($query)){
-	        $flag = true;
-        }
-        if(!$flag){
 	        $insert = mysqli_query($link,"INSERT INTO Recojo (idReserva, nroTicket, fechaHora, lugarRecojo, numPersonas, personaPrincipal) 
                   VALUES ('{$_POST['idReserva']}','{$_POST['nroTicket']}','{$_POST['fechaRecojo']}','{$_POST['lugarRecojo']}','{$_POST['numPersonas']}','{$_POST['personaPrincipal']}')");
 	        $queryPerformed = "INSERT INTO Recojo (idReserva, nroTicket, fechaHora, lugarRecojo, numPersonas, personaPrincipal) 
                   VALUES ({$_POST['idReserva']},{$_POST['nroTicket']},{$_POST['fechaRecojo']},{$_POST['lugarRecojo']},{$_POST['numPersonas']},{$_POST['personaPrincipal']})";
 	        $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','RECOJO RESERVA ','{$queryPerformed}')");
-        }else{
-            $update = mysqli_query($link,"UPDATE Recojo SET nroTicket = '{$_POST['nroTicket']}', fechaHora = '{$_POST['fechaRecojo']}', lugarRecojo = '{$_POST['lugarRecojo']}', 
-            numPersonas = '{$_POST['numPersonas']}', personaPrincipal = '{$_POST['personaPrincipal']}' WHERE idReserva = '{$_POST['idReserva']}'");
-            $queryPerformed = "UPDATE Recojo SET nroTicket = {$_POST['nroTicket']}, fechaHora = {$_POST['fechaRecojo']}, lugarRecojo = {$_POST['lugarRecojo']}, 
-            numPersonas = {$_POST['numPersonas']}, personaPrincipal = {$_POST['personaPrincipal']} WHERE idReserva = {$_POST['idReserva']}";
-	        $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','RECOJO RESERVA ','{$queryPerformed}')");
-        }
 	}
 
 	if(isset($_POST['addReserva'])){
-	    $dni = 0;
+	    $dni = 1;
 	    if($_POST['dni'] != ''){
 	        $dni = $_POST['dni'];
         }else{
 		    $id = mysqli_query($link, "SELECT * FROM Huesped");
-		    $dni = mysqli_num_rows($id);
+		    $dni += mysqli_num_rows($id);
         }
 
 		$insert = mysqli_query($link,"INSERT INTO Huesped VALUES ('{$dni}',null,null,null,null,'{$_POST['nombres']}',null,'{$_POST['email']}',null,null,'{$_POST['telefono']}',null,null)");
@@ -84,12 +71,12 @@ if(isset($_SESSION['login'])){
 	}
 
 	if(isset($_POST['addOcupante'])){
-		$dni = 0;
+		$dni = 1;
 		if($_POST['dni'] != ''){
 			$dni = $_POST['dni'];
 		}else{
 			$id = mysqli_query($link, "SELECT * FROM Huesped");
-			$dni = mysqli_num_rows($id);
+			$dni += mysqli_num_rows($id);
 		}
 
 		$insert = mysqli_query($link,"INSERT INTO Huesped VALUES ('{$dni}',null,null,null,null,'{$_POST['nombres']}',null,null,null,null,null,null,null)");
@@ -131,6 +118,12 @@ if(isset($_SESSION['login'])){
 
         $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','HistorialReserva','{$queryPerformed}')");
 
+    }
+
+    if(isset($_POST['deleteRecojo'])){
+        $delete = mysqli_query($link,"DELETE FROM Recojo WHERE idRecojo = '{$_POST['idRecojo']}'");
+        $queryPerformed = "DELETE FROM Recojo WHERE idRecojo = {$_POST['idRecojo']}";
+	    $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','DELETE','Recojo','{$queryPerformed}')");
     }
 
 	if($estadoReserva == '3') {
@@ -223,88 +216,55 @@ if(isset($_SESSION['login'])){
                             <form method="post" action="#" id="formRecojo">
                                 <input type="hidden" name="idReserva" value="<?php echo $_POST['idReserva'];?>">
                                 <div class="row">
-                                    <?php
-                                    $flagRecojo = false;
-                                    $search = mysqli_query($link, "SELECT * FROM Recojo WHERE idReserva = '{$_POST['idReserva']}'");
-                                    while($searchRow = mysqli_fetch_array($search)) {
-                                        $flagRecojo = true;
-                                        ?>
-                                        <div class="col-6 text-center">
-                                            <select class="form-control" name="lugarRecojo">
-                                                <?php
-                                                if($searchRow['lugarRecojo'] == 'Aeropuerto'){
-                                                    echo "<option selected value='Aeropuerto'>Aeropuerto</option>";
-                                                    echo "<option value='Terminal Terrestre'>Terminal Terrestre</option>";
-                                                }else{
-                                                    echo "<option value='Aeropuerto'>Aeropuerto</option>";
-                                                    echo "<option selected value='Terminal Terrestre'>Terminal Terrestre</option>";
-                                                }
-                                                ?>
-                                            </select><br>
-                                            <input type="text" class="form-control" name="personaPrincipal" placeholder="Persona Principal" value="<?php echo $searchRow['personaPrincipal'];?>">
-                                            <br>
-                                            <input type="text" class="form-control" name="nroTicket" placeholder="Número de Vuelo/Bus" value="<?php echo $searchRow['nroTicket'];?>">
-                                        </div>
-                                        <div class="col-6 text-center">
-                                            <?php
-                                            $fechaRecojo = $searchRow['fechaHora'];
-                                            $arrayFecha = explode(" ",$fechaRecojo);
-                                            $hora = explode(":",$arrayFecha[1]);
-                                            $fechaRecojo = $arrayFecha[0]."T".$hora[0].":".$hora[1];
-                                            ?>
-                                            <input type="datetime-local" class="form-control" name="fechaRecojo" placeholder="Fecha y Hora de Recojo" value="<?php echo $fechaRecojo;?>">
-                                            <br>
-                                            <input type="number" class="form-control" name="numPersonas" placeholder="Número de Personas" value="<?php echo $searchRow['numPersonas'];?>">
-                                            <br>
-                                            <input type="submit" value="Guardar Recojo" class="btn btn-primary" name="addRecojo">
-                                        </div>
-                                        <?php
-                                    }
-                                    if(!$flagRecojo){
-                                        ?>
-                                        <div class="col-12 text-center">
-                                            <table>
-                                                <thead>
-                                                <tr>
-                                                    <th>Lugar de Recojo</th>
-                                                    <th>Persona Principal</th>
-                                                    <th>Fecha y Hora</th>
-                                                    <th>Cantidad de personas</th>
-                                                    <th>Número de ticket</th>
-                                                    <th>Acciones</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr>
-                                                    <td><select class="form-control" name="lugarRecojo">
-                                                            <option selected disabled>Seleccionar lugar de recojo</option>
-                                                            <option value="Aeropuerto">Aeropuerto</option>
-                                                            <option value="Terminal Terrestre">Terminal Terrestre</option>
-                                                        </select></td>
-                                                    <td><input type="text" class="form-control" name="personaPrincipal" placeholder="Persona Principal"></td>
-                                                    <td><input type="datetime-local" class="form-control" name="fechaRecojo" placeholder="Fecha y Hora de Recojo"></td>
-                                                    <td><input type="number" class="form-control" name="numPersonas" placeholder="Número de Personas"></td>
-                                                    <td><input type="text" class="form-control" name="nroTicket" placeholder="Número de Vuelo/Bus"></td>
-                                                    <td><input type="submit" value="Guardar Recojo" class="btn btn-primary" name="addRecojo"></td>
-                                                </tr>
-                                                <?php
-                                                $recojos = mysqli_query($link,"SELECT * FROM Recojo WHERE idReserva = '{$_POST['idReserva']}'");
-                                                while($rowRecojos = mysqli_fetch_array($recojos)){
-                                                    echo "<tr>";
-                                                        echo "<td>{$rowRecojos['lugarRecojo']}</td>";
-                                                        echo "<td>{$rowRecojos['personaPrincipal']}</td>";
-                                                        echo "<td>{$rowRecojos['fechaHora']}</td>";
-                                                        echo "<td>{$rowRecojos['numPersonas']}</td>";
-                                                        echo "<td>{$rowRecojos['nroTicket']}</td>";
-                                                    echo "</tr>";
-                                                }
-                                                ?>
-                                                </tbody>
-                                            </table>
-                                        <?php
-                                    }
-                                    ?>
-                                </div>
+                                    <div class="col-12 text-center">
+                                        <table>
+                                            <thead>
+                                            <tr>
+                                                <th>Lugar de Recojo</th>
+                                                <th>Persona Principal</th>
+                                                <th>Fecha y Hora</th>
+                                                <th>Cantidad de personas</th>
+                                                <th>Número de ticket</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td><select class="form-control" name="lugarRecojo">
+                                                        <option selected disabled>Seleccionar lugar de recojo</option>
+                                                        <option value="Aeropuerto">Aeropuerto</option>
+                                                        <option value="Terminal Terrestre">Terminal Terrestre</option>
+                                                    </select></td>
+                                                <td><input type="text" class="form-control" name="personaPrincipal" placeholder="Persona Principal"></td>
+                                                <td><input type="datetime-local" class="form-control" name="fechaRecojo" placeholder="Fecha y Hora de Recojo"></td>
+                                                <td><input type="number" class="form-control" name="numPersonas" placeholder="Número de Personas"></td>
+                                                <td><input type="text" class="form-control" name="nroTicket" placeholder="Número de Vuelo/Bus"></td>
+                                                <td><input type="submit" value="Guardar Recojo" class="btn btn-primary" name="addRecojo"></td>
+                                            </tr>
+                                            <tr><td colspan="6"></td></tr>
+											<?php
+											$recojos = mysqli_query($link,"SELECT * FROM Recojo WHERE idReserva = '{$_POST['idReserva']}'");
+											while($rowRecojos = mysqli_fetch_array($recojos)){
+												echo "<tr>";
+												echo "<td>{$rowRecojos['lugarRecojo']}</td>";
+												echo "<td>{$rowRecojos['personaPrincipal']}</td>";
+												echo "<td>{$rowRecojos['fechaHora']}</td>";
+												echo "<td>{$rowRecojos['numPersonas']}</td>";
+												echo "<td>{$rowRecojos['nroTicket']}</td>";
+												echo "<td>
+                                                        <form method='post'>
+                                                                    <input type='hidden' name='idRecojo' value='{$rowRecojos['idRecojo']}'>
+                                                                    <input type='hidden' name='idReserva' value='{$_POST['idReserva']}'>
+                                                                    <input type=\"submit\" value=\"Eliminar\" class=\"btn btn-sm btn-primary\" formaction=\"#\" name='deleteRecojo'>
+                                                        </form>
+                                                      </td>
+                                                ";
+												echo "</tr>";
+											}
+											?>
+                                            </tbody>
+                                        </table>
+                                    </div>
                             </form>
                         </div>
                     </div>
@@ -497,7 +457,7 @@ if(isset($_SESSION['login'])){
                                             echo "<tr>";
                                                 $query2 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$row['idHuesped']}'");
                                                 while($row2 = mysqli_fetch_array($query2)){
-                                                    echo "<td>{$row2['nombreCompleto']}</td>";
+                                                    echo "<td colspan='2'>{$row2['nombreCompleto']}</td>";
                                                 }
                                                 echo "<td>{$row['idHabitacion']}</td>";
                                                 if($row['cargos'] == 1){
