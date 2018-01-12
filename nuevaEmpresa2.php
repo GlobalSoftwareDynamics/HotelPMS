@@ -7,8 +7,15 @@ if(isset($_SESSION['login'])){
 	include('navbarRecepcion.php');
 
 	if(isset($_POST['addContacto'])){
-		$insert = mysqli_query($link,"INSERT INTO Contacto VALUES ('{$_POST['dni']}','{$_POST['nombreCompleto']}','{$_POST['telefono']}','{$_POST['anexo']}','{$_POST['email']}','{$_POST['area']}','{$_POST['cargo']}')");
-		$insert = mysqli_query($link,"INSERT INTO ContactoEmpresa VALUES ('{$_POST['ruc']}','{$_POST['dni']}')");
+        $dni = 1;
+        if($_POST['dni'] != ''){
+            $dni = $_POST['dni'];
+        }else{
+            $id = mysqli_query($link, "SELECT * FROM Contacto");
+            $dni += mysqli_num_rows($id);
+        }
+		$insert = mysqli_query($link,"INSERT INTO Contacto VALUES ('{$dni}','{$_POST['nombreCompleto']}','{$_POST['telefono']}','{$_POST['anexo']}','{$_POST['email']}','{$_POST['area']}','{$_POST['cargo']}')");
+		$insert = mysqli_query($link,"INSERT INTO ContactoEmpresa VALUES ('{$_POST['ruc']}','{$dni}')");
 	}
 
 	if(isset($_POST['addEmpresa'])){
