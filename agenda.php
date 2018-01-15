@@ -1,5 +1,6 @@
 <?php
 include('session.php');
+include ('funciones.php');
 if(isset($_SESSION['login'])){
 	include('header.php');
 	include('navbarRecepcion.php');
@@ -46,6 +47,12 @@ if(isset($_SESSION['login'])){
     }
 	?>
 
+   <script>
+       $(function () {
+           $('[data-toggle="popover"]').popover()
+       })
+   </script>
+
 	<section class="container">
 		<div class="row">
 			<div class="col-12">
@@ -53,13 +60,11 @@ if(isset($_SESSION['login'])){
 					<div class="card-header">
 							<div class="row">
 								<div class="col-8"><i class="fa fa-calendar"></i> Agenda de Eventos</div>
-								<div class="col-1 no-padding text-center"><button type="button" class="btn btn-sm btn-light"><</button></div>
-								<div class="col-1 no-padding-lg text-center"><input type="date" class="form-control input-thin"></div>
-								<div class="col-1 no-padding text-center"><button type="button" class="btn btn-sm btn-light">></button></div>
-								<div class="col-1 no-padding text-center"><button type="button" class="btn btn-sm btn-light" data-toggle="modal" data-target="#modalReserva">Nueva Reserva</button></div>
+								<div class="col-1 no-padding-lg text-center"><label class="sr-only" for="fechaGuia">Fecha</label><input type="date" class="form-control input-thin" name="fechaGuia" id="fechaGuia" onchange="getCalendar(this.value)" value="<?php echo $date;?>"></div>
+								<div class="col-1 no-padding text-center"><button type="button" class="btn btn-sm btn-light ml-3" data-toggle="modal" data-target="#modalReserva">Nueva Reserva</button></div>
 							</div>
 					</div>
-					<div class="card-body">
+					<div class="card-body" id="calendario">
 						<table class="bordered-calendar text-center">
 							<thead>
                             <tr>
@@ -115,11 +120,11 @@ if(isset($_SESSION['login'])){
                                             $idReserva = $fila2['idReserva'];
                                         }
                                         if ($numrow == 0 && $idReserva == 0){
-                                            echo "<td>{$arrayFechas[$i]}</td>";
+                                            echo "<td></td>";
                                             $idReserva = 0;
                                             $interval = 1;
                                         }elseif($numrow > 0){
-                                            echo "<td class=\"reserva\" colspan='{$interval}'>{$idReserva}</td>";
+                                            echo "<td class=\"reserva\" colspan='{$interval}' data-toggle=\"popover\" trigger='hover' title=\"Popover title\" data-content=\"And here's some amazing content. It's very engaging. Right?\">{$idReserva}</td>";
                                         }
                                     }
                                     echo "</tr>";
@@ -133,6 +138,60 @@ if(isset($_SESSION['login'])){
 			</div>
 		</div>
 	</section>
+
+    <form method="post" action="nuevaReserva.php">
+        <div class="modal fade" id="modalReserva" tabindex="-1" role="dialog" aria-labelledby="modalReserva" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Nueva Reserva</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <input type="hidden" name="idReserva" value="<?php $idReserva = idgen("R"); echo $idReserva?>">
+                            <div class="row">
+                                <div class="form-group col-6" id="divDni">
+                                    <label class="col-form-label" for="dni">DNI Titular:</label>
+                                    <input type="number" name="dni" id="dni" class="form-control" onchange="getNombre(this.value);getTelf(this.value);getEmail(this.value);" min="0">
+                                </div>
+                                <div class="form-group col-6" id="divNombre">
+                                    <label class="col-form-label" for="nombres">Nombre Completo:</label>
+                                    <input type="text" name="nombres" id="nombres" class="form-control" onchange="getID(this.value);getTelf(this.value);getEmail(this.value);">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-6" id="divTelf">
+                                    <label class="col-form-label" for="telefono">Teléfono Celular:</label>
+                                    <input type="text" name="telefono" id="telefono" class="form-control">
+                                </div>
+                                <div class="form-group col-6" id="divEmail">
+                                    <label class="col-form-label" for="email">Correo Electrónico:</label>
+                                    <input type="email" name="email" id="email" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-12">
+                                    <label class="col-form-label" for="tipoReserva">Tipo de Reserva:</label>
+                                    <select class="form-control" name="tipoReserva" id="tipoReserva">
+                                        <option selected disabled>Seleccionar</option>
+                                        <option value="3">Reserva Confirmada</option>
+                                        <option value="9">Reserva Pendiente</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar">
+                        <input type="submit" class="btn btn-primary" name="addReserva" value="Guardar Cambios">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 
 	<nav id="context-menu" class="context-menu">
 		<ul class="context-menu__items">
