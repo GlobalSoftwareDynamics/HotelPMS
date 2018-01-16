@@ -366,3 +366,14 @@ function getDatosOcupante(val){
         }
     });
 }
+
+function getPaquete(val){
+    $.ajax({
+        type: "POST",
+        url: "getAjax.php",
+        data:{'tipoReserva':val},
+        success: function(data){
+            $("#paquete").html(data);
+        }
+    });
+}

@@ -227,3 +227,15 @@ if(!empty($_POST['datosOcupante'])){
         }
     }
 }
+
+if(isset($_POST['tipoReserva'])){
+    if($_POST['tipoReserva'] == 10){
+        echo "<select class='form-control' name='paqueteSeleccionado'>";
+            echo "<option selected disabled>Seleeccionar</option>";
+            $query = mysqli_query($link,"SELECT * FROM Paquete");
+            while($row = mysqli_fetch_array($query)){
+                echo "<option value='{$row['idPaquete']}'>{$row['nombre']}</option>";
+            }
+        echo "</select>";
+    }
+}

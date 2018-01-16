@@ -6,7 +6,6 @@ if(isset($_SESSION['login'])){
 	include('header.php');
 	include('navbarRecepcion.php');
 
-	if (isset($_POST['']))
 	?>
 
 	<section class="container">
@@ -704,11 +703,16 @@ if(isset($_SESSION['login'])){
                             <div class="row">
                                 <div class="form-group col-12">
                                     <label class="col-form-label" for="tipoReserva">Tipo de Reserva:</label>
-                                    <select class="form-control" name="tipoReserva" id="tipoReserva">
+                                    <select class="form-control" name="tipoReserva" id="tipoReserva" onchange="getPaquete(this.value)">
                                         <option selected disabled>Seleccionar</option>
                                         <option value="3">Reserva Confirmada</option>
                                         <option value="9">Reserva Pendiente</option>
+                                        <option value="10">Reserva de Paquete</option>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-12" id="paquete">
                                 </div>
                             </div>
 						</div>
