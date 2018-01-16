@@ -239,3 +239,83 @@ if(isset($_POST['tipoReserva'])){
         echo "</select>";
     }
 }
+
+if(!empty($_POST['fechaGuia'])){
+
+    ?>
+    <table class="bordered-calendar text-center">
+        <thead>
+        <tr>
+            <th class="habitacion">Habitación</th>
+            <?php
+            $date1 = date("Y-m-d", strtotime($_POST['fechaGuia'] . ' -9 days'));
+            $arrayFechas = array();
+            for($i = 0; $i < 20; $i++){
+                $date1 = date('Y-m-d', strtotime($date1 . ' +1 day'));
+                $arrayFechas[$i] = $date1;
+                $hoy = "";
+                if($date1 == $_POST['fechaGuia']){
+                    $hoy = "background-color: lightblue";
+                }
+                echo "<th class=\"fecha\" style='{$hoy}'>$date1</th>";
+            }
+            ?>
+        </tr>
+        </thead>
+        <tbody>
+        <?php
+        $result = mysqli_query($link,"SELECT * FROM TipoHabitacion ORDER BY idTipoHabitacion");
+        while ($fila = mysqli_fetch_array($result)){
+            echo "<tr>";
+            echo "<th>{$fila['descripcion']}</th>";
+            echo "<td colspan='20'></td>";
+            echo "</tr>";
+            $result1 = mysqli_query($link,"SELECT * FROM Habitacion WHERE idTipoHabitacion = '{$fila['idTipoHabitacion']}' ORDER BY idHabitacion");
+            while ($fila1 = mysqli_fetch_array($result1)){
+                echo "<tr>";
+                echo "<td class=\"habitacion\">{$fila1['idHabitacion']}</td>";
+                $flag = false;
+                $idReserva = 0;
+                $interval = 1;
+                for($i = 0; $i < 20; $i = $i+$interval){
+                    $result2 = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE fechaInicio <= '{$arrayFechas[$i]} 23:59:59' AND fechaFin > '{$arrayFechas[$i]}' AND idHabitacion = '{$fila1['idHabitacion']}' AND idEstado IN (3,4,5,8)");
+                    $numrow = mysqli_num_rows($result2);
+                    while ($fila2 = mysqli_fetch_array($result2)){
+                        $fechaInicio = explode(" ",$fila2['fechaInicio']);
+                        $fechaInicio = explode("-",$fechaInicio[0]);
+                        $date1 = date_create("{$fechaInicio[0]}-{$fechaInicio[1]}-{$fechaInicio[2]}");
+                        $fechaFin = explode(" ",$fila2['fechaFin']);
+                        $fechaFin = explode("-",$fechaFin[0]);
+                        $date2 = date_create("{$fechaFin[0]}-{$fechaFin[1]}-{$fechaFin[2]}");
+                        $interval = date_diff($date1,$date2);
+                        $interval = $interval->d;
+                        if($date1 == $date2){
+                            $interval = $interval +1;
+                        }
+                        if($idReserva == $fila2['idReserva']){
+                            $flag = true;
+                        }
+                        $idReserva = $fila2['idReserva'];
+                        $preferencias = "<strong>Preferencias:</strong> ".$fila2['preferencias'];
+                        $result3 = mysqli_query($link,"SELECT * FROM Recojo WHERE idReserva = '{$fila2['idReserva']}'");
+                        $numrow1 = mysqli_num_rows($result3);
+                        if($numrow1 > 0){
+                            $recojo = "<strong>Recojo:</strong> Si, por favor revisar información de Reserva. ";
+                        }
+                    }
+                    if ($numrow == 0 && $idReserva == 0){
+                        echo "<td></td>";
+                        $idReserva = 0;
+                        $interval = 1;
+                    }elseif($numrow > 0){
+                        echo "<td class=\"reserva\" colspan='{$interval}'>{$idReserva}<div class=\"float-right mr-2\"><i class=\"fa fa-info\" data-toggle=\"popover\" data-trigger='hover' data-html=\"true\" title='Información de Reserva' data-content='{$preferencias}<br>{$recojo}<br>' data-placement=\"top\"></i></div></td>";
+                    }
+                }
+                echo "</tr>";
+            }
+        }
+        ?>
+        </tbody>
+    </table>
+    <?php
+}

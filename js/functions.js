@@ -377,3 +377,14 @@ function getPaquete(val){
         }
     });
 }
+
+function getCalendar(val){
+    $.ajax({
+        type: "POST",
+        url: "getAjax.php",
+        data:{'fechaGuia':val},
+        success: function(data){
+            $("#calendario").html(data);
+        }
+    });
+}

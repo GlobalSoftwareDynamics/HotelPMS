@@ -1,30 +1,10 @@
 <?php
 include('session.php');
+include ('funciones.php');
 if(isset($_SESSION['login'])){
 	include('header.php');
 	include('navbarRecepcion.php');
 	include('declaracionFechas.php');
-
-	if(isset($_POST['addRecojo'])){
-		$flag = false;
-		$query = mysqli_query($link,"SELECT * FROM Recojo WHERE idReserva = '{$_POST['idReserva']}'");
-		while($row = mysqli_fetch_array($query)){
-			$flag = true;
-		}
-		if(!$flag){
-			$insert = mysqli_query($link,"INSERT INTO Recojo (idReserva, nroTicket, fechaHora, lugarRecojo, numPersonas, personaPrincipal) 
-                  VALUES ('{$_POST['idReserva']}','{$_POST['nroTicket']}','{$_POST['fechaRecojo']}','{$_POST['lugarRecojo']}','{$_POST['numPersonas']}','{$_POST['personaPrincipal']}')");
-			$queryPerformed = "INSERT INTO Recojo (idReserva, nroTicket, fechaHora, lugarRecojo, numPersonas, personaPrincipal) 
-                  VALUES ({$_POST['idReserva']},{$_POST['nroTicket']},{$_POST['fechaRecojo']},{$_POST['lugarRecojo']},{$_POST['numPersonas']},{$_POST['personaPrincipal']})";
-			$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','RECOJO RESERVA ','{$queryPerformed}')");
-		}else{
-			$update = mysqli_query($link,"UPDATE Recojo SET nroTicket = '{$_POST['nroTicket']}', fechaHora = '{$_POST['fechaRecojo']}', lugarRecojo = '{$_POST['lugarRecojo']}', 
-            numPersonas = '{$_POST['numPersonas']}', personaPrincipal = '{$_POST['personaPrincipal']}'");
-			$queryPerformed = "UPDATE Recojo SET nroTicket = {$_POST['nroTicket']}, fechaHora = {$_POST['fechaRecojo']}, lugarRecojo = {$_POST['lugarRecojo']}, 
-            numPersonas = {$_POST['numPersonas']}, personaPrincipal = {$_POST['personaPrincipal']}";
-			$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','RECOJO RESERVA ','{$queryPerformed}')");
-		}
-	}
 
 	if (isset($_POST['checkOut'])){
 
@@ -67,6 +47,12 @@ if(isset($_SESSION['login'])){
     }
 	?>
 
+   <script>
+       $(function () {
+           $('[data-toggle="popover"]').popover()
+       });
+   </script>
+
 	<section class="container">
 		<div class="row">
 			<div class="col-12">
@@ -74,13 +60,11 @@ if(isset($_SESSION['login'])){
 					<div class="card-header">
 							<div class="row">
 								<div class="col-8"><i class="fa fa-calendar"></i> Agenda de Eventos</div>
-								<div class="col-1 no-padding text-center"><button type="button" class="btn btn-sm btn-light"><</button></div>
-								<div class="col-1 no-padding-lg text-center"><input type="date" class="form-control input-thin"></div>
-								<div class="col-1 no-padding text-center"><button type="button" class="btn btn-sm btn-light">></button></div>
-								<div class="col-1 no-padding text-center"><button type="button" class="btn btn-sm btn-light" data-toggle="modal" data-target="#modalReserva">Nueva Reserva</button></div>
+								<div class="col-1 no-padding-lg text-center"><label class="sr-only" for="fechaGuia">Fecha</label><input type="date" class="form-control input-thin" name="fechaGuia" id="fechaGuia" onchange="getCalendar(this.value)" value="<?php echo $date;?>"></div>
+								<div class="col-1 no-padding text-center"><button type="button" class="btn btn-sm btn-light ml-3" data-toggle="modal" data-target="#modalReserva">Nueva Reserva</button></div>
 							</div>
 					</div>
-					<div class="card-body">
+					<div class="card-body" id="calendario">
 						<table class="bordered-calendar text-center">
 							<thead>
                             <tr>
@@ -134,13 +118,19 @@ if(isset($_SESSION['login'])){
                                                 $flag = true;
                                             }
                                             $idReserva = $fila2['idReserva'];
+                                            $preferencias = "<strong>Preferencias:</strong> ".$fila2['preferencias'];
+                                            $result3 = mysqli_query($link,"SELECT * FROM Recojo WHERE idReserva = '{$fila2['idReserva']}'");
+                                            $numrow1 = mysqli_num_rows($result3);
+                                            if($numrow1 > 0){
+                                                $recojo = "<strong>Recojo:</strong> Si, por favor revisar información de Reserva. ";
+                                            }
                                         }
                                         if ($numrow == 0 && $idReserva == 0){
-                                            echo "<td>{$arrayFechas[$i]}</td>";
+                                            echo "<td></td>";
                                             $idReserva = 0;
                                             $interval = 1;
                                         }elseif($numrow > 0){
-                                            echo "<td class=\"reserva\" colspan='{$interval}'>{$idReserva}</td>";
+                                            echo "<td class=\"reserva\" colspan='{$interval}'>{$idReserva}<div class=\"float-right mr-2\"><i class=\"fa fa-info\" data-toggle=\"popover\" data-trigger='hover' data-html=\"true\" title='Información de Reserva' data-content='{$preferencias}<br>{$recojo}<br>' data-placement=\"top\"></i></div></td>";
                                         }
                                     }
                                     echo "</tr>";
@@ -154,6 +144,60 @@ if(isset($_SESSION['login'])){
 			</div>
 		</div>
 	</section>
+
+    <form method="post" action="nuevaReserva.php">
+        <div class="modal fade" id="modalReserva" tabindex="-1" role="dialog" aria-labelledby="modalReserva" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Nueva Reserva</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <input type="hidden" name="idReserva" value="<?php $idReserva = idgen("R"); echo $idReserva?>">
+                            <div class="row">
+                                <div class="form-group col-6" id="divDni">
+                                    <label class="col-form-label" for="dni">DNI Titular:</label>
+                                    <input type="number" name="dni" id="dni" class="form-control" onchange="getNombre(this.value);getTelf(this.value);getEmail(this.value);" min="0">
+                                </div>
+                                <div class="form-group col-6" id="divNombre">
+                                    <label class="col-form-label" for="nombres">Nombre Completo:</label>
+                                    <input type="text" name="nombres" id="nombres" class="form-control" onchange="getID(this.value);getTelf(this.value);getEmail(this.value);">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-6" id="divTelf">
+                                    <label class="col-form-label" for="telefono">Teléfono Celular:</label>
+                                    <input type="text" name="telefono" id="telefono" class="form-control">
+                                </div>
+                                <div class="form-group col-6" id="divEmail">
+                                    <label class="col-form-label" for="email">Correo Electrónico:</label>
+                                    <input type="email" name="email" id="email" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-12">
+                                    <label class="col-form-label" for="tipoReserva">Tipo de Reserva:</label>
+                                    <select class="form-control" name="tipoReserva" id="tipoReserva">
+                                        <option selected disabled>Seleccionar</option>
+                                        <option value="3">Reserva Confirmada</option>
+                                        <option value="9">Reserva Pendiente</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar">
+                        <input type="submit" class="btn btn-primary" name="addReserva" value="Guardar Cambios">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 
 	<nav id="context-menu" class="context-menu">
 		<ul class="context-menu__items">

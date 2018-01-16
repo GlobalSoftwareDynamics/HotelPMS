@@ -14,11 +14,19 @@ if(isset($_SESSION['login'])){
             $_POST['empresa'] = "'".$_POST['empresa']."'";
         }
 
+        $dni = 1;
+        if($_POST['dni'] != ''){
+            $dni = $_POST['dni'];
+        }else{
+            $id = mysqli_query($link, "SELECT * FROM Contacto");
+            $dni += mysqli_num_rows($id);
+        }
+
         $query = mysqli_query($link,"INSERT INTO Huesped(idHuesped,idEmpresa,idCiudad,idGenero,nacionalidad_idPais,nombreCompleto,direccion,correoElectronico,codigoPostal,telefonoFijo,telefonoCelular,fechaNacimiento,preferencias)
-        VALUES ('{$_POST['dni']}',{$_POST['empresa']},'{$_POST['ciudad']}','{$_POST['genero']}','{$_POST['pais']}','{$_POST['nombreCompleto']}','{$_POST['direccion']}','{$_POST['email']}','{$_POST['codPostal']}','{$_POST['telFijo']}','{$_POST['celular']}','{$_POST['nacimiento']}',NULL)");
+        VALUES ('{$dni}',{$_POST['empresa']},'{$_POST['ciudad']}','{$_POST['genero']}','{$_POST['pais']}','{$_POST['nombreCompleto']}','{$_POST['direccion']}','{$_POST['email']}','{$_POST['codPostal']}','{$_POST['telFijo']}','{$_POST['celular']}','{$_POST['nacimiento']}',NULL)");
 
         $queryPerformed = "INSERT INTO Huesped(idHuesped,idEmpresa,idCiudad,idGenero,nacionalidad_idPais,nombreCompleto,direccion,correoElectronico,codigoPostal,telefonoFijo,telefonoCelular,fechaNacimiento,preferencias)
-        VALUES ({$_POST['dni']},{$_POST['empresa']},{$_POST['ciudad']},{$_POST['genero']},{$_POST['pais']},{$_POST['nombreCompleto']},{$_POST['direccion']},{$_POST['email']},{$_POST['codPostal']},{$_POST['telFijo']},{$_POST['celular']},{$_POST['nacimiento']},NULL)";
+        VALUES ({$dni},{$_POST['empresa']},{$_POST['ciudad']},{$_POST['genero']},{$_POST['pais']},{$_POST['nombreCompleto']},{$_POST['direccion']},{$_POST['email']},{$_POST['codPostal']},{$_POST['telFijo']},{$_POST['celular']},{$_POST['nacimiento']},NULL)";
 
         $databaseLog = mysqli_query($link, "INSERT INTO DatabaseLog (idColaborador,fechaHora,evento,tipo,consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','Huesped','{$queryPerformed}')");
 
