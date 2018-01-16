@@ -284,13 +284,19 @@ if(!empty($_POST['fechaGuia'])){
                             $flag = true;
                         }
                         $idReserva = $fila2['idReserva'];
+                        $preferencias = "<strong>Preferencias:</strong> ".$fila2['preferencias'];
+                        $result3 = mysqli_query($link,"SELECT * FROM Recojo WHERE idReserva = '{$fila2['idReserva']}'");
+                        $numrow1 = mysqli_num_rows($result3);
+                        if($numrow1 > 0){
+                            $recojo = "<strong>Recojo:</strong> Si, por favor revisar información de Reserva. ";
+                        }
                     }
                     if ($numrow == 0 && $idReserva == 0){
                         echo "<td></td>";
                         $idReserva = 0;
                         $interval = 1;
                     }elseif($numrow > 0){
-                        echo "<td class=\"reserva\" colspan='{$interval}'>{$idReserva}</td>";
+                        echo "<td class=\"reserva\" colspan='{$interval}'>{$idReserva}<div class=\"float-right mr-2\"><i class=\"fa fa-info\" data-toggle=\"popover\" data-trigger='hover' data-html=\"true\" title='Información de Reserva' data-content='{$preferencias}<br>{$recojo}<br>' data-placement=\"top\"></i></div></td>";
                     }
                 }
                 echo "</tr>";
