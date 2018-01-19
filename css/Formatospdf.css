@@ -1,0 +1,319 @@
+body.portrait {
+    position: relative;
+    width: 21cm;
+    height: 29.7cm;
+    margin: 0 auto;
+    font-family: "Helvetica", Helvetica, Arial, sans-serif;
+}
+
+body.landscape {
+    position: relative;
+    width: 29.7cm;
+    height: 21cm;
+    margin: 0 auto;
+    font-family: "Helvetica", Helvetica, Arial, sans-serif;
+}
+body.tarjetalote {
+    position: relative;
+    width: 10.2cm;
+    height: 15.3cm;
+    margin: 0 auto;
+    font-family: "Helvetica", Helvetica, Arial, sans-serif;
+}
+/* Encabezado formatos */
+
+header {
+    width: 100%;
+    top: 0;
+    border-bottom: 1px solid #c5c5c5;
+}
+
+th {
+    font-size: 12px;
+}
+
+#descripcionbrand {
+    float: left;
+    text-align: left;
+    width: 10cm;
+    height: 2cm;
+}
+
+#tituloreporte {
+    float: right;
+    width: 7cm;
+    height: 2cm;
+    padding-top: 0.65cm;
+}
+
+.titulo {
+    text-align: center;
+    font-weight: bold;
+}
+
+.desctitulo {
+    text-align: center;
+    font-size: 10px;
+}
+
+.direccion {
+    font-size: 10px;
+    text-align: left;
+}
+
+#brand {
+    font-family: Chiller;
+    font-size: 20px;
+    text-align: left;
+}
+
+#subbrand {
+    font-family: "Freestyle Script";
+    font-size: 20px;
+    text-align: left;
+
+}
+
+.aladologo {
+    height: 2cm;
+    vertical-align: middle;
+}
+
+.alfa {
+    font-size: 14px;
+    font-family: "Times New Roman";
+}
+
+.imagenlogo {
+    text-align: left;
+    float: left;
+    margin-right: 0.2cm;
+}
+
+/*Cuerpo de Formatos*/
+
+.contenedor {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+}
+
+.label {
+    font-weight: bold;
+    font-size: 10px;
+}
+
+/* Spacers */
+
+.spacer5 { height: 5px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer10 { height: 10px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer15 { height: 15px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer20 { height: 20px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer25 { height: 25px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer30 { height: 30px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer35 { height: 35px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer40 { height: 40px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer45 { height: 45px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer50 { height: 50px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer100 { height: 100px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+.spacer200 { height: 200px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
+
+/*OP*/
+
+.descladoizquierdo {
+    text-align: left;
+    float: left;
+    width: 11cm;
+    font-size: 10px;
+}
+.descladoderecho {
+    text-align: left;
+    float: right;
+    width: 7cm;
+    font-size: 10px;
+}
+.observacionop {
+    border: 1px solid black;
+    text-align: justify;
+    bottom: 0;
+    font-size: 10px;
+    padding-left: 5px;
+}
+
+/*CV*/
+
+.descladoizquierdoCV {
+    text-align: left;
+    float: left;
+    width: 12cm;
+    font-size: 11px;
+    margin-left: 15px;
+}
+.descladoizquierdoCV p {
+    margin: 0;
+    padding-bottom: 2px;
+    padding-top: 2px;
+}
+.descladoderechoCV {
+    text-align: left;
+    float: right;
+    width: 7cm;
+    font-size: 11px;
+}
+.descladoderechoCV table th, .descladoderechoCV table td{
+    text-align: left;
+    margin: 0;
+    padding-bottom: 1px;
+    padding-top: 1px;
+}
+.parrafotabla {
+    padding-top: 15px;
+    padding-bottom: 10px;
+    font-size: 11px;
+    margin-left: 15px;
+}
+.parrafofinal {
+    font-size: 11px;
+    text-align: justify;
+    margin-left: 15px;
+}
+
+/*HE*/
+
+.descladoizquierdoHE {
+    text-align: left;
+    float: left;
+    width: 8.5cm;
+    font-size: 10px;
+}
+.descladoderechoHE {
+    text-align: left;
+    float: right;
+    width: 8.5cm;
+    font-size: 10px;
+}
+.tablaobservacionesHEgeneral {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px solid black;
+    margin-bottom: 20px;
+}
+.thlabel {
+    text-align: left;
+    font-size: 10px;
+    font-weight: bold;
+    background-color: #c5c5c5;
+}
+.observacion {
+    text-align: justify;
+}
+.trborder {
+    border: 1px solid black;
+}
+tr.borderbottom td, tr.borderbottom th {
+    border-bottom: 1px solid black;
+}
+.tdleft {
+    text-align: left;
+}
+
+/*Tarjeta*/
+
+.derecha {
+    float: right;
+}
+.izquierda {
+    float: left;
+}
+.columnaizquierda1 {
+    background-color: black;
+    color: white;
+    text-align: left;
+    width: 3cm;
+    padding-left: 10px;
+}
+.cuadrobservacion {
+    border: 2px solid black;
+}
+.columnaizquierda {
+    background-color: black;
+    color: white;
+    text-align: left;
+    border-bottom: 1px solid black;
+    width: 6.5cm;
+    padding-left: 10px;
+}
+.columnaderecha {
+    text-align: center;
+    border-collapse: collapse;
+    border-bottom: 1px solid black;
+    width: 2cm;
+    padding: 0;
+    margin:0;
+}
+tr.tarjetacont td {
+    margin:0;
+    padding-bottom: 1px;
+    padding-top: 1px;
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+/*Formatos para tablas*/
+.tabla {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-bottom: 20px;
+}
+
+th, td {
+    text-align: center;
+    font-size: 10px;
+}
+
+table td {
+    padding: 5px;
+    font-size: 10px;
+}
+
+table th {
+    padding: 5px 20px;
+    white-space: nowrap;
+    font-size: 10px;
+}
+
+#theadborder th{
+    border: 1px solid;
+    border-bottom: 1px solid;
+    border-top: 1px solid;
+}
+#theadborderB th{
+    border: 1px solid;
+    border-bottom: 1px solid;
+    border-top: 1px solid;
+}
+#theadborderC th{
+    border: 1px solid;
+    border-bottom: 1px solid;
+    border-top: 1px solid;
+}
+.total {
+    font-weight: bold;
+    border-top: 1px solid;
+}
+#totales td{
+    border-top: 1px solid;
+}
+/*Footer*/
+
+.footer {
+    border-top: 1px solid #C1CED9;
+    text-align: left;
+}

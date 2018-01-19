@@ -72,9 +72,12 @@ if(isset($_SESSION['login'])){
 				<div class="card mb-3">
 					<div class="card-header">
 						<i class="fa fa-table"></i> Reservas
-						<div class="float-right">
-							<button type="button" class="btn btn-sm btn-light" data-toggle="modal" data-target="#modalReserva">Nueva Reserva</button>
-						</div>
+                            <div class="float-right">
+                                <form>
+							        <button type="button" class="btn btn-sm btn-light" data-toggle="modal" data-target="#modalReserva">Nueva Reserva</button>
+                                    <button type="submit" class="btn btn-sm btn-light" formaction="reporteDesayunos.php">Lista de Desayuno</button>
+                                </form>
+                            </div>
 					</div>
 					<div class="card-body">
 						<ul class="nav nav-tabs" role="tablist">
