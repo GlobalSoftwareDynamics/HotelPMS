@@ -14,7 +14,7 @@ include('login.php'); // Includes Login Script
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Wakas Textiles Finos</title>
+    <title>GSD HotelPMS</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="apple-touch-icon-precomposed" href="favicon152.png">
     <link rel="apple-touch-icon-precomposed" sizes="152x152" href="favicon152.png">

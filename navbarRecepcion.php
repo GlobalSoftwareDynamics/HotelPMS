@@ -16,7 +16,6 @@
 							Reportes
 						</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" href="reporteEmpresas.php">Reporte de Empresas</a>
 							<a class="dropdown-item" href="reporteGestion.php">Reporte de Gestión</a>
 						</div>
 					</li>
