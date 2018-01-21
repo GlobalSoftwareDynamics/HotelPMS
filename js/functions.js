@@ -71,26 +71,28 @@
     /**
      * Variables.
      */
-    var contextMenuClassName = "context-menu";
-    var contextMenuItemClassName = "context-menu__item";
     var contextMenuLinkClassName = "context-menu__link";
     var contextMenuActive = "context-menu--active";
+    var contextMenuLinkClassName1 = "context-menu__link1";
+    var contextMenuLinkClassName2 = "context-menu__link2";
 
     var taskItemClassName = "reserva";
+    var taskItemClassName1 = "estadia";
+    var taskItemClassName2 = "finalizada";
     var taskItemInContext;
+    var taskItemInContext1;
+    var taskItemInContext2;
 
     var clickCoords;
     var clickCoordsX;
     var clickCoordsY;
 
     var menu = document.querySelector("#context-menu");
-    var menuItems = menu.querySelectorAll(".context-menu__item");
+    var menu1 = document.querySelector("#context-menu1");
+    var menu2 = document.querySelector("#context-menu2");
     var menuState = 0;
     var menuWidth;
     var menuHeight;
-    var menuPosition;
-    var menuPositionX;
-    var menuPositionY;
 
     var windowWidth;
     var windowHeight;
@@ -111,14 +113,49 @@
     function contextListener() {
         document.addEventListener( "contextmenu", function(e) {
             taskItemInContext = clickInsideElement( e, taskItemClassName );
+            taskItemInContext1 = clickInsideElement(e,taskItemClassName1);
+            taskItemInContext2 = clickInsideElement(e,taskItemClassName2);
 
             if ( taskItemInContext ) {
-                document.getElementById("ver").setAttribute('href','nuevaReserva.php');
+                console.log("1");
+
+                document.getElementById("checkin").setAttribute('data-id',taskItemInContext.getAttribute("data-id"));
+                document.getElementById("ver").setAttribute('data-id',taskItemInContext.getAttribute("data-id")+"_"+taskItemInContext.getAttribute("data-habitacion"));
+                document.getElementById("editar").setAttribute('data-id',taskItemInContext.getAttribute("data-id"));
+                document.getElementById("eliminar").setAttribute('data-id',taskItemInContext.getAttribute("data-id"));
 
                 e.preventDefault();
                 toggleMenuOn();
                 positionMenu(e);
-            } else {
+            }
+
+            if( taskItemInContext1 ){
+                console.log("2");
+
+                document.getElementById("checkin").setAttribute('data-id',taskItemInContext1.getAttribute("data-id"));
+                document.getElementById("ver").setAttribute('data-id',taskItemInContext1.getAttribute("data-id")+"_"+taskItemInContext1.getAttribute("data-habitacion"));
+                document.getElementById("editar").setAttribute('data-id',taskItemInContext1.getAttribute("data-id"));
+                document.getElementById("eliminar").setAttribute('data-id',taskItemInContext1.getAttribute("data-id"));
+
+                e.preventDefault();
+                toggleMenuOn1();
+                positionMenu1(e);
+            }
+
+            if( taskItemInContext2 ){
+                console.log("3");
+
+                document.getElementById("checkin").setAttribute('data-id',taskItemInContext2.getAttribute("data-id"));
+                document.getElementById("ver").setAttribute('data-id',taskItemInContext2.getAttribute("data-id")+"_"+taskItemInContext2.getAttribute("data-habitacion"));
+                document.getElementById("editar").setAttribute('data-id',taskItemInContext2.getAttribute("data-id"));
+                document.getElementById("eliminar").setAttribute('data-id',taskItemInContext2.getAttribute("data-id"));
+
+                e.preventDefault();
+                toggleMenuOn2();
+                positionMenu2(e);
+            }
+
+            if(!taskItemInContext && !taskItemInContext1 && !taskItemInContext2) {
                 taskItemInContext = null;
                 toggleMenuOff();
             }
@@ -131,11 +168,26 @@
     function clickListener() {
         document.addEventListener( "click", function(e) {
             var clickeElIsLink = clickInsideElement( e, contextMenuLinkClassName );
+            var clickeElIsLink1 = clickInsideElement( e, contextMenuLinkClassName1 );
+            var clickeElIsLink2 = clickInsideElement( e, contextMenuLinkClassName2 );
+
 
             if ( clickeElIsLink ) {
                 e.preventDefault();
                 menuItemListener( clickeElIsLink );
-            } else {
+            }
+
+            if ( clickeElIsLink1 ) {
+                e.preventDefault();
+                menuItemListener( clickeElIsLink1 );
+            }
+
+            if ( clickeElIsLink2 ) {
+                e.preventDefault();
+                menuItemListener( clickeElIsLink2 );
+            }
+
+            if(!clickeElIsLink && !clickeElIsLink1 && !clickeElIsLink2) {
                 var button = e.which || e.button;
                 if ( button === 1 ) {
                     toggleMenuOff();
@@ -171,6 +223,26 @@
         if ( menuState !== 1 ) {
             menuState = 1;
             menu.classList.add( contextMenuActive );
+            menu1.classList.remove( contextMenuActive );
+            menu2.classList.remove( contextMenuActive );
+        }
+    }
+
+    function toggleMenuOn1() {
+        if ( menuState !== 1 ) {
+            menuState = 1;
+            menu.classList.remove( contextMenuActive );
+            menu1.classList.add( contextMenuActive );
+            menu2.classList.remove( contextMenuActive );
+        }
+    }
+
+    function toggleMenuOn2() {
+        if ( menuState !== 1 ) {
+            menuState = 1;
+            menu.classList.remove( contextMenuActive );
+            menu1.classList.remove( contextMenuActive );
+            menu2.classList.add( contextMenuActive );
         }
     }
 
@@ -181,6 +253,8 @@
         if ( menuState !== 0 ) {
             menuState = 0;
             menu.classList.remove( contextMenuActive );
+            menu1.classList.remove( contextMenuActive );
+            menu2.classList.remove( contextMenuActive );
         }
     }
 
@@ -213,6 +287,54 @@
         }
     }
 
+    function positionMenu1(e) {
+        clickCoords = getPosition(e);
+        clickCoordsX = clickCoords.x;
+        clickCoordsY = clickCoords.y;
+
+        menuWidth = menu1.offsetWidth + 4;
+        menuHeight = menu1.offsetHeight + 4;
+
+        windowWidth = window.innerWidth;
+        windowHeight = window.innerHeight;
+
+        if ( (windowWidth - clickCoordsX) < menuWidth ) {
+            menu1.style.left = windowWidth - menuWidth + "px";
+        } else {
+            menu1.style.left = clickCoordsX + "px";
+        }
+
+        if ( (windowHeight - clickCoordsY) < menuHeight ) {
+            menu1.style.top = windowHeight - menuHeight + "px";
+        } else {
+            menu1.style.top = clickCoordsY + "px";
+        }
+    }
+
+    function positionMenu2(e) {
+        clickCoords = getPosition(e);
+        clickCoordsX = clickCoords.x;
+        clickCoordsY = clickCoords.y;
+
+        menuWidth = menu2.offsetWidth + 4;
+        menuHeight = menu2.offsetHeight + 4;
+
+        windowWidth = window.innerWidth;
+        windowHeight = window.innerHeight;
+
+        if ( (windowWidth - clickCoordsX) < menuWidth ) {
+            menu2.style.left = windowWidth - menuWidth + "px";
+        } else {
+            menu2.style.left = clickCoordsX + "px";
+        }
+
+        if ( (windowHeight - clickCoordsY) < menuHeight ) {
+            menu2.style.top = windowHeight - menuHeight + "px";
+        } else {
+            menu2.style.top = clickCoordsY + "px";
+        }
+    }
+
     /**
      * Dummy action function that logs an action when a menu item link is clicked
      *
@@ -220,25 +342,33 @@
      */
     function menuItemListener( link ) {
         if(link.getAttribute("data-action") == "View"){
-            window.location.href = 'verReserva.php?idReserva=' + taskItemInContext.getAttribute("data-id");
+            window.location.href = 'verReserva.php?idReserva=' + link.getAttribute("data-id");
         }
 
         if(link.getAttribute("data-action") == "Edit"){
-            window.location.href = 'editarReserva.php?idReserva=' + taskItemInContext.getAttribute("data-id");
+            window.location.href = 'nuevaReserva.php?idReserva=' + link.getAttribute("data-id");
         }
 
         if(link.getAttribute("data-action") == "Delete"){
-            window.location.href = 'agenda.php?delete=true&idReserva=' + taskItemInContext.getAttribute("data-id");
+            window.location.href = 'agenda.php?delete=true&idReserva=' + link.getAttribute("data-id");
         }
+
         if(link.getAttribute("data-action") == "Checkout"){
-            window.location.href = 'registrarCheckout.php?delete=true&idReserva=' + taskItemInContext.getAttribute("data-id");
+            window.location.href = 'registrarCheckout.php?delete=true&idReserva=' + link.getAttribute("data-id");
+        }
+
+        if(link.getAttribute("data-action") == "Checkin"){
+            window.location.href = 'nuevaReserva.php?delete=true&idReserva=' + link.getAttribute("data-id");
+        }
+
+        if(link.getAttribute("data-action") == "Consumo"){
+            window.location.href = 'nuevoConsumo.php?delete=true&idReserva=' + link.getAttribute("data-id");
         }
 
 
         console.log( "Task ID - " + taskItemInContext.getAttribute("data-id") + ", Task action - " + link.getAttribute("data-action"));
         toggleMenuOff();
     }
-
     /**
      * Run the app.
      */

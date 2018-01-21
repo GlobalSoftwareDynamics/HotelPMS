@@ -306,7 +306,22 @@ if(!empty($_POST['fechaGuia'])){
                             if($idReserva == $fila2['idReserva']){
                                 $flag = true;
                             }
+                            if($idReserva == $fila2['idReserva']){
+                                $flag = true;
+                            }
+                            switch ($fila2['idEstado']){
+                                case 3:
+                                    $clase = "reserva";
+                                    break;
+                                case 4:
+                                    $clase = "estadia";
+                                    break;
+                                case 5:
+                                    $clase = "finalizada";
+                                    break;
+                            }
                             $idReserva = $fila2['idReserva'];
+                            $idHabitacion = $fila2['idHabitacion'];
                             $preferencias = "<strong>Preferencias:</strong> ".$fila2['preferencias'];
                             $result3 = mysqli_query($link,"SELECT * FROM Recojo WHERE idReserva = '{$fila2['idReserva']}'");
                             $numrow1 = mysqli_num_rows($result3);
@@ -329,7 +344,22 @@ if(!empty($_POST['fechaGuia'])){
                             if($idReserva == $fila2['idReserva']){
                                 $flag = true;
                             }
+                            if($idReserva == $fila2['idReserva']){
+                                $flag = true;
+                            }
+                            switch ($fila2['idEstado']){
+                                case 3:
+                                    $clase = "reserva";
+                                    break;
+                                case 4:
+                                    $clase = "estadia";
+                                    break;
+                                case 5:
+                                    $clase = "finalizada";
+                                    break;
+                            }
                             $idReserva = $fila2['idReserva'];
+                            $idHabitacion = $fila2['idHabitacion'];
                             $preferencias = "<strong>Preferencias:</strong> ".$fila2['preferencias'];
                             $result3 = mysqli_query($link,"SELECT * FROM Recojo WHERE idReserva = '{$fila2['idReserva']}'");
                             $numrow1 = mysqli_num_rows($result3);
@@ -353,7 +383,22 @@ if(!empty($_POST['fechaGuia'])){
                             if($idReserva == $fila2['idReserva']){
                                 $flag = true;
                             }
+                            if($idReserva == $fila2['idReserva']){
+                                $flag = true;
+                            }
+                            switch ($fila2['idEstado']){
+                                case 3:
+                                    $clase = "reserva";
+                                    break;
+                                case 4:
+                                    $clase = "estadia";
+                                    break;
+                                case 5:
+                                    $clase = "finalizada";
+                                    break;
+                            }
                             $idReserva = $fila2['idReserva'];
+                            $idHabitacion = $fila2['idHabitacion'];
                             $preferencias = "<strong>Preferencias:</strong> ".$fila2['preferencias'];
                             $result3 = mysqli_query($link,"SELECT * FROM Recojo WHERE idReserva = '{$fila2['idReserva']}'");
                             $numrow1 = mysqli_num_rows($result3);
@@ -367,85 +412,11 @@ if(!empty($_POST['fechaGuia'])){
                         $idReserva = 0;
                         $interval = 1;
                     }elseif($numrow > 0){
-                        echo "<td class=\"reserva\" colspan='{$interval}'><div class=\"float-right mr-2\"><i class=\"fa fa-info\" data-toggle=\"popover\" data-trigger='hover' data-html=\"true\" title='Información de Reserva' data-content='<strong>Reserva:</strong> {$idReserva}<br>{$preferencias}<br>{$recojo}<br>' data-placement=\"top\"></i></div></td>";
+                        echo "<td class='{$clase}' colspan='{$interval}' data-id='{$idReserva}' data-habitacion='{$idHabitacion}'><div class=\"float-right mr-2\"><i class=\"fa fa-info\" data-toggle=\"popover\" data-trigger='hover' data-html=\"true\" title='Información de Reserva' data-content='<strong>Reserva:</strong> {$idReserva}<br>{$preferencias}<br>{$recojo}<br>' data-placement=\"top\"></i></div></td>";
                     }
                 }
                 echo "</tr>";
             }
-            echo "<tr>";
-            echo "<td>Pendientes</td>";
-            $flag = false;
-            $idReserva = 0;
-            $interval = 1;
-            $numCamas = 0;
-            $preferencias = 0;
-            for($i = 0; $i < 20; $i = $i+$interval){
-                $result1 = mysqli_query($link,"SELECT * FROM ReservaPendiente WHERE fechaInicio <= '{$arrayFechas[$i]}' AND fechaFin > '{$arrayFechas[$i]}' AND idTipoHabitacion = '{$fila['idTipoHabitacion']}'");
-                $numrow = mysqli_num_rows($result1);
-                if($arrayFechas[$i] == $dateIni){
-                    while ($fila1 = mysqli_fetch_array($result1)){
-                        $fechaInicio = explode("-",$dateIni);
-                        $date1 = date_create("{$fechaInicio[0]}-{$fechaInicio[1]}-{$fechaInicio[2]}");
-                        $fechaFin = explode("-",$fila1['fechaFin']);
-                        $date2 = date_create("{$fechaFin[0]}-{$fechaFin[1]}-{$fechaFin[2]}");
-                        $interval = date_diff($date1,$date2);
-                        $interval = $interval->d;
-                        if($date1 == $date2){
-                            $interval = $interval +1;
-                        }
-                        if($idReserva == $fila1['idReserva']){
-                            $flag = true;
-                        }
-                        $idReserva = $fila1['idReserva'];
-                        $numCamas = "<strong>Nro. Habitaciones: </strong>".$fila1['numeroHabitaciones'];
-                        $preferencias = "<strong>Preferencias:</strong> ".$fila1['preferencias'];
-                    }
-                }elseif ($arrayFechas[$i] == $dateFin){
-                    while ($fila1 = mysqli_fetch_array($result1)){
-                        $fechaInicio = explode("-",$fila1['fechaInicio']);
-                        $date1 = date_create("{$fechaInicio[0]}-{$fechaInicio[1]}-{$fechaInicio[2]}");
-                        $fechaFin = explode("-",$dateFin);
-                        $date2 = date_create("{$fechaFin[0]}-{$fechaFin[1]}-{$fechaFin[2]}");
-                        $interval = date_diff($date1,$date2);
-                        $interval = $interval->d;
-                        if($date1 == $date2){
-                            $interval = $interval +1;
-                        }
-                        if($idReserva == $fila1['idReserva']){
-                            $flag = true;
-                        }
-                        $idReserva = $fila1['idReserva'];
-                        $numCamas = "<strong>Nro. Habitaciones: </strong>".$fila1['numeroHabitaciones'];
-                        $preferencias = "<strong>Preferencias:</strong> ".$fila1['preferencias'];
-                    }
-                }else{
-                    while ($fila1 = mysqli_fetch_array($result1)){
-                        $fechaInicio = explode("-",$fila1['fechaInicio']);
-                        $date1 = date_create("{$fechaInicio[0]}-{$fechaInicio[1]}-{$fechaInicio[2]}");
-                        $fechaFin = explode("-",$fila1['fechaFin']);
-                        $date2 = date_create("{$fechaFin[0]}-{$fechaFin[1]}-{$fechaFin[2]}");
-                        $interval = date_diff($date1,$date2);
-                        $interval = $interval->d;
-                        if($date1 == $date2){
-                            $interval = $interval +1;
-                        }
-                        if($idReserva == $fila1['idReserva']){
-                            $flag = true;
-                        }
-                        $idReserva = $fila1['idReserva'];
-                        $numCamas = "<strong>Nro. Habitaciones: </strong>".$fila1['numeroHabitaciones'];
-                        $preferencias = "<strong>Preferencias:</strong> ".$fila1['preferencias'];
-                    }
-                }
-                if ($numrow == 0 && $idReserva == 0){
-                    echo "<td></td>";
-                    $idReserva = 0;
-                    $interval = 1;
-                }elseif($numrow > 0){
-                    echo "<td class=\"reserva\" colspan='{$interval}'><div class=\"float-right mr-2\"><i class=\"fa fa-info\" data-toggle=\"popover\" data-trigger='hover' data-html=\"true\" title='Información de Reserva' data-content='<strong>Reserva:</strong> {$idReserva}<br>{$numCamas}<br>{$preferencias}<br>' data-placement=\"top\"></i></div></td>";
-                }
-            }
-            echo "</tr>";
         }
         ?>
         </tbody>
