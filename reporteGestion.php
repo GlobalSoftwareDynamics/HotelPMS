@@ -6,6 +6,8 @@ if(isset($_SESSION['login'])){
     include('header.php');
     include('navbarRecepcion.php');
 
+    $result = mysqli_query($link,"SELECT * FROM Habitacion");
+    $numHabitaciones = mysqli_num_rows($result);
     ?>
 
     <script>
@@ -28,7 +30,7 @@ if(isset($_SESSION['login'])){
                             <form method="post">
                                 <?php
                                 if(isset($_POST['idEmpresa'])){
-                                    echo "<input type='hidden' name='idEmpresa' value='{$_POST['idMaquina']}'>";
+                                    echo "<input type='hidden' name='idEmpresa' value='{$_POST['idEmpresa']}'>";
                                     echo "<input type='hidden' name='fechaInicio' value='{$_POST['fechaInicio']}'>";
                                     echo "<input type='hidden' name='fechaFin' value='{$_POST['fechaFin']}'>";
                                 }else{
@@ -52,7 +54,7 @@ if(isset($_SESSION['login'])){
                         <div id="collapsed" class="collapse">
                             <form class="form-inline justify-content-center" method="post" action="#">
                                 <label class="sr-only" for="idEmpresa">Empresa</label>
-                                <input type="text" class="form-control mt-2 mb-2 mr-2" id="idEmpresa" name="idEmpresa" placeholder="Empresa" required>
+                                <input type="text" class="form-control mt-2 mb-2 mr-2" id="idEmpresa" name="idEmpresa" placeholder="Empresa">
                                 <label class="sr-only" for="fechaInicio">Fecha Inicio</label>
                                 <input type="date" class="form-control mt-2 mb-2 mr-2" id="fechaInicio" name="fechaInicio" data-toggle="popover" data-trigger="focus" title="Fecha de Inicio de Reporte" data-content="Seleccione la fecha inicial para el reporte generado." data-placement="top" required>
                                 <label class="sr-only" for="fechaFin">Fecha Fin</label>
@@ -75,17 +77,17 @@ if(isset($_SESSION['login'])){
                         </div>
                     ";
                 }else{
-                    if (isset($_POST['generarReporte'])&&isset($_POST['idEmpresa'])){
-                        $result = mysqli_query($link,"SELECT * FROM Empresa WHERE descripcion = '{$_POST['idEmpresa']}'");
+                    if (isset($_POST['generarReporte'])&&isset($_POST['idEmpresa'])&&$_POST['idEmpresa']!=""){
+                        $result = mysqli_query($link,"SELECT * FROM Empresa WHERE razonSocial = '{$_POST['idEmpresa']}'");
                         while ($fila = mysqli_fetch_array($result)){
-                            $empresa = $fila['descripcion'];
+                            $empresa = $fila['razonSocial'];
                             $idEmpresa = $fila['idEmpresa'];
                         }
                         ?>
                         <div class="row">
                             <div class="col-7">
                                 <div class="row">
-                                    <div class="col-4">
+                                    <div class="col-2">
                                         <p><b>Empresa:</b></p>
                                     </div>
                                     <div class="col-8">
@@ -129,7 +131,7 @@ if(isset($_SESSION['login'])){
                                     </thead>
                                     <tbody>
                                     <?php
-                                    $result = mysqli_query($link,"SELECT * FROM Ocupantes WHERE idHabitacion IN (SELECT idHabitacion FROM HabitacionReservada WHERE fechaInicio >= '{$_POST['fechaInicio']}' AND fechaInicio <= '{$_POST['fechaFin']}' AND idEstado = 4) AND idHuesped IN (SELECT idHuesped FROM Huesped WHERE idEmpresa = '{$idEmpresa}')");
+                                    $result = mysqli_query($link,"SELECT * FROM Ocupantes WHERE idHabitacion IN (SELECT idHabitacion FROM HabitacionReservada WHERE fechaInicio >= '{$_POST['fechaInicio']}' AND fechaInicio <= '{$_POST['fechaFin']}') AND idHuesped IN (SELECT idHuesped FROM Huesped WHERE idEmpresa = '{$idEmpresa}')");
                                     while ($fila = mysqli_fetch_array($result)){
 
                                     }
@@ -139,8 +141,55 @@ if(isset($_SESSION['login'])){
                             </div>
                         </div>
                         <?php
-                    }else{
+                    }elseif(isset($_POST['generarReporte'])&&isset($_POST['idEmpresa'])){
+                        ?>
+                        <div class="row">
+                            <div class="col-12">
+                                <h6 class="text-left"><b>Reporte de Ocupación:</b></h6>
+                            </div>
+                            <div class="spacer10"></div>
+                            <div class="col-12" style="height: 400px; overflow-y: auto;">
+                                <table class="table text-center">
+                                    <thead>
+                                    <tr>
+                                        <th>Empresa</th>
+                                        <th>Nro. Huespedes</th>
+                                        <th>% Ocupación</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    $aux = 0;
+                                    $totalOcupacion = 0;
+                                    $result = mysqli_query($link,"SELECT * FROM Empresa");
+                                    while ($fila = mysqli_fetch_array($result)){
+                                        $ocupacion = 0;
+                                        $result1 = mysqli_query($link,"SELECT COUNT(*) AS cantidad FROM Ocupantes WHERE idHabitacion IN (SELECT idHabitacion FROM HabitacionReservada WHERE fechaInicio >= '{$_POST['fechaInicio']} 00:00:00' AND fechaInicio <= '{$_POST['fechaFin']} 23:59:59') AND idHuesped IN (SELECT idHuesped FROM Huesped WHERE idEmpresa = '{$fila['idEmpresa']}')");
+                                        while ($fila1 = mysqli_fetch_array($result1)){
+                                            $ocupacion = round(($fila1['cantidad']/$numHabitaciones)*100,2);
+                                            $numHuespedes = $fila1['cantidad'];
+                                        }
+                                        $totalOcupacion += $ocupacion;
+                                        $aux++;
+                                        echo "<tr>";
+                                        echo "<td>{$fila['razonSocial']}</td>";
+                                        echo "<td>{$numHuespedes}</td>";
+                                        echo "<td>% {$ocupacion}</td>";
+                                        echo "</tr>";
+                                    }
 
+                                    $totalOcupacion = round($totalOcupacion / $aux,2);
+
+                                    echo "<tr>";
+                                    echo "<th colspan='2' class='text-right'>Total</th>";
+                                    echo "<td>% {$totalOcupacion}</td>";
+                                    echo "</tr>";
+                                    ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <?php
                     }
                 }
                 ?>
