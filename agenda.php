@@ -313,10 +313,10 @@ if(isset($_SESSION['login'])){
                 <a href="#" class="context-menu__link1" data-action="Checkout" id="checkout" data-id=""><i class="fa fa-sign-out"></i> Registrar Check-Out</a>
             </li>
             <li class="context-menu__item">
-                <a href="#" class="context-menu__link1" data-action="Edit" id="editar" data-id=""><i class="fa fa-eye"></i> Editar Reserva</a>
+                <a href="#" class="context-menu__link1" data-action="Edit" id="editar1" data-id=""><i class="fa fa-eye"></i> Editar Reserva</a>
             </li>
             <li class="context-menu__item">
-                <a href="#" class="context-menu__link1" data-action="View" id="ver" data-id=""><i class="fa fa-eye"></i> Ver Reserva</a>
+                <a href="#" class="context-menu__link1" data-action="View" id="ver1" data-id=""><i class="fa fa-eye"></i> Ver Reserva</a>
             </li>
         </ul>
     </nav>
@@ -324,7 +324,7 @@ if(isset($_SESSION['login'])){
     <nav id="context-menu2" class="context-menu">
         <ul class="context-menu__items">
             <li class="context-menu__item">
-                <a href="#" class="context-menu__link2" data-action="View" id="ver" data-id=""><i class="fa fa-eye"></i> Ver Reserva</a>
+                <a href="#" class="context-menu__link2" data-action="View" id="ver2" data-id=""><i class="fa fa-eye"></i> Ver Reserva</a>
             </li>
         </ul>
     </nav>

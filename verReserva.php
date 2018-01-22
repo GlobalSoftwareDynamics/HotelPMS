@@ -5,6 +5,12 @@ include('funciones.php');
 if(isset($_SESSION['login'])){
     include('header.php');
     include('navbarRecepcion.php');
+
+    if (isset($_GET['idReserva'])) {
+        $ids = explode("_", $_GET['idReserva']);
+        $_POST['idReserva'] = $ids[0];
+        $_POST['idHabitacion'] = $ids[1];
+    }
     ?>
 
     <?php
@@ -99,12 +105,18 @@ if(isset($_SESSION['login'])){
 
             <?php
         }else{
-            $queryHuesped = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = {$_POST['idHuesped']}");
-            while($rowHuesped = mysqli_fetch_array($queryHuesped)){
-                $idHuesped = $rowHuesped['idHuesped'];
-                $nombreHuesped = $rowHuesped['nombreCompleto'];
-                $telefonoHuesped = $rowHuesped['telefonoCelular'];
-                $emailHuesped = $rowHuesped['correoElectronico'];
+            $huesped = mysqli_query($link,"SELECT * FROM Reserva WHERE idReserva = '{$_POST['idReserva']}'");
+            while ($row = mysqli_fetch_array($huesped)){
+                $huesped1 = mysqli_query($link,"SELECT * FROM Ocupantes WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}' AND cargos = 1");
+                while ($row1 = mysqli_fetch_array($huesped1)){
+                    $huesped2 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$row1['idHuesped']}'");
+                    while ($row2 = mysqli_fetch_array($huesped2)){
+                        $nombreHuesped = $row2['nombreCompleto'];
+                        $idHuesped = $row2['idHuesped'];
+                        $telefonoHuesped = $row2['telefonoCelular'];
+                        $emailHuesped = $row2['correoElectronico'];
+                    }
+                }
             }
             ?>
             <section class="container">
@@ -383,68 +395,68 @@ if(isset($_SESSION['login'])){
                                                 $estadoActivo = "";
                                             }
                                             ?>
-                                                <div class="tab-pane <?php echo $estadoActivo;?>" id="<?php echo $fila2['idHabitacion'];?>" role="tabpanel">
-                                                    <div class="row">
-                                                        <div class="col-5">
-                                                            <p class="text-center"><strong>Detalles de la Estadía</strong></p>
-                                                            <div class="row">
-                                                                <div class="col-3"><p><b>Check In:</b></p></div>
-                                                                <div class="col-9"><p><?php echo $fila2['fechaInicio'];?></p></div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-3"><p><b>Nro. Noches:</b></p></div>
-                                                                <div class="col-9"><p><?php echo $interval;?></p></div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-3"><p><b>Check Out:</b></p></div>
-                                                                <div class="col-9"><p><?php echo $fila2['fechaFin'];?></p></div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-3"><p><b>Preferencias:</b></p></div>
-                                                                <div class="col-9"><p><?php echo $fila2['preferencias'];?></p></div>
-                                                            </div>
+                                            <div class="tab-pane <?php echo $estadoActivo;?>" id="<?php echo $fila2['idHabitacion'];?>" role="tabpanel">
+                                                <div class="row">
+                                                    <div class="col-5">
+                                                        <p class="text-center"><strong>Detalles de la Estadía</strong></p>
+                                                        <div class="row">
+                                                            <div class="col-3"><p><b>Check In:</b></p></div>
+                                                            <div class="col-9"><p><?php echo $fila2['fechaInicio'];?></p></div>
                                                         </div>
-                                                        <div class="col-7">
-                                                            <p class="text-center"><strong>Ocupantes de la Habitación</strong></p>
-                                                            <table class="table text-center">
-                                                                <thead>
-                                                                <tr>
-                                                                    <th class="text-center">DNI</th>
-                                                                    <th class="text-center">Nombre</th>
-                                                                    <th class="text-center">Fecha Nacimiento</th>
-                                                                    <th class="text-center">Email</th>
-                                                                    <th class="text-center">Cargos</th>
-                                                                </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                <?php
-                                                                $result3 = mysqli_query($link,"SELECT * FROM Ocupantes WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$fila2['idHabitacion']}'");
-                                                                while ($fila3 = mysqli_fetch_array($result3)){
-                                                                    switch ($fila3['cargos']){
-                                                                        case 0:
-                                                                            $cargos = "Si";
-                                                                            break;
-                                                                        case 1:
-                                                                            $cargos = "No";
-                                                                            break;
-                                                                    }
-                                                                    $result4 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$fila3['idHuesped']}'");
-                                                                    while ($fila4 = mysqli_fetch_array($result4)){
-                                                                        echo "<tr>";
-                                                                        echo "<td>{$fila3['idHuesped']}</td>";
-                                                                        echo "<td>{$fila4['nombreCompleto']}</td>";
-                                                                        echo "<td>{$fila4['fechaNacimiento']}</td>";
-                                                                        echo "<td>{$fila4['correoElectronico']}</td>";
-                                                                        echo "<td>{$cargos}</td>";
-                                                                        echo "</tr>";
-                                                                    }
-                                                                }
-                                                                ?>
-                                                                </tbody>
-                                                            </table>
+                                                        <div class="row">
+                                                            <div class="col-3"><p><b>Nro. Noches:</b></p></div>
+                                                            <div class="col-9"><p><?php echo $interval;?></p></div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-3"><p><b>Check Out:</b></p></div>
+                                                            <div class="col-9"><p><?php echo $fila2['fechaFin'];?></p></div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-3"><p><b>Preferencias:</b></p></div>
+                                                            <div class="col-9"><p><?php echo $fila2['preferencias'];?></p></div>
                                                         </div>
                                                     </div>
+                                                    <div class="col-7">
+                                                        <p class="text-center"><strong>Ocupantes de la Habitación</strong></p>
+                                                        <table class="table text-center">
+                                                            <thead>
+                                                            <tr>
+                                                                <th class="text-center">DNI</th>
+                                                                <th class="text-center">Nombre</th>
+                                                                <th class="text-center">Fecha Nacimiento</th>
+                                                                <th class="text-center">Email</th>
+                                                                <th class="text-center">Cargos</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <?php
+                                                            $result3 = mysqli_query($link,"SELECT * FROM Ocupantes WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$fila2['idHabitacion']}'");
+                                                            while ($fila3 = mysqli_fetch_array($result3)){
+                                                                switch ($fila3['cargos']){
+                                                                    case 0:
+                                                                        $cargos = "Si";
+                                                                        break;
+                                                                    case 1:
+                                                                        $cargos = "No";
+                                                                        break;
+                                                                }
+                                                                $result4 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$fila3['idHuesped']}'");
+                                                                while ($fila4 = mysqli_fetch_array($result4)){
+                                                                    echo "<tr>";
+                                                                    echo "<td>{$fila3['idHuesped']}</td>";
+                                                                    echo "<td>{$fila4['nombreCompleto']}</td>";
+                                                                    echo "<td>{$fila4['fechaNacimiento']}</td>";
+                                                                    echo "<td>{$fila4['correoElectronico']}</td>";
+                                                                    echo "<td>{$cargos}</td>";
+                                                                    echo "</tr>";
+                                                                }
+                                                            }
+                                                            ?>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
+                                            </div>
                                             <?php
                                         }
                                         ?>
@@ -459,6 +471,7 @@ if(isset($_SESSION['login'])){
 
             <?php
         }
+
     }
     include('footer.php');
 }

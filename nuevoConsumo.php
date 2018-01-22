@@ -8,14 +8,20 @@ if(isset($_SESSION['login'])){
 
 	if (isset($_POST['addConsumo'])){
 
-	    $query = mysqli_query($link,"INSERT INTO Transaccion(idTransaccion,idColaborador,idReserva,idHuesped,idHabitacion,monto,detalle,fechaTransaccion,descuento) VALUES 
-        ('{$_POST['idTransaccion']}','{$_SESSION['user']}','{$_POST['idReserva']}','{$_POST['idHuesped']}','{$_POST['idHabitacion']}','{$_POST['monto']}','{$_POST['descripcion']}','{$dateTime}','{$_POST['descuento']}')");
+	    $query = mysqli_query($link,"INSERT INTO Transaccion(idTransaccion,idColaborador,idReserva,idHuesped,idHabitacion,monto,detalle,fechaTransaccion,descuento,tipo) VALUES 
+        ('{$_POST['idTransaccion']}','{$_SESSION['user']}','{$_POST['idReserva']}','{$_POST['idHuesped']}','{$_POST['idHabitacion']}','{$_POST['monto']}','{$_POST['descripcion']}','{$dateTime}','{$_POST['descuento']}','{$_POST['servicio']}')");
 
-	    $queryPerformed = "INSERT INTO Transaccion(idTransaccion,idColaborador,idReserva,idHuesped,idHabitacion,monto,detalle,fechaTransaccion,descuento) VALUES 
-        ({$_POST['idTransaccion']},{$_SESSION['user']},{$_POST['idReserva']},{$_POST['idHuesped']},{$_POST['idHabitacion']},{$_POST['monto']},{$_POST['descripcion']},{$dateTime},{$_POST['descuento']})";
+	    $queryPerformed = "INSERT INTO Transaccion(idTransaccion,idColaborador,idReserva,idHuesped,idHabitacion,monto,detalle,fechaTransaccion,descuento,tipo) VALUES 
+        ({$_POST['idTransaccion']},{$_SESSION['user']},{$_POST['idReserva']},{$_POST['idHuesped']},{$_POST['idHabitacion']},{$_POST['monto']},{$_POST['descripcion']},{$dateTime},{$_POST['descuento']},{$_POST['servicio']})";
 
         $databaseLog = mysqli_query($link, "INSERT INTO DatabaseLog (idColaborador,fechaHora,evento,tipo,consulta) VALUES ('{$_SESSION['user']}','{$date}','INSERT','Transaccion','{$queryPerformed}')");
 
+    }
+
+    if (isset($_GET['idReserva'])) {
+        $ids = explode("_", $_GET['idReserva']);
+        $_POST['idReserva'] = $ids[0];
+        $_POST['idHabitacion'] = $ids[1];
     }
 	?>
 
@@ -71,6 +77,7 @@ if(isset($_SESSION['login'])){
                                         <th class="text-center">Fecha y Hora</th>
                                         <th class="text-center">Huesped</th>
                                         <th class="text-center">Descripción</th>
+                                        <th class="text-center">Servicio</th>
                                         <th class="text-center">Monto (Incl. tax)</th>
                                     </tr>
                                     </thead>
@@ -88,6 +95,7 @@ if(isset($_SESSION['login'])){
                                         echo "<td>{$fila['fechaTransaccion']}</td>";
                                         echo "<td>{$nombreCompleto}</td>";
                                         echo "<td>{$fila['detalle']}</td>";
+                                        echo "<td>{$fila['tipo']}</td>";
                                         echo "<td>S/. {$fila['monto']}</td>";
                                         echo "</tr>";
 
@@ -95,7 +103,7 @@ if(isset($_SESSION['login'])){
                                     }
                                     ?>
                                     <tr>
-                                        <td colspan="4" class="text-right"><strong>Total</strong></td>
+                                        <td colspan="5" class="text-right"><strong>Total</strong></td>
                                         <td>S/. <?php echo $totalConsumo;?></td>
                                     </tr>
                                     </tbody>
@@ -122,11 +130,35 @@ if(isset($_SESSION['login'])){
 						<div class="container-fluid">
                             <input type="hidden" name="idReserva" value="<?php echo $_POST['idReserva'];?>">
                             <input type="hidden" name="idHabitacion" value="<?php echo $_POST['idHabitacion'];?>">
-                            <input type="hidden" name="idHuesped" value="<?php echo $_POST['idHuesped'];?>">
 							<div class="form-group row">
 								<label class="col-form-label" for="idTransaccion">Transacción:</label>
 								<input type="text" class="form-control" name="idTransaccion" id="idTransaccion" value="<?php $idTransaccion = idgen("TRS"); echo $idTransaccion;?>">
 							</div>
+                            <div class="form-group row">
+                                <label class="col-form-label" for="idHuesped">Huesped:</label>
+                                <select class="form-control" name="idHuesped" id="idHuesped">
+                                    <option disabled selected>Seleccionar</option>
+                                    <?php
+                                    $result1 = mysqli_query($link,"SELECT * FROM Ocupantes WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
+                                    while ($fila1 = mysqli_fetch_array($result1)){
+                                        $result2 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$fila1['idHuesped']}'");
+                                        while ($fila2 = mysqli_fetch_array($result2)){
+                                            echo "<option value='{$fila2['idHuesped']}'>{$fila2['nombreCompleto']}</option>";
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label" for="servicio">Servicio:</label>
+                                <select class="form-control" name="servicio" id="servicio">
+                                    <option disabled selected>Seleccionar</option>
+                                    <option>Lavandería</option>
+                                    <option>Cafetería</option>
+                                    <option>Telefax</option>
+                                    <option>Otros</option>
+                                </select>
+                            </div>
 							<div class="form-group row">
 								<label class="col-form-label" for="descripcion">Descripcion:</label>
 								<input type="text" class="form-control" name="descripcion" id="descripcion">

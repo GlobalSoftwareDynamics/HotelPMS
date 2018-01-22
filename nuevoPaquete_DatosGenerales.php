@@ -23,7 +23,7 @@ if(isset($_SESSION['login'])){
                             </div>
                             <div class="float-right">
                                 <div class="dropdown">
-                                    <input name="addPaquete" type="submit" form="formPaquete" class="btn btn-light btn-sm" formaction="nuevoPaquete_Caracteristicas.php" value="Guardar">
+                                    <input name="addPaquete" type="submit" form="formPaquete" class="btn btn-light btn-sm" formaction="nuevoPaquete_Habitaciones.php" value="Guardar">
                                     <input name="regresar" type="submit" form="formPaquete" class="btn btn-light btn-sm" formaction="gestionPaquetes.php" value="Regresar">
                                 </div>
                             </div>
