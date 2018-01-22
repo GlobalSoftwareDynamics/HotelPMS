@@ -132,10 +132,10 @@
             if( taskItemInContext1 ){
                 console.log("2");
 
-                document.getElementById("checkin").setAttribute('data-id',taskItemInContext1.getAttribute("data-id"));
-                document.getElementById("ver").setAttribute('data-id',taskItemInContext1.getAttribute("data-id")+"_"+taskItemInContext1.getAttribute("data-habitacion"));
-                document.getElementById("editar").setAttribute('data-id',taskItemInContext1.getAttribute("data-id"));
-                document.getElementById("eliminar").setAttribute('data-id',taskItemInContext1.getAttribute("data-id"));
+                document.getElementById("consumo").setAttribute('data-id',taskItemInContext1.getAttribute("data-id")+"_"+taskItemInContext1.getAttribute("data-habitacion"));
+                document.getElementById("checkout").setAttribute('data-id',taskItemInContext1.getAttribute("data-id")+"_"+taskItemInContext1.getAttribute("data-habitacion"));
+                document.getElementById("ver1").setAttribute('data-id',taskItemInContext1.getAttribute("data-id")+"_"+taskItemInContext1.getAttribute("data-habitacion"));
+                document.getElementById("editar1").setAttribute('data-id',taskItemInContext1.getAttribute("data-id"));
 
                 e.preventDefault();
                 toggleMenuOn1();
@@ -145,10 +145,7 @@
             if( taskItemInContext2 ){
                 console.log("3");
 
-                document.getElementById("checkin").setAttribute('data-id',taskItemInContext2.getAttribute("data-id"));
-                document.getElementById("ver").setAttribute('data-id',taskItemInContext2.getAttribute("data-id")+"_"+taskItemInContext2.getAttribute("data-habitacion"));
-                document.getElementById("editar").setAttribute('data-id',taskItemInContext2.getAttribute("data-id"));
-                document.getElementById("eliminar").setAttribute('data-id',taskItemInContext2.getAttribute("data-id"));
+                document.getElementById("ver2").setAttribute('data-id',taskItemInContext2.getAttribute("data-id")+"_"+taskItemInContext2.getAttribute("data-habitacion"));
 
                 e.preventDefault();
                 toggleMenuOn2();

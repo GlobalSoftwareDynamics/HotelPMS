@@ -77,6 +77,19 @@
     </script>
 	<?php
 	}
+    if($_SERVER['REQUEST_URI'] == '/hotelPMS/reporteGestion.php'){
+        $arrayNombresHuespedes = autocompletar('Empresa', 'razonSocial', $link);
+        echo $arrayNombresHuespedes;
+        ?>
+        <script>
+            $( function() {
+                $( "#idEmpresa" ).autocomplete({
+                    source: <?php echo $arrayNombresHuespedes;?>
+                });
+            } );
+        </script>
+        <?php
+    }
 	?>
 </head>
 

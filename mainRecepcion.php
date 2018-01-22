@@ -90,9 +90,6 @@ if(isset($_SESSION['login'])){
 							<li class="nav-item">
 								<a class="nav-link" data-toggle="tab" href="#checkout" role="tab">Registrados</a>
 							</li>
-							<li class="nav-item">
-								<a class="nav-link" data-toggle="tab" href="#sobrestadia" role="tab">Sobrestadía</a>
-							</li>
 						</ul>
 						<div class="tab-content">
 							<div class="tab-pane active" id="arribos" role="tabpanel">
@@ -157,7 +154,6 @@ if(isset($_SESSION['login'])){
                                                                 <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuButton\">
                                                                     <input type='hidden' name='idReserva' value='{$fila['idReserva']}'>
                                                                     <input type='hidden' name='idHabitacion' value='{$fila['idHabitacion']}'>
-                                                                    <input type='hidden' name='idHuesped' value='$idHuesped'>
                                                                     <input type=\"submit\" value=\"Check-In\" class=\"dropdown-item\" formaction=\"nuevaReserva.php\" name='confirmarReserva'>
                                                                     <input type=\"submit\" value=\"Ver Reserva\" class=\"dropdown-item\" formaction=\"verReserva.php\">
                                                                     <input type=\"submit\" value=\"Editar Reserva\" class=\"dropdown-item\" formaction=\"nuevaReserva.php\">
@@ -225,7 +221,6 @@ if(isset($_SESSION['login'])){
                                                                 <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuButton\">
                                                                     <input type='hidden' name='idReserva' value='{$fila['idReserva']}'>
                                                                     <input type='hidden' name='idHabitacion' value='{$fila['idHabitacion']}'>
-                                                                    <input type='hidden' name='idHuesped' value='$idHuesped'>
                                                                     <input type=\"submit\" value=\"Ver Reserva\" class=\"dropdown-item\" formaction=\"verReserva.php\">
                                                                     <input type=\"submit\" value=\"Editar Reserva\" class=\"dropdown-item\" formaction=\"nuevaReserva.php\">
                                                                     <input type=\"submit\" value=\"Eliminar\" class=\"dropdown-item\" formaction=\"#\">
@@ -297,7 +292,6 @@ if(isset($_SESSION['login'])){
                                                                 <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuButton\">
                                                                     <input type='hidden' name='idReserva' value='{$fila['idReserva']}'>
                                                                     <input type='hidden' name='idHabitacion' value='{$fila['idHabitacion']}'>
-                                                                    <input type='hidden' name='idHuesped' value='{$idHuesped}'>
                                                                     <input type=\"submit\" value=\"Registrar Consumo\" class=\"dropdown-item\" formaction=\"nuevoConsumo.php\">
                                                                     <input type=\"submit\" value=\"Registrar Check-out\" class=\"dropdown-item\" formaction=\"registrarCheckout.php\">
                                                                     <input type=\"submit\" value=\"Ver Reserva\" class=\"dropdown-item\" formaction=\"verReserva.php\">
@@ -357,139 +351,6 @@ if(isset($_SESSION['login'])){
                                                                 <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuButton\">
                                                                     <input type='hidden' name='idReserva' value='{$fila['idReserva']}'>
                                                                     <input type='hidden' name='idHabitacion' value='{$fila['idHabitacion']}'>
-                                                                    <input type='hidden' name='idHuesped' value='{$idHuesped}'>
-                                                                    <input type=\"submit\" value=\"Registrar Consumo\" class=\"dropdown-item\" formaction=\"nuevoConsumo.php\">
-                                                                    <input type=\"submit\" value=\"Registrar Check-out\" class=\"dropdown-item\" formaction=\"registrarCheckout.php\">
-                                                                    <input type=\"submit\" value=\"Ver Reserva\" class=\"dropdown-item\" formaction=\"verReserva.php\">
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                      </td>
-                                                ";
-                                                echo "</tr>";
-                                            }
-                                            ?>
-                                            </tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-							<div class="tab-pane" id="sobrestadia" role="tabpanel">
-								<ul class="nav nav-tabs" role="tablist">
-									<li class="nav-item">
-										<a class="nav-link active" data-toggle="tab" href="#hoy3" role="tab">Hoy</a>
-									</li>
-									<li class="nav-item">
-										<a class="nav-link" data-toggle="tab" href="#manana3" role="tab">Mañana</a>
-									</li>
-								</ul>
-								<div class="spacer10"></div>
-								<div class="tab-content">
-									<div class="tab-pane active" id="hoy3" role="tabpanel">
-										<table class="table text-center">
-											<thead>
-											<tr>
-												<th class="text-center">Huésped</th>
-                                                <th class="text-center">Empresa</th>
-												<th class="text-center">ID Reserva</th>
-												<th class="text-center">Habitación</th>
-												<th class="text-center">Acciones</th>
-											</tr>
-											</thead>
-                                            <tbody>
-                                            <?php
-                                            $date = date("Y-m-d");
-                                            $result = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE idEstado = '8' ORDER BY fechaInicio DESC");
-                                            while ($fila = mysqli_fetch_array($result)){
-                                                $result1 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped IN (SELECT idHuesped FROM Ocupantes WHERE idReserva = '{$fila['idReserva']}' AND idHabitacion = '{$fila['idHabitacion']}')");
-                                                while ($fila1 = mysqli_fetch_array($result1)){
-                                                    $result3 = mysqli_query($link,"SELECT * FROM Empresa WHERE idEmpresa = '{$fila1['idEmpresa']}'");
-                                                    $numrows = mysqli_num_rows($result3);
-                                                    if ($numrows == 0){
-                                                        $empresa = "Sin Empresa";
-                                                    }else{
-                                                        while ($fila3 = mysqli_fetch_array($result3)){
-                                                            $empresa = $fila3['razonSocial'];
-                                                        }
-                                                    }
-                                                    $nombre = $fila1['nombreCompleto'];
-                                                    $idHuesped = $fila1['idHuesped'];
-                                                }
-                                                echo "<tr>";
-                                                echo "<td>{$nombre}</td>";
-                                                echo "<td>{$empresa}</td>";
-                                                echo "<td>{$fila['idReserva']}</td>";
-                                                echo "<td>{$fila['idHabitacion']}</td>";
-                                                echo "<td>
-                                                        <form method='post'>
-                                                            <div class=\"dropdown\">
-                                                                <button class=\"btn btn-primary btn-sm dropdown-toggle\" type=\"button\" id=\"dropdownMenuButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
-                                                                    Acciones
-                                                                </button>
-                                                                <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuButton\">
-                                                                    <input type='hidden' name='idReserva' value='{$fila['idReserva']}'>
-                                                                    <input type='hidden' name='idHabitacion' value='{$fila['idHabitacion']}'>
-                                                                    <input type='hidden' name='idHuesped' value='{$idHuesped}'>
-                                                                    <input type=\"submit\" value=\"Registrar Consumo\" class=\"dropdown-item\" formaction=\"nuevoConsumo.php\">
-                                                                    <input type=\"submit\" value=\"Registrar Check-out\" class=\"dropdown-item\" formaction=\"registrarCheckout.php\">
-                                                                    <input type=\"submit\" value=\"Ver Reserva\" class=\"dropdown-item\" formaction=\"verReserva.php\">
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                      </td>
-                                                ";
-                                                echo "</tr>";
-                                            }
-                                            ?>
-                                            </tbody>
-										</table>
-									</div>
-									<div class="tab-pane" id="manana3" role="tabpanel">
-										<table class="table text-center">
-											<thead>
-											<tr>
-                                                <th class="text-center">Huésped</th>
-                                                <th class="text-center">Empresa</th>
-                                                <th class="text-center">ID Reserva</th>
-                                                <th class="text-center">Habitación</th>
-                                                <th class="text-center">Acciones</th>
-											</tr>
-											</thead>
-                                            <tbody>
-                                            <?php
-                                            $date = date("Y-m-d");
-                                            $date = date('Y-m-d', strtotime($date . ' +1 day'));
-                                            $result = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE idEstado = '8' ORDER BY fechaInicio DESC");
-                                            while ($fila = mysqli_fetch_array($result)){
-                                                $result1 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped IN (SELECT idHuesped FROM Ocupantes WHERE idReserva = '{$fila['idReserva']}' AND idHabitacion = '{$fila['idHabitacion']}')");
-                                                while ($fila1 = mysqli_fetch_array($result1)){
-                                                    $result3 = mysqli_query($link,"SELECT * FROM Empresa WHERE idEmpresa = '{$fila1['idEmpresa']}'");
-                                                    $numrows = mysqli_num_rows($result3);
-                                                    if ($numrows == 0){
-                                                        $empresa = "Sin Empresa";
-                                                    }else{
-                                                        while ($fila3 = mysqli_fetch_array($result3)){
-                                                            $empresa = $fila3['razonSocial'];
-                                                        }
-                                                    }
-                                                    $nombre = $fila1['nombreCompleto'];
-                                                    $idHuesped = $fila1['idHuesped'];
-                                                }
-                                                echo "<tr>";
-                                                echo "<td>{$nombre}</td>";
-                                                echo "<td>{$empresa}</td>";
-                                                echo "<td>{$fila['idReserva']}</td>";
-                                                echo "<td>{$fila['idHabitacion']}</td>";
-                                                echo "<td>
-                                                        <form method='post'>
-                                                            <div class=\"dropdown\">
-                                                                <button class=\"btn btn-primary btn-sm dropdown-toggle\" type=\"button\" id=\"dropdownMenuButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
-                                                                    Acciones
-                                                                </button>
-                                                                <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuButton\">
-                                                                    <input type='hidden' name='idReserva' value='{$fila['idReserva']}'>
-                                                                    <input type='hidden' name='idHabitacion' value='{$fila['idHabitacion']}'>
-                                                                    <input type='hidden' name='idHuesped' value='{$idHuesped}'>
                                                                     <input type=\"submit\" value=\"Registrar Consumo\" class=\"dropdown-item\" formaction=\"nuevoConsumo.php\">
                                                                     <input type=\"submit\" value=\"Registrar Check-out\" class=\"dropdown-item\" formaction=\"registrarCheckout.php\">
                                                                     <input type=\"submit\" value=\"Ver Reserva\" class=\"dropdown-item\" formaction=\"verReserva.php\">
@@ -625,7 +486,6 @@ if(isset($_SESSION['login'])){
 										<th class="text-center">ID Reserva</th>
 										<th class="text-center">Habitación</th>
 										<th class="text-center">Monto</th>
-										<th class="text-center">Acciones</th>
 									</tr>
 									</thead>
                                     <tbody>
@@ -643,20 +503,6 @@ if(isset($_SESSION['login'])){
                                         echo "<td>{$fila['idReserva']}</td>";
                                         echo "<td>{$fila['idHabitacion']}</td>";
                                         echo "<td>S/. {$fila['monto']}</td>";
-                                        echo "<td>
-                                                        <form method='post'>
-                                                            <div class=\"dropdown\">
-                                                                <button class=\"btn btn-primary btn-sm dropdown-toggle\" type=\"button\" id=\"dropdownMenuButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
-                                                                    Acciones
-                                                                </button>
-                                                                <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuButton\">
-                                                                    <input type='hidden' name='idTransaccion' value='{$fila['idTransaccion']}'>
-                                                                    <input type=\"submit\" value=\"Ver Detalle\" class=\"dropdown-item\" formaction=\"verDetalleConsumo.php\">
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                      </td>
-                                                ";
                                         echo "</tr>";
                                     }
                                     ?>
