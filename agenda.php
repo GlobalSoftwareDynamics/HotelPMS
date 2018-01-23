@@ -108,16 +108,7 @@ if(isset($_SESSION['login'])){
                                         $numrow = mysqli_num_rows($result2);
                                         if($arrayFechas[$i] == $dateIni){
                                             while ($fila2 = mysqli_fetch_array($result2)){
-                                                $fechaInicio = explode("-",$dateIni);
-                                                $date1 = date_create("{$fechaInicio[0]}-{$fechaInicio[1]}-{$fechaInicio[2]}");
-                                                $fechaFin = explode(" ",$fila2['fechaFin']);
-                                                $fechaFin = explode("-",$fechaFin[0]);
-                                                $date2 = date_create("{$fechaFin[0]}-{$fechaFin[1]}-{$fechaFin[2]}");
-                                                $interval = date_diff($date1,$date2);
-                                                $interval = $interval->d;
-                                                if($date1 == $date2){
-                                                    $interval = $interval +1;
-                                                }
+                                                $interval = timeInterval($dateIni,$fila2['fechaFin']);
                                                 if($idReserva == $fila2['idReserva']){
                                                     $flag = true;
                                                 }
@@ -143,16 +134,7 @@ if(isset($_SESSION['login'])){
                                             }
                                         }elseif ($arrayFechas[$i] == $dateFin){
                                             while ($fila2 = mysqli_fetch_array($result2)){
-                                                $fechaInicio = explode(" ",$fila2['fechaInicio']);
-                                                $fechaInicio = explode("-",$fechaInicio[0]);
-                                                $date1 = date_create("{$fechaInicio[0]}-{$fechaInicio[1]}-{$fechaInicio[2]}");
-                                                $fechaFin = explode("-",$dateFin);
-                                                $date2 = date_create("{$fechaFin[0]}-{$fechaFin[1]}-{$fechaFin[2]}");
-                                                $interval = date_diff($date1,$date2);
-                                                $interval = $interval->d;
-                                                if($date1 == $date2){
-                                                    $interval = $interval +1;
-                                                }
+                                                $interval = timeInterval($fila2['fechaInicio'],$dateFin);
                                                 if($idReserva == $fila2['idReserva']){
                                                     $flag = true;
                                                 }
@@ -178,17 +160,7 @@ if(isset($_SESSION['login'])){
                                             }
                                         }else{
                                             while ($fila2 = mysqli_fetch_array($result2)){
-                                                $fechaInicio = explode(" ",$fila2['fechaInicio']);
-                                                $fechaInicio = explode("-",$fechaInicio[0]);
-                                                $date1 = date_create("{$fechaInicio[0]}-{$fechaInicio[1]}-{$fechaInicio[2]}");
-                                                $fechaFin = explode(" ",$fila2['fechaFin']);
-                                                $fechaFin = explode("-",$fechaFin[0]);
-                                                $date2 = date_create("{$fechaFin[0]}-{$fechaFin[1]}-{$fechaFin[2]}");
-                                                $interval = date_diff($date1,$date2);
-                                                $interval = $interval->d;
-                                                if($date1 == $date2){
-                                                    $interval = $interval +1;
-                                                }
+                                                $interval = timeInterval($fila2['fechaInicio'],$fila2['fechaFin']);
                                                 if($idReserva == $fila2['idReserva']){
                                                     $flag = true;
                                                 }

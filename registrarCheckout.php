@@ -73,6 +73,10 @@ if(isset($_SESSION['login'])){
             while ($fila2 = mysqli_fetch_array($result2)){
                 $nombreCompleto = $fila2['nombreCompleto'];
                 $idHuespedCargos = $fila2['idHuesped'];
+                $result3 = mysqli_query($link,"SELECT * FROM Empresa WHERE idEmpresa = '{$fila2['idEmpresa']}'");
+                while ($fila3 = mysqli_fetch_array($result3)){
+                    $nombreEmpresa = $fila3['razonSocial'];
+                }
             }
         }
     }
@@ -108,7 +112,10 @@ if(isset($_SESSION['login'])){
                         <i class="fa fa-table"></i> Listado de Consumos
                         <div class="float-right">
                             <form method="post">
+                                <input type="hidden" value="<?php echo $_POST['idReserva']?>">
+                                <input type="hidden" value="<?php echo $_POST['idHabitacion']?>">
                                 <button type="button" class="btn btn-sm btn-light" data-toggle="modal" data-target="#modalConsumo">Nuevo Consumo</button>
+                                <input type="submit" class="btn btn-sm btn-light" formaction="registroCheckoutPDF.php" value="Descargar PDF">
                                 <input type="submit" class="btn btn-sm btn-light" formaction="mainRecepcion.php" value="Regresar">
                             </form>
                         </div>
@@ -127,6 +134,10 @@ if(isset($_SESSION['login'])){
                                 <div class="row">
                                     <div class="col-5"><p><b>Huesped Titular:</b></p></div>
                                     <div class="col-7"><p><?php echo $nombreCompleto?></p></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-5"><p><b>Empresa:</b></p></div>
+                                    <div class="col-7"><p><?php echo $nombreEmpresa?></p></div>
                                 </div>
                             </div>
                             <div class="col-6">

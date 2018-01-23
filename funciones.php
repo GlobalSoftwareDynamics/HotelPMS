@@ -137,3 +137,18 @@ function idgen($clase){
 	$id=$clase.$fecha[2].$fecha[0].$fecha[1].$aux.$hora[1].$hora[2];
 	return $id;
 }
+
+function timeInterval ($fechaInicio, $fechaFin){
+    $fechaInicio = explode(" ",$fechaInicio);
+    $fechaInicio = explode("-",$fechaInicio[0]);
+    $date1 = date_create("{$fechaInicio[0]}-{$fechaInicio[1]}-{$fechaInicio[2]}");
+    $fechaFin = explode(" ",$fechaFin);
+    $fechaFin = explode("-",$fechaFin[0]);
+    $date2 = date_create("{$fechaFin[0]}-{$fechaFin[1]}-{$fechaFin[2]}");
+    $interval = date_diff($date1,$date2);
+    $interval = $interval->d;
+    if($date1 == $date2){
+        $interval = $interval +1;
+    }
+    return $interval;
+}

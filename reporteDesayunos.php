@@ -29,34 +29,41 @@ if(isset($_SESSION['login'])){
                         <th style="width: 15%">Habitación</th>
                         <th style="width: 15%">Nro. Ocupantes</th>
                         <th style="width: 15%">Resv.</th>
-                        <th style="width: 55%">Titular (Apellido/Nombre)</th>
+                        <th style="width: 55%">Titular (Nombres/Apellidos)</th>
                     </tr>
                     </thead>
                     <tbody>
     ';
+    $cantidadHuespedesDia = 0;
     $result = mysqli_query($link,"SELECT * FROM Habitacion ORDER BY idHabitacion ASC");
     while ($fila = mysqli_fetch_array($result)){
         $html .= '<tr>';
-        $result1 = mysqli_query($link,"SELECT idHuesped, COUNT(idHuesped) AS numero FROM Ocupantes WHERE idHabitacion IN (SELECT idHabitacion FROM HabitacionReservada WHERE fechaInicio <= '{$date} 23:59:59' AND fechaFin > '{$date}' AND idEstado = 4 AND idHabitacion = '{$fila['idHabitacion']}')");
-        $numrow = mysqli_num_rows($result1);
-        if($numrow > 0){
-            while ($fila1 = mysqli_fetch_array($result1)){
-                $result2 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$fila1['idHuesped']}'");
-                while ($fila2 = mysqli_fetch_array($result2)){
-                    $nombre = $fila2['nombreCompleto'];
-                }
-                $html .= '<td>'.$fila['idHabitacion'].'</td>';
-                $html .= '<td>'.$fila1['numero'].'</td>';
-                $html .= '<td></td>';
-                $html .= '<td>'.$nombre.'</td>';
-                $html .= '</tr>';
+        $cantidadHuespedesDia = 0;
+        $nobmreCompleto = "";
+        $result1 = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE fechaFin >= '{$date} 23:59:59' AND idEstado IN (4) AND idHabitacion = '{$fila['idHabitacion']}'");
+        while ($fila1 = mysqli_fetch_array($result1)){
+            $result2 = mysqli_query($link,"SELECT COUNT(*) AS cantidad FROM Ocupantes WHERE idHabitacion = '{$fila1['idHabitacion']}' AND idReserva = '{$fila1['idReserva']}'");
+            while ($fila2 = mysqli_fetch_array($result2)){
+                $cantidadHuespedesDia += $fila2['cantidad'];
             }
+
+            $result2 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped IN (SELECT idHuesped FROM Ocupantes WHERE idHabitacion = '{$fila1['idHabitacion']}' AND idReserva = '{$fila1['idReserva']}' AND cargos = 1)");
+            while ($fila2 = mysqli_fetch_array($result2)){
+                $nobmreCompleto = $fila2['nombreCompleto'];
+            }
+        }
+        if($cantidadHuespedesDia == 0){
+            $html .= "<td>{$fila['idHabitacion']}</td>";
+            $html .= "<td>{$cantidadHuespedesDia}</td>";
+            $html .= "<td></td>";
+            $html .= "<td></td>";
+            $html .= "</tr>";
         }else{
-            $html .= '<td>'.$fila['idHabitacion'].'</td>';
-            $html .= '<td></td>';
-            $html .= '<td></td>';
-            $html .= '<td></td>';
-            $html .= '</tr>';
+            $html .= "<td>{$fila['idHabitacion']}</td>";
+            $html .= "<td>{$cantidadHuespedesDia}</td>";
+            $html .= "<td></td>";
+            $html .= "<td>{$nobmreCompleto}</td>";
+            $html .= "</tr>";
         }
     }
 
