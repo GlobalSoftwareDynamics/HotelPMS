@@ -86,7 +86,7 @@ if(isset($_SESSION['login'])){
                 </div>
                 <div class="col-12 bordeslados">
                     <div class="spacer10"></div>
-                    <div>
+                    <div style="font-size: 12px">
                          <div><p style="margin-bottom: 0;"><span style="font-weight: bold">Reserva:</span> '.$_POST['idReserva'].'</p></div>
                          <div><p style="margin-bottom: 0;"><span style="font-weight: bold">Habitación:</span> '.$_POST['idHabitacion'].'</p></div>
                          <div><p style="margin-bottom: 0;"><span style="font-weight: bold">Paquete:</span> '.$paquete.'</p></div>
@@ -334,10 +334,43 @@ if(isset($_SESSION['login'])){
                     </table>
                 </div>
             </div>
-        </section>
+            <div class=\'spacer10\'></div>
+            <div class="row" style="border-bottom: 1px solid black; width: 8cm;">
+                <div class="col-12 bordes">
+                    <h6 style="padding-top: 10px">Balance</h6>
+                </div>
+                <div class="col-12 bordeslados">
+                <div class="spacer10"></div>
+                    <table class="tabla">
+                        <tbody>
+                            <tr>
+                                <th>Total Habitación:</th>
+                                <td>S/. '.round($totalhabitaciones,2).'</td>
+                            </tr>
+                            <tr>
+                                <th>Total Consumos:</th>
+                                <td>S/. '.round($totalConsumo,2).'</td>
+                            </tr>
+                            <tr>
+                                <th>Impuestos:</th>
+                                <td>S/. '.round($impestos,2).'</td>
+                            </tr>
+                            <tr>
+                                <th>Cargos:</th>
+                                <td>S/. '.round($cargoExtra,2).'</td>
+                            </tr>
+                            <tr>
+                                <th>Total a Pagar:</th>
+                                <td>S/. '.round($totalEstadia,2).'</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
     ';
 
     $html .='
+            </section>
         </body>
     </html>
     ';
