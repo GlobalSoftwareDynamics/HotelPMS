@@ -112,8 +112,8 @@ if(isset($_SESSION['login'])){
                         <i class="fa fa-table"></i> Listado de Consumos
                         <div class="float-right">
                             <form method="post">
-                                <input type="hidden" value="<?php echo $_POST['idReserva']?>">
-                                <input type="hidden" value="<?php echo $_POST['idHabitacion']?>">
+                                <input type="hidden" name="idReserva" value="<?php echo $_POST['idReserva']?>">
+                                <input type="hidden" name="idHabitacion" value="<?php echo $_POST['idHabitacion']?>">
                                 <button type="button" class="btn btn-sm btn-light" data-toggle="modal" data-target="#modalConsumo">Nuevo Consumo</button>
                                 <input type="submit" class="btn btn-sm btn-light" formaction="registroCheckoutPDF.php" value="Descargar PDF">
                                 <input type="submit" class="btn btn-sm btn-light" formaction="mainRecepcion.php" value="Regresar">
