@@ -103,6 +103,7 @@ if(isset($_SESSION['login'])){
                                     $interval = 1;
                                     $recojo = "";
                                     $preferencias = "";
+                                    $lateCheck = "";
                                     for($i = 0; $i < 20; $i = $i+$interval){
                                         $result2 = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE fechaInicio <= '{$arrayFechas[$i]} 23:59:59' AND fechaFin > '{$arrayFechas[$i]}' AND idHabitacion = '{$fila1['idHabitacion']}' AND idEstado IN (3,4,5,8)");
                                         $numrow = mysqli_num_rows($result2);
@@ -121,6 +122,19 @@ if(isset($_SESSION['login'])){
                                                         break;
                                                     case 5:
                                                         $clase = "finalizada";
+                                                        break;
+                                                }
+                                                switch($fila2['modificadorCheckIO']){
+                                                    case 1:
+                                                        $lateCheck = "Nota: Se ha solicitado Early CheckIn.";
+                                                        break;
+                                                    case 2:
+                                                        $interval += 1;
+                                                        $lateCheck = "Nota: Se ha solicitado Late CheckOut.";
+                                                        break;
+                                                    case 3:
+                                                        $interval += 1;
+                                                        $lateCheck = "Nota: Se ha solicitado Early CheckIn y Late CheckOut.";
                                                         break;
                                                 }
                                                 $idReserva = $fila2['idReserva'];
@@ -149,6 +163,19 @@ if(isset($_SESSION['login'])){
                                                         $clase = "finalizada";
                                                         break;
                                                 }
+                                                switch($fila2['modificadorCheckIO']){
+                                                    case 1:
+                                                        $lateCheck = "Nota: Se ha solicitado Early CheckIn.";
+                                                        break;
+                                                    case 2:
+                                                        $interval += 1;
+                                                        $lateCheck = "Nota: Se ha solicitado Late CheckOut.";
+                                                        break;
+                                                    case 3:
+                                                        $interval += 1;
+                                                        $lateCheck = "Nota: Se ha solicitado Early CheckIn y Late CheckOut.";
+                                                        break;
+                                                }
                                                 $idReserva = $fila2['idReserva'];
                                                 $idHabitacion = $fila2['idHabitacion'];
                                                 $preferencias = "<strong>Preferencias:</strong> ".$fila2['preferencias'];
@@ -175,6 +202,19 @@ if(isset($_SESSION['login'])){
                                                         $clase = "finalizada";
                                                         break;
                                                 }
+                                                switch($fila2['modificadorCheckIO']){
+                                                    case 1:
+                                                        $lateCheck = "Nota: Se ha solicitado Early CheckIn.";
+                                                        break;
+                                                    case 2:
+                                                        $interval += 1;
+                                                        $lateCheck = "Nota: Se ha solicitado Late CheckOut.";
+                                                        break;
+                                                    case 3:
+                                                        $interval += 1;
+                                                        $lateCheck = "Nota: Se ha solicitado Early CheckIn y Late CheckOut.";
+                                                        break;
+                                                }
                                                 $idReserva = $fila2['idReserva'];
                                                 $idHabitacion = $fila2['idHabitacion'];
                                                 $preferencias = "<strong>Preferencias:</strong> ".$fila2['preferencias'];
@@ -190,7 +230,7 @@ if(isset($_SESSION['login'])){
                                             $idReserva = 0;
                                             $interval = 1;
                                         }elseif($numrow > 0){
-                                            echo "<td class='{$clase}' colspan='{$interval}' data-id='{$idReserva}' data-habitacion='{$idHabitacion}'><div class=\"float-right mr-2\"><i class=\"fa fa-info\" data-toggle=\"popover\" data-trigger='hover' data-html=\"true\" title='Información de Reserva' data-content='<strong>Reserva:</strong> {$idReserva}<br>{$preferencias}<br>{$recojo}<br>' data-placement=\"top\"></i></div></td>";
+                                            echo "<td class='{$clase}' colspan='{$interval}' data-id='{$idReserva}' data-habitacion='{$idHabitacion}'><div class=\"float-right mr-2\"><i class=\"fa fa-info\" data-toggle=\"popover\" data-trigger='hover' data-html=\"true\" title='Información de Reserva' data-content='<strong>Reserva:</strong> {$idReserva}<br>{$preferencias}<br>{$recojo}<br>{$lateCheck}' data-placement=\"top\"></i></div></td>";
                                         }
                                     }
                                     echo "</tr>";

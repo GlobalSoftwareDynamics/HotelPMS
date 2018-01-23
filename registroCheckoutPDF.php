@@ -149,8 +149,10 @@ if(isset($_SESSION['login'])){
             $moneda = $fila1['moneda'];
         }
         $lateCheckOutTime = date("12:00:00");
-        if ($fechaFinHora > $lateCheckOutTime){
+        if ($fechaFinHora > $lateCheckOutTime || $fila['modificadorCheckIO'] == 2 || $fila['modificadorCheckIO'] == 1){
             $cargoExtra = $valorTarifa / 2;
+        }elseif ($fila['modificadorCheckIO'] == 3){
+            $cargoExtra = $valorTarifa;
         }
         $totalhabitaciones = $valorTarifa * $interval;
     }
