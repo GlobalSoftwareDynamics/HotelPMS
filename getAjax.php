@@ -125,7 +125,8 @@ if(!empty($_POST['nombreHuespedReserva2'])){
 	}
 }
 
-if(!empty($_POST['tipoHabitacion'])){
+if(!empty($_POST['tipoHabitacion'])&&!empty($_POST['fechaInicioCheckIn'])&&!empty($_POST['fechaFinCheckOut'])){
+
 	$result = mysqli_query($link,"SELECT * FROM Habitacion WHERE idTipoHabitacion = '{$_POST['tipoHabitacion']}'");
 	while($row = mysqli_fetch_array($result)){
 		echo "<option value='{$row['idHabitacion']}'>{$row['idHabitacion']}</option>";

@@ -462,10 +462,14 @@ function getNombre2(val){
 }
 
 function getHabitacion(val){
+
+    var fechaInicio = document.getElementById("inicioCheckIn").value;
+    var fechaFin = document.getElementById("finCheckOut").value;
+
     $.ajax({
         type: "POST",
         url: "getAjax.php",
-        data:{'tipoHabitacion':val},
+        data:{'tipoHabitacion':val, 'fechaInicioCheckIn': fechaInicio, 'fechaFinCheckOut': fechaFin},
         success: function(data){
             $("#nroHabitacion").html(data);
         }

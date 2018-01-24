@@ -397,18 +397,16 @@ if(isset($_SESSION['login'])){
                                             </thead>
                                             <tbody>
                                             <form method="post" action="#">
-                                                <input type="hidden" name="idReserva"
-                                                       value="<?php echo $_GET['idReserva']; ?>">
+                                                <input type="hidden" name="idReserva" value="<?php echo $_GET['idReserva']; ?>">
                                                 <tr>
                                                     <td>
-                                                        <input type="date" name="fechaInicio" class="form-control">
+                                                        <input type="date" name="fechaInicio" class="form-control" id="inicioCheckIn">
                                                     </td>
                                                     <td>
-                                                        <input type="date" name="fechaFin" class="form-control">
+                                                        <input type="date" name="fechaFin" class="form-control" id="finCheckOut">
                                                     </td>
                                                     <td>
-                                                        <select class="form-control" name="tipoHabitacion"
-                                                                onchange="getHabitacion(this.value);getTarifa(this.value)">
+                                                        <select class="form-control" name="tipoHabitacion" onchange="getHabitacion(this.value);getTarifa(this.value)">
                                                             <option selected disabled>Seleccionar</option>
 															<?php
 															$query = mysqli_query($link, "SELECT * FROM TipoHabitacion");
