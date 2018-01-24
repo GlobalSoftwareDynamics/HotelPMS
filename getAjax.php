@@ -1,5 +1,6 @@
 <?php
 include('session.php');
+include('funciones.php');
 
 if(!empty($_POST['idPais'])){
     echo "<option disabled selected>Seleccionar</option>";
@@ -127,10 +128,58 @@ if(!empty($_POST['nombreHuespedReserva2'])){
 
 if(!empty($_POST['tipoHabitacion'])&&!empty($_POST['fechaInicioCheckIn'])&&!empty($_POST['fechaFinCheckOut'])){
 
-	$result = mysqli_query($link,"SELECT * FROM Habitacion WHERE idTipoHabitacion = '{$_POST['tipoHabitacion']}'");
-	while($row = mysqli_fetch_array($result)){
-		echo "<option value='{$row['idHabitacion']}'>{$row['idHabitacion']}</option>";
-	}
+    echo "<option disabled selected>Seleccionar</option>";
+    $interval = timeInterval($_POST['fechaInicioCheckIn'],$_POST['fechaFinCheckOut']);
+    $date1 = date('Y-m-d', strtotime($_POST['fechaInicioCheckIn'] . ' -1 day'));
+    for($j = 0; $j <= $interval; $j++){
+        $date1 = date('Y-m-d', strtotime($date1 . ' +1 day'));
+        $arrayFechas[$j] = $date1;
+    }
+
+    $result = mysqli_query($link,"SELECT * FROM Habitacion WHERE idTipoHabitacion = '{$_POST['tipoHabitacion']}'");
+    while ($row = mysqli_fetch_array($result)){
+        $result1 = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE idHabitacion = '{$row['idHabitacion']}' AND idEstado IN (3,4)");
+        $numrow = mysqli_num_rows($result1);
+        if($numrow == 0){
+            echo "<option value='{$row['idHabitacion']}'>{$row['idHabitacion']}</option>";
+        }else{
+            while($row1 = mysqli_fetch_array($result1)){
+                $arrayFechasOcupadas = array();
+                $fechaInicio = explode(" ",$row1['fechaInicio']);
+                $fechaFin = explode(" ",$row1['fechaFin']);
+                $intervala = timeInterval($fechaInicio[0],$fechaFin[0]);
+                $date2 = date('Y-m-d', strtotime($fechaInicio[0] . ' -1 day'));
+
+                switch($row1['modificadorCheckIO']){
+                    case 0:
+                        $intervala -= 1;
+                        break;
+                    case 1:
+                        $intervala -= 1;
+                        $date2 = date('Y-m-d', strtotime($date2 . ' -1 day'));
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        $date2 = date('Y-m-d', strtotime($date2 . ' -1 day'));
+                        break;
+                }
+
+                for($j = 0; $j <= $intervala; $j++){
+                    $date2 = date('Y-m-d', strtotime($date2 . ' +1 day'));
+                    $arrayFechasOcupadas[$j] = $date2;
+                }
+
+                $coincidencia = array_intersect($arrayFechas,$arrayFechasOcupadas);
+
+                if(!empty($coincidencia[0])){
+
+                }else{
+                    echo "<option value='{$row['idHabitacion']}'>{$row['idHabitacion']}</option>";
+                }
+            }
+        }
+    }
 }
 
 if(!empty($_POST['tipoHabitacion2'])){
@@ -321,6 +370,21 @@ if(!empty($_POST['fechaGuia'])){
                                     $clase = "finalizada";
                                     break;
                             }
+                            switch($fila2['modificadorCheckIO']){
+                                case 0:
+                                    break;
+                                case 1:
+                                    $lateCheck = "Nota: Se ha solicitado Early CheckIn.";
+                                    break;
+                                case 2:
+                                    $interval += 1;
+                                    $lateCheck = "Nota: Se ha solicitado Late CheckOut.";
+                                    break;
+                                case 3:
+                                    $interval += 1;
+                                    $lateCheck = "Nota: Se ha solicitado Early CheckIn y Late CheckOut.";
+                                    break;
+                            }
                             $idReserva = $fila2['idReserva'];
                             $idHabitacion = $fila2['idHabitacion'];
                             $preferencias = "<strong>Preferencias:</strong> ".$fila2['preferencias'];
@@ -357,6 +421,21 @@ if(!empty($_POST['fechaGuia'])){
                                     break;
                                 case 5:
                                     $clase = "finalizada";
+                                    break;
+                            }
+                            switch($fila2['modificadorCheckIO']){
+                                case 0:
+                                    break;
+                                case 1:
+                                    $lateCheck = "Nota: Se ha solicitado Early CheckIn.";
+                                    break;
+                                case 2:
+                                    $interval += 1;
+                                    $lateCheck = "Nota: Se ha solicitado Late CheckOut.";
+                                    break;
+                                case 3:
+                                    $interval += 1;
+                                    $lateCheck = "Nota: Se ha solicitado Early CheckIn y Late CheckOut.";
                                     break;
                             }
                             $idReserva = $fila2['idReserva'];
@@ -398,6 +477,21 @@ if(!empty($_POST['fechaGuia'])){
                                     $clase = "finalizada";
                                     break;
                             }
+                            switch($fila2['modificadorCheckIO']){
+                                case 0:
+                                    break;
+                                case 1:
+                                    $lateCheck = "Nota: Se ha solicitado Early CheckIn.";
+                                    break;
+                                case 2:
+                                    $interval += 1;
+                                    $lateCheck = "Nota: Se ha solicitado Late CheckOut.";
+                                    break;
+                                case 3:
+                                    $interval += 1;
+                                    $lateCheck = "Nota: Se ha solicitado Early CheckIn y Late CheckOut.";
+                                    break;
+                            }
                             $idReserva = $fila2['idReserva'];
                             $idHabitacion = $fila2['idHabitacion'];
                             $preferencias = "<strong>Preferencias:</strong> ".$fila2['preferencias'];
@@ -413,7 +507,7 @@ if(!empty($_POST['fechaGuia'])){
                         $idReserva = 0;
                         $interval = 1;
                     }elseif($numrow > 0){
-                        echo "<td class='{$clase}' colspan='{$interval}' data-id='{$idReserva}' data-habitacion='{$idHabitacion}'><div class=\"float-right mr-2\"><i class=\"fa fa-info\" data-toggle=\"popover\" data-trigger='hover' data-html=\"true\" title='Información de Reserva' data-content='<strong>Reserva:</strong> {$idReserva}<br>{$preferencias}<br>{$recojo}<br>' data-placement=\"top\"></i></div></td>";
+                        echo "<td class='{$clase}' colspan='{$interval}' data-id='{$idReserva}' data-habitacion='{$idHabitacion}'><div class=\"float-right mr-2\"><i class=\"fa fa-info\" data-toggle=\"popover\" data-trigger='hover' data-html=\"true\" title='Información de Reserva' data-content='<strong>Reserva:</strong> {$idReserva}<br>{$preferencias}<br>{$recojo}<br>{$lateCheck}' data-placement=\"top\"></i></div></td>";
                     }
                 }
                 echo "</tr>";

@@ -979,10 +979,10 @@ if(isset($_SESSION['login'])){
                                                 <input type="hidden" name="idReserva" value="<?php echo $_POST['idReserva'];?>">
                                                 <tr>
                                                     <td>
-                                                        <input type="date" name="fechaInicio" class="form-control">
+                                                        <input type="date" name="fechaInicio" class="form-control" id="inicioCheckIn">
                                                     </td>
                                                     <td>
-                                                        <input type="date" name="fechaFin" class="form-control">
+                                                        <input type="date" name="fechaFin" class="form-control" id="finCheckOut">
                                                     </td>
                                                     <td>
                                                         <select class="form-control" name="tipoHabitacion" onchange="getHabitacion(this.value);getTarifa(this.value)">

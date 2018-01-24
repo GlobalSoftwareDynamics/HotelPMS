@@ -138,6 +138,7 @@ if(isset($_SESSION['login'])){
                                     for($i = 0; $i < $interval; $i++){
                                         $date1 = date('Y-m-d', strtotime($date1 . ' +1 day'));
                                         $cantidadHuespedesDia = 0;
+                                        $habitacionesOcupadas = 0;
                                         $result1 = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE fechaInicio >= '{$_POST['fechaInicio']} 00:00:00' AND fechaFin <= '{$_POST['fechaFin']} 23:59:59' AND idEstado IN (3,4,5)");
                                         while ($fila1 = mysqli_fetch_array($result1)){
                                             $intervala = timeInterval($fila1['fechaInicio'],$fila1['fechaFin']);
@@ -151,10 +152,11 @@ if(isset($_SESSION['login'])){
                                                 while ($fila2 = mysqli_fetch_array($result2)){
                                                     $cantidadHuespedesDia += $fila2['cantidad'];
                                                 }
+                                                $habitacionesOcupadas++;
                                             }
                                         }
 
-                                        $ocupacion = round(($cantidadHuespedesDia/$numHabitaciones)*100,2);
+                                        $ocupacion = round(($habitacionesOcupadas/$numHabitaciones)*100,2);
 
                                         $totalOcupacion += $ocupacion;
                                         $aux++;
@@ -248,6 +250,7 @@ if(isset($_SESSION['login'])){
                                     for($i = 0; $i < $interval; $i++){
                                         $date1 = date('Y-m-d', strtotime($date1 . ' +1 day'));
                                         $cantidadHuespedesDia = 0;
+                                        $habitacionesOcupadas = 0;
                                         $result1 = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE fechaInicio >= '{$_POST['fechaInicio']} 00:00:00' AND fechaFin <= '{$_POST['fechaFin']} 23:59:59' AND idEstado IN (3,4,5)");
                                         while ($fila1 = mysqli_fetch_array($result1)){
                                             $intervala = timeInterval($fila1['fechaInicio'],$fila1['fechaFin']);
@@ -261,10 +264,12 @@ if(isset($_SESSION['login'])){
                                                 while ($fila2 = mysqli_fetch_array($result2)){
                                                     $cantidadHuespedesDia += $fila2['cantidad'];
                                                 }
+                                                $habitacionesOcupadas++;
                                             }
+
                                         }
 
-                                        $ocupacion = round(($cantidadHuespedesDia/$numHabitaciones)*100,2);
+                                        $ocupacion = round(($habitacionesOcupadas/$numHabitaciones)*100,2);
 
                                         $totalOcupacion += $ocupacion;
                                         $aux++;
