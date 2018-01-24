@@ -121,7 +121,7 @@ if(isset($_SESSION['login'])){
             ?>
             <section class="container">
                 <div class="row">
-                    <div class="col-7">
+                    <div class="col-8">
                         <div class="card mb-3">
                             <div class="card-header">
                                 <i class="fa fa-table"></i> Detalle de la Reserva
@@ -282,7 +282,7 @@ if(isset($_SESSION['login'])){
                             </div>
                         </div>
                     </div>
-                    <div class="col-5">
+                    <div class="col-4">
                         <div class="card mb-3">
                             <div class="card-header">
                                 <i class="fa fa-table"></i> Detalle de Recojo</div>
@@ -304,7 +304,7 @@ if(isset($_SESSION['login'])){
                                         }
                                         ?>
                                         <li class="nav-item">
-                                            <a class="nav-link <?php echo $estadoActivo;?>" data-toggle="tab" href="#recojo<?php echo $i;?>" role="tab"><?php echo $i?></a>
+                                            <a class="nav-link <?php echo $estadoActivo;?>" data-toggle="tab" href="#recojo<?php echo $i;?>" role="tab"><i class="fa fa-plane"></i></a>
                                         </li>
                                         <?php
                                     }
@@ -312,6 +312,7 @@ if(isset($_SESSION['login'])){
                                 </ul>
                                 <div class="spacer10"></div>
                                 <div class="tab-content">
+                                    <div class="spacer10"></div>
                                     <?php
                                     $aux1 = 0;
                                     while ($fila2 = mysqli_fetch_array($result1)){
@@ -331,7 +332,7 @@ if(isset($_SESSION['login'])){
                                                 <div class="col-8"><p><?php echo $fila2['lugarRecojo'];?></p></div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-4"><p><b>Nro. Personas:</b></p></div>
+                                                <div class="col-4"><p><b># Personas:</b></p></div>
                                                 <div class="col-8"><p><?php echo $fila2['numPersonas'];?></p></div>
                                             </div>
                                             <div class="row">

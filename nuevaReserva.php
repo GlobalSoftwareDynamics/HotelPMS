@@ -384,11 +384,11 @@ if(isset($_SESSION['login'])){
                                         <table class="table">
                                             <thead>
                                             <tr>
+                                                <th>Check-In</th>
+                                                <th>Check-Out</th>
                                                 <th>Tipo de Habitación</th>
                                                 <th>Habitación</th>
                                                 <th>Cama Adicional</th>
-                                                <th>Check-In</th>
-                                                <th>Check-Out</th>
                                                 <th>Tarifa</th>
                                                 <th>Preferencias</th>
                                                 <th>Estado</th>
@@ -400,6 +400,12 @@ if(isset($_SESSION['login'])){
                                                 <input type="hidden" name="idReserva"
                                                        value="<?php echo $_GET['idReserva']; ?>">
                                                 <tr>
+                                                    <td>
+                                                        <input type="date" name="fechaInicio" class="form-control">
+                                                    </td>
+                                                    <td>
+                                                        <input type="date" name="fechaFin" class="form-control">
+                                                    </td>
                                                     <td>
                                                         <select class="form-control" name="tipoHabitacion"
                                                                 onchange="getHabitacion(this.value);getTarifa(this.value)">
@@ -423,12 +429,6 @@ if(isset($_SESSION['login'])){
                                                                value="true">
                                                     </td>
                                                     <td>
-                                                        <input type="date" name="fechaInicio" class="form-control">
-                                                    </td>
-                                                    <td>
-                                                        <input type="date" name="fechaFin" class="form-control">
-                                                    </td>
-                                                    <td>
                                                         <select class="form-control" name="tarifa" id="tarifa">
                                                             <option selected disabled>Seleccionar</option>
                                                         </select>
@@ -449,6 +449,10 @@ if(isset($_SESSION['login'])){
 											$query = mysqli_query($link, "SELECT * FROM HabitacionReservada WHERE idReserva = '{$_GET['idReserva']}'");
 											while ($row = mysqli_fetch_array($query)) {
 												echo "<tr>";
+												$fechaInicial = substr($row['fechaInicio'], 0, 10);
+												echo "<td>{$fechaInicial}</td>";
+												$fechaFinal = substr($row['fechaFin'], 0, 10);
+												echo "<td>{$fechaFinal}</td>";
 												$query2 = mysqli_query($link, "SELECT * FROM Habitacion WHERE idHabitacion = '{$row['idHabitacion']}'");
 												while ($row2 = mysqli_fetch_array($query2)) {
 													$query3 = mysqli_query($link, "SELECT * FROM TipoHabitacion WHERE idTipoHabitacion = '{$row2['idTipoHabitacion']}'");
@@ -462,10 +466,6 @@ if(isset($_SESSION['login'])){
 												} else {
 													echo "<td>No</td>";
 												}
-												$fechaInicial = substr($row['fechaInicio'], 0, 10);
-												echo "<td>{$fechaInicial}</td>";
-												$fechaFinal = substr($row['fechaFin'], 0, 10);
-												echo "<td>{$fechaFinal}</td>";
 												$query2 = mysqli_query($link, "SELECT * FROM Tarifa WHERE idTarifa = '{$row['idTarifa']}'");
 												while ($row2 = mysqli_fetch_array($query2)) {
 													echo "<td>{$row2['descripcion']}</td>";
@@ -965,11 +965,11 @@ if(isset($_SESSION['login'])){
                                         <table class="table">
                                             <thead>
                                             <tr>
+                                                <th>Check-In</th>
+                                                <th>Check-Out</th>
                                                 <th>Tipo de Habitación</th>
                                                 <th>Habitación</th>
                                                 <th>Cama Adicional</th>
-                                                <th>Check-In</th>
-                                                <th>Check-Out</th>
                                                 <th>Tarifa</th>
                                                 <th>Preferencias</th>
                                                 <th>Estado</th>
@@ -980,6 +980,12 @@ if(isset($_SESSION['login'])){
                                             <form method="post" action="#">
                                                 <input type="hidden" name="idReserva" value="<?php echo $_POST['idReserva'];?>">
                                                 <tr>
+                                                    <td>
+                                                        <input type="date" name="fechaInicio" class="form-control">
+                                                    </td>
+                                                    <td>
+                                                        <input type="date" name="fechaFin" class="form-control">
+                                                    </td>
                                                     <td>
                                                         <select class="form-control" name="tipoHabitacion" onchange="getHabitacion(this.value);getTarifa(this.value)">
                                                             <option selected disabled>Seleccionar</option>
@@ -998,12 +1004,6 @@ if(isset($_SESSION['login'])){
                                                     </td>
                                                     <td>
                                                         <input class="form-control" type="checkbox" name="camaAdicional" value="true">
-                                                    </td>
-                                                    <td>
-                                                        <input type="date" name="fechaInicio" class="form-control">
-                                                    </td>
-                                                    <td>
-                                                        <input type="date" name="fechaFin" class="form-control">
                                                     </td>
                                                     <td>
                                                         <select class="form-control" name="tarifa" id="tarifa">
@@ -1025,6 +1025,10 @@ if(isset($_SESSION['login'])){
 											$query = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE idReserva = '{$_POST['idReserva']}'");
 											while($row = mysqli_fetch_array($query)){
 												echo "<tr>";
+												$fechaInicial = substr($row['fechaInicio'],0,10);
+												echo "<td>{$fechaInicial}</td>";
+												$fechaFinal = substr($row['fechaFin'],0,10);
+												echo "<td>{$fechaFinal}</td>";
 												$query2 = mysqli_query($link,"SELECT * FROM Habitacion WHERE idHabitacion = '{$row['idHabitacion']}'");
 												while($row2 = mysqli_fetch_array($query2)){
 													$query3 = mysqli_query($link,"SELECT * FROM TipoHabitacion WHERE idTipoHabitacion = '{$row2['idTipoHabitacion']}'");
@@ -1038,10 +1042,6 @@ if(isset($_SESSION['login'])){
 												}else{
 													echo "<td>No</td>";
 												}
-												$fechaInicial = substr($row['fechaInicio'],0,10);
-												echo "<td>{$fechaInicial}</td>";
-												$fechaFinal = substr($row['fechaFin'],0,10);
-												echo "<td>{$fechaFinal}</td>";
 												$query2 = mysqli_query($link,"SELECT * FROM Tarifa WHERE idTarifa = '{$row['idTarifa']}'");
 												while($row2 = mysqli_fetch_array($query2)){
 													echo "<td>{$row2['descripcion']}</td>";
