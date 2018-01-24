@@ -120,7 +120,7 @@ if(isset($_SESSION['login'])){
                                 <h6 class="text-left"><b>Reporte de Ocupación:</b></h6>
                             </div>
                             <div class="spacer10"></div>
-                            <div class="col-12" style="height: 400px; overflow-y: auto;">
+                            <div class="col-12" style="height: 1000px; overflow-y: auto;">
                                 <table class="table text-center">
                                     <thead>
                                     <tr>
@@ -131,10 +131,46 @@ if(isset($_SESSION['login'])){
                                     </thead>
                                     <tbody>
                                     <?php
-                                    $result = mysqli_query($link,"SELECT * FROM Ocupantes WHERE idHabitacion IN (SELECT idHabitacion FROM HabitacionReservada WHERE fechaInicio >= '{$_POST['fechaInicio']}' AND fechaInicio <= '{$_POST['fechaFin']}') AND idHuesped IN (SELECT idHuesped FROM Huesped WHERE idEmpresa = '{$idEmpresa}')");
-                                    while ($fila = mysqli_fetch_array($result)){
+                                    $interval = timeInterval($_POST['fechaInicio'],$_POST['fechaFin']);
+                                    $aux = 0;
+                                    $totalOcupacion = 0;
+                                    $date1 = date('Y-m-d', strtotime($_POST['fechaInicio'] . ' -1 day'));
+                                    for($i = 0; $i < $interval; $i++){
+                                        $date1 = date('Y-m-d', strtotime($date1 . ' +1 day'));
+                                        $cantidadHuespedesDia = 0;
+                                        $result1 = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE fechaInicio >= '{$_POST['fechaInicio']} 00:00:00' AND fechaFin <= '{$_POST['fechaFin']} 23:59:59' AND idEstado IN (3,4,5)");
+                                        while ($fila1 = mysqli_fetch_array($result1)){
+                                            $intervala = timeInterval($fila1['fechaInicio'],$fila1['fechaFin']);
+                                            $date3 = date('Y-m-d', strtotime($fila1['fechaInicio'] . ' -1 day'));
+                                            for($j = 0; $j < $intervala; $j++){
+                                                $date3 = date('Y-m-d', strtotime($date3 . ' +1 day'));
+                                                $arrayFechas[$j] = $date3;
+                                            }
+                                            if(in_array($date1,$arrayFechas)){
+                                                $result2 = mysqli_query($link,"SELECT COUNT(*) AS cantidad FROM Ocupantes WHERE idHabitacion = '{$fila1['idHabitacion']}' AND idReserva = '{$fila1['idReserva']}' AND idHuesped IN (SELECT idHuesped FROM Huesped WHERE idEmpresa = '{$idEmpresa}')");
+                                                while ($fila2 = mysqli_fetch_array($result2)){
+                                                    $cantidadHuespedesDia += $fila2['cantidad'];
+                                                }
+                                            }
+                                        }
 
+                                        $ocupacion = round(($cantidadHuespedesDia/$numHabitaciones)*100,2);
+
+                                        $totalOcupacion += $ocupacion;
+                                        $aux++;
+                                        echo "<tr>";
+                                        echo "<td>{$date1}</td>";
+                                        echo "<td>{$cantidadHuespedesDia}</td>";
+                                        echo "<td>% {$ocupacion}</td>";
+                                        echo "</tr>";
                                     }
+
+                                    $totalOcupacion = round($totalOcupacion / $aux,2);
+
+                                    echo "<tr>";
+                                    echo "<th colspan='2' class='text-right'>Total</th>";
+                                    echo "<td>% {$totalOcupacion}</td>";
+                                    echo "</tr>";
                                     ?>
                                     </tbody>
                                 </table>
@@ -145,10 +181,10 @@ if(isset($_SESSION['login'])){
                         ?>
                         <div class="row">
                             <div class="col-12">
-                                <h6 class="text-left"><b>Reporte de Ocupación:</b></h6>
+                                <h6 class="text-left"><b>Reporte de Ocupación por Empresa:</b></h6>
                             </div>
                             <div class="spacer10"></div>
-                            <div class="col-12" style="height: 400px; overflow-y: auto;">
+                            <div class="col-12" style="height: 300px; overflow-y: auto;">
                                 <table class="table text-center">
                                     <thead>
                                     <tr>
@@ -174,6 +210,67 @@ if(isset($_SESSION['login'])){
                                         echo "<tr>";
                                         echo "<td>{$fila['razonSocial']}</td>";
                                         echo "<td>{$numHuespedes}</td>";
+                                        echo "<td>% {$ocupacion}</td>";
+                                        echo "</tr>";
+                                    }
+
+                                    $totalOcupacion = round($totalOcupacion / $aux,2);
+
+                                    echo "<tr>";
+                                    echo "<th colspan='2' class='text-right'>Total</th>";
+                                    echo "<td>% {$totalOcupacion}</td>";
+                                    echo "</tr>";
+                                    ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <h6 class="text-left"><b>Reporte de Ocupación Diario:</b></h6>
+                            </div>
+                            <div class="spacer10"></div>
+                            <div class="col-12" style="height: 400px; overflow-y: auto;">
+                                <table class="table text-center">
+                                    <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Nro. Huespedes</th>
+                                        <th>% Ocupación</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    $interval = timeInterval($_POST['fechaInicio'],$_POST['fechaFin']);
+                                    $aux = 0;
+                                    $totalOcupacion = 0;
+                                    $date1 = date('Y-m-d', strtotime($_POST['fechaInicio'] . ' -1 day'));
+                                    for($i = 0; $i < $interval; $i++){
+                                        $date1 = date('Y-m-d', strtotime($date1 . ' +1 day'));
+                                        $cantidadHuespedesDia = 0;
+                                        $result1 = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE fechaInicio >= '{$_POST['fechaInicio']} 00:00:00' AND fechaFin <= '{$_POST['fechaFin']} 23:59:59' AND idEstado IN (3,4,5)");
+                                        while ($fila1 = mysqli_fetch_array($result1)){
+                                            $intervala = timeInterval($fila1['fechaInicio'],$fila1['fechaFin']);
+                                            $date3 = date('Y-m-d', strtotime($fila1['fechaInicio'] . ' -1 day'));
+                                            for($j = 0; $j < $intervala; $j++){
+                                                $date3 = date('Y-m-d', strtotime($date3 . ' +1 day'));
+                                                $arrayFechas[$j] = $date3;
+                                            }
+                                            if(in_array($date1,$arrayFechas)){
+                                                $result2 = mysqli_query($link,"SELECT COUNT(*) AS cantidad FROM Ocupantes WHERE idHabitacion = '{$fila1['idHabitacion']}' AND idReserva = '{$fila1['idReserva']}'");
+                                                while ($fila2 = mysqli_fetch_array($result2)){
+                                                    $cantidadHuespedesDia += $fila2['cantidad'];
+                                                }
+                                            }
+                                        }
+
+                                        $ocupacion = round(($cantidadHuespedesDia/$numHabitaciones)*100,2);
+
+                                        $totalOcupacion += $ocupacion;
+                                        $aux++;
+                                        echo "<tr>";
+                                        echo "<td>{$date1}</td>";
+                                        echo "<td>{$cantidadHuespedesDia}</td>";
                                         echo "<td>% {$ocupacion}</td>";
                                         echo "</tr>";
                                     }

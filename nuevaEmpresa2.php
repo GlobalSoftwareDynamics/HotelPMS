@@ -83,6 +83,7 @@ if(isset($_SESSION['login'])){
 				</div>
 			</div>
 		</section>
+
 		<form method="post" action="#" id="formModal">
 			<input type="hidden" name="ruc" value="<?php echo $_POST['ruc'];?>">
 			<div class="modal fade" id="modalContacto" tabindex="-1" role="dialog" aria-labelledby="modalContacto" aria-hidden="true">
@@ -98,7 +99,7 @@ if(isset($_SESSION['login'])){
 							<div class="container-fluid">
 								<div class="form-group row">
 									<label class="col-form-label" for="dni">DNI:</label>
-									<input type="number" min="0" name="dni" id="dni" class="form-control" value="<?php $dni = idgenNum(); echo $dni;?>">
+									<input type="number" min="0" name="dni" id="dni" class="form-control">
 								</div>
 								<div class="form-group row">
 									<label class="col-form-label" for="nombreCompleto">Nombre Completo:</label>

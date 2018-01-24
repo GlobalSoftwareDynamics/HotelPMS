@@ -104,6 +104,19 @@ th {
     font-size: 10px;
 }
 
+.bordes {
+    border: 1px solid black;
+    background-color: #c9c9c9;
+}
+.bordeslados {
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.tituloseccion {
+    background-color: #c9c9c9;
+}
+
 /* Spacers */
 
 .spacer5 { height: 5px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
