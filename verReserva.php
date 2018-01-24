@@ -264,6 +264,10 @@ if(isset($_SESSION['login'])){
                                                 <td>S/. <?php echo $totalhabitaciones;?></td>
                                             </tr>
                                             <tr>
+                                                <th>Total Paquete:</th>
+                                                <td>S/. <?php echo $valorPaquete;?></td>
+                                            </tr>
+                                            <tr>
                                                 <th>Total Consumos:</th>
                                                 <td>S/. <?php echo $totalConsumo;?></td>
                                             </tr>
@@ -395,6 +399,10 @@ if(isset($_SESSION['login'])){
                                             }else{
                                                 $estadoActivo = "";
                                             }
+                                            $result3 = mysqli_query($link,"SELECT * FROM Tarifa WHERE idTarifa = '{$fila2['idTarifa']}'");
+                                            while ($fila3 = mysqli_fetch_array($result3)){
+                                                $descTarifa = $fila3['descripcion'];
+                                            }
                                             ?>
                                             <div class="tab-pane <?php echo $estadoActivo;?>" id="<?php echo $fila2['idHabitacion'];?>" role="tabpanel">
                                                 <div class="row">
@@ -415,6 +423,10 @@ if(isset($_SESSION['login'])){
                                                         <div class="row">
                                                             <div class="col-3"><p><b>Preferencias:</b></p></div>
                                                             <div class="col-9"><p><?php echo $fila2['preferencias'];?></p></div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-3"><p><b>Tarifa:</b></p></div>
+                                                            <div class="col-9"><p><?php echo $descTarifa;?></p></div>
                                                         </div>
                                                     </div>
                                                     <div class="col-7">
