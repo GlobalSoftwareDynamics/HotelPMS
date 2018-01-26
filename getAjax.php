@@ -18,6 +18,18 @@ if(!empty($_POST['idEstado'])){
     }
 }
 
+if(!empty($_POST['descuento'])&&!empty($_POST['montoTotalPago'])){
+    $montoFinal = $_POST['montoTotalPago'] * (1-($_POST['descuento']/100));
+    $montoFinal = round($montoFinal,2);
+    echo "<input type='number' min='0' max='{$montoFinal}' class='form-control' step='0.01' name='montoCancelado' id='montoCancelado' value='{$montoFinal}'>";
+}
+
+if(!empty($_POST['descuentoB'])&&!empty($_POST['montoTotalPagoB'])){
+    $montoFinal1 = $_POST['montoTotalPagoB'] * (1-($_POST['descuentoB']/100));
+    $montoFinal1 = round($montoFinal1,2);
+    echo "<input type=\"hidden\" name=\"montoHabitacionReserva\" value='{$montoFinal1}'>";
+}
+
 if(!empty($_POST['nombreHuesped'])){
 	$flag = true;
 	$result = mysqli_query($link,"SELECT * FROM Huesped WHERE nombreCompleto = '{$_POST['nombreHuesped']}' OR idHuesped = '{$_POST['nombreHuesped']}'");

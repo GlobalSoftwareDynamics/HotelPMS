@@ -265,19 +265,19 @@ if(isset($_SESSION['login'])){
                                                 }
                                                 $totalHabitacion = $totalHabitacion + ($valorTarifa * $interval);
                                             }
-                                            $totalhabitaciones = $totalHabitacion + $valorPaquete;
-                                            $subtotal = $totalhabitaciones + $totalConsumo;
+                                            $totalHabitacionesPaquete = $totalhabitaciones + $valorPaquete;
+                                            $subtotal = $totalHabitacionesPaquete + $totalConsumo;
                                             $impestos = $subtotal * 0.18;
                                             $subtotalSinImpuestos = $subtotal - $impestos;
                                             $totalEstadia = $subtotalSinImpuestos + $impestos;
                                             ?>
                                             <tr>
                                                 <th>Total Habitación:</th>
-                                                <td>S/. <?php echo $totalhabitaciones;?></td>
+                                                <td>S/. <?php echo round($totalhabitaciones,2);?></td>
                                             </tr>
                                             <tr>
                                                 <th>Total Paquete:</th>
-                                                <td>S/. <?php echo $valorPaquete;?></td>
+                                                <td>S/. <?php echo round($valorPaquete,2);?></td>
                                             </tr>
                                             <tr>
                                                 <th>Total Consumos:</th>

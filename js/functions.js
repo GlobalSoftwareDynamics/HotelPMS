@@ -439,6 +439,28 @@ function getEmpresa1(val){
     });
 }
 
+function getTotalDescuento(val,val1){
+    $.ajax({
+        type: "POST",
+        url: "getAjax.php",
+        data:{'descuento':val, 'montoTotalPago': val1},
+        success: function(data){
+            $("#montoPorCancelar").html(data);
+        }
+    });
+}
+
+function getTotalDescuentoB(val,val1){
+    $.ajax({
+        type: "POST",
+        url: "getAjax.php",
+        data:{'descuentoB':val, 'montoTotalPagoB': val1},
+        success: function(data){
+            $("#montoHabitacionReserva").html(data);
+        }
+    });
+}
+
 function getTelf(val){
     $.ajax({
         type: "POST",

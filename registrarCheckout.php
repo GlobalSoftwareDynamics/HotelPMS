@@ -246,8 +246,8 @@ if(isset($_SESSION['login'])){
                                         }
                                         $totalhabitaciones = $valorTarifa * $interval;
                                     }
-                                    $totalhabitaciones = $totalhabitaciones + $valorPaquete;
-                                    $subtotal = $totalhabitaciones + $totalConsumo + $cargoExtra;
+                                    $totalHabitacionesPaquete = $totalhabitaciones + $valorPaquete;
+                                    $subtotal = $totalHabitacionesPaquete + $totalConsumo + $cargoExtra;
                                     $impestos = $subtotal * 0.18;
                                     $subtotalSinImpuestos = $subtotal - $impestos;
                                     $totalEstadia = $subtotalSinImpuestos + $impestos;
@@ -255,6 +255,10 @@ if(isset($_SESSION['login'])){
                                     <tr>
                                         <th>Total Habitación:</th>
                                         <td>S/. <?php echo round($totalhabitaciones,2);?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Total Paquete:</th>
+                                        <td>S/. <?php echo round($valorPaquete,2);?></td>
                                     </tr>
                                     <tr>
                                         <th>Total Consumos:</th>
@@ -270,7 +274,7 @@ if(isset($_SESSION['login'])){
                                     </tr>
                                     <tr>
                                         <th>Total a Pagar:</th>
-                                        <td>S/. <?php echo round($totalEstadia,2);?></td>
+                                        <td id="totalPago">S/. <?php echo round($totalEstadia,2);?></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -291,16 +295,18 @@ if(isset($_SESSION['login'])){
                                 <form method="post" id="formCheckOut">
                                     <input type="hidden" name="idReserva" value="<?php echo $_POST['idReserva'];?>">
                                     <input type="hidden" name="idHabitacion" value="<?php echo $_POST['idHabitacion'];?>">
-                                    <input type="hidden" name="montoHabitacionReserva" value="<?php echo round($totalEstadia,2);?>">
+                                    <div id="montoHabitacionReserva">
+                                        <input type="hidden" name="montoHabitacionReserva" value="<?php echo round($totalEstadia,2);?>">
+                                    </div>
                                     <div class="form-group row">
                                         <label class="col-form-label col-5" for="descuento">Descuento:</label>
                                         <div class="col-7">
-                                            <input type="number" min="0" class="form-control" step="0.01" name="descuento" id="descuento">
+                                            <input type="number" min="0" class="form-control" step="1" name="descuento" id="descuento" onchange="getTotalDescuento(this.value,<?php echo round($totalEstadia,2);?>);getTotalDescuentoB(this.value,<?php echo round($totalEstadia,2);?>)">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-form-label col-5" for="montoCancelado">Monto Cancelado:</label>
-                                        <div class="col-7">
+                                        <div class="col-7" id="montoPorCancelar">
                                             <input type="number" min="0" max="<?php echo round($totalEstadia,2);?>" class="form-control" step="0.01" name="montoCancelado" id="montoCancelado" value="<?php echo round($totalEstadia,2);?>">
                                         </div>
                                     </div>
