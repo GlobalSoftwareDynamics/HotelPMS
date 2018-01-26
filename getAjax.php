@@ -189,6 +189,36 @@ if(!empty($_POST['tipoHabitacion2'])){
 	}
 }
 
+if(!empty($_POST['razonSocial'])){
+    $result = mysqli_query($link,"SELECT * FROM Empresa WHERE idEmpresa IN (SELECT idEmpresa FROM Huesped WHERE idHuesped = '{$_POST['razonSocial']}')");
+    $numrow = mysqli_num_rows($result);
+    if ($numrow > 0){
+        while($row = mysqli_fetch_array($result)){
+            echo "<option value='{$row['idEmpresa']}' selected>{$row['razonSocial']}</option>";
+        }
+    }
+    echo "<option>Seleccionar</option>";
+    $result = mysqli_query($link,"SELECT * FROM Empresa ORDER BY razonSocial ASC");
+    while ($fila = mysqli_fetch_array($result)){
+        echo "<option value='{$fila['idEmpresa']}'>{$fila['razonSocial']}</option>";
+    }
+}
+
+if(!empty($_POST['razonSocialB'])){
+    $result = mysqli_query($link,"SELECT * FROM Empresa WHERE idEmpresa IN (SELECT idEmpresa FROM Huesped WHERE nombreCompleto = '{$_POST['razonSocialB']}')");
+    $numrow = mysqli_num_rows($result);
+    if ($numrow > 0){
+        while($row = mysqli_fetch_array($result)){
+            echo "<option value='{$row['idEmpresa']}' selected>{$row['razonSocial']}</option>";
+        }
+    }
+    echo "<option>Seleccionar</option>";
+    $result = mysqli_query($link,"SELECT * FROM Empresa ORDER BY razonSocial ASC");
+    while ($fila = mysqli_fetch_array($result)){
+        echo "<option value='{$fila['idEmpresa']}'>{$fila['razonSocial']}</option>";
+    }
+}
+
 if(!empty($_POST['datosOcupante'])){
     $result = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$_POST['datosOcupante']}'");
     $numrow = mysqli_num_rows($result);

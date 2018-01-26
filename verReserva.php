@@ -115,6 +115,14 @@ if(isset($_SESSION['login'])){
                         $idHuesped = $row2['idHuesped'];
                         $telefonoHuesped = $row2['telefonoCelular'];
                         $emailHuesped = $row2['correoElectronico'];
+                        if($row2['idEmpresa'] != null){
+                            $huesped3 = mysqli_query($link,"SELECT * FROM Empresa WHERE idEmpresa = '{$row2['idEmpresa']}'");
+                            while ($row3 = mysqli_fetch_array($huesped3)){
+                                $empresa = $row3['razonSocial'];
+                            }
+                        }else{
+                            $empresa = "Sin Empresa";
+                        }
                     }
                 }
             }
@@ -158,6 +166,10 @@ if(isset($_SESSION['login'])){
                                         <div class="row">
                                             <div class="col-5"><p><b>Teléfono:</b></p></div>
                                             <div class="col-7"><p><?php echo $telefonoHuesped;?></p></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-5"><p><b>Empresa:</b></p></div>
+                                            <div class="col-7"><p><?php echo $empresa;?></p></div>
                                         </div>
                                     </div>
                                 </div>

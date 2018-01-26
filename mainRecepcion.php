@@ -532,11 +532,11 @@ if(isset($_SESSION['login'])){
 							<div class="row">
 								<div class="form-group col-6" id="divDni">
 									<label class="col-form-label" for="dni">DNI Titular:</label>
-									<input type="number" name="dni" id="dni" class="form-control" onchange="getNombre(this.value);getTelf(this.value);getEmail(this.value);" min="0">
+									<input type="number" name="dni" required id="dni" class="form-control" onchange="getNombre(this.value);getTelf(this.value);getEmail(this.value);getEmpresa(this.value)" min="0">
 								</div>
 								<div class="form-group col-6" id="divNombre">
 									<label class="col-form-label" for="nombres">Nombre Completo:</label>
-									<input type="text" name="nombres" id="nombres" class="form-control" onchange="getID(this.value);getTelf(this.value);getEmail(this.value);">
+									<input type="text" name="nombres" id="nombres" class="form-control" onchange="getID(this.value);getTelf(this.value);getEmail(this.value);getEmpresa1(this.value)">
 								</div>
 							</div>
 							<div class="row">
@@ -546,9 +546,23 @@ if(isset($_SESSION['login'])){
 								</div>
 								<div class="form-group col-6" id="divEmail">
 									<label class="col-form-label" for="email">Correo Electrónico:</label>
-									<input type="email" name="email" id="email" class="form-control">
+									<input type="email" name="email" id="email" class="form-control" required>
 								</div>
 							</div>
+                            <div class="row">
+                                <div class="form-group col-12">
+                                    <label class="col-form-label" for="empresa">Empresa:</label>
+                                    <select class="form-control" name="empresa" id="empresa">
+                                        <option selected disabled>Seleccionar</option>
+                                        <?php
+                                        $result = mysqli_query($link,"SELECT * FROM Empresa ORDER BY razonSocial ASC ");
+                                        while ($fila = mysqli_fetch_array($result)){
+                                            echo "<option value='{$fila['idEmpresa']}'>{$fila['razonSocial']}</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="form-group col-12">
                                     <label class="col-form-label" for="tipoReserva">Tipo de Reserva:</label>

@@ -42,13 +42,19 @@ if(isset($_SESSION['login'])){
 			$flagPaquete = true;
 		}
 
-		$insert = mysqli_query($link,"INSERT INTO Huesped VALUES ('{$dni}',null,null,null,null,'{$_POST['nombres']}',null,'{$_POST['email']}',null,null,'{$_POST['telefono']}',null,null)");
-		$queryPerformed = "INSERT INTO Huesped VALUES ({$dni},null,null,null,null,{$_POST['nombres']},null,{$_POST['email']},null,null,{$_POST['telefono']},null,null)";
+        if($_POST['empresa'] == 'Seleccionar'){
+            $_POST['empresa'] = "null";
+        }else{
+            $_POST['empresa'] = "'{$_POST['empresa']}'";
+        }
+
+		$insert = mysqli_query($link,"INSERT INTO Huesped VALUES ('{$dni}',{$_POST['empresa']},null,null,null,'{$_POST['nombres']}',null,'{$_POST['email']}',null,null,'{$_POST['telefono']}',null,null)");
+		$queryPerformed = "INSERT INTO Huesped VALUES ({$dni},{$_POST['empresa']},null,null,null,{$_POST['nombres']},null,{$_POST['email']},null,null,{$_POST['telefono']},null,null)";
 		$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','CREAR HUESPED','{$queryPerformed}')");
 
 		if(!$insert){
-			$update = mysqli_query($link,"UPDATE Huesped SET nombreCompleto = '{$_POST['nombres']}', correoElectronico = '{$_POST['email']}', telefonoCelular = '{$_POST['telefono']}' WHERE idHuesped = '{$dni}'");
-			$queryPerformed = "UPDATE Huesped SET nombreCompleto = {$_POST['nombres']}, correoElectronico = {$_POST['email']}, telefonoCelular = {$_POST['telefono']} WHERE idHuesped = {$dni}";
+			$update = mysqli_query($link,"UPDATE Huesped SET nombreCompleto = '{$_POST['nombres']}', correoElectronico = '{$_POST['email']}', telefonoCelular = '{$_POST['telefono']}', idEmpresa = {$_POST['empresa']} WHERE idHuesped = '{$dni}'");
+			$queryPerformed = "UPDATE Huesped SET nombreCompleto = {$_POST['nombres']}, correoElectronico = {$_POST['email']}, telefonoCelular = {$_POST['telefono']}, idEmpresa = {$_POST['empresa']} WHERE idHuesped = {$dni}";
 			$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','HUESPED','{$queryPerformed}')");
 		}
 

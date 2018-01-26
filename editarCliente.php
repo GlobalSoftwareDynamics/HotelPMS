@@ -9,20 +9,31 @@ if(isset($_SESSION['login'])){
     $result = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$_POST['idHuesped']}'");
     while ($fila = mysqli_fetch_array($result)){
         $codigoPostal = $fila['codigoPostal'];
-        $result1 = mysqli_query($link,"SELECT * FROM Ciudad WHERE idCiudad = '{$fila['idCiudad']}'");
-        while ($fila1 = mysqli_fetch_array($result1)){
-            $ciudad = $fila1['nombre'];
-            $result2 = mysqli_query($link,"SELECT * FROM EstadoPais WHERE idEstadoPais = '{$fila1['idEstadoPais']}'");
-            while ($fila2 =  mysqli_fetch_array($result2)){
-                $estado = $fila2['nombre'];
-                $idEstado = $fila2['idEstadoPais'];
-                $result3 = mysqli_query($link,"SELECT * FROM Pais WHERE idPais = '{$fila2['idPais']}'");
-                while ($fila3 =  mysqli_fetch_array($result3)){
-                    $pais = $fila3['nombre'];
-                    $idPais = $fila3['idPais'];
+        echo $fila['idCiudad'];
+        if($fila['idCiudad'] == ''){
+            $ciudad = "Seleccionar";
+            $fila['idCiudad'] = "null";
+            $estado = "Seleccionar";
+            $idEstado = "null";
+            $pais = "Seleccionar";
+            $idPais = "null";
+        }else{
+            $result1 = mysqli_query($link,"SELECT * FROM Ciudad WHERE idCiudad = '{$fila['idCiudad']}'");
+            while ($fila1 = mysqli_fetch_array($result1)){
+                $ciudad = $fila1['nombre'];
+                $result2 = mysqli_query($link,"SELECT * FROM EstadoPais WHERE idEstadoPais = '{$fila1['idEstadoPais']}'");
+                while ($fila2 =  mysqli_fetch_array($result2)){
+                    $estado = $fila2['nombre'];
+                    $idEstado = $fila2['idEstadoPais'];
+                    $result3 = mysqli_query($link,"SELECT * FROM Pais WHERE idPais = '{$fila2['idPais']}'");
+                    while ($fila3 =  mysqli_fetch_array($result3)){
+                        $pais = $fila3['nombre'];
+                        $idPais = $fila3['idPais'];
+                    }
                 }
             }
         }
+
         $result1 = mysqli_query($link,"SELECT * FROM Empresa WHERE idEmpresa = '{$fila['idEmpresa']}'");
         $numrows = mysqli_num_rows($result1);
         if($numrows == 0){
