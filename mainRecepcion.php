@@ -60,7 +60,7 @@ if(isset($_SESSION['login'])){
                             $nroHuespedes = $fila['nroHuespedes'];
                         }
                         ?>
-                        <div class="card-body-text"><?php echo $nroHuespedes;?> Huespedes</div>
+                        <div class="card-body-text"><a href="gestionHuespedesAlojados.php" style="color: white; text-underline: none"><?php echo $nroHuespedes;?> Huespedes</a></div>
                         <div class="spacer20"></div>
                     </div>
                 </div>

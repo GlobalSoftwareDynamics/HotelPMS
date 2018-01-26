@@ -293,9 +293,21 @@ if(isset($_SESSION['login'])){
                                     <input type="hidden" name="idHabitacion" value="<?php echo $_POST['idHabitacion'];?>">
                                     <input type="hidden" name="montoHabitacionReserva" value="<?php echo round($totalEstadia,2);?>">
                                     <div class="form-group row">
-                                        <label class="col-form-label col-4" for="montoCancelado">Monto Cancelado:</label>
-                                        <div class="col-8">
+                                        <label class="col-form-label col-5" for="descuento">Descuento:</label>
+                                        <div class="col-7">
+                                            <input type="number" min="0" class="form-control" step="0.01" name="descuento" id="descuento">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-5" for="montoCancelado">Monto Cancelado:</label>
+                                        <div class="col-7">
                                             <input type="number" min="0" max="<?php echo round($totalEstadia,2);?>" class="form-control" step="0.01" name="montoCancelado" id="montoCancelado" value="<?php echo round($totalEstadia,2);?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-5" for="emailSpam">Enviar Correo:</label>
+                                        <div class="col-7">
+                                            <input type="checkbox" name="emailSpam" id="emailSpam" style="margin-top: 8%;">
                                         </div>
                                     </div>
                                 </form>

@@ -102,8 +102,6 @@ if(isset($_SESSION['login'])){
 
         $databaseLog = mysqli_query($link, "INSERT INTO DatabaseLog (idColaborador,fechaHora,evento,tipo,consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','Huesped','{$queryPerformed}')");
 
-        echo $queryPerformed;
-
     }
 
     ?>

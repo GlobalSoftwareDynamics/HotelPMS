@@ -32,6 +32,7 @@
 							<a class="dropdown-item" href="gestionClientes.php">Clientes</a>
 							<a class="dropdown-item" href="gestionEmpresas.php">Empresas</a>
 							<a class="dropdown-item" href="gestionUsuarios.php">Usuarios</a>
+                            <a class="dropdown-item" href="gestionReservas.php">Reservas</a>
 						</div>
 					</li>
 				</ul>

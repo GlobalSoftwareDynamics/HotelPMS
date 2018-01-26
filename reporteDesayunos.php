@@ -40,16 +40,45 @@ if(isset($_SESSION['login'])){
         $html .= '<tr>';
         $cantidadHuespedesDia = 0;
         $nobmreCompleto = "";
-        $result1 = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE fechaFin >= '{$date} 23:59:59' AND idEstado IN (4) AND idHabitacion = '{$fila['idHabitacion']}'");
+        $result1 = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE idEstado IN (4) AND idHabitacion = '{$fila['idHabitacion']}'");
         while ($fila1 = mysqli_fetch_array($result1)){
-            $result2 = mysqli_query($link,"SELECT COUNT(*) AS cantidad FROM Ocupantes WHERE idHabitacion = '{$fila1['idHabitacion']}' AND idReserva = '{$fila1['idReserva']}'");
-            while ($fila2 = mysqli_fetch_array($result2)){
-                $cantidadHuespedesDia += $fila2['cantidad'];
+            $arrayFechasOcupadas = array();
+            $fechaInicio = explode(" ",$fila1['fechaInicio']);
+            $fechaFin = explode(" ",$fila1['fechaFin']);
+            $intervala = timeInterval($fechaInicio[0],$fechaFin[0]);
+            $date2 = date('Y-m-d', strtotime($fechaInicio[0] . ' -1 day'));
+
+            switch($fila1['modificadorCheckIO']){
+                case 0:
+                    $intervala -= 1;
+                    break;
+                case 1:
+                    $intervala -= 1;
+                    $date2 = date('Y-m-d', strtotime($date2 . ' -1 day'));
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    $date2 = date('Y-m-d', strtotime($date2 . ' -1 day'));
+                    break;
             }
 
-            $result2 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped IN (SELECT idHuesped FROM Ocupantes WHERE idHabitacion = '{$fila1['idHabitacion']}' AND idReserva = '{$fila1['idReserva']}' AND cargos = 1)");
-            while ($fila2 = mysqli_fetch_array($result2)){
-                $nobmreCompleto = $fila2['nombreCompleto'];
+            for($j = 0; $j <= $intervala; $j++){
+                $date2 = date('Y-m-d', strtotime($date2 . ' +1 day'));
+                $arrayFechasOcupadas[$j] = $date2;
+            }
+
+            if(in_array($date,$arrayFechasOcupadas)){
+                $result2 = mysqli_query($link,"SELECT COUNT(*) AS cantidad FROM Ocupantes WHERE idHabitacion = '{$fila1['idHabitacion']}' AND idReserva = '{$fila1['idReserva']}'");
+                while ($fila2 = mysqli_fetch_array($result2)){
+                    $cantidadHuespedesDia += $fila2['cantidad'];
+                }
+                $result2 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped IN (SELECT idHuesped FROM Ocupantes WHERE idHabitacion = '{$fila1['idHabitacion']}' AND idReserva = '{$fila1['idReserva']}' AND cargos = 1)");
+                while ($fila2 = mysqli_fetch_array($result2)){
+                    $nobmreCompleto = $fila2['nombreCompleto'];
+                }
+            }else{
+                $cantidadHuespedesDia = 0;
             }
         }
         if($cantidadHuespedesDia == 0){
