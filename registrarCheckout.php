@@ -299,20 +299,26 @@ if(isset($_SESSION['login'])){
                                         <input type="hidden" name="montoHabitacionReserva" value="<?php echo round($totalEstadia,2);?>">
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-form-label col-5" for="descuento">Descuento:</label>
-                                        <div class="col-7">
+                                        <label class="col-form-label col-6" for="descuento">Descuento:</label>
+                                        <div class="col-6">
                                             <input type="number" min="0" class="form-control" step="1" name="descuento" id="descuento" onchange="getTotalDescuento(this.value,<?php echo round($totalEstadia,2);?>);getTotalDescuentoB(this.value,<?php echo round($totalEstadia,2);?>)">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-form-label col-5" for="montoCancelado">Monto Cancelado:</label>
-                                        <div class="col-7" id="montoPorCancelar">
+                                        <label class="col-form-label col-6" for="montoCancelado">Monto Cancelado:</label>
+                                        <div class="col-6" id="montoPorCancelar">
                                             <input type="number" min="0" max="<?php echo round($totalEstadia,2);?>" class="form-control" step="0.01" name="montoCancelado" id="montoCancelado" value="<?php echo round($totalEstadia,2);?>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-form-label col-5" for="emailSpam">Enviar Correo:</label>
-                                        <div class="col-7">
+                                        <label class="col-form-label col-6" for="liberarHabitacion">Liberar Habitación:</label>
+                                        <div class="col-6">
+                                            <input type="checkbox" name="liberarHabitacion" id="liberarHabitacion" style="margin-top: 8%;">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-6" for="emailSpam">Enviar Correo:</label>
+                                        <div class="col-6">
                                             <input type="checkbox" name="emailSpam" id="emailSpam" style="margin-top: 8%;">
                                         </div>
                                     </div>

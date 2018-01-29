@@ -175,6 +175,9 @@ if(!empty($_POST['tipoHabitacion'])&&!empty($_POST['fechaInicioCheckIn'])&&!empt
                     case 3:
                         $date2 = date('Y-m-d', strtotime($date2 . ' -1 day'));
                         break;
+                    case 4:
+                        $intervala -= 1;
+                        break;
                 }
 
                 for($j = 0; $j <= $intervala; $j++){
@@ -426,6 +429,9 @@ if(!empty($_POST['fechaGuia'])){
                                     $interval += 1;
                                     $lateCheck = "Nota: Se ha solicitado Early CheckIn y Late CheckOut.";
                                     break;
+                                case 4:
+                                    $lateCheck = "Nota: Se ha liberado la habitación luego del Late CheckOut.";
+                                    break;
                             }
                             $idReserva = $fila2['idReserva'];
                             $idHabitacion = $fila2['idHabitacion'];
@@ -478,6 +484,9 @@ if(!empty($_POST['fechaGuia'])){
                                 case 3:
                                     $interval += 1;
                                     $lateCheck = "Nota: Se ha solicitado Early CheckIn y Late CheckOut.";
+                                    break;
+                                case 4:
+                                    $lateCheck = "Nota: Se ha liberado la habitación luego del Late CheckOut.";
                                     break;
                             }
                             $idReserva = $fila2['idReserva'];
@@ -532,6 +541,9 @@ if(!empty($_POST['fechaGuia'])){
                                 case 3:
                                     $interval += 1;
                                     $lateCheck = "Nota: Se ha solicitado Early CheckIn y Late CheckOut.";
+                                    break;
+                                case 4:
+                                    $lateCheck = "Nota: Se ha liberado la habitación luego del Late CheckOut.";
                                     break;
                             }
                             $idReserva = $fila2['idReserva'];

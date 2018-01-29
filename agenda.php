@@ -8,6 +8,21 @@ if(isset($_SESSION['login'])){
 
 	if (isset($_POST['checkOut'])){
 
+	    echo $_POST['liberarHabitacion'];
+
+        $result = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
+        while ($fila = mysqli_fetch_array($result)){
+            if(($fila['modificadorCheckIO'] == 2 || $fila['modificadorCheckIO'] == 3) && $_POST['liberarHabitacion'] == "on"){
+
+                $update = mysqli_query($link,"UPDATE HabitacionReservada SET modificadorCheckIO = '4' WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
+
+                $queryPerformed = "UPDATE HabitacionReservada SET modificadorCheckIO = 4 WHERE idReserva = {$_POST['idReserva']} AND idHabitacion = {$_POST['idHabitacion']}";
+
+                $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','Late CheckOut Con Liberación','{$queryPerformed}')");
+
+            }
+        }
+
 	    $query = mysqli_query($link,"UPDATE HabitacionReservada SET idEstado = 5 WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
 
 	    $queryPerformed = "UPDATE HabitacionReservada SET idEstado = 5 WHERE idReserva = {$_POST['idReserva']} AND idHabitacion = {$_POST['idHabitacion']}";
@@ -64,7 +79,7 @@ if(isset($_SESSION['login'])){
 								<div class="col-1 no-padding text-center"><button type="button" class="btn btn-sm btn-light ml-3" data-toggle="modal" data-target="#modalReserva">Nueva Reserva</button></div>
 							</div>
 					</div>
-					<div class="card-body" id="calendario">
+					<div class="card-body" id="calendario" style="overflow-y: scroll; height: 550px">
 						<table class="bordered-calendar text-center">
 							<thead>
                             <tr>
@@ -138,6 +153,9 @@ if(isset($_SESSION['login'])){
                                                         $interval += 1;
                                                         $lateCheck = "Nota: Se ha solicitado Early CheckIn y Late CheckOut.";
                                                         break;
+                                                    case 4:
+                                                        $lateCheck = "Nota: Se ha liberado la habitación luego del Late CheckOut.";
+                                                        break;
                                                 }
                                                 $idReserva = $fila2['idReserva'];
                                                 $idHabitacion = $fila2['idHabitacion'];
@@ -179,6 +197,9 @@ if(isset($_SESSION['login'])){
                                                         $interval += 1;
                                                         $lateCheck = "Nota: Se ha solicitado Early CheckIn y Late CheckOut.";
                                                         break;
+                                                    case 4:
+                                                        $lateCheck = "Nota: Se ha liberado la habitación luego del Late CheckOut.";
+                                                        break;
                                                 }
                                                 $idReserva = $fila2['idReserva'];
                                                 $idHabitacion = $fila2['idHabitacion'];
@@ -219,6 +240,9 @@ if(isset($_SESSION['login'])){
                                                     case 3:
                                                         $interval += 1;
                                                         $lateCheck = "Nota: Se ha solicitado Early CheckIn y Late CheckOut.";
+                                                        break;
+                                                    case 4:
+                                                        $lateCheck = "Nota: Se ha liberado la habitación luego del Late CheckOut.";
                                                         break;
                                                 }
                                                 $idReserva = $fila2['idReserva'];

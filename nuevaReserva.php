@@ -26,6 +26,72 @@ if(isset($_SESSION['login'])){
 		$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','RECOJO RESERVA ','{$queryPerformed}')");
 	}
 
+    if(isset($_POST['earlyCheckIn'])){
+
+	    $result = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
+	    while ($fila = mysqli_fetch_array($result)){
+	        switch ($fila['modificadorCheckIO']){
+                case 0:
+
+                    $update = mysqli_query($link,"UPDATE HabitacionReservada SET modificadorCheckIO = '1' WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
+
+                    $queryPerformed = "UPDATE HabitacionReservada SET modificadorCheckIO = 1 WHERE idReserva = {$_POST['idReserva']} AND idHabitacion = {$_POST['idHabitacion']}";
+
+                    $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','Early CheckIn','{$queryPerformed}')");
+
+                    break;
+                case 1:
+                    break;
+                case 2:
+
+                    $update = mysqli_query($link,"UPDATE HabitacionReservada SET modificadorCheckIO = '3' WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
+
+                    $queryPerformed = "UPDATE HabitacionReservada SET modificadorCheckIO = 3 WHERE idReserva = {$_POST['idReserva']} AND idHabitacion = {$_POST['idHabitacion']}";
+
+                    $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','Early CheckIn','{$queryPerformed}')");
+
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+            }
+        }
+	}
+
+    if(isset($_POST['lateCheckOut'])){
+
+        $result = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
+        while ($fila = mysqli_fetch_array($result)){
+            switch ($fila['modificadorCheckIO']){
+                case 0:
+
+                    $update = mysqli_query($link,"UPDATE HabitacionReservada SET modificadorCheckIO = '2' WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
+
+                    $queryPerformed = "UPDATE HabitacionReservada SET modificadorCheckIO = 2 WHERE idReserva = {$_POST['idReserva']} AND idHabitacion = {$_POST['idHabitacion']}";
+
+                    $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','Late CheckOut','{$queryPerformed}')");
+
+                    break;
+                case 1:
+
+                    $update = mysqli_query($link,"UPDATE HabitacionReservada SET modificadorCheckIO = '3' WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
+
+                    $queryPerformed = "UPDATE HabitacionReservada SET modificadorCheckIO = 3 WHERE idReserva = {$_POST['idReserva']} AND idHabitacion = {$_POST['idHabitacion']}";
+
+                    $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','Late CheckOut','{$queryPerformed}')");
+
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+            }
+        }
+    }
+
 	if(isset($_POST['addReserva'])){
 		$dni = 1;
 		$flagPaquete = false;
@@ -114,7 +180,7 @@ if(isset($_SESSION['login'])){
 	if(isset($_POST['addReservaConfirmada'])){
 		if(!isset($_POST['camaAdicional'])){$camaAdicional = false;}else{$camaAdicional = true;}
 		$insert = mysqli_query($link, "INSERT INTO HabitacionReservada VALUES ('{$_POST['nroHabitacion']}','{$_POST['idReserva']}',3,'{$_POST['fechaInicio']}','{$_POST['fechaFin']}'
-                  ,'{$_POST['preferencias']}','{$camaAdicional}','{$_POST['tarifa']}',null)");
+                  ,'{$_POST['preferencias']}','{$camaAdicional}','{$_POST['tarifa']}',0)");
 	}
 
 	if(isset($_POST['addReservaPendiente'])){
@@ -488,7 +554,16 @@ if(isset($_SESSION['login'])){
                                                                 <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuButton\">
                                                                     <input type='hidden' name='idHabitacion' value='{$row['idHabitacion']}'>
                                                                     <input type='hidden' name='idReserva' value='{$_GET['idReserva']}'>
-                                                                    <input type=\"submit\" value=\"Registrar Check-In\" class=\"dropdown-item\" formaction=\"#\" name='checkinHabitacion'>
+                                                                    ";
+												if ($row['idEstado'] == 3){
+												    echo "<input type=\"submit\" value=\"Registrar Check-In\" class=\"dropdown-item\" formaction=\"#\" name='checkinHabitacion'>";
+                                                    echo "<input type=\"submit\" value=\"Asignar Early Check-In\" class=\"dropdown-item\" formaction=\"#\" name='earlyCheckIn'>";
+                                                    echo "<input type=\"submit\" value=\"Asignar Late Check-Out\" class=\"dropdown-item\" formaction=\"#\" name='lateCheckOut'>";
+                                                }elseif ($row['idEstado'] == 4){
+                                                    echo "<input type=\"submit\" value=\"Asignar Early Check-In\" class=\"dropdown-item\" formaction=\"#\" name='earlyCheckIn'>";
+                                                    echo "<input type=\"submit\" value=\"Asignar Late Check-Out\" class=\"dropdown-item\" formaction=\"#\" name='lateCheckOut'>";
+                                                }
+												echo "
                                                                     <input type=\"submit\" value=\"Eliminar\" class=\"dropdown-item\" formaction=\"#\" name='deleteHabitacion'>
                                                                 </div>
                                                             </div>
@@ -1064,6 +1139,16 @@ if(isset($_SESSION['login'])){
                                                                 <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuButton\">
                                                                     <input type='hidden' name='idHabitacion' value='{$row['idHabitacion']}'>
                                                                     <input type='hidden' name='idReserva' value='{$_POST['idReserva']}'>
+                                                                    ";
+												if ($row['idEstado'] == 3){
+												    echo "<input type=\"submit\" value=\"Registrar Check-In\" class=\"dropdown-item\" formaction=\"#\" name='checkinHabitacion'>";
+                                                    echo "<input type=\"submit\" value=\"Asignar Early Check-In\" class=\"dropdown-item\" formaction=\"#\" name='earlyCheckIn'>";
+                                                    echo "<input type=\"submit\" value=\"Asignar Late Check-Out\" class=\"dropdown-item\" formaction=\"#\" name='lateCheckOut'>";
+                                                }elseif($row['idEstado'] == 4){
+                                                    echo "<input type=\"submit\" value=\"Asignar Early Check-In\" class=\"dropdown-item\" formaction=\"#\" name='earlyCheckIn'>";
+                                                    echo "<input type=\"submit\" value=\"Asignar Late Check-Out\" class=\"dropdown-item\" formaction=\"#\" name='lateCheckOut'>";
+                                                }
+												echo "
                                                                     <input type=\"submit\" value=\"Registrar Check-In\" class=\"dropdown-item\" formaction=\"#\" name='checkinHabitacion'>
                                                                     <input type=\"submit\" value=\"Eliminar\" class=\"dropdown-item\" formaction=\"#\" name='deleteHabitacion'>
                                                                 </div>
