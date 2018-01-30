@@ -178,6 +178,9 @@ if(!empty($_POST['tipoHabitacion'])&&!empty($_POST['fechaInicioCheckIn'])&&!empt
                     case 4:
                         $intervala -= 1;
                         break;
+                    case 5:
+                        $date2 = date('Y-m-d', strtotime($date2 . ' -1 day'));
+                        break;
                 }
 
                 for($j = 0; $j <= $intervala; $j++){
@@ -430,6 +433,7 @@ if(!empty($_POST['fechaGuia'])){
                                     $lateCheck = "Nota: Se ha solicitado Early CheckIn y Late CheckOut.";
                                     break;
                                 case 4:
+                                case 5:
                                     $lateCheck = "Nota: Se ha liberado la habitación luego del Late CheckOut.";
                                     break;
                             }
@@ -486,6 +490,7 @@ if(!empty($_POST['fechaGuia'])){
                                     $lateCheck = "Nota: Se ha solicitado Early CheckIn y Late CheckOut.";
                                     break;
                                 case 4:
+                                case 5:
                                     $lateCheck = "Nota: Se ha liberado la habitación luego del Late CheckOut.";
                                     break;
                             }
@@ -543,6 +548,7 @@ if(!empty($_POST['fechaGuia'])){
                                     $lateCheck = "Nota: Se ha solicitado Early CheckIn y Late CheckOut.";
                                     break;
                                 case 4:
+                                case 5:
                                     $lateCheck = "Nota: Se ha liberado la habitación luego del Late CheckOut.";
                                     break;
                             }

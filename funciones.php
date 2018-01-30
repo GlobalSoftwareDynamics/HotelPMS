@@ -152,3 +152,52 @@ function timeInterval ($fechaInicio, $fechaFin){
     }
     return $interval;
 }
+
+function claseAgenda ($estadoActual, $modificadorActual, $estadoAnterior, $modificadorAnterior){
+
+    switch ($modificadorActual){
+
+        case 0 && $modificadorAnterior == 0: $fin = "49"; $inicio = "51"; $medio = "50";break;
+        case 2 && $modificadorAnterior == 0: $fin = "49"; $inicio = "51"; $medio = "50";break;
+        case 4 && $modificadorAnterior == 0: $fin = "49"; $inicio = "51"; $medio = "50";break;
+        case 0 && $modificadorAnterior == 1: $fin = "49"; $inicio = "51"; $medio = "50";break;
+        case 2 && $modificadorAnterior == 1: $fin = "49"; $inicio = "51"; $medio = "50";break;
+        case 4 && $modificadorAnterior == 1: $fin = "49"; $inicio = "51"; $medio = "50";break;
+        case 0 && $modificadorAnterior == 4: $fin = "49"; $inicio = "51"; $medio = "50";break;
+        case 2 && $modificadorAnterior == 4: $fin = "49"; $inicio = "51"; $medio = "50";break;
+        case 4 && $modificadorAnterior == 4: $fin = "49"; $inicio = "51"; $medio = "50";break;
+        case 0 && $modificadorAnterior == 5: $fin = "49"; $inicio = "51"; $medio = "50";break;
+        case 2 && $modificadorAnterior == 5: $fin = "49"; $inicio = "51"; $medio = "50";break;
+        case 4 && $modificadorAnterior == 5: $fin = "49"; $inicio = "51"; $medio = "50";break;
+        default: $fin = "50"; $inicio = "50"; $medio = "50";break;
+
+    }
+
+    switch ($estadoActual){
+
+        case 3 && $estadoAnterior == 3: $color1 = "0a6187"; $color2 = "0a6187";break;
+        case 4 && $estadoAnterior == 3: $color1 = "389438"; $color2 = "0a6187";break;
+        case 5 && $estadoAnterior == 3: $color1 = "c3c3c3"; $color2 = "0a6187";break;
+        case 3 && $estadoAnterior == 4: $color1 = "0a6187"; $color2 = "389438";break;
+        case 4 && $estadoAnterior == 4: $color1 = "389438"; $color2 = "389438";break;
+        case 5 && $estadoAnterior == 4: $color1 = "c3c3c3"; $color2 = "389438";break;
+        case 3 && $estadoAnterior == 5: $color1 = "0a6187"; $color2 = "c3c3c3";break;
+        case 4 && $estadoAnterior == 5: $color1 = "389438"; $color2 = "c3c3c3";break;
+        case 5 && $estadoAnterior == 5: $color1 = "c3c3c3"; $color2 = "c3c3c3";break;
+        default: $color1 = "ffffff"; $color2 = "ffffff"; break;
+
+    }
+
+    $clase = "
+    background: #ffffff;
+background: -moz-linear-gradient(-45deg, #{$color2} 0%, #{$color2} {$fin}%, #ffffff {$medio}%, #{$color1} {$inicio}%, #{$color1} 100%);
+background: -webkit-gradient(left top, right bottom, color-stop(0%, #{$color2}), color-stop({$fin}%, #{$color2}), color-stop({$medio}%, #ffffff), color-stop({$inicio}%, #{$color1}), color-stop(100%, #{$color1}));
+background: -webkit-linear-gradient(-45deg, #{$color2} 0%, #{$color2} {$fin}%, #ffffff {$medio}%, #{$color1} {$inicio}%, #{$color1} 100%);
+background: -o-linear-gradient(-45deg, #{$color2} 0%, #{$color2} {$fin}%, #ffffff {$medio}%, #{$color1} {$inicio}%, #{$color1} 100%);
+background: -ms-linear-gradient(-45deg, #{$color2} 0%, #{$color2} {$fin}%, #ffffff {$medio}%, #{$color1} {$inicio}%, #{$color1} 100%);
+background: linear-gradient(135deg, #{$color2} 0%, #{$color2} {$fin}%, #ffffff {$medio}%, #{$color1} {$inicio}%, #{$color1} 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{$color2}', endColorstr='#{$color1}', GradientType=1 );
+    ";
+
+    return $clase;
+}

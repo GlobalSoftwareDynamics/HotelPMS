@@ -8,15 +8,21 @@ if(isset($_SESSION['login'])){
 
 	if (isset($_POST['checkOut'])){
 
-	    echo $_POST['liberarHabitacion'];
-
         $result = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
         while ($fila = mysqli_fetch_array($result)){
-            if(($fila['modificadorCheckIO'] == 2 || $fila['modificadorCheckIO'] == 3) && $_POST['liberarHabitacion'] == "on"){
+            if($fila['modificadorCheckIO'] == 2 && $_POST['liberarHabitacion'] == "on"){
 
                 $update = mysqli_query($link,"UPDATE HabitacionReservada SET modificadorCheckIO = '4' WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
 
                 $queryPerformed = "UPDATE HabitacionReservada SET modificadorCheckIO = 4 WHERE idReserva = {$_POST['idReserva']} AND idHabitacion = {$_POST['idHabitacion']}";
+
+                $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','Late CheckOut Con Liberación','{$queryPerformed}')");
+
+            }elseif ($fila['modificadorCheckIO'] == 3 && $_POST['liberarHabitacion'] == "on"){
+
+                $update = mysqli_query($link,"UPDATE HabitacionReservada SET modificadorCheckIO = '5' WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
+
+                $queryPerformed = "UPDATE HabitacionReservada SET modificadorCheckIO = 5 WHERE idReserva = {$_POST['idReserva']} AND idHabitacion = {$_POST['idHabitacion']}";
 
                 $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','Late CheckOut Con Liberación','{$queryPerformed}')");
 
@@ -154,6 +160,7 @@ if(isset($_SESSION['login'])){
                                                         $lateCheck = "Nota: Se ha solicitado Early CheckIn y Late CheckOut.";
                                                         break;
                                                     case 4:
+                                                    case 5:
                                                         $lateCheck = "Nota: Se ha liberado la habitación luego del Late CheckOut.";
                                                         break;
                                                 }
@@ -198,6 +205,7 @@ if(isset($_SESSION['login'])){
                                                         $lateCheck = "Nota: Se ha solicitado Early CheckIn y Late CheckOut.";
                                                         break;
                                                     case 4:
+                                                    case 5:
                                                         $lateCheck = "Nota: Se ha liberado la habitación luego del Late CheckOut.";
                                                         break;
                                                 }
@@ -242,6 +250,7 @@ if(isset($_SESSION['login'])){
                                                         $lateCheck = "Nota: Se ha solicitado Early CheckIn y Late CheckOut.";
                                                         break;
                                                     case 4:
+                                                    case 5:
                                                         $lateCheck = "Nota: Se ha liberado la habitación luego del Late CheckOut.";
                                                         break;
                                                 }
