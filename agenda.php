@@ -2,11 +2,11 @@
 include('session.php');
 include ('funciones.php');
 if(isset($_SESSION['login'])){
-	include('header.php');
-	include('navbarRecepcion.php');
-	include('declaracionFechas.php');
+    include('header.php');
+    include('navbarRecepcion.php');
+    include('declaracionFechas.php');
 
-	if (isset($_POST['checkOut'])){
+    if (isset($_POST['checkOut'])){
 
         $result = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
         while ($fila = mysqli_fetch_array($result)){
@@ -29,9 +29,9 @@ if(isset($_SESSION['login'])){
             }
         }
 
-	    $query = mysqli_query($link,"UPDATE HabitacionReservada SET idEstado = 5 WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
+        $query = mysqli_query($link,"UPDATE HabitacionReservada SET idEstado = 5 WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
 
-	    $queryPerformed = "UPDATE HabitacionReservada SET idEstado = 5 WHERE idReserva = {$_POST['idReserva']} AND idHabitacion = {$_POST['idHabitacion']}";
+        $queryPerformed = "UPDATE HabitacionReservada SET idEstado = 5 WHERE idReserva = {$_POST['idReserva']} AND idHabitacion = {$_POST['idHabitacion']}";
 
         $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','HabitacionReservada-CheckOut','{$queryPerformed}')");
 
@@ -66,48 +66,48 @@ if(isset($_SESSION['login'])){
         $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','HistorialReserva','{$queryPerformed}')");
 
     }
-	?>
+    ?>
 
-   <script>
-       $(function () {
-           $('[data-toggle="popover"]').popover()
-       });
-   </script>
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        });
+    </script>
 
-	<section class="container">
-		<div class="row">
-			<div class="col-12">
-				<div class="card mb-3">
-					<div class="card-header">
-							<div class="row">
-								<div class="col-8"><i class="fa fa-calendar"></i> Agenda de Eventos</div>
-								<div class="col-1 no-padding-lg text-center"><label class="sr-only" for="fechaGuia">Fecha</label><input type="date" class="form-control input-thin" name="fechaGuia" id="fechaGuia" onchange="getCalendar(this.value)" value="<?php echo $date;?>"></div>
-								<div class="col-1 no-padding text-center"><button type="button" class="btn btn-sm btn-light ml-3" data-toggle="modal" data-target="#modalReserva">Nueva Reserva</button></div>
-							</div>
-					</div>
-					<div class="card-body" id="calendario" style="overflow-y: scroll; height: 550px">
-						<table class="bordered-calendar text-center">
-							<thead>
+    <section class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-8"><i class="fa fa-calendar"></i> Agenda de Eventos</div>
+                            <div class="col-1 no-padding-lg text-center"><label class="sr-only" for="fechaGuia">Fecha</label><input type="date" class="form-control input-thin" name="fechaGuia" id="fechaGuia" onchange="getCalendar(this.value)" value="<?php echo $date;?>"></div>
+                            <div class="col-1 no-padding text-center"><button type="button" class="btn btn-sm btn-light ml-3" data-toggle="modal" data-target="#modalReserva">Nueva Reserva</button></div>
+                        </div>
+                    </div>
+                    <div class="card-body" id="calendario" style="overflow-y: scroll; height: 550px">
+                        <table class="bordered-calendar text-center">
+                            <thead>
                             <tr>
                                 <th class="habitacion">Habitación</th>
-                            <?php
-                            $date1 = date("Y-m-d", strtotime($date . ' -9 days'));
-                            $dateIni = date("Y-m-d", strtotime($date . ' -8 days'));
-                            $dateFin = date("Y-m-d", strtotime($date . ' +11 days'));
-                            $arrayFechas = array();
-                            for($i = 0; $i < 20; $i++){
-                                $date1 = date('Y-m-d', strtotime($date1 . ' +1 day'));
-                                $arrayFechas[$i] = $date1;
-                                $hoy = "";
-                                if($date1 == $date){
-                                    $hoy = "background-color: lightblue";
+                                <?php
+                                $date1 = date("Y-m-d", strtotime($date . ' -9 days'));
+                                $dateIni = date("Y-m-d", strtotime($date . ' -8 days'));
+                                $dateFin = date("Y-m-d", strtotime($date . ' +11 days'));
+                                $arrayFechas = array();
+                                for($i = 0; $i < 20; $i++){
+                                    $date1 = date('Y-m-d', strtotime($date1 . ' +1 day'));
+                                    $arrayFechas[$i] = $date1;
+                                    $hoy = "";
+                                    if($date1 == $date){
+                                        $hoy = "background-color: lightblue";
+                                    }
+                                    echo "<th class=\"fecha\" style='{$hoy}'>$date1</th>";
                                 }
-                                echo "<th class=\"fecha\" style='{$hoy}'>$date1</th>";
-                            }
-                            ?>
+                                ?>
                             </tr>
-							</thead>
-							<tbody>
+                            </thead>
+                            <tbody>
                             <?php
                             $result = mysqli_query($link,"SELECT * FROM TipoHabitacion ORDER BY idTipoHabitacion");
                             while ($fila = mysqli_fetch_array($result)){
@@ -276,13 +276,13 @@ if(isset($_SESSION['login'])){
                                 }
                             }
                             ?>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <form method="post" action="nuevaReserva.php">
         <div class="modal fade" id="modalReserva" tabindex="-1" role="dialog" aria-labelledby="modalReserva" aria-hidden="true">
@@ -353,22 +353,22 @@ if(isset($_SESSION['login'])){
         </div>
     </form>
 
-	<nav id="context-menu" class="context-menu">
-		<ul class="context-menu__items">
+    <nav id="context-menu" class="context-menu">
+        <ul class="context-menu__items">
             <li class="context-menu__item">
                 <a href="#" class="context-menu__link" data-action="Checkin" id="checkin" data-id=""><i class="fa fa-sign-in"></i> Registrar Check-In</a>
             </li>
-			<li class="context-menu__item">
-				<a href="#" class="context-menu__link" data-action="View" id="ver" data-id=""><i class="fa fa-eye"></i> Ver Reserva</a>
-			</li>
-			<li class="context-menu__item">
-				<a href="#" class="context-menu__link" data-action="Edit" id="editar" data-id=""><i class="fa fa-edit"></i> Editar Reserva</a>
-			</li>
-			<li class="context-menu__item">
-				<a href="#" class="context-menu__link" data-action="Delete" id="eliminar" data-id=""><i class="fa fa-times"></i> Eliminar Reserva</a>
-			</li>
-		</ul>
-	</nav>
+            <li class="context-menu__item">
+                <a href="#" class="context-menu__link" data-action="View" id="ver" data-id=""><i class="fa fa-eye"></i> Ver Reserva</a>
+            </li>
+            <li class="context-menu__item">
+                <a href="#" class="context-menu__link" data-action="Edit" id="editar" data-id=""><i class="fa fa-edit"></i> Editar Reserva</a>
+            </li>
+            <li class="context-menu__item">
+                <a href="#" class="context-menu__link" data-action="Delete" id="eliminar" data-id=""><i class="fa fa-times"></i> Eliminar Reserva</a>
+            </li>
+        </ul>
+    </nav>
 
     <nav id="context-menu1" class="context-menu">
         <ul class="context-menu__items">
@@ -395,7 +395,7 @@ if(isset($_SESSION['login'])){
         </ul>
     </nav>
 
-	<?php
-	include('footer.php');
+    <?php
+    include('footer.php');
 }
 ?>
