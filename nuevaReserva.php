@@ -124,8 +124,8 @@ if(isset($_SESSION['login'])){
 			$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','HUESPED','{$queryPerformed}')");
 		}
 
-		$insert = mysqli_query($link,"INSERT INTO Reserva VALUES ('{$_POST['idReserva']}','{$_SESSION['user']}',{$dni},{$_POST['tipoReserva']},'{$dateTime}',0,0,null)");
-		$queryPerformed = "INSERT INTO Reserva VALUES ({$dni},{$_SESSION['user']},{$dni},1,{$dateTime},0,0,null  )";
+		$insert = mysqli_query($link,"INSERT INTO Reserva VALUES ('{$_POST['idReserva']}','{$_SESSION['user']}',{$dni},{$_POST['tipoReserva']},'{$dateTime}',0,0,null,0)");
+		$queryPerformed = "INSERT INTO Reserva VALUES ({$dni},{$_SESSION['user']},{$dni},1,{$dateTime},0,0,null,0)";
 		$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','CREAR RESERVA','{$queryPerformed}')");
 
 		if($flagPaquete){

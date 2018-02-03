@@ -91,7 +91,7 @@ if(isset($_SESSION['login'])){
 								<a class="nav-link" data-toggle="tab" href="#checkout" role="tab">Registrados</a>
 							</li>
 						</ul>
-						<div class="tab-content">
+						<div class="tab-content" style="overflow-y: scroll; height: 250px">
 							<div class="tab-pane active" id="arribos" role="tabpanel">
 								<ul class="nav nav-tabs" role="tablist">
 									<li class="nav-item">
@@ -427,7 +427,7 @@ if(isset($_SESSION['login'])){
 							</li>
 						</ul>
 						<div class="spacer10"></div>
-						<div class="tab-content">
+						<div class="tab-content" style="overflow-y: scroll; height: 250px">
 							<div class="tab-pane active" id="checkin" role="tabpanel">
 								<table class="table text-center">
 									<thead>

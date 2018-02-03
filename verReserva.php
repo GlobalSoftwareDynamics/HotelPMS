@@ -418,30 +418,30 @@ if(isset($_SESSION['login'])){
                                             ?>
                                             <div class="tab-pane <?php echo $estadoActivo;?>" id="<?php echo $fila2['idHabitacion'];?>" role="tabpanel">
                                                 <div class="row">
-                                                    <div class="col-5">
+                                                    <div class="col-4">
                                                         <p class="text-center"><strong>Detalles de la Estadía</strong></p>
                                                         <div class="row">
-                                                            <div class="col-3"><p><b>Check In:</b></p></div>
-                                                            <div class="col-9"><p><?php echo $fila2['fechaInicio'];?></p></div>
+                                                            <div class="col-5"><p><b>Check In:</b></p></div>
+                                                            <div class="col-7"><p><?php echo $fila2['fechaInicio'];?></p></div>
                                                         </div>
                                                         <div class="row">
-                                                            <div class="col-3"><p><b>Nro. Noches:</b></p></div>
-                                                            <div class="col-9"><p><?php echo $interval;?></p></div>
+                                                            <div class="col-5"><p><b>Nro. Noches:</b></p></div>
+                                                            <div class="col-7"><p><?php echo $interval;?></p></div>
                                                         </div>
                                                         <div class="row">
-                                                            <div class="col-3"><p><b>Check Out:</b></p></div>
-                                                            <div class="col-9"><p><?php echo $fila2['fechaFin'];?></p></div>
+                                                            <div class="col-5"><p><b>Check Out:</b></p></div>
+                                                            <div class="col-7"><p><?php echo $fila2['fechaFin'];?></p></div>
                                                         </div>
                                                         <div class="row">
-                                                            <div class="col-3"><p><b>Preferencias:</b></p></div>
-                                                            <div class="col-9"><p><?php echo $fila2['preferencias'];?></p></div>
+                                                            <div class="col-5"><p><b>Preferencias:</b></p></div>
+                                                            <div class="col-7"><p><?php echo $fila2['preferencias'];?></p></div>
                                                         </div>
                                                         <div class="row">
-                                                            <div class="col-3"><p><b>Tarifa:</b></p></div>
-                                                            <div class="col-9"><p><?php echo $descTarifa;?></p></div>
+                                                            <div class="col-5"><p><b>Tarifa:</b></p></div>
+                                                            <div class="col-7"><p><?php echo $descTarifa;?></p></div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-7">
+                                                    <div class="col-8">
                                                         <p class="text-center"><strong>Ocupantes de la Habitación</strong></p>
                                                         <table class="table text-center">
                                                             <thead>
@@ -450,6 +450,7 @@ if(isset($_SESSION['login'])){
                                                                 <th class="text-center">Nombre</th>
                                                                 <th class="text-center">Fecha Nacimiento</th>
                                                                 <th class="text-center">Email</th>
+                                                                <th class="text-center">VIP</th>
                                                                 <th class="text-center">Cargos</th>
                                                             </tr>
                                                             </thead>
@@ -467,11 +468,20 @@ if(isset($_SESSION['login'])){
                                                                 }
                                                                 $result4 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$fila3['idHuesped']}'");
                                                                 while ($fila4 = mysqli_fetch_array($result4)){
+                                                                    switch($fila4['vip']){
+                                                                        case 0:
+                                                                            $vip = "No";
+                                                                            break;
+                                                                        case 1:
+                                                                            $vip = "Sí";
+                                                                            break;
+                                                                    }
                                                                     echo "<tr>";
                                                                     echo "<td>{$fila3['idHuesped']}</td>";
                                                                     echo "<td>{$fila4['nombreCompleto']}</td>";
                                                                     echo "<td>{$fila4['fechaNacimiento']}</td>";
                                                                     echo "<td>{$fila4['correoElectronico']}</td>";
+                                                                    echo "<td>{$vip}</td>";
                                                                     echo "<td>{$cargos}</td>";
                                                                     echo "</tr>";
                                                                 }

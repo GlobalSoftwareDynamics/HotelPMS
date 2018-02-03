@@ -73,6 +73,14 @@ if(isset($_SESSION['login'])){
             while ($fila2 = mysqli_fetch_array($result2)){
                 $nombreCompleto = $fila2['nombreCompleto'];
                 $idHuespedCargos = $fila2['idHuesped'];
+                switch($fila2['vip']){
+                    case 0:
+                        $vip = "";
+                        break;
+                    case 1:
+                        $vip = "<b>(VIP)</b>";
+                        break;
+                }
                 $result3 = mysqli_query($link,"SELECT * FROM Empresa WHERE idEmpresa = '{$fila2['idEmpresa']}'");
                 while ($fila3 = mysqli_fetch_array($result3)){
                     $nombreEmpresa = $fila3['razonSocial'];
@@ -122,32 +130,32 @@ if(isset($_SESSION['login'])){
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-7">
                                 <div class="row">
-                                    <div class="col-5"><p><b>Reserva:</b></p></div>
-                                    <div class="col-7"><p><?php echo $_POST['idReserva'];?></p></div>
+                                    <div class="col-4"><p><b>Reserva:</b></p></div>
+                                    <div class="col-8"><p><?php echo $_POST['idReserva'];?></p></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-5"><p><b>Habitación:</b></p></div>
-                                    <div class="col-7"><p><?php echo $_POST['idHabitacion'];?></p></div>
+                                    <div class="col-4"><p><b>Habitación:</b></p></div>
+                                    <div class="col-8"><p><?php echo $_POST['idHabitacion'];?></p></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-5"><p><b>Huesped Titular:</b></p></div>
-                                    <div class="col-7"><p><?php echo $nombreCompleto?></p></div>
+                                    <div class="col-4"><p><b>Huesped Titular:</b></p></div>
+                                    <div class="col-8"><p><?php echo $nombreCompleto." ".$vip;?></p></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-5"><p><b>Empresa:</b></p></div>
-                                    <div class="col-7"><p><?php echo $nombreEmpresa?></p></div>
+                                    <div class="col-4"><p><b>Empresa:</b></p></div>
+                                    <div class="col-8"><p><?php echo $nombreEmpresa?></p></div>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-5">
                                 <div class="row">
-                                    <div class="col-5"><p><b>Check In:</b></p></div>
-                                    <div class="col-7"><p><?php echo $fechaCheckIn;?></p></div>
+                                    <div class="col-4"><p><b>Check In:</b></p></div>
+                                    <div class="col-8"><p><?php echo $fechaCheckIn;?></p></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-5"><p><b>Check Out:</b></p></div>
-                                    <div class="col-7"><p><?php echo $fechaCheckOut?></p></div>
+                                    <div class="col-4"><p><b>Check Out:</b></p></div>
+                                    <div class="col-8"><p><?php echo $fechaCheckOut?></p></div>
                                 </div>
                             </div>
                         </div>

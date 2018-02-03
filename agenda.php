@@ -10,6 +10,7 @@ if(isset($_SESSION['login'])){
 
         $result = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
         while ($fila = mysqli_fetch_array($result)){
+
             if($fila['modificadorCheckIO'] == 2 && $_POST['liberarHabitacion'] == "on"){
 
                 $update = mysqli_query($link,"UPDATE HabitacionReservada SET modificadorCheckIO = '4' WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
@@ -53,11 +54,12 @@ if(isset($_SESSION['login'])){
             $montoTotal = $fila['montoTotal'] + $_POST['montoHabitacionReserva'];
         }
 
-        $query = mysqli_query($link,"UPDATE Reserva SET montoTotal = '{$montoTotal}', montoPendiente = '{$_POST['montoCancelado']}' WHERE idReserva = '{$_POST['idReserva']}'");
+        $query = mysqli_query($link,"UPDATE Reserva SET montoTotal = '{$montoTotal}', montoPendiente = '{$_POST['montoCancelado']}', descuento = '{$_POST['descuento']}' WHERE idReserva = '{$_POST['idReserva']}'");
 
-        $queryPerformed = "UPDATE Reserva SET montoTotal = '{$montoTotal}', montoPendiente = '{$_POST['montoCancelado']}' WHERE idReserva = {$_POST['idReserva']}";
+        $queryPerformed = "UPDATE Reserva SET montoTotal = '{$montoTotal}', montoPendiente = '{$_POST['montoCancelado']}', descuento = {$_POST['descuento']} WHERE idReserva = {$_POST['idReserva']}";
 
         $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','Reserva-Montos','{$queryPerformed}')");
+
 
         $query = mysqli_query($link,"INSERT INTO HistorialReserva(idHabitacion,idReserva,idColaborador,idEstado,fechaHora,descripcion,tipo) VALUES ('{$_POST['idHabitacion']}','{$_POST['idReserva']}','{$_SESSION['user']}',5,'{$dateTime}','Retiro normal de habitación {$_POST['idHabitacion']} para reserva {$_POST['idReserva']}','Check Out')");
 
@@ -395,7 +397,7 @@ if(isset($_SESSION['login'])){
         </ul>
     </nav>
 
-    <?php
+<?php
     include('footer.php');
 }
 ?>

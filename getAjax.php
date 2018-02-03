@@ -386,6 +386,7 @@ if(!empty($_POST['fechaGuia'])){
                 $interval = 1;
                 $recojo = "";
                 $preferencias = "";
+                $lateCheck = "";
                 for($i = 0; $i < 20; $i = $i+$interval){
                     $result2 = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE fechaInicio <= '{$arrayFechas[$i]} 23:59:59' AND fechaFin > '{$arrayFechas[$i]}' AND idHabitacion = '{$fila1['idHabitacion']}' AND idEstado IN (3,4,5,8)");
                     $numrow = mysqli_num_rows($result2);

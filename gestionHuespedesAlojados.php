@@ -93,6 +93,7 @@ if(isset($_SESSION['login'])){
                                 <th class="text-center">Empresa</th>
                                 <th class="text-center">Reserva</th>
                                 <th class="text-center">Habitación</th>
+                                <th class="text-center">VIP</th>
                                 <th class="text-center">Acciones</th>
                             </tr>
                             </thead>
@@ -103,6 +104,14 @@ if(isset($_SESSION['login'])){
                             while ($fila = mysqli_fetch_array($result)){
                                 $result1 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$fila['idHuesped']}'");
                                 while ($fila1 = mysqli_fetch_array($result1)){
+                                    switch ($fila1['vip']){
+                                        case 0:
+                                            $vip = "No";
+                                            break;
+                                        case 1:
+                                            $vip = "Sí";
+                                            break;
+                                    }
                                     $result3 = mysqli_query($link,"SELECT * FROM Empresa WHERE idEmpresa = '{$fila1['idEmpresa']}'");
                                     $numrows = mysqli_num_rows($result3);
                                     if ($numrows == 0){
@@ -120,6 +129,7 @@ if(isset($_SESSION['login'])){
                                 echo "<td>{$empresa}</td>";
                                 echo "<td>{$fila['idReserva']}</td>";
                                 echo "<td>{$fila['idHabitacion']}</td>";
+                                echo "<td>{$vip}</td>";
                                 echo "<td>
                                                         <form method='post'>
                                                             <div class=\"dropdown\">
