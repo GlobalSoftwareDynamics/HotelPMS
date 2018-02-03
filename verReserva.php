@@ -460,10 +460,10 @@ if(isset($_SESSION['login'])){
                                                             while ($fila3 = mysqli_fetch_array($result3)){
                                                                 switch ($fila3['cargos']){
                                                                     case 0:
-                                                                        $cargos = "Si";
+                                                                        $cargos = "No";
                                                                         break;
                                                                     case 1:
-                                                                        $cargos = "No";
+                                                                        $cargos = "Sí";
                                                                         break;
                                                                 }
                                                                 $result4 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$fila3['idHuesped']}'");
