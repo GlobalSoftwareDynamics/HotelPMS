@@ -35,7 +35,8 @@ if(isset($_SESSION['login'])){
                     <tbody>
     ';
     $cantidadHuespedesDia = 0;
-    $result = mysqli_query($link,"SELECT * FROM Habitacion ORDER BY idHabitacion ASC");
+    $cantidadTotal = 0;
+    $result = mysqli_query($link,"SELECT * FROM Habitacion WHERE idTipoHabitacion <> '6' ORDER BY idHabitacion ASC");
     while ($fila = mysqli_fetch_array($result)){
         $html .= '<tr>';
         $cantidadHuespedesDia = 0;
@@ -80,23 +81,29 @@ if(isset($_SESSION['login'])){
             }else{
                 $cantidadHuespedesDia = 0;
             }
+            $cantidadTotal += $cantidadHuespedesDia;
         }
         if($cantidadHuespedesDia == 0){
-            $html .= "<td>{$fila['idHabitacion']}</td>";
-            $html .= "<td>{$cantidadHuespedesDia}</td>";
-            $html .= "<td></td>";
-            $html .= "<td></td>";
+            $html .= "<td style ='padding-bottom: 7px; padding-top: 7px;'>{$fila['idHabitacion']}</td>";
+            $html .= "<td style ='padding-bottom: 7px; padding-top: 7px;'>{$cantidadHuespedesDia}</td>";
+            $html .= "<td style ='padding-bottom: 7px; padding-top: 7px;'></td>";
+            $html .= "<td style ='padding-bottom: 7px; padding-top: 7px;'></td>";
             $html .= "</tr>";
         }else{
-            $html .= "<td>{$fila['idHabitacion']}</td>";
-            $html .= "<td>{$cantidadHuespedesDia}</td>";
-            $html .= "<td></td>";
-            $html .= "<td>{$nobmreCompleto}</td>";
+            $html .= "<td style ='padding-bottom: 7px; padding-top: 7px;'>{$fila['idHabitacion']}</td>";
+            $html .= "<td style ='padding-bottom: 7px; padding-top: 7px;'>{$cantidadHuespedesDia}</td>";
+            $html .= "<td style ='padding-bottom: 7px; padding-top: 7px;'></td>";
+            $html .= "<td style ='padding-bottom: 7px; padding-top: 7px;'>{$nobmreCompleto}</td>";
             $html .= "</tr>";
         }
     }
 
-    $html .='        </tbody>
+    $html .='        
+                        <tr>
+                            <th style =\'padding-bottom: 7px; padding-top: 7px;\'>Total</th>
+                            <td style =\'padding-bottom: 7px; padding-top: 7px;\'>'.$cantidadTotal.'</td>
+                        </tr>
+                    </tbody>
                 </table>
             </section>
         </body>

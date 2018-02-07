@@ -54,9 +54,9 @@ if(isset($_SESSION['login'])){
             $montoTotal = $fila['montoTotal'] + $_POST['montoHabitacionReserva'];
         }
 
-        $query = mysqli_query($link,"UPDATE Reserva SET montoTotal = '{$montoTotal}', montoPendiente = '{$_POST['montoCancelado']}', descuento = '{$_POST['descuento']}' WHERE idReserva = '{$_POST['idReserva']}'");
+        $query = mysqli_query($link,"UPDATE Reserva SET montoTotal = '{$montoTotal}', montoPendiente = '{$_POST['montoCancelado']}' WHERE idReserva = '{$_POST['idReserva']}'");
 
-        $queryPerformed = "UPDATE Reserva SET montoTotal = '{$montoTotal}', montoPendiente = '{$_POST['montoCancelado']}', descuento = {$_POST['descuento']} WHERE idReserva = {$_POST['idReserva']}";
+        $queryPerformed = "UPDATE Reserva SET montoTotal = '{$montoTotal}', montoPendiente = '{$_POST['montoCancelado']}' WHERE idReserva = {$_POST['idReserva']}";
 
         $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','Reserva-Montos','{$queryPerformed}')");
 
@@ -111,171 +111,164 @@ if(isset($_SESSION['login'])){
                             </thead>
                             <tbody>
                             <?php
-                            $result = mysqli_query($link,"SELECT * FROM TipoHabitacion ORDER BY idTipoHabitacion");
-                            while ($fila = mysqli_fetch_array($result)){
+                            $result1 = mysqli_query($link,"SELECT * FROM Habitacion ORDER BY idHabitacion");
+                            while ($fila1 = mysqli_fetch_array($result1)){
                                 echo "<tr>";
-                                echo "<th>{$fila['descripcion']}</th>";
-                                echo "<td colspan='20'></td>";
-                                echo "</tr>";
-                                $result1 = mysqli_query($link,"SELECT * FROM Habitacion WHERE idTipoHabitacion = '{$fila['idTipoHabitacion']}' ORDER BY idHabitacion");
-                                while ($fila1 = mysqli_fetch_array($result1)){
-                                    echo "<tr>";
-                                    echo "<td class=\"habitacion\">{$fila1['idHabitacion']}</td>";
-                                    $flag = false;
-                                    $idReserva = 0;
-                                    $interval = 1;
-                                    $recojo = "";
-                                    $preferencias = "";
-                                    $lateCheck = "";
-                                    for($i = 0; $i < 20; $i = $i+$interval){
-                                        $result2 = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE fechaInicio <= '{$arrayFechas[$i]} 23:59:59' AND fechaFin > '{$arrayFechas[$i]}' AND idHabitacion = '{$fila1['idHabitacion']}' AND idEstado IN (3,4,5,8)");
-                                        $numrow = mysqli_num_rows($result2);
-                                        if($arrayFechas[$i] == $dateIni){
-                                            while ($fila2 = mysqli_fetch_array($result2)){
-                                                $interval = timeInterval($dateIni,$fila2['fechaFin']);
-                                                if($idReserva == $fila2['idReserva']){
-                                                    $flag = true;
-                                                }
-                                                switch ($fila2['idEstado']){
-                                                    case 3:
-                                                        $clase = "reserva";
-                                                        break;
-                                                    case 4:
-                                                        $clase = "estadia";
-                                                        break;
-                                                    case 5:
-                                                        $clase = "finalizada";
-                                                        break;
-                                                }
-                                                switch($fila2['modificadorCheckIO']){
-                                                    case 0:
-                                                        break;
-                                                    case 1:
-                                                        $lateCheck = "Nota: Se ha solicitado Early CheckIn.";
-                                                        break;
-                                                    case 2:
-                                                        $interval += 1;
-                                                        $lateCheck = "Nota: Se ha solicitado Late CheckOut.";
-                                                        break;
-                                                    case 3:
-                                                        $interval += 1;
-                                                        $lateCheck = "Nota: Se ha solicitado Early CheckIn y Late CheckOut.";
-                                                        break;
-                                                    case 4:
-                                                    case 5:
-                                                        $lateCheck = "Nota: Se ha liberado la habitación luego del Late CheckOut.";
-                                                        break;
-                                                }
-                                                $idReserva = $fila2['idReserva'];
-                                                $idHabitacion = $fila2['idHabitacion'];
-                                                $preferencias = "<strong>Preferencias:</strong> ".$fila2['preferencias'];
-                                                $result3 = mysqli_query($link,"SELECT * FROM Recojo WHERE idReserva = '{$fila2['idReserva']}'");
-                                                $numrow1 = mysqli_num_rows($result3);
-                                                if($numrow1 > 0){
-                                                    $recojo = "<strong>Recojo:</strong> Si, por favor revisar información de Reserva. ";
-                                                }
+                                echo "<td class=\"habitacion\">{$fila1['idHabitacion']}</td>";
+                                $flag = false;
+                                $idReserva = 0;
+                                $interval = 1;
+                                $recojo = "";
+                                $preferencias = "";
+                                $lateCheck = "";
+                                for($i = 0; $i < 20; $i = $i+$interval){
+                                    $result2 = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE fechaInicio <= '{$arrayFechas[$i]} 23:59:59' AND fechaFin > '{$arrayFechas[$i]} 00:00:00' AND idHabitacion = '{$fila1['idHabitacion']}' AND idEstado IN (3,4,5,8)");
+                                    $numrow = mysqli_num_rows($result2);
+                                    if($arrayFechas[$i] == $dateIni){
+                                        while ($fila2 = mysqli_fetch_array($result2)){
+                                            $interval = timeInterval($dateIni,$fila2['fechaFin']);
+                                            if($idReserva == $fila2['idReserva']){
+                                                $flag = true;
                                             }
-                                        }elseif ($arrayFechas[$i] == $dateFin){
-                                            while ($fila2 = mysqli_fetch_array($result2)){
-                                                $interval = timeInterval($fila2['fechaInicio'],$dateFin);
-                                                if($idReserva == $fila2['idReserva']){
-                                                    $flag = true;
-                                                }
-                                                switch ($fila2['idEstado']){
-                                                    case 3:
-                                                        $clase = "reserva";
-                                                        break;
-                                                    case 4:
-                                                        $clase = "estadia";
-                                                        break;
-                                                    case 5:
-                                                        $clase = "finalizada";
-                                                        break;
-                                                }
-                                                switch($fila2['modificadorCheckIO']){
-                                                    case 0:
-                                                        break;
-                                                    case 1:
-                                                        $lateCheck = "Nota: Se ha solicitado Early CheckIn.";
-                                                        break;
-                                                    case 2:
-                                                        $interval += 1;
-                                                        $lateCheck = "Nota: Se ha solicitado Late CheckOut.";
-                                                        break;
-                                                    case 3:
-                                                        $interval += 1;
-                                                        $lateCheck = "Nota: Se ha solicitado Early CheckIn y Late CheckOut.";
-                                                        break;
-                                                    case 4:
-                                                    case 5:
-                                                        $lateCheck = "Nota: Se ha liberado la habitación luego del Late CheckOut.";
-                                                        break;
-                                                }
-                                                $idReserva = $fila2['idReserva'];
-                                                $idHabitacion = $fila2['idHabitacion'];
-                                                $preferencias = "<strong>Preferencias:</strong> ".$fila2['preferencias'];
-                                                $result3 = mysqli_query($link,"SELECT * FROM Recojo WHERE idReserva = '{$fila2['idReserva']}'");
-                                                $numrow1 = mysqli_num_rows($result3);
-                                                if($numrow1 > 0){
-                                                    $recojo = "<strong>Recojo:</strong> Si, por favor revisar información de Reserva. ";
-                                                }
+                                            switch ($fila2['idEstado']){
+                                                case 3:
+                                                    $clase = "reserva";
+                                                    break;
+                                                case 4:
+                                                    $clase = "estadia";
+                                                    break;
+                                                case 5:
+                                                    $clase = "finalizada";
+                                                    break;
                                             }
-                                        }else{
-                                            while ($fila2 = mysqli_fetch_array($result2)){
-                                                $interval = timeInterval($fila2['fechaInicio'],$fila2['fechaFin']);
-                                                if($idReserva == $fila2['idReserva']){
-                                                    $flag = true;
-                                                }
-                                                switch ($fila2['idEstado']){
-                                                    case 3:
-                                                        $clase = "reserva";
-                                                        break;
-                                                    case 4:
-                                                        $clase = "estadia";
-                                                        break;
-                                                    case 5:
-                                                        $clase = "finalizada";
-                                                        break;
-                                                }
-                                                switch($fila2['modificadorCheckIO']){
-                                                    case 0:
-                                                        break;
-                                                    case 1:
-                                                        $lateCheck = "Nota: Se ha solicitado Early CheckIn.";
-                                                        break;
-                                                    case 2:
-                                                        $interval += 1;
-                                                        $lateCheck = "Nota: Se ha solicitado Late CheckOut.";
-                                                        break;
-                                                    case 3:
-                                                        $interval += 1;
-                                                        $lateCheck = "Nota: Se ha solicitado Early CheckIn y Late CheckOut.";
-                                                        break;
-                                                    case 4:
-                                                    case 5:
-                                                        $lateCheck = "Nota: Se ha liberado la habitación luego del Late CheckOut.";
-                                                        break;
-                                                }
-                                                $idReserva = $fila2['idReserva'];
-                                                $idHabitacion = $fila2['idHabitacion'];
-                                                $preferencias = "<strong>Preferencias:</strong> ".$fila2['preferencias'];
-                                                $result3 = mysqli_query($link,"SELECT * FROM Recojo WHERE idReserva = '{$fila2['idReserva']}'");
-                                                $numrow1 = mysqli_num_rows($result3);
-                                                if($numrow1 > 0){
-                                                    $recojo = "<strong>Recojo:</strong> Si, por favor revisar información de Reserva. ";
-                                                }
+                                            switch($fila2['modificadorCheckIO']){
+                                                case 0:
+                                                    break;
+                                                case 1:
+                                                    $lateCheck = "Nota: Se ha solicitado Early CheckIn.";
+                                                    break;
+                                                case 2:
+                                                    $interval += 1;
+                                                    $lateCheck = "Nota: Se ha solicitado Late CheckOut.";
+                                                    break;
+                                                case 3:
+                                                    $interval += 1;
+                                                    $lateCheck = "Nota: Se ha solicitado Early CheckIn y Late CheckOut.";
+                                                    break;
+                                                case 4:
+                                                case 5:
+                                                    $lateCheck = "Nota: Se ha liberado la habitación luego del Late CheckOut.";
+                                                    break;
+                                            }
+                                            $idReserva = $fila2['idReserva'];
+                                            $idHabitacion = $fila2['idHabitacion'];
+                                            $preferencias = "<strong>Preferencias:</strong> ".$fila2['preferencias'];
+                                            $result3 = mysqli_query($link,"SELECT * FROM Recojo WHERE idReserva = '{$fila2['idReserva']}'");
+                                            $numrow1 = mysqli_num_rows($result3);
+                                            if($numrow1 > 0){
+                                                $recojo = "<strong>Recojo:</strong> Si, por favor revisar información de Reserva. ";
                                             }
                                         }
-                                        if ($numrow == 0 && $idReserva == 0){
-                                            echo "<td></td>";
-                                            $idReserva = 0;
-                                            $interval = 1;
-                                        }elseif($numrow > 0){
-                                            echo "<td class='{$clase}' colspan='{$interval}' data-id='{$idReserva}' data-habitacion='{$idHabitacion}'><div class=\"float-right mr-2\"><i class=\"fa fa-info\" data-toggle=\"popover\" data-trigger='hover' data-html=\"true\" title='Información de Reserva' data-content='<strong>Reserva:</strong> {$idReserva}<br>{$preferencias}<br>{$recojo}<br>{$lateCheck}' data-placement=\"top\"></i></div></td>";
+                                    }elseif ($arrayFechas[$i] == $dateFin){
+                                        while ($fila2 = mysqli_fetch_array($result2)){
+                                            $interval = timeInterval($fila2['fechaInicio'],$dateFin);
+                                            if($idReserva == $fila2['idReserva']){
+                                                $flag = true;
+                                            }
+                                            switch ($fila2['idEstado']){
+                                                case 3:
+                                                    $clase = "reserva";
+                                                    break;
+                                                case 4:
+                                                    $clase = "estadia";
+                                                    break;
+                                                case 5:
+                                                    $clase = "finalizada";
+                                                    break;
+                                            }
+                                            switch($fila2['modificadorCheckIO']){
+                                                case 0:
+                                                    break;
+                                                case 1:
+                                                    $lateCheck = "Nota: Se ha solicitado Early CheckIn.";
+                                                    break;
+                                                case 2:
+                                                    $interval += 1;
+                                                    $lateCheck = "Nota: Se ha solicitado Late CheckOut.";
+                                                    break;
+                                                case 3:
+                                                    $interval += 1;
+                                                    $lateCheck = "Nota: Se ha solicitado Early CheckIn y Late CheckOut.";
+                                                    break;
+                                                case 4:
+                                                case 5:
+                                                    $lateCheck = "Nota: Se ha liberado la habitación luego del Late CheckOut.";
+                                                    break;
+                                            }
+                                            $idReserva = $fila2['idReserva'];
+                                            $idHabitacion = $fila2['idHabitacion'];
+                                            $preferencias = "<strong>Preferencias:</strong> ".$fila2['preferencias'];
+                                            $result3 = mysqli_query($link,"SELECT * FROM Recojo WHERE idReserva = '{$fila2['idReserva']}'");
+                                            $numrow1 = mysqli_num_rows($result3);
+                                            if($numrow1 > 0){
+                                                $recojo = "<strong>Recojo:</strong> Si, por favor revisar información de Reserva. ";
+                                            }
+                                        }
+                                    }else{
+                                        while ($fila2 = mysqli_fetch_array($result2)){
+                                            $interval = timeInterval($fila2['fechaInicio'],$fila2['fechaFin']);
+                                            if($idReserva == $fila2['idReserva']){
+                                                $flag = true;
+                                            }
+                                            switch ($fila2['idEstado']){
+                                                case 3:
+                                                    $clase = "reserva";
+                                                    break;
+                                                case 4:
+                                                    $clase = "estadia";
+                                                    break;
+                                                case 5:
+                                                    $clase = "finalizada";
+                                                    break;
+                                            }
+                                            switch($fila2['modificadorCheckIO']){
+                                                case 0:
+                                                    break;
+                                                case 1:
+                                                    $lateCheck = "Nota: Se ha solicitado Early CheckIn.";
+                                                    break;
+                                                case 2:
+                                                    $interval += 1;
+                                                    $lateCheck = "Nota: Se ha solicitado Late CheckOut.";
+                                                    break;
+                                                case 3:
+                                                    $interval += 1;
+                                                    $lateCheck = "Nota: Se ha solicitado Early CheckIn y Late CheckOut.";
+                                                    break;
+                                                case 4:
+                                                case 5:
+                                                    $lateCheck = "Nota: Se ha liberado la habitación luego del Late CheckOut.";
+                                                    break;
+                                            }
+                                            $idReserva = $fila2['idReserva'];
+                                            $idHabitacion = $fila2['idHabitacion'];
+                                            $preferencias = "<strong>Preferencias:</strong> ".$fila2['preferencias'];
+                                            $result3 = mysqli_query($link,"SELECT * FROM Recojo WHERE idReserva = '{$fila2['idReserva']}'");
+                                            $numrow1 = mysqli_num_rows($result3);
+                                            if($numrow1 > 0){
+                                                $recojo = "<strong>Recojo:</strong> Si, por favor revisar información de Reserva. ";
+                                            }
                                         }
                                     }
-                                    echo "</tr>";
+                                    if ($numrow == 0 && $idReserva == 0){
+                                        echo "<td></td>";
+                                        $idReserva = 0;
+                                        $interval = 1;
+                                    }elseif($numrow > 0){
+                                        echo "<td class='{$clase}' colspan='{$interval}' data-id='{$idReserva}' data-habitacion='{$idHabitacion}'><div class=\"float-right mr-2\"><i class=\"fa fa-info\" data-toggle=\"popover\" data-trigger='hover' data-html=\"true\" title='Información de Reserva' data-content='<strong>Reserva:</strong> {$idReserva}<br>{$preferencias}<br>{$recojo}<br>{$lateCheck}' data-placement=\"top\"></i></div></td>";
+                                    }
                                 }
+                                echo "</tr>";
                             }
                             ?>
                             </tbody>
@@ -397,7 +390,7 @@ if(isset($_SESSION['login'])){
         </ul>
     </nav>
 
-<?php
+    <?php
     include('footer.php');
 }
 ?>

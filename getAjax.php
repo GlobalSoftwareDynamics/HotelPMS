@@ -18,18 +18,6 @@ if(!empty($_POST['idEstado'])){
     }
 }
 
-if(!empty($_POST['descuento'])&&!empty($_POST['montoTotalPago'])){
-    $montoFinal = $_POST['montoTotalPago'] * (1-($_POST['descuento']/100));
-    $montoFinal = round($montoFinal,2);
-    echo "<input type='number' min='0' max='{$montoFinal}' class='form-control' step='0.01' name='montoCancelado' id='montoCancelado' value='{$montoFinal}'>";
-}
-
-if(!empty($_POST['descuentoB'])&&!empty($_POST['montoTotalPagoB'])){
-    $montoFinal1 = $_POST['montoTotalPagoB'] * (1-($_POST['descuentoB']/100));
-    $montoFinal1 = round($montoFinal1,2);
-    echo "<input type=\"hidden\" name=\"montoHabitacionReserva\" value='{$montoFinal1}'>";
-}
-
 if(!empty($_POST['nombreHuesped'])){
 	$flag = true;
 	$result = mysqli_query($link,"SELECT * FROM Huesped WHERE nombreCompleto = '{$_POST['nombreHuesped']}' OR idHuesped = '{$_POST['nombreHuesped']}'");
@@ -150,6 +138,7 @@ if(!empty($_POST['tipoHabitacion'])&&!empty($_POST['fechaInicioCheckIn'])&&!empt
 
     $result = mysqli_query($link,"SELECT * FROM Habitacion WHERE idTipoHabitacion = '{$_POST['tipoHabitacion']}'");
     while ($row = mysqli_fetch_array($result)){
+        $flagCoincidencia = false;
         $result1 = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE idHabitacion = '{$row['idHabitacion']}' AND idEstado IN (3,4)");
         $numrow = mysqli_num_rows($result1);
         if($numrow == 0){
@@ -160,8 +149,8 @@ if(!empty($_POST['tipoHabitacion'])&&!empty($_POST['fechaInicioCheckIn'])&&!empt
                 $fechaInicio = explode(" ",$row1['fechaInicio']);
                 $fechaFin = explode(" ",$row1['fechaFin']);
                 $intervala = timeInterval($fechaInicio[0],$fechaFin[0]);
+                $intervala += 1;
                 $date2 = date('Y-m-d', strtotime($fechaInicio[0] . ' -1 day'));
-
                 switch($row1['modificadorCheckIO']){
                     case 0:
                         $intervala -= 1;
@@ -188,12 +177,17 @@ if(!empty($_POST['tipoHabitacion'])&&!empty($_POST['fechaInicioCheckIn'])&&!empt
                     $arrayFechasOcupadas[$j] = $date2;
                 }
 
-                $coincidencia = array_intersect($arrayFechas,$arrayFechasOcupadas);
+                $coincidencia = array_intersect($arrayFechasOcupadas,$arrayFechas);
 
-                if(!empty($coincidencia[0])){
-
+                if(!empty($coincidencia)){
+                    $flagCoincidencia = true;
+                    echo "<td>Si</td>";
                 }else{
+                    if($flagCoincidencia == true){
+                        break;
+                    }
                     echo "<option value='{$row['idHabitacion']}'>{$row['idHabitacion']}</option>";
+                    break;
                 }
             }
         }
@@ -339,7 +333,13 @@ if(isset($_POST['tipoReserva'])){
 }
 
 if(!empty($_POST['fechaGuia'])){
-
+    echo "
+        <script>
+            $(function () {
+                 $('[data-toggle=\"popover\"]').popover()
+            });
+        </script>
+    ";
     ?>
     <table class="bordered-calendar text-center">
         <thead>
@@ -364,20 +364,7 @@ if(!empty($_POST['fechaGuia'])){
         </thead>
         <tbody>
         <?php
-        $result = mysqli_query($link,"SELECT * FROM TipoHabitacion ORDER BY idTipoHabitacion");
-        while ($fila = mysqli_fetch_array($result)){
-            echo "
-                <script>
-                   $(function () {
-                       $('[data-toggle=\"popover\"]').popover()
-                   });
-                </script>
-            ";
-            echo "<tr>";
-            echo "<th>{$fila['descripcion']}</th>";
-            echo "<td colspan='20'></td>";
-            echo "</tr>";
-            $result1 = mysqli_query($link,"SELECT * FROM Habitacion WHERE idTipoHabitacion = '{$fila['idTipoHabitacion']}' ORDER BY idHabitacion");
+            $result1 = mysqli_query($link,"SELECT * FROM Habitacion ORDER BY idHabitacion");
             while ($fila1 = mysqli_fetch_array($result1)){
                 echo "<tr>";
                 echo "<td class=\"habitacion\">{$fila1['idHabitacion']}</td>";
@@ -573,7 +560,6 @@ if(!empty($_POST['fechaGuia'])){
                 }
                 echo "</tr>";
             }
-        }
         ?>
         </tbody>
     </table>

@@ -77,12 +77,6 @@ if(isset($_SESSION['login'])){
                                                 <input class="form-control" type="text" id="direccion" name="direccion" value="<?php echo $row['direccionFiscal'];?>">
                                             </div>
                                         </div>
-                                        <div class="form-group row">
-                                            <label for="descuento" class="col-4 col-form-label">Dscto. Corporativc:</label>
-                                            <div class="col-2">
-                                                <input class="form-control" type="number" id="descuento" name="descuento" value="<?php echo $row['descuentoCorporativo'];?>" min="0">
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>

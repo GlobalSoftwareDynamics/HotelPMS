@@ -124,8 +124,8 @@ if(isset($_SESSION['login'])){
 			$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','HUESPED','{$queryPerformed}')");
 		}
 
-		$insert = mysqli_query($link,"INSERT INTO Reserva VALUES ('{$_POST['idReserva']}','{$_SESSION['user']}',{$dni},{$_POST['tipoReserva']},'{$dateTime}',0,0,null,0)");
-		$queryPerformed = "INSERT INTO Reserva VALUES ({$dni},{$_SESSION['user']},{$dni},1,{$dateTime},0,0,null,0)";
+		$insert = mysqli_query($link,"INSERT INTO Reserva VALUES ('{$_POST['idReserva']}','{$_SESSION['user']}',{$dni},{$_POST['tipoReserva']},'{$dateTime}',0,0,null)");
+		$queryPerformed = "INSERT INTO Reserva VALUES ({$dni},{$_SESSION['user']},{$dni},1,{$dateTime},0,0,null)";
 		$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','CREAR RESERVA','{$queryPerformed}')");
 
 		if($flagPaquete){
@@ -179,7 +179,7 @@ if(isset($_SESSION['login'])){
 
 	if(isset($_POST['addReservaConfirmada'])){
 		if(!isset($_POST['camaAdicional'])){$camaAdicional = false;}else{$camaAdicional = true;}
-		$insert = mysqli_query($link, "INSERT INTO HabitacionReservada VALUES ('{$_POST['nroHabitacion']}','{$_POST['idReserva']}',3,'{$_POST['fechaInicio']}','{$_POST['fechaFin']}'
+		$insert = mysqli_query($link, "INSERT INTO HabitacionReservada VALUES ('{$_POST['nroHabitacion']}','{$_POST['idReserva']}',3,'{$_POST['fechaInicio']}','{$_POST['fechaFin']} 00:00:01'
                   ,'{$_POST['preferencias']}','{$camaAdicional}','{$_POST['tarifa']}',0)");
 	}
 

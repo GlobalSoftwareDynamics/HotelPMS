@@ -7,8 +7,8 @@ include('header.php');
 include('navbarRecepcion.php');
 
 if(isset($_POST['editEmpresa'])){
-    $update = mysqli_query($link,"UPDATE Empresa SET razonSocial = '{$_POST['razonSocial']}', rubro = '{$_POST['rubro']}', direccionFiscal = '{$_POST['direccion']}',
-              descuentoCorporativo = '{$_POST['descuento']}' WHERE idEmpresa = '{$_POST['idEmpresa']}'");
+    $update = mysqli_query($link,"UPDATE Empresa SET razonSocial = '{$_POST['razonSocial']}', rubro = '{$_POST['rubro']}', direccionFiscal = '{$_POST['direccion']}'
+               WHERE idEmpresa = '{$_POST['idEmpresa']}'");
 }
 
 if(isset($_POST['delete'])){
@@ -100,7 +100,6 @@ if(isset($_POST['delete'])){
                             <th class="text-center">RUC</th>
                             <th class="text-center">Razón Social</th>
                             <th class="text-center">Rubro</th>
-                            <th class="text-center">Dscto. Corporativo</th>
                             <th class="text-center">Acciones</th>
                         </tr>
                         </thead>
@@ -112,7 +111,6 @@ if(isset($_POST['delete'])){
                                 echo "<td>{$row['idEmpresa']}</td>";
                                 echo "<td>{$row['razonSocial']}</td>";
                                 echo "<td>{$row['rubro']}</td>";
-                                echo "<td>{$row['descuentoCorporativo']}%</td>";
                                 echo " <td>
                                         <form method='post'>
                                             <input type='hidden' value='{$row['idEmpresa']}' name='idEmpresa'>

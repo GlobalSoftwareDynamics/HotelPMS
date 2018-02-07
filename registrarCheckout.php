@@ -303,15 +303,6 @@ if(isset($_SESSION['login'])){
                                 <form method="post" id="formCheckOut">
                                     <input type="hidden" name="idReserva" value="<?php echo $_POST['idReserva'];?>">
                                     <input type="hidden" name="idHabitacion" value="<?php echo $_POST['idHabitacion'];?>">
-                                    <div id="montoHabitacionReserva">
-                                        <input type="hidden" name="montoHabitacionReserva" value="<?php echo round($totalEstadia,2);?>">
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-form-label col-6" for="descuento">Descuento:</label>
-                                        <div class="col-6">
-                                            <input type="number" min="0" class="form-control" step="1" name="descuento" id="descuento" onchange="getTotalDescuento(this.value,<?php echo round($totalEstadia,2);?>);getTotalDescuentoB(this.value,<?php echo round($totalEstadia,2);?>)">
-                                        </div>
-                                    </div>
                                     <div class="form-group row">
                                         <label class="col-form-label col-6" for="montoCancelado">Monto Cancelado:</label>
                                         <div class="col-6" id="montoPorCancelar">

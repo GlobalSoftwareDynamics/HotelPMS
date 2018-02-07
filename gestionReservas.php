@@ -94,9 +94,19 @@ if(isset($_SESSION['login'])){
                                 while ($fila1 = mysqli_fetch_array($result1)){
                                     $estado = $fila1['descripcion'];
                                 }
+                                $result1 = mysqli_query($link,"SELECT * FROM Empresa WHERE idEmpresa IN (SELECT idEmpresa FROM Huesped WHERE idHuesped = '{$fila['idHuesped']}')");
+                                $numrow = mysqli_num_rows($result1);
+                                if ($numrow == 0){
+                                     $empresa = "Sin Empresa";
+                                }else{
+                                    while ($fila1 = mysqli_fetch_array($result1)){
+                                        $empresa = $fila1['razonSocial'];
+                                    }
+                                }
                                 echo "<tr>";
                                 echo "<td>{$fila['idReserva']}</td>";
                                 echo "<td>{$fila['fechaReserva']}</td>";
+                                echo "<td>{$empresa}</td>";
                                 echo "<td>{$estado}</td>";
                                 echo "
                                     <td>
