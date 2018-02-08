@@ -141,7 +141,7 @@ if(!empty($_POST['tipoHabitacion'])&&!empty($_POST['fechaInicioCheckIn'])&&!empt
         $flagCoincidencia = false;
         $result1 = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE idHabitacion = '{$row['idHabitacion']}' AND idEstado IN (3,4)");
         $numrow = mysqli_num_rows($result1);
-        if($numrow == 0){
+        if($numrow == 0 && $flagCoincidencia == false){
             echo "<option value='{$row['idHabitacion']}'>{$row['idHabitacion']}</option>";
         }else{
             while($row1 = mysqli_fetch_array($result1)){
@@ -179,16 +179,14 @@ if(!empty($_POST['tipoHabitacion'])&&!empty($_POST['fechaInicioCheckIn'])&&!empt
 
                 $coincidencia = array_intersect($arrayFechasOcupadas,$arrayFechas);
 
-                if(!empty($coincidencia)){
+                if(!empty($coincidencia[0])){
                     $flagCoincidencia = true;
-                    echo "<td>Si</td>";
-                }else{
-                    if($flagCoincidencia == true){
-                        break;
-                    }
-                    echo "<option value='{$row['idHabitacion']}'>{$row['idHabitacion']}</option>";
-                    break;
                 }
+            }
+            if($flagCoincidencia == true){
+                $flagCoincidencia = false;
+            }else{
+                echo "<option value='{$row['idHabitacion']}'>{$row['idHabitacion']}</option>";
             }
         }
     }

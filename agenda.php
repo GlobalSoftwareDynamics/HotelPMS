@@ -122,7 +122,7 @@ if(isset($_SESSION['login'])){
                                 $preferencias = "";
                                 $lateCheck = "";
                                 for($i = 0; $i < 20; $i = $i+$interval){
-                                    $result2 = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE fechaInicio <= '{$arrayFechas[$i]} 23:59:59' AND fechaFin > '{$arrayFechas[$i]} 00:00:00' AND idHabitacion = '{$fila1['idHabitacion']}' AND idEstado IN (3,4,5,8)");
+                                    $result2 = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE fechaInicio <= '{$arrayFechas[$i]} 23:59:59' AND fechaFin >= '{$arrayFechas[$i]}' AND idHabitacion = '{$fila1['idHabitacion']}' AND idEstado IN (3,4,5,8)");
                                     $numrow = mysqli_num_rows($result2);
                                     if($arrayFechas[$i] == $dateIni){
                                         while ($fila2 = mysqli_fetch_array($result2)){

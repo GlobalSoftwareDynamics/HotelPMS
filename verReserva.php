@@ -108,22 +108,31 @@ if(isset($_SESSION['login'])){
             $huesped = mysqli_query($link,"SELECT * FROM Reserva WHERE idReserva = '{$_POST['idReserva']}'");
             while ($row = mysqli_fetch_array($huesped)){
                 $huesped1 = mysqli_query($link,"SELECT * FROM Ocupantes WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}' AND cargos = 1");
-                while ($row1 = mysqli_fetch_array($huesped1)){
-                    $huesped2 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$row1['idHuesped']}'");
-                    while ($row2 = mysqli_fetch_array($huesped2)){
-                        $nombreHuesped = $row2['nombreCompleto'];
-                        $idHuesped = $row2['idHuesped'];
-                        $telefonoHuesped = $row2['telefonoCelular'];
-                        $emailHuesped = $row2['correoElectronico'];
-                        if($row2['idEmpresa'] != null){
-                            $huesped3 = mysqli_query($link,"SELECT * FROM Empresa WHERE idEmpresa = '{$row2['idEmpresa']}'");
-                            while ($row3 = mysqli_fetch_array($huesped3)){
-                                $empresa = $row3['razonSocial'];
+                $numrow = mysqli_num_rows($huesped1);
+                if ($numrow > 0){
+                    while ($row1 = mysqli_fetch_array($huesped1)){
+                        $huesped2 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$row1['idHuesped']}'");
+                        while ($row2 = mysqli_fetch_array($huesped2)){
+                            $nombreHuesped = $row2['nombreCompleto'];
+                            $idHuesped = $row2['idHuesped'];
+                            $telefonoHuesped = $row2['telefonoCelular'];
+                            $emailHuesped = $row2['correoElectronico'];
+                            if($row2['idEmpresa'] != null){
+                                $huesped3 = mysqli_query($link,"SELECT * FROM Empresa WHERE idEmpresa = '{$row2['idEmpresa']}'");
+                                while ($row3 = mysqli_fetch_array($huesped3)){
+                                    $empresa = $row3['razonSocial'];
+                                }
+                            }else{
+                                $empresa = "Sin Empresa";
                             }
-                        }else{
-                            $empresa = "Sin Empresa";
                         }
                     }
+                }else{
+                    $nombreHuesped = "No Definido";
+                    $idHuesped = "No Definido";
+                    $telefonoHuesped = "No Definido";
+                    $emailHuesped = "No Definido";
+                    $empresa = "Sin Empresa";
                 }
             }
             ?>
