@@ -8,11 +8,11 @@ if(isset($_SESSION['login'])){
 
 	if (isset($_POST['addConsumo'])){
 
-	    $query = mysqli_query($link,"INSERT INTO Transaccion(idTransaccion,idColaborador,idReserva,idHuesped,idHabitacion,monto,detalle,fechaTransaccion,descuento,tipo) VALUES 
-        ('{$_POST['idTransaccion']}','{$_SESSION['user']}','{$_POST['idReserva']}','{$_POST['idHuesped']}','{$_POST['idHabitacion']}','{$_POST['monto']}','{$_POST['descripcion']}','{$dateTime}','{$_POST['descuento']}','{$_POST['servicio']}')");
+	    $query = mysqli_query($link,"INSERT INTO Transaccion(idTransaccion,idColaborador,idReserva,idHuesped,idHabitacion,monto,detalle,fechaTransaccion,tipo) VALUES 
+        ('{$_POST['idTransaccion']}','{$_SESSION['user']}','{$_POST['idReserva']}','{$_POST['idHuesped']}','{$_POST['idHabitacion']}','{$_POST['monto']}','{$_POST['descripcion']}','{$dateTime}','{$_POST['servicio']}')");
 
-	    $queryPerformed = "INSERT INTO Transaccion(idTransaccion,idColaborador,idReserva,idHuesped,idHabitacion,monto,detalle,fechaTransaccion,descuento,tipo) VALUES 
-        ({$_POST['idTransaccion']},{$_SESSION['user']},{$_POST['idReserva']},{$_POST['idHuesped']},{$_POST['idHabitacion']},{$_POST['monto']},{$_POST['descripcion']},{$dateTime},{$_POST['descuento']},{$_POST['servicio']})";
+	    $queryPerformed = "INSERT INTO Transaccion(idTransaccion,idColaborador,idReserva,idHuesped,idHabitacion,monto,detalle,fechaTransaccion,tipo) VALUES 
+        ({$_POST['idTransaccion']},{$_SESSION['user']},{$_POST['idReserva']},{$_POST['idHuesped']},{$_POST['idHabitacion']},{$_POST['monto']},{$_POST['descripcion']},{$dateTime},{$_POST['servicio']})";
 
         $databaseLog = mysqli_query($link, "INSERT INTO DatabaseLog (idColaborador,fechaHora,evento,tipo,consulta) VALUES ('{$_SESSION['user']}','{$date}','INSERT','Transaccion','{$queryPerformed}')");
 

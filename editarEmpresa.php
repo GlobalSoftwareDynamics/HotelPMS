@@ -30,6 +30,26 @@ if(isset($_SESSION['login'])){
         }
     }
 
+    if (isset($_POST['addTarifa'])){
+
+        $query = mysqli_query($link,"INSERT INTO Tarifa(idTipoHabitacion,idEmpresa,descripcion,valor,moneda) VALUES ('{$_POST['tipoHabitacion']}','{$_POST['idEmpresa']}','{$_POST['descripcion']}','{$_POST['valor']}','{$_POST['moneda']}')");
+
+        $queryPerformed = "INSERT INTO Tarifa(idTipoHabitacion,idEmpresa,descripcion,valor,moneda) VALUES ({$_POST['tipoHabitacion']},{$_POST['idEmpresa']},{$_POST['descripcion']},{$_POST['valor']},{$_POST['moneda']})";
+
+        $databaseLog = mysqli_query($link, "INSERT INTO DatabaseLog (idColaborador,fechaHora,evento,tipo,consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','Tarifa','{$queryPerformed}')");
+
+    }
+
+    if (isset($_POST['eliminarTarifa'])){
+
+        $query = mysqli_query($link,"DELETE FROM Tarifa WHERE idTarifa = '{$_POST['idTarifa']}' AND idEmpresa = '{$_POST['idEmpresa']}'");
+
+        $queryPerformed = "DELETE FROM Tarifa WHERE idTarifa = {$_POST['idTarifa']} AND idEmpresa = {$_POST['idEmpresa']}";
+
+        $databaseLog = mysqli_query($link, "INSERT INTO DatabaseLog (idColaborador,fechaHora,evento,tipo,consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','DELETE','Tarifa','{$queryPerformed}')");
+
+    }
+
 	$result = mysqli_query($link,"SELECT * FROM Empresa WHERE idEmpresa = '{$_POST['idEmpresa']}'");
 	while($row = mysqli_fetch_array($result)) {
 		?>
@@ -96,6 +116,57 @@ if(isset($_SESSION['login'])){
                             <form method="post" action="gestionEmpresas.php" id="form">
                                 <div class="float-left">
                                     <i class="fa fa-industry"></i>
+                                    Listado de Tarifas
+                                </div>
+                                <div class="float-right">
+                                    <button type="button" class="btn btn-sm btn-light" data-toggle="modal" data-target="#modalTarifa">Agregar Tarifa</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-block">
+                            <table class="table text-center">
+                                <thead>
+                                <tr>
+                                    <th>Descripción</th>
+                                    <th>Monto</th>
+                                    <th>Acciones</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php
+                                $query = mysqli_query($link,"SELECT * FROM Tarifa WHERE idEmpresa = '{$_POST['idEmpresa']}'");
+                                while($fila = mysqli_fetch_array($query)){
+                                    echo "<tr>";
+                                    echo "<td>{$fila['descripcion']}</td>";
+                                    echo "<td>{$fila['moneda']} {$fila['valor']}</td>";
+                                    echo "<td>
+                                            <form method='post' action='#' id='deleteForm'>
+                                                <input type='hidden' name='idEmpresa' value='{$_POST['idEmpresa']}'>
+                                                <input type='hidden' name='idTarifa' value='{$fila['idTarifa']}'>
+                                                <button type='submit' name='eliminarTarifa' class='btn btn-sm btn-outline-danger' form='deleteForm'>Eliminar</button>
+                                            </form>
+                                        </td>";
+                                    echo "</tr>";
+                                }
+                                ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="spacer20"></div>
+
+        <section class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header card-inverse card-info">
+                            <form method="post" action="gestionEmpresas.php" id="form">
+                                <div class="float-left">
+                                    <i class="fa fa-industry"></i>
                                     Listado de Contactos
                                 </div>
                                 <div class="float-right">
@@ -143,6 +214,7 @@ if(isset($_SESSION['login'])){
                 </div>
             </div>
         </section>
+
         <form method="post" action="#" id="formModal">
             <input type="hidden" name="idEmpresa" value="<?php echo $_POST['idEmpresa'];?>">
             <div class="modal fade" id="modalContacto" tabindex="-1" role="dialog" aria-labelledby="modalContacto" aria-hidden="true">
@@ -189,6 +261,59 @@ if(isset($_SESSION['login'])){
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                             <button type="submit" class="btn btn-primary" form="formModal" value="Submit" name="addContacto">Guardar Cambios</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <form method="post" action="#" id="formModal1">
+            <input type="hidden" name="idEmpresa" value="<?php echo $_POST['idEmpresa'];?>">
+            <div class="modal fade" id="modalTarifa" tabindex="-1" role="dialog" aria-labelledby="modalTarifa" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Agregar Tarifa</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <div class="form-group row">
+                                    <label for="descripcion" class="col-form-label">Descripción:</label>
+                                    <input class="form-control" type="text" id="descripcion" name="descripcion">
+                                </div>
+                                <div class="form-group row">
+                                    <label for="tipoHabitacion" class="col-form-label">Tipo de Habitación:</label>
+                                    <select class="form-control" name="tipoHabitacion" id="tipoHabitacion">
+                                        <option>Seleccionar</option>
+                                        <?php
+                                        $result = mysqli_query($link,"SELECT * FROM TipoHabitacion");
+                                        while ($fila = mysqli_fetch_array($result)){
+                                            echo "<option value='{$fila['idTipoHabitacion']}'>{$fila['descripcion']}</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="valor" class="col-form-label">Valor:</label>
+                                    <input class="form-control" type="number" id="valor" name="valor" min="0">
+                                </div>
+                                <div class="form-group row">
+                                    <label for="moneda" class="col-form-label">Moneda:</label>
+                                    <select name="moneda" id="moneda" class="form-control">
+                                        <option selected disabled>Seleccionar</option>
+                                        <option value="$">Dólares</option>
+                                        <option value="S/.">Soles</option>
+                                        <option value="€">Euros</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary" form="formModal1" value="Submit" name="addTarifa">Guardar</button>
                         </div>
                     </div>
                 </div>

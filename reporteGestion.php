@@ -38,7 +38,7 @@ if(isset($_SESSION['login'])){
                                     echo "<input type='hidden' name='fechaFin' value='{$_POST['fechaFin']}'>";
                                 }
                                 ?>
-                                <input class="dropdown-item" type="submit" name="pdf" formaction="reporteMaquinaPDF.php" value="Descargar PDF">
+                                <input class="dropdown-item" type="submit" name="pdf" formaction="" value="Descargar PDF">
                             </form>
                         </div>
                     </div>

@@ -114,8 +114,8 @@ if(isset($_SESSION['login'])){
             $_POST['empresa'] = "'{$_POST['empresa']}'";
         }
 
-		$insert = mysqli_query($link,"INSERT INTO Huesped VALUES ('{$dni}',{$_POST['empresa']},null,null,null,'{$_POST['nombres']}',null,'{$_POST['email']}',null,null,'{$_POST['telefono']}',null,null)");
-		$queryPerformed = "INSERT INTO Huesped VALUES ({$dni},{$_POST['empresa']},null,null,null,{$_POST['nombres']},null,{$_POST['email']},null,null,{$_POST['telefono']},null,null)";
+		$insert = mysqli_query($link,"INSERT INTO Huesped VALUES ('{$dni}',{$_POST['empresa']},null,null,null,'{$_POST['nombres']}',null,'{$_POST['email']}',null,null,'{$_POST['telefono']}',null,null,0)");
+		$queryPerformed = "INSERT INTO Huesped VALUES ({$dni},{$_POST['empresa']},null,null,null,{$_POST['nombres']},null,{$_POST['email']},null,null,{$_POST['telefono']},null,null,0)";
 		$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','CREAR HUESPED','{$queryPerformed}')");
 
 		if(!$insert){
@@ -179,15 +179,20 @@ if(isset($_SESSION['login'])){
 
 	if(isset($_POST['addReservaConfirmada'])){
 		if(!isset($_POST['camaAdicional'])){$camaAdicional = false;}else{$camaAdicional = true;}
-		$insert = mysqli_query($link, "INSERT INTO HabitacionReservada VALUES ('{$_POST['nroHabitacion']}','{$_POST['idReserva']}',3,'{$_POST['fechaInicio']}','{$_POST['fechaFin']} 00:00:01'
-                  ,'{$_POST['preferencias']}','{$camaAdicional}','{$_POST['tarifa']}',0)");
+		$insert = mysqli_query($link, "INSERT INTO HabitacionReservada(idHabitacion,idReserva,idEstado,fechaInicio,fechaFin,preferencias,camaAdicional,idTarifa,modificadorCheckIO) VALUES ('{$_POST['nroHabitacion']}','{$_POST['idReserva']}',3,'{$_POST['fechaInicio']}','{$_POST['fechaFin']} 00:00:01','{$_POST['preferencias']}','{$camaAdicional}','{$_POST['tarifa']}',0)");
+		$queryPerformed = "INSERT INTO HabitacionReservada(idHabitacion,idReserva,idEstado,fechaInicio,fechaFin,preferencias,camaAdicional,idTarifa,modificadorCheckIO) VALUES ({$_POST['nroHabitacion']},{$_POST['idReserva']},3,{$_POST['fechaInicio']},{$_POST['fechaFin']} 00:00:01,{$_POST['preferencias']},{$camaAdicional},{$_POST['tarifa']},0)";
+        $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','HabitacionReservada','{$queryPerformed}')");
+
 	}
 
 	if(isset($_POST['addReservaPendiente'])){
+
 		$insert = mysqli_query($link,"INSERT INTO ReservaPendiente VALUES 
         ('{$_POST['tipoHabitacion']}','{$_POST['idReserva']}','{$_POST['numHabitaciones']}','{$_POST['checkin']}','{$_POST['checkout']}','{$_POST['preferencias']}','{$_POST['tarifa']}')");
+
 		$queryPerformed = "INSERT INTO ReservaPendiente VALUES 
         ({$_POST['tipoHabitacion']},{$_POST['idReserva']},{$_POST['numHabitaciones']},{$_POST['checkin']},{$_POST['checkout']},{$_POST['preferencias']},{$_POST['tarifa']})";
+
 		$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','DATOS RESERVA PENDIENTE','{$queryPerformed}')");
 	}
 
@@ -200,8 +205,8 @@ if(isset($_SESSION['login'])){
 			$dni += mysqli_num_rows($id);
 		}
 
-		$insert = mysqli_query($link,"INSERT INTO Huesped VALUES ('{$dni}',null,null,null,null,'{$_POST['nombres']}',null,null,null,null,null,null,null)");
-		$queryPerformed = "INSERT INTO Huesped VALUES ({$dni},null,null,null,null,{$_POST['nombres']},null,null,null,null,null,null,null)";
+		$insert = mysqli_query($link,"INSERT INTO Huesped VALUES ('{$dni}',null,null,null,null,'{$_POST['nombres']}',null,null,null,null,null,null,null,0)");
+		$queryPerformed = "INSERT INTO Huesped VALUES ({$dni},null,null,null,null,{$_POST['nombres']},null,null,null,null,null,null,null,0)";
 		$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','CREAR HUESPED','{$queryPerformed}')");
 
 		$idHuesped = null;
@@ -211,8 +216,9 @@ if(isset($_SESSION['login'])){
 			break;
 		}
 		if(!isset($_POST['cargos'])){$cargos = false;}else{$cargos = true;}
-		$insert = mysqli_query($link,"INSERT INTO Ocupantes VALUES ('{$_POST['idReserva']}','{$idHuesped}','{$_POST['idHabitacion']}','{$cargos}')");
-		$queryPerformed = "INSERT INTO Ocupantes VALUES ({$_POST['idReserva']},{$idHuesped},{$_POST['idHabitacion']},{$cargos})";
+
+		$insert = mysqli_query($link,"INSERT INTO Ocupantes(idReserva,idHuesped,idHabitacion,cargos) VALUES ('{$_POST['idReserva']}','{$idHuesped}','{$_POST['idHabitacion']}','{$cargos}')");
+		$queryPerformed = "INSERT INTO Ocupantes(idReserva,idHuesped,idHabitacion,cargos) VALUES ({$_POST['idReserva']},{$idHuesped},{$_POST['idHabitacion']},{$cargos})";
 		$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','OCUPANTE','{$queryPerformed}')");
 	}
 

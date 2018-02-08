@@ -113,8 +113,12 @@ if(isset($_SESSION['login'])){
                             <?php
                             $result1 = mysqli_query($link,"SELECT * FROM Habitacion ORDER BY idHabitacion");
                             while ($fila1 = mysqli_fetch_array($result1)){
+                                $result2 = mysqli_query($link,"SELECT * FROM TipoHabitacion WHERE idTipoHabitacion = '{$fila1['idTipoHabitacion']}'");
+                                while ($fila2 = mysqli_fetch_array($result2)){
+                                    $tipoHab = $fila2['descripcion'];
+                                }
                                 echo "<tr>";
-                                echo "<td class=\"habitacion\">{$fila1['idHabitacion']}</td>";
+                                echo "<td class=\"habitacion\">{$fila1['idHabitacion']}<br><span class='text-center' style='font-size: 11px;'>{$tipoHab}</span></td>";
                                 $flag = false;
                                 $idReserva = 0;
                                 $interval = 1;

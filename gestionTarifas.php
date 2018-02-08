@@ -8,9 +8,9 @@ if(isset($_SESSION['login'])){
 
     if (isset($_POST['addTarifa'])){
 
-        $query = mysqli_query($link,"INSERT INTO Tarifa(idTipoHabitacion,descripcion,valor,moneda) VALUES ('{$_POST['tipoHabitacion']}','{$_POST['descripcion']}','{$_POST['valor']}','{$_POST['moneda']}')");
+        $query = mysqli_query($link,"INSERT INTO Tarifa(idTipoHabitacion,idEmpresa,descripcion,valor,moneda) VALUES ('{$_POST['tipoHabitacion']}',NULL,'{$_POST['descripcion']}','{$_POST['valor']}','{$_POST['moneda']}')");
 
-        $queryPerformed = "INSERT INTO Tarifa(idTipoHabitacion,descripcion,valor,moneda) VALUES ({$_POST['tipoHabitacion']},{$_POST['descripcion']},{$_POST['valor']},{$_POST['moneda']})";
+        $queryPerformed = "INSERT INTO Tarifa(idTipoHabitacion,idEmpresa,descripcion,valor,moneda) VALUES ({$_POST['tipoHabitacion']},NULL,{$_POST['descripcion']},{$_POST['valor']},{$_POST['moneda']})";
 
         $databaseLog = mysqli_query($link, "INSERT INTO DatabaseLog (idColaborador,fechaHora,evento,tipo,consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','Tarifa','{$queryPerformed}')");
 

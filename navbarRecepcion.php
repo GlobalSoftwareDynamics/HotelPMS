@@ -17,6 +17,7 @@
 						</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<a class="dropdown-item" href="reporteGestion.php">Reporte de Gestión</a>
+                            <a class="dropdown-item" href="reporteAnual.php">Reporte Anual</a>
 						</div>
 					</li>
 					<li class="nav-item dropdown">
