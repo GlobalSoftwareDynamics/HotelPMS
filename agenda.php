@@ -118,8 +118,7 @@ if(isset($_SESSION['login'])){
                                     $tipoHab = $fila2['descripcion'];
                                 }
                                 echo "<tr>";
-                                echo "<td class=\"habitacion\">{$fila1['idHabitacion']}<br><span class='text-center' style='font-size: 11px;'>{$tipoHab}</span></td>";
-                                $flag = false;
+                                echo "<td class=\"habitacion\">{$fila1['idHabitacion']}<br><span class='text-center' style='font-size: 10px;'>{$tipoHab}</span></td>";
                                 $idReserva = 0;
                                 $interval = 1;
                                 $recojo = "";
@@ -131,9 +130,6 @@ if(isset($_SESSION['login'])){
                                     if($arrayFechas[$i] == $dateIni){
                                         while ($fila2 = mysqli_fetch_array($result2)){
                                             $interval = timeInterval($dateIni,$fila2['fechaFin']);
-                                            if($idReserva == $fila2['idReserva']){
-                                                $flag = true;
-                                            }
                                             switch ($fila2['idEstado']){
                                                 case 3:
                                                     $clase = "reserva";
@@ -171,14 +167,23 @@ if(isset($_SESSION['login'])){
                                             $numrow1 = mysqli_num_rows($result3);
                                             if($numrow1 > 0){
                                                 $recojo = "<strong>Recojo:</strong> Si, por favor revisar información de Reserva. ";
+                                            }
+                                            $fechaFin = explode(" ",$fila2['fechaFin']);
+                                            $fechaInicio = explode(" ",$fila2['fechaInicio']);
+                                            if($fechaFin[0] == $arrayFechas[$i]){
+                                                if ($fechaFin[0] == $fechaInicio[0]){
+                                                    $idReserva = $fila2['idReserva'];
+                                                }else{
+                                                    $idReserva = 0;
+                                                    $numrow = 0;
+                                                }
+                                            }else{
+                                                $idReserva = $fila2['idReserva'];
                                             }
                                         }
                                     }elseif ($arrayFechas[$i] == $dateFin){
                                         while ($fila2 = mysqli_fetch_array($result2)){
                                             $interval = timeInterval($fila2['fechaInicio'],$dateFin);
-                                            if($idReserva == $fila2['idReserva']){
-                                                $flag = true;
-                                            }
                                             switch ($fila2['idEstado']){
                                                 case 3:
                                                     $clase = "reserva";
@@ -216,14 +221,23 @@ if(isset($_SESSION['login'])){
                                             $numrow1 = mysqli_num_rows($result3);
                                             if($numrow1 > 0){
                                                 $recojo = "<strong>Recojo:</strong> Si, por favor revisar información de Reserva. ";
+                                            }
+                                            $fechaFin = explode(" ",$fila2['fechaFin']);
+                                            $fechaInicio = explode(" ",$fila2['fechaInicio']);
+                                            if($fechaFin[0] == $arrayFechas[$i]){
+                                                if ($fechaFin[0] == $fechaInicio[0]){
+                                                    $idReserva = $fila2['idReserva'];
+                                                }else{
+                                                    $idReserva = 0;
+                                                    $numrow = 0;
+                                                }
+                                            }else{
+                                                $idReserva = $fila2['idReserva'];
                                             }
                                         }
                                     }else{
                                         while ($fila2 = mysqli_fetch_array($result2)){
                                             $interval = timeInterval($fila2['fechaInicio'],$fila2['fechaFin']);
-                                            if($idReserva == $fila2['idReserva']){
-                                                $flag = true;
-                                            }
                                             switch ($fila2['idEstado']){
                                                 case 3:
                                                     $clase = "reserva";
@@ -254,13 +268,24 @@ if(isset($_SESSION['login'])){
                                                     $lateCheck = "Nota: Se ha liberado la habitación luego del Late CheckOut.";
                                                     break;
                                             }
-                                            $idReserva = $fila2['idReserva'];
                                             $idHabitacion = $fila2['idHabitacion'];
                                             $preferencias = "<strong>Preferencias:</strong> ".$fila2['preferencias'];
                                             $result3 = mysqli_query($link,"SELECT * FROM Recojo WHERE idReserva = '{$fila2['idReserva']}'");
                                             $numrow1 = mysqli_num_rows($result3);
                                             if($numrow1 > 0){
                                                 $recojo = "<strong>Recojo:</strong> Si, por favor revisar información de Reserva. ";
+                                            }
+                                            $fechaFin = explode(" ",$fila2['fechaFin']);
+                                            $fechaInicio = explode(" ",$fila2['fechaInicio']);
+                                            if($fechaFin[0] == $arrayFechas[$i]){
+                                                if ($fechaFin[0] == $fechaInicio[0]){
+                                                    $idReserva = $fila2['idReserva'];
+                                                }else{
+                                                    $idReserva = 0;
+                                                    $numrow = 0;
+                                                }
+                                            }else{
+                                                $idReserva = $fila2['idReserva'];
                                             }
                                         }
                                     }

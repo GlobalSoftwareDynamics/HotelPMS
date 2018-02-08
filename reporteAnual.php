@@ -5,7 +5,7 @@ include('funciones.php');
 if(isset($_SESSION['login'])){
     include('header.php');
     include('navbarRecepcion.php');
-    
+
     ?>
 
     <section class="container">
