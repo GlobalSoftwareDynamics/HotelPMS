@@ -12,7 +12,7 @@ if(isset($_SESSION['login'])){
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header card-inverse card-info">
+                    <div class="card-header formularios card-inverse card-info">
                         <div class="float-left mt-1">
                             <i class="fa fa-bed"></i>
                             &nbsp;&nbsp;Nueva Habitación

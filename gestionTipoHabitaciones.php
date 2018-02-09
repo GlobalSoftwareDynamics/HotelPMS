@@ -19,7 +19,7 @@ if(isset($_POST['deleteTipoHabitacion'])){
 
 	<section class="container">
 		<div class="card">
-			<div class="card-header card-inverse card-info">
+			<div class="card-header gestion card-inverse card-info">
 				<i class="fa fa-list"></i>
 				Gestión de Tipo de Habitaciones
 				<div class="float-right">

@@ -76,7 +76,7 @@ if(isset($_SESSION['login'])){
 		<div class="row">
 			<div class="col-6">
 				<div class="card mb-3">
-					<div class="card-header">
+					<div class="card-header main">
 						<i class="fa fa-table"></i> Reservas
                             <div class="float-right">
                                 <form>
@@ -428,7 +428,7 @@ if(isset($_SESSION['login'])){
 			</div>
 			<div class="col-6">
 				<div class="card mb-3">
-					<div class="card-header">
+					<div class="card-header main">
 						<i class="fa fa-table"></i> Actividad del día</div>
 					<div class="card-body">
 						<ul class="nav nav-tabs" role="tablist">

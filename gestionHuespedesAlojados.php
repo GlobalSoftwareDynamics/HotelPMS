@@ -47,21 +47,9 @@ if(isset($_SESSION['login'])){
 
     <section class="container">
         <div class="card">
-            <div class="card-header card-inverse card-info">
+            <div class="card-header gestion card-inverse card-info">
                 <i class="fa fa-list"></i>
                 Gestión de Clientes
-                <div class="float-right">
-                    <div class="dropdown">
-                        <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Acciones
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <form method="post">
-                                <a class="dropdown-item" href="nuevoCliente.php" style="font-size: 14px;">Registrar Nuevo Cliente</a>
-                            </form>
-                        </div>
-                    </div>
-                </div>
                 <span class="float-right">&nbsp;&nbsp;&nbsp;&nbsp;</span>
                 <span class="float-right">
                     <button href="#collapsed" class="btn btn-light btn-sm" data-toggle="collapse">Mostrar Filtros</button>

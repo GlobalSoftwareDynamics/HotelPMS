@@ -30,7 +30,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 	<?php
-	if($_SERVER['REQUEST_URI'] == '/hotelPMS/mainRecepcion.php'){
+	if($_SERVER['REQUEST_URI'] == '/hotelpms/mainRecepcion.php'){
 		$arrayNombresHuespedes = autocompletar('Huesped','nombreCompleto',$link);
 		?>
         <script>
@@ -55,7 +55,7 @@
 		<?php
 	}
 
-	if($_SERVER['REQUEST_URI'] == '/hotelPMS/nuevaReserva.php') {
+	if($_SERVER['REQUEST_URI'] == '/hotelpms/nuevaReserva.php') {
 		$arrayNombresHuespedes = autocompletar('Huesped', 'nombreCompleto', $link);
 		?>
         <script>
@@ -77,9 +77,9 @@
     </script>
 	<?php
 	}
-    if($_SERVER['REQUEST_URI'] == '/hotelPMS/reporteGestion.php'){
+    if($_SERVER['REQUEST_URI'] == '/hotelpms/reporteGestion.php'){
         $arrayNombresHuespedes = autocompletar('Empresa', 'razonSocial', $link);
-        echo $arrayNombresHuespedes;
+
         ?>
         <script>
             $( function() {
@@ -90,7 +90,15 @@
         </script>
         <?php
     }
+
+    /*$arrayGestion = ['/hotelpms/gestionHabitaciones.php','/hotelpms/gestionCaracteristicas.php','/hotelpms/gestionEmpresas.php'
+    ,'/hotelpms/gestionPaquetes.php','/hotelpms/gestionClientes.php','/hotelpms/gestionReservas.php'
+    ,'/hotelpms/gestionTarifas.php','/hotelpms/gestionTipoHabitaciones.php','/hotelpms/gestionUsuarios.php'];*/
+
+	if($_SERVER['REQUEST_URI'] !== "/hotelpms/index.php"){
+	    $claseBody = "gestionList";
+    }
 	?>
 </head>
 
-<body>
+<body class="<?php echo $claseBody?>">

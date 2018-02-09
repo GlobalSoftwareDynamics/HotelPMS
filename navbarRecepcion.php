@@ -1,7 +1,7 @@
-<header class="container-fluid bg-light">
+<header class="container-fluid">
 	<section class="container">
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
-			<a class="navbar-brand" href="mainRecepcion.php"><img src="img/logoNavbar.png" height="60" width="auto" alt=""></a>
+		<nav class="navbar navbar-expand-lg navbar-light">
+			<a class="navbar-brand" href="mainRecepcion.php"><img src="img/LOGO%20CASAGRANDE.png" height="60" width="auto" alt=""></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>

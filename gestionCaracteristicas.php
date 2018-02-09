@@ -42,7 +42,7 @@ if(isset($_SESSION['login'])){
 
 	<section class="container">
 		<div class="card">
-			<div class="card-header card-inverse card-info">
+			<div class="card-header gestion card-inverse card-info">
 				<i class="fa fa-list"></i>
 				Gestión de Características
 				<div class="float-right">

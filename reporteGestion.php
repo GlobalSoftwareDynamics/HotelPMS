@@ -18,7 +18,7 @@ if(isset($_SESSION['login'])){
 
     <section class="container">
         <div class="card">
-            <div class="card-header card-inverse card-info">
+            <div class="card-header reportes card-inverse card-info">
                 <i class="fa fa-line-chart"></i>
                 Reporte de Gestión
                 <div class="float-right">

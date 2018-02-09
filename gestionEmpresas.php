@@ -55,7 +55,7 @@ if(isset($_POST['delete'])){
 
 <section class="container">
     <div class="card">
-        <div class="card-header card-inverse card-info">
+        <div class="card-header gestion card-inverse card-info">
             <i class="fa fa-list"></i>
             Gestión de Empresas
             <div class="float-right">

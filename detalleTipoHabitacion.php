@@ -40,7 +40,7 @@ if(isset($_SESSION['login'])){
 		<div class="row">
 			<div class="col-12">
 				<div class="card">
-					<div class="card-header card-inverse card-info">
+					<div class="card-header formularios card-inverse card-info">
 						<form method="post" action="gestionTipoHabitaciones.php" id="form">
 							<div class="float-left">
 								<i class="fa fa-bed"></i>

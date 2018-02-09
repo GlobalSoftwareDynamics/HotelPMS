@@ -80,7 +80,7 @@ if(isset($_SESSION['login'])){
         <div class="row">
             <div class="col-12">
                 <div class="card mb-3">
-                    <div class="card-header">
+                    <div class="card-header agenda card-inverse card-info">
                         <div class="row">
                             <div class="col-8"><i class="fa fa-calendar"></i> Agenda de Eventos</div>
                             <div class="col-1 no-padding-lg text-center"><label class="sr-only" for="fechaGuia">Fecha</label><input type="date" class="form-control input-thin" name="fechaGuia" id="fechaGuia" onchange="getCalendar(this.value)" value="<?php echo $date;?>"></div>
@@ -312,7 +312,7 @@ if(isset($_SESSION['login'])){
         <div class="modal fade" id="modalReserva" tabindex="-1" role="dialog" aria-labelledby="modalReserva" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header agendaModal">
                         <h5 class="modal-title">Nueva Reserva</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
