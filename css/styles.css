@@ -395,3 +395,16 @@ a.crowded.nav-link{
 .fotografiaProducto{
     height: 220px;
 }
+
+.select2-container--default .select2-selection--single .select2-selection__rendered{
+    color: #4e4e4e !important;
+}
+
+.select2-container .select2-selection--single .select2-selection__rendered{
+    padding-top: 3px !important;
+}
+
+.select2-container .select2-selection--single{
+    height: 35px !important;
+    border-color: #cccccc !important;
+}
