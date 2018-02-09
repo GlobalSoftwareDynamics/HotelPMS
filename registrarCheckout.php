@@ -116,7 +116,7 @@ if(isset($_SESSION['login'])){
         <div class="row">
             <div class="col-8">
                 <div class="card mb-3">
-                    <div class="card-header">
+                    <div class="card-header checkout">
                         <i class="fa fa-table"></i> Listado de Consumos
                         <div class="float-right">
                             <form method="post">
@@ -214,7 +214,7 @@ if(isset($_SESSION['login'])){
             </div>
             <div class="col-4">
                 <div class="card mb-3">
-                    <div class="card-header">
+                    <div class="card-header checkout">
                         <i class="fa fa-table"></i> Balance de la Reserva
                     </div>
                     <div class="card-body">
@@ -291,7 +291,7 @@ if(isset($_SESSION['login'])){
                     </div>
                 </div>
                 <div class="card mb-3">
-                    <div class="card-header">
+                    <div class="card-header checkout">
                         <i class="fa fa-table"></i> Check Out
                         <div class="float-right">
                             <input type="submit" class="btn btn-sm btn-light" form="formCheckOut" formaction="agenda.php" name="checkOut" value="Registrar Check Out">
@@ -334,7 +334,7 @@ if(isset($_SESSION['login'])){
         <div class="modal fade" id="modalConsumo" tabindex="-1" role="dialog" aria-labelledby="modalConsumo" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header checkoutConsumos">
                         <h5 class="modal-title">Nuevo Consumo</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>

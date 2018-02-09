@@ -152,6 +152,11 @@ table.bordered-calendar th,table.bordered-calendar td{
     color: white;
 }
 
+.modal-header.checkoutConsumos{
+    background-color: #fcb634;
+    color: white;
+}
+
 tr.textoRed>td{
     font-size: 13px;
 }
@@ -183,6 +188,18 @@ tr.textoRed>td{
 .card-header.formularios{
     background-color: #145D8E;
     border-bottom-color: #145D8E;
+    color: white;
+}
+
+.card-header.reservas{
+    background-color: #DFA06D;
+    border-bottom-color: #DFA06D;
+    color: white;
+}
+
+.card-header.checkout{
+    background-color: #DB9634;
+    border-bottom-color: #DB9634;
     color: white;
 }
 
