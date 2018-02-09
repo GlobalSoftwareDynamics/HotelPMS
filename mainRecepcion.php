@@ -8,6 +8,12 @@ if(isset($_SESSION['login'])){
 
 	?>
 
+    <script>
+        $(document).ready(function() {
+            $('.select2select').select2();
+        });
+    </script>
+
 	<section class="container">
 		<div class="row">
 			<div class="col-4 mb-3">
@@ -562,7 +568,7 @@ if(isset($_SESSION['login'])){
                             <div class="row">
                                 <div class="form-group col-12">
                                     <label class="col-form-label" for="empresa">Empresa:</label>
-                                    <select class="form-control" name="empresa" id="empresa">
+                                    <select class="form-control select2select" name="empresa" id="empresa">
                                         <option selected disabled>Seleccionar</option>
                                         <?php
                                         $result = mysqli_query($link,"SELECT * FROM Empresa ORDER BY razonSocial ASC ");

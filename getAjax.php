@@ -66,7 +66,7 @@ if(!empty($_POST['nombreHuesped2'])){
 	while($row = mysqli_fetch_array($result)){
 		$flag = false;
 		echo "<label class='col-form-label' for='telefono'>Teléfono Celular:</label>
-			<input type='text' name='telefono' id='telefono' class='form-control' value='{$row['telefonoCelular']}'>
+			<input type='text' name='telefono' id='telefono' class='form-control' value='{$row['telefonoCelular']}' readonly>
 			<input type='hidden' name='antiguoCliente' value='true'>";
 		break;
 	}
@@ -83,7 +83,7 @@ if(!empty($_POST['nombreHuesped3'])){
 	while($row = mysqli_fetch_array($result)){
 		$flag = false;
 		echo "<label class='col-form-label' for='email'>Correo Electrónico:</label>
-			<input type='email' name='email' id='email' class='form-control' value='{$row['correoElectronico']}'>
+			<input type='email' name='email' id='email' class='form-control' value='{$row['correoElectronico']}' readonly>
 			<input type='hidden' name='antiguoCliente' value='true'>";
 		break;
 	}
@@ -100,7 +100,7 @@ if(!empty($_POST['nombreHuesped4'])){
 	while($row = mysqli_fetch_array($result)){
 		$flag = false;
 		echo "<label class='col-form-label' for='nombres'>Nombre Completo:</label>
-			<input type='text' name='nombres' id='nombres' class='form-control' value='{$row['nombreCompleto']}'>
+			<input type='text' name='nombres' id='nombres' class='form-control' value='{$row['nombreCompleto']}' readonly>
 			<input type='hidden' name='antiguoCliente' value='true'>";
 		break;
 	}
@@ -116,7 +116,7 @@ if(!empty($_POST['nombreHuespedReserva2'])){
 	$result = mysqli_query($link,"SELECT * FROM Huesped WHERE nombreCompleto = '{$_POST['nombreHuespedReserva2']}' OR idHuesped = '{$_POST['nombreHuespedReserva2']}'");
 	while($row = mysqli_fetch_array($result)){
 		$flag = false;
-		echo "<input type='text' name='nombres' id='nombres' class='form-control' value='{$row['nombreCompleto']}' form='formOcupante'>
+		echo "<input type='text' name='nombres' id='nombres' class='form-control' value='{$row['nombreCompleto']}' form='formOcupante' readonly>
 			<input type='hidden' name='antiguoCliente' value='true' form='formOcupante'>";
 		break;
 	}
