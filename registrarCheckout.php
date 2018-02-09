@@ -8,11 +8,11 @@ if(isset($_SESSION['login'])){
 
     if (isset($_POST['addConsumo'])){
 
-        $query = mysqli_query($link,"INSERT INTO Transaccion(idTransaccion,idColaborador,idReserva,idHuesped,idHabitacion,monto,detalle,fechaTransaccion,descuento,tipo) VALUES 
-        ('{$_POST['idTransaccion']}','{$_SESSION['user']}','{$_POST['idReserva']}','{$_POST['idHuesped']}','{$_POST['idHabitacion']}','{$_POST['monto']}','{$_POST['descripcion']}','{$dateTime}','{$_POST['descuento']}','{$_POST['servicio']}')");
+        $query = mysqli_query($link,"INSERT INTO Transaccion(idTransaccion,idColaborador,idReserva,idHuesped,idHabitacion,monto,detalle,fechaTransaccion,tipo) VALUES 
+        ('{$_POST['idTransaccion']}','{$_SESSION['user']}','{$_POST['idReserva']}','{$_POST['idHuesped']}','{$_POST['idHabitacion']}','{$_POST['monto']}','{$_POST['descripcion']}','{$dateTime}','{$_POST['servicio']}')");
 
-        $queryPerformed = "INSERT INTO Transaccion(idTransaccion,idColaborador,idReserva,idHuesped,idHabitacion,monto,detalle,fechaTransaccion,descuento,tipo) VALUES 
-        ({$_POST['idTransaccion']},{$_SESSION['user']},{$_POST['idReserva']},{$_POST['idHuesped']},{$_POST['idHabitacion']},{$_POST['monto']},{$_POST['descripcion']},{$dateTime},{$_POST['descuento']},{$_POST['servicio']})";
+        $queryPerformed = "INSERT INTO Transaccion(idTransaccion,idColaborador,idReserva,idHuesped,idHabitacion,monto,detalle,fechaTransaccion,tipo) VALUES 
+        ({$_POST['idTransaccion']},{$_SESSION['user']},{$_POST['idReserva']},{$_POST['idHuesped']},{$_POST['idHabitacion']},{$_POST['monto']},{$_POST['descripcion']},{$dateTime},{$_POST['servicio']})";
 
         $databaseLog = mysqli_query($link, "INSERT INTO DatabaseLog (idColaborador,fechaHora,evento,tipo,consulta) VALUES ('{$_SESSION['user']}','{$date}','INSERT','Transaccion','{$queryPerformed}')");
 
@@ -73,6 +73,14 @@ if(isset($_SESSION['login'])){
             while ($fila2 = mysqli_fetch_array($result2)){
                 $nombreCompleto = $fila2['nombreCompleto'];
                 $idHuespedCargos = $fila2['idHuesped'];
+                switch($fila2['vip']){
+                    case 0:
+                        $vip = "";
+                        break;
+                    case 1:
+                        $vip = "<b>(VIP)</b>";
+                        break;
+                }
                 $result3 = mysqli_query($link,"SELECT * FROM Empresa WHERE idEmpresa = '{$fila2['idEmpresa']}'");
                 while ($fila3 = mysqli_fetch_array($result3)){
                     $nombreEmpresa = $fila3['razonSocial'];
@@ -122,32 +130,32 @@ if(isset($_SESSION['login'])){
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-7">
                                 <div class="row">
-                                    <div class="col-5"><p><b>Reserva:</b></p></div>
-                                    <div class="col-7"><p><?php echo $_POST['idReserva'];?></p></div>
+                                    <div class="col-4"><p><b>Reserva:</b></p></div>
+                                    <div class="col-8"><p><?php echo $_POST['idReserva'];?></p></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-5"><p><b>Habitación:</b></p></div>
-                                    <div class="col-7"><p><?php echo $_POST['idHabitacion'];?></p></div>
+                                    <div class="col-4"><p><b>Habitación:</b></p></div>
+                                    <div class="col-8"><p><?php echo $_POST['idHabitacion'];?></p></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-5"><p><b>Huesped Titular:</b></p></div>
-                                    <div class="col-7"><p><?php echo $nombreCompleto?></p></div>
+                                    <div class="col-4"><p><b>Huesped Titular:</b></p></div>
+                                    <div class="col-8"><p><?php echo $nombreCompleto." ".$vip;?></p></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-5"><p><b>Empresa:</b></p></div>
-                                    <div class="col-7"><p><?php echo $nombreEmpresa?></p></div>
+                                    <div class="col-4"><p><b>Empresa:</b></p></div>
+                                    <div class="col-8"><p><?php echo $nombreEmpresa?></p></div>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-5">
                                 <div class="row">
-                                    <div class="col-5"><p><b>Check In:</b></p></div>
-                                    <div class="col-7"><p><?php echo $fechaCheckIn;?></p></div>
+                                    <div class="col-4"><p><b>Check In:</b></p></div>
+                                    <div class="col-8"><p><?php echo $fechaCheckIn;?></p></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-5"><p><b>Check Out:</b></p></div>
-                                    <div class="col-7"><p><?php echo $fechaCheckOut?></p></div>
+                                    <div class="col-4"><p><b>Check Out:</b></p></div>
+                                    <div class="col-8"><p><?php echo $fechaCheckOut?></p></div>
                                 </div>
                             </div>
                         </div>
@@ -246,8 +254,8 @@ if(isset($_SESSION['login'])){
                                         }
                                         $totalhabitaciones = $valorTarifa * $interval;
                                     }
-                                    $totalhabitaciones = $totalhabitaciones + $valorPaquete;
-                                    $subtotal = $totalhabitaciones + $totalConsumo + $cargoExtra;
+                                    $totalHabitacionesPaquete = $totalhabitaciones + $valorPaquete;
+                                    $subtotal = $totalHabitacionesPaquete + $totalConsumo + $cargoExtra;
                                     $impestos = $subtotal * 0.18;
                                     $subtotalSinImpuestos = $subtotal - $impestos;
                                     $totalEstadia = $subtotalSinImpuestos + $impestos;
@@ -255,6 +263,10 @@ if(isset($_SESSION['login'])){
                                     <tr>
                                         <th>Total Habitación:</th>
                                         <td>S/. <?php echo round($totalhabitaciones,2);?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Total Paquete:</th>
+                                        <td>S/. <?php echo round($valorPaquete,2);?></td>
                                     </tr>
                                     <tr>
                                         <th>Total Consumos:</th>
@@ -270,7 +282,7 @@ if(isset($_SESSION['login'])){
                                     </tr>
                                     <tr>
                                         <th>Total a Pagar:</th>
-                                        <td>S/. <?php echo round($totalEstadia,2);?></td>
+                                        <td id="totalPago">S/. <?php echo round($totalEstadia,2);?></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -291,11 +303,22 @@ if(isset($_SESSION['login'])){
                                 <form method="post" id="formCheckOut">
                                     <input type="hidden" name="idReserva" value="<?php echo $_POST['idReserva'];?>">
                                     <input type="hidden" name="idHabitacion" value="<?php echo $_POST['idHabitacion'];?>">
-                                    <input type="hidden" name="montoHabitacionReserva" value="<?php echo round($totalEstadia,2);?>">
                                     <div class="form-group row">
-                                        <label class="col-form-label col-4" for="montoCancelado">Monto Cancelado:</label>
-                                        <div class="col-8">
+                                        <label class="col-form-label col-6" for="montoCancelado">Monto Cancelado:</label>
+                                        <div class="col-6" id="montoPorCancelar">
                                             <input type="number" min="0" max="<?php echo round($totalEstadia,2);?>" class="form-control" step="0.01" name="montoCancelado" id="montoCancelado" value="<?php echo round($totalEstadia,2);?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-6" for="liberarHabitacion">Liberar Habitación:</label>
+                                        <div class="col-6">
+                                            <input type="checkbox" name="liberarHabitacion" id="liberarHabitacion" style="margin-top: 8%;">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-form-label col-6" for="emailSpam">Enviar Correo:</label>
+                                        <div class="col-6">
+                                            <input type="checkbox" name="emailSpam" id="emailSpam" style="margin-top: 8%;">
                                         </div>
                                     </div>
                                 </form>

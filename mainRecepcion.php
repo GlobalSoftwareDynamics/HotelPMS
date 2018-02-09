@@ -60,7 +60,7 @@ if(isset($_SESSION['login'])){
                             $nroHuespedes = $fila['nroHuespedes'];
                         }
                         ?>
-                        <div class="card-body-text"><?php echo $nroHuespedes;?> Huespedes</div>
+                        <div class="card-body-text"><a href="gestionHuespedesAlojados.php" style="color: white; text-underline: none"><?php echo $nroHuespedes;?> Huespedes</a></div>
                         <div class="spacer20"></div>
                     </div>
                 </div>
@@ -91,7 +91,7 @@ if(isset($_SESSION['login'])){
 								<a class="nav-link" data-toggle="tab" href="#checkout" role="tab">Registrados</a>
 							</li>
 						</ul>
-						<div class="tab-content">
+						<div class="tab-content" style="overflow-y: scroll; height: 250px">
 							<div class="tab-pane active" id="arribos" role="tabpanel">
 								<ul class="nav nav-tabs" role="tablist">
 									<li class="nav-item">
@@ -121,21 +121,26 @@ if(isset($_SESSION['login'])){
                                             while ($fila = mysqli_fetch_array($result)){
                                                 echo "<tr>";
                                                 $result1 = mysqli_query($link,"SELECT * FROM Ocupantes WHERE idReserva = '{$fila['idReserva']}' AND idHabitacion = '{$fila['idHabitacion']}' AND cargos = 1");
-                                                while ($fila1 = mysqli_fetch_array($result1)){
-                                                    $result2 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$fila1['idHuesped']}'");
-                                                    while ($fila2 = mysqli_fetch_array($result2)){
-                                                        $idHuesped = $fila2['idHuesped'];
-                                                        $result3 = mysqli_query($link,"SELECT * FROM Empresa WHERE idEmpresa = '{$fila2['idEmpresa']}'");
-                                                        $numrows = mysqli_num_rows($result3);
-                                                        if ($numrows == 0){
-                                                            $empresa = "Sin Empresa";
-                                                        }else{
-                                                            while ($fila3 = mysqli_fetch_array($result3)){
-                                                                $empresa = $fila3['razonSocial'];
+                                                $numrow = mysqli_num_rows($result1);
+                                                if ($numrow > 0){
+                                                    while ($fila1 = mysqli_fetch_array($result1)){
+                                                        $result2 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$fila1['idHuesped']}'");
+                                                        while ($fila2 = mysqli_fetch_array($result2)){
+                                                            $result3 = mysqli_query($link,"SELECT * FROM Empresa WHERE idEmpresa = '{$fila2['idEmpresa']}'");
+                                                            $numrows = mysqli_num_rows($result3);
+                                                            if ($numrows == 0){
+                                                                $empresa = "Sin Empresa";
+                                                            }else{
+                                                                while ($fila3 = mysqli_fetch_array($result3)){
+                                                                    $empresa = $fila3['razonSocial'];
+                                                                }
                                                             }
+                                                            $nombre = $fila2['nombreCompleto'];
                                                         }
-                                                        $nombre = $fila2['nombreCompleto'];
                                                     }
+                                                }else{
+                                                    $empresa = "No Definido";
+                                                    $nombre = "No Definido";
                                                 }
                                                 $result1 = mysqli_query($link,"SELECT * FROM Estado WHERE idEstado = '{$fila['idEstado']}'");
                                                 while ($fila1 = mysqli_fetch_array($result1)){
@@ -188,21 +193,26 @@ if(isset($_SESSION['login'])){
                                             while ($fila = mysqli_fetch_array($result)){
                                                 echo "<tr>";
                                                 $result1 = mysqli_query($link,"SELECT * FROM Ocupantes WHERE idReserva = '{$fila['idReserva']}' AND idHabitacion = '{$fila['idHabitacion']}' AND cargos = 1");
-                                                while ($fila1 = mysqli_fetch_array($result1)){
-                                                    $result2 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$fila1['idHuesped']}'");
-                                                    while ($fila2 = mysqli_fetch_array($result2)){
-                                                        $idHuesped = $fila2['idHuesped'];
-                                                        $result3 = mysqli_query($link,"SELECT * FROM Empresa WHERE idEmpresa = '{$fila2['idEmpresa']}'");
-                                                        $numrows = mysqli_num_rows($result3);
-                                                        if ($numrows == 0){
-                                                            $empresa = "Sin Empresa";
-                                                        }else{
-                                                            while ($fila3 = mysqli_fetch_array($result3)){
-                                                                $empresa = $fila3['razonSocial'];
+                                                $numrow = mysqli_num_rows($result1);
+                                                if ($numrow > 0){
+                                                    while ($fila1 = mysqli_fetch_array($result1)){
+                                                        $result2 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$fila1['idHuesped']}'");
+                                                        while ($fila2 = mysqli_fetch_array($result2)){
+                                                            $result3 = mysqli_query($link,"SELECT * FROM Empresa WHERE idEmpresa = '{$fila2['idEmpresa']}'");
+                                                            $numrows = mysqli_num_rows($result3);
+                                                            if ($numrows == 0){
+                                                                $empresa = "Sin Empresa";
+                                                            }else{
+                                                                while ($fila3 = mysqli_fetch_array($result3)){
+                                                                    $empresa = $fila3['razonSocial'];
+                                                                }
                                                             }
+                                                            $nombre = $fila2['nombreCompleto'];
                                                         }
-                                                        $nombre = $fila2['nombreCompleto'];
                                                     }
+                                                }else{
+                                                    $empresa = "No Definido";
+                                                    $nombre = "No Definido";
                                                 }
                                                 $result1 = mysqli_query($link,"SELECT * FROM Estado WHERE idEstado = '{$fila['idEstado']}'");
                                                 while ($fila1 = mysqli_fetch_array($result1)){
@@ -427,7 +437,7 @@ if(isset($_SESSION['login'])){
 							</li>
 						</ul>
 						<div class="spacer10"></div>
-						<div class="tab-content">
+						<div class="tab-content" style="overflow-y: scroll; height: 250px">
 							<div class="tab-pane active" id="checkin" role="tabpanel">
 								<table class="table text-center">
 									<thead>
@@ -532,11 +542,11 @@ if(isset($_SESSION['login'])){
 							<div class="row">
 								<div class="form-group col-6" id="divDni">
 									<label class="col-form-label" for="dni">DNI Titular:</label>
-									<input type="number" name="dni" id="dni" class="form-control" onchange="getNombre(this.value);getTelf(this.value);getEmail(this.value);" min="0">
+									<input type="number" name="dni" required id="dni" class="form-control" onchange="getNombre(this.value);getTelf(this.value);getEmail(this.value);getEmpresa(this.value)" min="0">
 								</div>
 								<div class="form-group col-6" id="divNombre">
 									<label class="col-form-label" for="nombres">Nombre Completo:</label>
-									<input type="text" name="nombres" id="nombres" class="form-control" onchange="getID(this.value);getTelf(this.value);getEmail(this.value);">
+									<input type="text" name="nombres" id="nombres" class="form-control" onchange="getID(this.value);getTelf(this.value);getEmail(this.value);getEmpresa1(this.value)">
 								</div>
 							</div>
 							<div class="row">
@@ -546,9 +556,23 @@ if(isset($_SESSION['login'])){
 								</div>
 								<div class="form-group col-6" id="divEmail">
 									<label class="col-form-label" for="email">Correo Electrónico:</label>
-									<input type="email" name="email" id="email" class="form-control">
+									<input type="email" name="email" id="email" class="form-control" required>
 								</div>
 							</div>
+                            <div class="row">
+                                <div class="form-group col-12">
+                                    <label class="col-form-label" for="empresa">Empresa:</label>
+                                    <select class="form-control" name="empresa" id="empresa">
+                                        <option selected disabled>Seleccionar</option>
+                                        <?php
+                                        $result = mysqli_query($link,"SELECT * FROM Empresa ORDER BY razonSocial ASC ");
+                                        while ($fila = mysqli_fetch_array($result)){
+                                            echo "<option value='{$fila['idEmpresa']}'>{$fila['razonSocial']}</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="form-group col-12">
                                     <label class="col-form-label" for="tipoReserva">Tipo de Reserva:</label>

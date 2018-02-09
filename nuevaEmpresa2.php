@@ -19,7 +19,7 @@ if(isset($_SESSION['login'])){
 	}
 
 	if(isset($_POST['addEmpresa'])){
-		$insert = mysqli_query($link,"INSERT INTO Empresa VALUES ('{$_POST['ruc']}','{$_POST['razonSocial']}','{$_POST['rubro']}','{$_POST['direccion']}','{$_POST['descuento']}')");
+		$insert = mysqli_query($link,"INSERT INTO Empresa VALUES ('{$_POST['ruc']}','{$_POST['razonSocial']}','{$_POST['rubro']}','{$_POST['direccion']}')");
 	}
 
 	if(isset($_POST['eliminar'])){

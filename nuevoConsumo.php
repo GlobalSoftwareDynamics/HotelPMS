@@ -8,11 +8,11 @@ if(isset($_SESSION['login'])){
 
 	if (isset($_POST['addConsumo'])){
 
-	    $query = mysqli_query($link,"INSERT INTO Transaccion(idTransaccion,idColaborador,idReserva,idHuesped,idHabitacion,monto,detalle,fechaTransaccion,descuento,tipo) VALUES 
-        ('{$_POST['idTransaccion']}','{$_SESSION['user']}','{$_POST['idReserva']}','{$_POST['idHuesped']}','{$_POST['idHabitacion']}','{$_POST['monto']}','{$_POST['descripcion']}','{$dateTime}','{$_POST['descuento']}','{$_POST['servicio']}')");
+	    $query = mysqli_query($link,"INSERT INTO Transaccion(idTransaccion,idColaborador,idReserva,idHuesped,idHabitacion,monto,detalle,fechaTransaccion,tipo) VALUES 
+        ('{$_POST['idTransaccion']}','{$_SESSION['user']}','{$_POST['idReserva']}','{$_POST['idHuesped']}','{$_POST['idHabitacion']}','{$_POST['monto']}','{$_POST['descripcion']}','{$dateTime}','{$_POST['servicio']}')");
 
-	    $queryPerformed = "INSERT INTO Transaccion(idTransaccion,idColaborador,idReserva,idHuesped,idHabitacion,monto,detalle,fechaTransaccion,descuento,tipo) VALUES 
-        ({$_POST['idTransaccion']},{$_SESSION['user']},{$_POST['idReserva']},{$_POST['idHuesped']},{$_POST['idHabitacion']},{$_POST['monto']},{$_POST['descripcion']},{$dateTime},{$_POST['descuento']},{$_POST['servicio']})";
+	    $queryPerformed = "INSERT INTO Transaccion(idTransaccion,idColaborador,idReserva,idHuesped,idHabitacion,monto,detalle,fechaTransaccion,tipo) VALUES 
+        ({$_POST['idTransaccion']},{$_SESSION['user']},{$_POST['idReserva']},{$_POST['idHuesped']},{$_POST['idHabitacion']},{$_POST['monto']},{$_POST['descripcion']},{$dateTime},{$_POST['servicio']})";
 
         $databaseLog = mysqli_query($link, "INSERT INTO DatabaseLog (idColaborador,fechaHora,evento,tipo,consulta) VALUES ('{$_SESSION['user']}','{$date}','INSERT','Transaccion','{$queryPerformed}')");
 
@@ -34,6 +34,14 @@ if(isset($_SESSION['login'])){
             while ($fila2 = mysqli_fetch_array($result2)){
                 $nombreCompleto = $fila2['nombreCompleto'];
                 $idHuespedCargos = $fila2['idHuesped'];
+                switch($fila2['vip']){
+                    case 0:
+                        $vip = "";
+                        break;
+                    case 1:
+                        $vip = "<b>(VIP)</b>";
+                        break;
+                }
             }
         }
     }
@@ -64,7 +72,7 @@ if(isset($_SESSION['login'])){
                                 </div>
                                 <div class="row">
                                     <div class="col-2"><p><b>Huesped Titular:</b></p></div>
-                                    <div class="col-7"><p><?php echo $nombreCompleto?></p></div>
+                                    <div class="col-7"><p><?php echo $nombreCompleto." ".$vip;?></p></div>
                                 </div>
                             </div>
                         </div>

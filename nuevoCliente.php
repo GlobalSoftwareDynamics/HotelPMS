@@ -81,6 +81,12 @@ if(isset($_SESSION['login'])){
                                             <input class="form-control" type="text" id="email" name="email">
                                         </div>
                                     </div>
+                                    <div class="form-group row">
+                                        <label for="vip" class="col-4 col-form-label">VIP:</label>
+                                        <div class="col-8">
+                                            <input class="form-check mt-2" type="checkbox" id="vip" name="vip">
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group row">

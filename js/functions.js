@@ -417,6 +417,28 @@ function getID2(val){
     });
 }
 
+function getEmpresa(val){
+    $.ajax({
+        type: "POST",
+        url: "getAjax.php",
+        data:{'razonSocial':val},
+        success: function(data){
+            $("#empresa").html(data);
+        }
+    });
+}
+
+function getEmpresa1(val){
+    $.ajax({
+        type: "POST",
+        url: "getAjax.php",
+        data:{'razonSocialB':val},
+        success: function(data){
+            $("#empresa").html(data);
+        }
+    });
+}
+
 function getTelf(val){
     $.ajax({
         type: "POST",
@@ -462,10 +484,14 @@ function getNombre2(val){
 }
 
 function getHabitacion(val){
+
+    var fechaInicio = document.getElementById("inicioCheckIn").value;
+    var fechaFin = document.getElementById("finCheckOut").value;
+
     $.ajax({
         type: "POST",
         url: "getAjax.php",
-        data:{'tipoHabitacion':val},
+        data:{'tipoHabitacion':val, 'fechaInicioCheckIn': fechaInicio, 'fechaFinCheckOut': fechaFin},
         success: function(data){
             $("#nroHabitacion").html(data);
         }

@@ -380,7 +380,7 @@ if(isset($_SESSION['login'])){
     $htmlheader='
         <header>
             <div id="descripcionbrand">
-                <img style="margin-top: 10px" width="auto" height="60" src="img/logoNavbar.png"/>
+                <img style="margin-top: 10px" width="auto" height="70" src="img/LogoPDF.png"/>
             </div>
             <div id="tituloreporte">
                 <h4>Registro de CheckOut</h4>

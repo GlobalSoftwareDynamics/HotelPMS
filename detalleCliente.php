@@ -8,15 +8,24 @@ if(isset($_SESSION['login'])){
 
     $result = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$_POST['idHuesped']}'");
     while ($fila = mysqli_fetch_array($result)){
-        $result1 = mysqli_query($link,"SELECT * FROM Ciudad WHERE idCiudad = '{$fila['idCiudad']}'");
-        while ($fila1 = mysqli_fetch_array($result1)){
-            $ciudad = $fila1['nombre'];
-            $result2 = mysqli_query($link,"SELECT * FROM EstadoPais WHERE idEstadoPais = '{$fila1['idEstadoPais']}'");
-            while ($fila2 = mysqli_fetch_array($result2)){
-                $estado = $fila2['nombre'];
-                $result3 = mysqli_query($link,"SELECT * FROM Pais WHERE idPais = '{$fila2['idPais']}'");
-                while ($fila3 = mysqli_fetch_array($result3)){
-                    $pais = $fila3['nombre'];
+        if($fila['idCiudad'] == ''){
+            $ciudad = "";
+            $estado = "";
+            $pais = "";
+        }else{
+            $result1 = mysqli_query($link,"SELECT * FROM Ciudad WHERE idCiudad = '{$fila['idCiudad']}'");
+            while ($fila1 = mysqli_fetch_array($result1)){
+                $ciudad = $fila1['nombre'];
+                $idCiudad = $fila1['idCiudad'];
+                $result2 = mysqli_query($link,"SELECT * FROM EstadoPais WHERE idEstadoPais = '{$fila1['idEstadoPais']}'");
+                while ($fila2 =  mysqli_fetch_array($result2)){
+                    $estado = $fila2['nombre'];
+                    $idEstado = $fila2['idEstadoPais'];
+                    $result3 = mysqli_query($link,"SELECT * FROM Pais WHERE idPais = '{$fila2['idPais']}'");
+                    while ($fila3 =  mysqli_fetch_array($result3)){
+                        $pais = $fila3['nombre'];
+                        $idPais = $fila3['idPais'];
+                    }
                 }
             }
         }
