@@ -533,7 +533,7 @@ if(isset($_SESSION['login'])){
 	</section>
 
 	<form method="post" action="nuevaReserva.php">
-		<div class="modal fade" id="modalReserva" tabindex="-1" role="dialog" aria-labelledby="modalReserva" aria-hidden="true">
+		<div class="modal fade" id="modalReserva" role="dialog" aria-labelledby="modalReserva" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -565,10 +565,10 @@ if(isset($_SESSION['login'])){
 									<input type="email" name="email" id="email" class="form-control" required>
 								</div>
 							</div>
-                            <div class="row">
-                                <div class="form-group col-12">
+                            <div class="form-group row">
+                                <div class="col-12">
                                     <label class="col-form-label" for="empresa">Empresa:</label>
-                                    <select class="form-control select2select" name="empresa" id="empresa">
+                                    <select class="form-control" name="empresa" id="empresa">
                                         <option selected disabled>Seleccionar</option>
                                         <?php
                                         $result = mysqli_query($link,"SELECT * FROM Empresa ORDER BY razonSocial ASC ");
@@ -579,8 +579,8 @@ if(isset($_SESSION['login'])){
                                     </select>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="form-group col-12">
+                            <div class="form-group row">
+                                <div class="col-12">
                                     <label class="col-form-label" for="tipoReserva">Tipo de Reserva:</label>
                                     <select class="form-control" name="tipoReserva" id="tipoReserva" onchange="getPaquete(this.value)">
                                         <option selected disabled>Seleccionar</option>
