@@ -459,3 +459,8 @@ a.crowded.nav-link{
     height: 35px !important;
     border-color: #cccccc !important;
 }
+
+.select2{
+    width: 97% !important;
+    padding-left: 14px;
+}

@@ -4,7 +4,11 @@ include('funciones.php');
 include('session.php');
 if(isset($_SESSION['login'])){
 include('header.php');
-include('navbarRecepcion.php');
+    if($_SESSION['userType'] == 1){
+        include('navbarRecepcion.php');
+    }else{
+        include('navbarAdmin.php');
+    }
 
 if(isset($_POST['editEmpresa'])){
     $update = mysqli_query($link,"UPDATE Empresa SET razonSocial = '{$_POST['razonSocial']}', rubro = '{$_POST['rubro']}', direccionFiscal = '{$_POST['direccion']}'

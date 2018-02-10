@@ -3,7 +3,11 @@ include('session.php');
 include ('funciones.php');
 if(isset($_SESSION['login'])){
     include('header.php');
-    include('navbarRecepcion.php');
+    if($_SESSION['userType'] == 1){
+        include('navbarRecepcion.php');
+    }else{
+        include('navbarAdmin.php');
+    }
     include('declaracionFechas.php');
 
     if (isset($_POST['checkOut'])){
@@ -309,7 +313,7 @@ if(isset($_SESSION['login'])){
     </section>
 
     <form method="post" action="nuevaReserva.php">
-        <div class="modal fade" id="modalReserva" tabindex="-1" role="dialog" aria-labelledby="modalReserva" aria-hidden="true">
+        <div class="modal fade" id="modalReserva" role="dialog" aria-labelledby="modalReserva" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header agendaModal">
@@ -341,8 +345,8 @@ if(isset($_SESSION['login'])){
                                     <input type="email" name="email" id="email" class="form-control" required>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="form-group col-12">
+                            <div class="form-group row">
+                                <div class="col-12">
                                     <label class="col-form-label" for="empresa">Empresa:</label>
                                     <select class="form-control" name="empresa" id="empresa">
                                         <option selected disabled>Seleccionar</option>
@@ -355,8 +359,8 @@ if(isset($_SESSION['login'])){
                                     </select>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="form-group col-12">
+                            <div class="form-group row">
+                                <div class="col-12">
                                     <label class="col-form-label" for="tipoReserva">Tipo de Reserva:</label>
                                     <select class="form-control" name="tipoReserva" id="tipoReserva" onchange="getPaquete(this.value)">
                                         <option selected disabled>Seleccionar</option>
@@ -364,6 +368,10 @@ if(isset($_SESSION['login'])){
                                         <option value="9">Reserva Pendiente</option>
                                         <option value="10">Reserva de Paquete</option>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-12" id="paquete">
                                 </div>
                             </div>
                         </div>

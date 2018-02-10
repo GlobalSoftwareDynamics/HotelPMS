@@ -4,7 +4,11 @@ include('declaracionFechas.php');
 include('funciones.php');
 if(isset($_SESSION['login'])){
     include('header.php');
-    include('navbarRecepcion.php');
+    if($_SESSION['userType'] == 1){
+        include('navbarRecepcion.php');
+    }else{
+        include('navbarAdmin.php');
+    }
 
     $result = mysqli_query($link,"SELECT * FROM Habitacion");
     $numHabitaciones = mysqli_num_rows($result);
