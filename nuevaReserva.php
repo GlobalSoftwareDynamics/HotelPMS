@@ -3,7 +3,11 @@ include('session.php');
 if(isset($_SESSION['login'])){
 	include('funciones.php');
 	include('header.php');
-	include('navbarRecepcion.php');
+    if($_SESSION['userType'] == 1){
+        include('navbarRecepcion.php');
+    }else{
+        include('navbarAdmin.php');
+    }
 	include('declaracionFechas.php');
 
 	if(isset($_POST['confirmaReserva'])){

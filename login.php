@@ -26,7 +26,8 @@ if (isset($_POST['submit'])) {
 				$codigoEmpleado = $row['idColaborador'];
 				$_SESSION['login']=$username; // Initializing Session
 				$_SESSION['user']=$codigoEmpleado; // Session User
-				if($row['idTipoUsuario'] == 1){
+                $_SESSION['userType'] = $row['idTipoUsuario'];
+				if($row['idTipoUsuario'] == 1 || $row['idTipoUsuario'] == 2){
 					header('Location:mainRecepcion.php');
 				}
 			}

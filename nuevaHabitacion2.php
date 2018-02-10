@@ -4,7 +4,11 @@ include('funciones.php');
 include('declaracionFechas.php');
 if(isset($_SESSION['login'])){
 	include('header.php');
-	include('navbarRecepcion.php');
+    if($_SESSION['userType'] == 1){
+        include('navbarRecepcion.php');
+    }else{
+        include('navbarAdmin.php');
+    }
 
 	if(isset($_POST['addHabitacion'])){
 		$insert = mysqli_query($link,"INSERT INTO Habitacion VALUES ('{$_POST['numero']}','{$_POST['tipoHabitacion']}','{$_POST['vista']}',1)");

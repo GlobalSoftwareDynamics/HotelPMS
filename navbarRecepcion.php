@@ -13,15 +13,6 @@
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							Reportes
-						</a>
-						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" href="reporteGestion.php">Reporte de Gestión</a>
-                            <a class="dropdown-item" href="reporteAnual.php">Reporte Anual</a>
-						</div>
-					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Gestión de Información
 						</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -32,7 +23,6 @@
 							<a class="dropdown-item" href="gestionTarifas.php">Tarifas</a>
 							<a class="dropdown-item" href="gestionClientes.php">Clientes</a>
 							<a class="dropdown-item" href="gestionEmpresas.php">Empresas</a>
-							<a class="dropdown-item" href="gestionUsuarios.php">Usuarios</a>
                             <a class="dropdown-item" href="gestionReservas.php">Reservas</a>
 						</div>
 					</li>

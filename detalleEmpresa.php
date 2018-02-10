@@ -4,7 +4,11 @@ include('funciones.php');
 include('session.php');
 if(isset($_SESSION['login'])){
 include('header.php');
-include('navbarRecepcion.php');
+    if($_SESSION['userType'] == 1){
+        include('navbarRecepcion.php');
+    }else{
+        include('navbarAdmin.php');
+    }
 
 $result = mysqli_query($link,"SELECT * FROM Empresa WHERE idEmpresa = '{$_POST['idEmpresa']}'");
 while($row = mysqli_fetch_array($result)) {
