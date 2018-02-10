@@ -13,9 +13,11 @@ if(isset($_SESSION['login'])){
             // Declare variables
             var input, input2, input3, filter, filter2, filter3, table, tr, td, td2, td3, i;
             input = document.getElementById("fecha");
-            input2 = document.getElementById("estado");
+            input2 = document.getElementById("empresa");
+            input3 = document.getElementById("estado");
             filter = input.value.toUpperCase();
             filter2 = input2.value.toUpperCase();
+            filter3 = input3.value.toUpperCase();
             table = document.getElementById("myTable");
             tr = table.getElementsByTagName("tr");
 
@@ -23,10 +25,15 @@ if(isset($_SESSION['login'])){
             for (i = 0; i < tr.length; i++) {
                 td = tr[i].getElementsByTagName("td")[1];
                 td2 = tr[i].getElementsByTagName("td")[2];
+                td3 = tr[i].getElementsByTagName("td")[3];
                 if ((td)&&(td2)) {
                     if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
                         if(td2.innerHTML.toUpperCase().indexOf(filter2) > -1){
-                            tr[i].style.display = "";
+                            if(td3.innerHTML.toUpperCase().indexOf(filter3) > -1) {
+                                tr[i].style.display = "";
+                            }else{
+                                tr[i].style.display = "none";
+                            }
                         }else{
                             tr[i].style.display = "none";
                         }
@@ -67,6 +74,8 @@ if(isset($_SESSION['login'])){
                             <form class="form-inline justify-content-center" method="post" action="#">
                                 <label class="sr-only" for="fecha">Fecha</label>
                                 <input type="number" class="form-control mt-2 mb-2 mr-2" id="fecha" placeholder="yyyy-mm-dd" onkeyup="myFunction()">
+                                <label class="sr-only" for="empresa">Empresa</label>
+                                <input type="text" class="form-control mt-2 mb-2 mr-2" id="empresa" placeholder="Empresa" onkeyup="myFunction()">
                                 <label class="sr-only" for="estado">Estado</label>
                                 <input type="text" class="form-control mt-2 mb-2 mr-2" id="estado" placeholder="Estado" onkeyup="myFunction()">
                                 <input type="submit" class="btn btn-primary" value="Limpiar" style="padding-left:28px; padding-right: 28px;">
@@ -82,6 +91,7 @@ if(isset($_SESSION['login'])){
                             <tr>
                                 <th class="text-center">idReserva</th>
                                 <th class="text-center">Fecha</th>
+                                <th class="text-center">Empresa</th>
                                 <th class="text-center">Estado</th>
                                 <th class="text-center">Acciones</th>
                             </tr>
