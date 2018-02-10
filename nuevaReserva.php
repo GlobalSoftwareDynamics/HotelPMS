@@ -736,7 +736,7 @@ if(isset($_SESSION['login'])){
                 <div class="row">
                     <div class="col-12">
                         <div class="card mb-3">
-                            <div class="card-header">
+                            <div class="card-header reservas">
                                 <i class="fa fa-table"></i> Detalles de la Reserva
                                 <div class="float-right">
                                     <form method="post" action="agenda.php" id="formReservaPendiente">
@@ -869,7 +869,7 @@ if(isset($_SESSION['login'])){
                     <div class="row">
                         <div class="col-12">
                             <div class="card mb-3">
-                                <div class="card-header">
+                                <div class="card-header reservas">
                                     <i class="fa fa-table"></i> Detalles de la Reserva Preliminar
                                 </div>
                                 <div class="card-body">
@@ -918,7 +918,7 @@ if(isset($_SESSION['login'])){
                 <div class="row">
                     <div class="col-12">
                         <div class="card mb-3">
-                            <div class="card-header">
+                            <div class="card-header reservas">
                                 <i class="fa fa-table"></i> Detalles de la Reserva
                                 <div class="float-right">
                                     <button name="addRecojo" type="submit" form="formRecojo" class="btn btn-light btn-sm" formaction="agenda.php">Guardar Reserva</button>
@@ -978,7 +978,7 @@ if(isset($_SESSION['login'])){
                 <div class="row">
                     <div class="col-12">
                         <div class="card mb-3">
-                            <div class="card-header">
+                            <div class="card-header reservas">
                                 <i class="fa fa-table"></i> Detalles del Recojo
                             </div>
                             <div class="card-body">
@@ -1045,7 +1045,7 @@ if(isset($_SESSION['login'])){
                 <div class="row">
                     <div class="col-12">
                         <div class="card mb-3">
-                            <div class="card-header">
+                            <div class="card-header reservas">
                                 <i class="fa fa-table"></i> Habitaciones
                             </div>
                             <div class="card-body">
@@ -1183,7 +1183,7 @@ if(isset($_SESSION['login'])){
                 <div class="row">
                     <div class="col-12">
                         <div class="card mb-3">
-                            <div class="card-header">
+                            <div class="card-header reservas">
                                 <i class="fa fa-table"></i> Ocupantes
                             </div>
                             <div class="card-body">
@@ -1315,7 +1315,7 @@ if(isset($_SESSION['login'])){
                 <div class="row">
                     <div class="col-12">
                         <div class="card mb-3">
-                            <div class="card-header">
+                            <div class="card-header reservas">
                                 <i class="fa fa-table"></i> Detalles de la Reserva
                                 <div class="float-right">
                                     <form method="post" action="agenda.php" id="formReservaPendiente">
