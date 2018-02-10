@@ -140,11 +140,11 @@ if(isset($_SESSION['login'])){
                             <input type="hidden" name="idHabitacion" value="<?php echo $_POST['idHabitacion'];?>">
 							<div class="form-group row">
 								<label class="col-form-label" for="idTransaccion">Transacción:</label>
-								<input type="text" class="form-control" name="idTransaccion" id="idTransaccion" value="<?php $idTransaccion = idgen("TRS"); echo $idTransaccion;?>">
+								<input type="text" class="form-control" name="idTransaccion" id="idTransaccion" value="<?php $idTransaccion = idgen("TRS"); echo $idTransaccion;?>" required>
 							</div>
                             <div class="form-group row">
                                 <label class="col-form-label" for="idHuesped">Huesped:</label>
-                                <select class="form-control" name="idHuesped" id="idHuesped">
+                                <select class="form-control" name="idHuesped" id="idHuesped" required>
                                     <option disabled selected>Seleccionar</option>
                                     <?php
                                     $result1 = mysqli_query($link,"SELECT * FROM Ocupantes WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
@@ -159,7 +159,7 @@ if(isset($_SESSION['login'])){
                             </div>
                             <div class="form-group row">
                                 <label class="col-form-label" for="servicio">Servicio:</label>
-                                <select class="form-control" name="servicio" id="servicio">
+                                <select class="form-control" name="servicio" id="servicio" required>
                                     <option disabled selected>Seleccionar</option>
                                     <option>Lavandería</option>
                                     <option>Cafetería</option>
@@ -172,12 +172,8 @@ if(isset($_SESSION['login'])){
 								<input type="text" class="form-control" name="descripcion" id="descripcion">
 							</div>
 							<div class="form-group row">
-								<label class="col-form-label" for="descuento">Descuento:</label>
-								<input type="number" step="0.01" min="0" max="100" class="form-control" name="descuento" id="descuento">
-							</div>
-							<div class="form-group row">
 								<label class="col-form-label" for="monto">Monto:</label>
-								<input type="number" step="0.01" min="0" class="form-control" name="monto" id="monto">
+								<input type="number" step="0.01" min="0" class="form-control" name="monto" id="monto" required>
 							</div>
 						</div>
 					</div>

@@ -30,13 +30,13 @@ if(isset($_SESSION['login'])){
                                 <div class="form-group row">
                                     <label for="descripcionAdicionales" class="col-2 col-form-label">Descripción:</label>
                                     <div class="col-10">
-                                        <textarea class="form-control" id="descripcionAdicionales" name="descripcionAdicionales" rows="4"></textarea>
+                                        <textarea class="form-control" id="descripcionAdicionales" name="descripcionAdicionales" rows="4" required></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="valorAdicionales" class="col-2 col-form-label">Valor Adicionales:</label>
                                     <div class="col-2">
-                                        <input class="form-control" type="number" id="valorAdicionales" name="valorAdicionales">
+                                        <input class="form-control" type="number" id="valorAdicionales" name="valorAdicionales" required>
                                     </div>
                                 </div>
                             </form>

@@ -28,13 +28,13 @@ if(isset($_SESSION['login'])){
                                         <div class="form-group row">
                                             <label for="ruc" class="col-4 col-form-label">RUC:</label>
                                             <div class="col-4">
-                                                <input class="form-control" type="text" id="ruc" name="ruc">
+                                                <input class="form-control" type="text" id="ruc" name="ruc" required>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="razonSocial" class="col-4 col-form-label">Razón Social:</label>
                                             <div class="col-8">
-                                                <input class="form-control" type="text" id="razonSocial" name="razonSocial">
+                                                <input class="form-control" type="text" id="razonSocial" name="razonSocial" required>
                                             </div>
                                         </div>
                                         <div class="form-group row">

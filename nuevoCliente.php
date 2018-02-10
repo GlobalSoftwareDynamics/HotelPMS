@@ -31,13 +31,13 @@ if(isset($_SESSION['login'])){
                                     <div class="form-group row">
                                         <label for="dni" class="col-4 col-form-label">DNI:</label>
                                         <div class="col-4">
-                                            <input class="form-control" type="number" id="dni" name="dni" min="0">
+                                            <input class="form-control" type="number" id="dni" name="dni" min="0" required>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="nombreCompleto" class="col-4 col-form-label">Nombre Completo:</label>
                                         <div class="col-8">
-                                            <input class="form-control" type="text" id="nombreCompleto" name="nombreCompleto">
+                                            <input class="form-control" type="text" id="nombreCompleto" name="nombreCompleto" required>
                                         </div>
                                     </div>
                                     <div class="form-group row">

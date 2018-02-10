@@ -29,19 +29,19 @@ include('navbarRecepcion.php');
                                 <div class="form-group row">
                                     <label for="dni" class="col-2 col-form-label">DNI:</label>
                                     <div class="col-10">
-                                        <input class="form-control" type="number" id="dni" name="dni" min="0">
+                                        <input class="form-control" type="number" id="dni" name="dni" min="0" required>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="nombreCompleto" class="col-2 col-form-label">Nombre Completo:</label>
                                     <div class="col-10">
-                                        <input class="form-control" type="text" id="nombreCompleto" name="nombreCompleto">
+                                        <input class="form-control" type="text" id="nombreCompleto" name="nombreCompleto" required>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="tipoUsuario" class="col-2 col-form-label">Tipo de Usuario:</label>
                                     <div class="col-10">
-                                        <select name="tipoUsuario" id="tipoUsuario" class="form-control">
+                                        <select name="tipoUsuario" id="tipoUsuario" class="form-control" required>
                                             <option selected disabled>Seleccionar</option>
                                             <option value="1">Administrador</option>
                                             <option value="2">Recepcionista</option>
@@ -51,13 +51,13 @@ include('navbarRecepcion.php');
                                 <div class="form-group row">
                                     <label for="usuario" class="col-2 col-form-label">Usuario:</label>
                                     <div class="col-10">
-                                        <input class="form-control" type="text" id="usuario" name="usuario">
+                                        <input class="form-control" type="text" id="usuario" name="usuario" required>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="contrasena" class="col-2 col-form-label">Contraseña:</label>
                                     <div class="col-10">
-                                        <input class="form-control" type="text" id="contrasena" name="contrasena">
+                                        <input class="form-control" type="text" id="contrasena" name="contrasena" required>
                                     </div>
                                 </div>
                             </div>

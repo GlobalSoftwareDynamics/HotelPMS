@@ -30,13 +30,13 @@ if(isset($_SESSION['login'])){
                             <div class="form-group row">
                                 <label for="descripcion" class="col-2 col-form-label">Descripción:</label>
                                 <div class="col-10">
-                                    <input class="form-control" type="text" id="descripcion" name="descripcion">
+                                    <input class="form-control" type="text" id="descripcion" name="descripcion" required>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="tipoHabitacion" class="col-2 col-form-label">Tipo de Habitación:</label>
                                 <div class="col-10">
-                                    <select class="form-control" name="tipoHabitacion" id="tipoHabitacion">
+                                    <select class="form-control" name="tipoHabitacion" id="tipoHabitacion" required>
                                         <option>Seleccionar</option>
                                         <?php
                                         $result = mysqli_query($link,"SELECT * FROM TipoHabitacion");
@@ -50,13 +50,13 @@ if(isset($_SESSION['login'])){
                             <div class="form-group row">
                                 <label for="valor" class="col-2 col-form-label">Valor:</label>
                                 <div class="col-2">
-                                    <input class="form-control" type="number" id="valor" name="valor" min="0">
+                                    <input class="form-control" type="number" id="valor" name="valor" min="0" required>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="moneda" class="col-2 col-form-label">Moneda:</label>
                                 <div class="col-10">
-                                    <select name="moneda" id="moneda" class="form-control">
+                                    <select name="moneda" id="moneda" class="form-control" required>
                                         <option selected disabled>Seleccionar</option>
                                         <option value="$">Dólares</option>
                                         <option value="S/.">Soles</option>

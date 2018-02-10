@@ -30,13 +30,13 @@ if(isset($_SESSION['login'])){
                             <div class="form-group row">
                                 <label for="numero" class="col-2 col-form-label">Nro./Nombre Habitación:</label>
                                 <div class="col-2">
-                                    <input class="form-control" type="text" id="numero" name="numero">
+                                    <input class="form-control" type="text" id="numero" name="numero" required>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="tipoHabitacion" class="col-2 col-form-label">Tipo de Habitación:</label>
                                 <div class="col-10">
-                                    <select class="form-control" name="tipoHabitacion" id="tipoHabitacion">
+                                    <select class="form-control" name="tipoHabitacion" id="tipoHabitacion" required>
                                         <option selected disabled>Seleccionar</option>
                                         <?php
                                         $query = mysqli_query($link,"SELECT * FROM TipoHabitacion");
@@ -50,7 +50,7 @@ if(isset($_SESSION['login'])){
                             <div class="form-group row">
                                 <label for="vista" class="col-2 col-form-label">Vista:</label>
                                 <div class="col-10">
-                                    <select class="form-control" name="vista" id="vista">
+                                    <select class="form-control" name="vista" id="vista" required>
                                         <option disabled selected>Seleccionar</option>
 	                                    <?php
 	                                    $query = mysqli_query($link,"SELECT * FROM TipoVista");

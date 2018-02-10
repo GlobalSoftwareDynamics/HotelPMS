@@ -101,7 +101,7 @@ if(isset($_SESSION['login'])){
 					<div class="modal-body">
 						<div class="container-fluid">
 							<div class="form-group row">
-								<select class="form-control" name="selectCaracteristica">
+								<select class="form-control" name="selectCaracteristica" required>
 									<option selected disabled>Seleccionar</option>
 									<?php
 									$query = mysqli_query($link,"SELECT * FROM Caracteristica");
@@ -113,7 +113,7 @@ if(isset($_SESSION['login'])){
 							</div>
 							<div class="form-group row">
 								<label class="col-form-label" for="valor">Valor:</label>
-								<input type="text" name="valor" id="valor" class="form-control">
+								<input type="text" name="valor" id="valor" class="form-control" required>
 							</div>
 						</div>
 					</div>
