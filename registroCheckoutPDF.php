@@ -327,7 +327,7 @@ if(isset($_SESSION['login'])){
     $html .= "</tr>";
 
     $subtotal = $totalhabitaciones + $totalConsumo + $cargoExtra;
-    $impestos = $subtotal * 0.18;
+    $impestos = ($subtotal / 1.18) * 0.18;
     $subtotalSinImpuestos = $subtotal - $impestos;
     $totalEstadia = $subtotalSinImpuestos + $impestos;
 

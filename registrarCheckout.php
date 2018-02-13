@@ -260,7 +260,7 @@ if(isset($_SESSION['login'])){
                                     }
                                     $totalHabitacionesPaquete = $totalhabitaciones + $valorPaquete;
                                     $subtotal = $totalHabitacionesPaquete + $totalConsumo + $cargoExtra;
-                                    $impestos = $subtotal * 0.18;
+                                    $impestos = ($subtotal / 1.18) * 0.18;
                                     $subtotalSinImpuestos = $subtotal - $impestos;
                                     $totalEstadia = $subtotalSinImpuestos + $impestos;
                                     ?>

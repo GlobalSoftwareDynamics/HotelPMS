@@ -233,8 +233,8 @@ if(isset($_SESSION['login'])){
 	}
 
 	if(isset($_POST['deleteHabitacion'])){
-		$delete = mysqli_query($link,"DELETE FROM HabitacionReservada WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
-		$queryPerformed = "DELETE FROM HabitacionReservada WHERE idReserva = {$_POST['idReserva']} AND idHabitacion = {$_POST['idHabitacion']}";
+		$delete = mysqli_query($link,"DELETE FROM HabitacionReservada WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}' AND idHabitacionReservada = '{$_POST['idHabitacionReservada']}'");
+		$queryPerformed = "DELETE FROM HabitacionReservada WHERE idReserva = {$_POST['idReserva']} AND idHabitacion = {$_POST['idHabitacion']} AND idHabitacionReservada = {$_POST['idHabitacionReservada']}";
 		$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','DELETE','HABITACION RESERVADA ','{$queryPerformed}')");
 	}
 
@@ -562,6 +562,7 @@ if(isset($_SESSION['login'])){
                                                                 Acciones
                                                                 </button>
                                                                 <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuButton\">
+                                                                    <input type='hidden' name='idHabitacionReservada' value='{$row['idHabitacionReservada']}'>
                                                                     <input type='hidden' name='idHabitacion' value='{$row['idHabitacion']}'>
                                                                     <input type='hidden' name='idReserva' value='{$_GET['idReserva']}'>
                                                                     ";
@@ -1149,6 +1150,7 @@ if(isset($_SESSION['login'])){
                                                                 <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuButton\">
                                                                     <input type='hidden' name='idHabitacion' value='{$row['idHabitacion']}'>
                                                                     <input type='hidden' name='idReserva' value='{$_POST['idReserva']}'>
+                                                                    <input type='hidden' name='idHabitacionReservada' value='{$row['idHabitacionReservada']}'>
                                                                     ";
 												if ($row['idEstado'] == 3){
 												    echo "<input type=\"submit\" value=\"Registrar Check-In\" class=\"dropdown-item\" formaction=\"#\" name='checkinHabitacion'>";
@@ -1159,7 +1161,6 @@ if(isset($_SESSION['login'])){
                                                     echo "<input type=\"submit\" value=\"Asignar Late Check-Out\" class=\"dropdown-item\" formaction=\"#\" name='lateCheckOut'>";
                                                 }
 												echo "
-                                                                    <input type=\"submit\" value=\"Registrar Check-In\" class=\"dropdown-item\" formaction=\"#\" name='checkinHabitacion'>
                                                                     <input type=\"submit\" value=\"Eliminar\" class=\"dropdown-item\" formaction=\"#\" name='deleteHabitacion'>
                                                                 </div>
                                                             </div>
