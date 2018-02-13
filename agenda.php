@@ -34,9 +34,9 @@ if(isset($_SESSION['login'])){
             }
         }
 
-        $query = mysqli_query($link,"UPDATE HabitacionReservada SET idEstado = 5 WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
+        $query = mysqli_query($link,"UPDATE HabitacionReservada SET idEstado = 5, fechaFin = '{$dateTime}' WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
 
-        $queryPerformed = "UPDATE HabitacionReservada SET idEstado = 5 WHERE idReserva = {$_POST['idReserva']} AND idHabitacion = {$_POST['idHabitacion']}";
+        $queryPerformed = "UPDATE HabitacionReservada SET idEstado = 5, fechaFin = {$dateTime} WHERE idReserva = {$_POST['idReserva']} AND idHabitacion = {$_POST['idHabitacion']}";
 
         $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','HabitacionReservada-CheckOut','{$queryPerformed}')");
 
