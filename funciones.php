@@ -153,6 +153,55 @@ function timeInterval ($fechaInicio, $fechaFin){
     return $interval;
 }
 
+function days_in_month($month, $year)
+{
+// calculate number of days in a month
+    return $month == 2 ? ($year % 4 ? 28 : ($year % 100 ? 29 : ($year % 400 ? 28 : 29))) : (($month - 1) % 7 % 2 ? 30 : 31);
+}
+
+function switchMesRepAnual($numero){
+    switch ($numero) {
+        case 1:
+            $aux1 = "01";
+            break;
+        case 2:
+            $aux1 = "02";
+            break;
+        case 3:
+            $aux1 = "03";
+            break;
+        case 4:
+            $aux1 = "04";
+            break;
+        case 5:
+            $aux1 = "05";
+            break;
+        case 6:
+            $aux1 = "06";
+            break;
+        case 7:
+            $aux1 = "07";
+            break;
+        case 8:
+            $aux1 = "08";
+            break;
+        case 9:
+            $aux1 = "09";
+            break;
+        case 10:
+            $aux1 = "10";
+            break;
+        case 11:
+            $aux1 = "11";
+            break;
+        case 12:
+            $aux1 = "12";
+            break;
+    }
+
+    return $aux1;
+}
+
 function claseAgenda ($estadoActual, $modificadorActual, $estadoAnterior, $modificadorAnterior){
 
     switch ($modificadorActual){

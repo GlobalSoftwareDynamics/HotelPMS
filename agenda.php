@@ -55,7 +55,7 @@ if(isset($_SESSION['login'])){
 
         $result = mysqli_query($link,"SELECT * FROM Reserva WHERE idReserva = '{$_POST['idReserva']}'");
         while ($fila = mysqli_fetch_array($result)){
-            $montoTotal = $fila['montoTotal'] + $_POST['montoHabitacionReserva'];
+            $montoTotal = $fila['montoTotal'];
         }
 
         $query = mysqli_query($link,"UPDATE Reserva SET montoTotal = '{$montoTotal}', montoPendiente = '{$_POST['montoCancelado']}' WHERE idReserva = '{$_POST['idReserva']}'");
