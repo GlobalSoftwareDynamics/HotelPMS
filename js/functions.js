@@ -123,6 +123,7 @@
                 document.getElementById("ver").setAttribute('data-id',taskItemInContext.getAttribute("data-id")+"_"+taskItemInContext.getAttribute("data-habitacion"));
                 document.getElementById("editar").setAttribute('data-id',taskItemInContext.getAttribute("data-id"));
                 document.getElementById("eliminar").setAttribute('data-id',taskItemInContext.getAttribute("data-id"));
+                document.getElementById("agregar").setAttribute('data-id',taskItemInContext.getAttribute("data-id")+"_"+taskItemInContext.getAttribute("data-habitacion"));
 
                 e.preventDefault();
                 toggleMenuOn();
@@ -136,6 +137,7 @@
                 document.getElementById("checkout").setAttribute('data-id',taskItemInContext1.getAttribute("data-id")+"_"+taskItemInContext1.getAttribute("data-habitacion"));
                 document.getElementById("ver1").setAttribute('data-id',taskItemInContext1.getAttribute("data-id")+"_"+taskItemInContext1.getAttribute("data-habitacion"));
                 document.getElementById("editar1").setAttribute('data-id',taskItemInContext1.getAttribute("data-id"));
+                document.getElementById("agregar1").setAttribute('data-id',taskItemInContext1.getAttribute("data-id")+"_"+taskItemInContext1.getAttribute("data-habitacion"));
 
                 e.preventDefault();
                 toggleMenuOn1();
@@ -362,6 +364,10 @@
             window.location.href = 'nuevoConsumo.php?delete=true&idReserva=' + link.getAttribute("data-id");
         }
 
+        if(link.getAttribute("data-action") == "AgregarDia"){
+            var modal = '#'+ link.getAttribute("data-id");
+            $(modal).modal('show');
+        }
 
         console.log( "Task ID - " + taskItemInContext.getAttribute("data-id") + ", Task action - " + link.getAttribute("data-action"));
         toggleMenuOff();

@@ -36,6 +36,7 @@ if(isset($_SESSION['login'])){
     ';
     $cantidadHuespedesDia = 0;
     $cantidadTotal = 0;
+    $date = date('Y-m-d', strtotime($date . ' -1 day'));
     $result = mysqli_query($link,"SELECT * FROM Habitacion WHERE idTipoHabitacion <> '6' ORDER BY idHabitacion ASC");
     while ($fila = mysqli_fetch_array($result)){
         $html .= '<tr>';
@@ -84,16 +85,16 @@ if(isset($_SESSION['login'])){
             $cantidadTotal += $cantidadHuespedesDia;
         }
         if($cantidadHuespedesDia == 0){
-            $html .= "<td style ='padding-bottom: 7px; padding-top: 7px;'>{$fila['idHabitacion']}</td>";
-            $html .= "<td style ='padding-bottom: 7px; padding-top: 7px;'>{$cantidadHuespedesDia}</td>";
-            $html .= "<td style ='padding-bottom: 7px; padding-top: 7px;'></td>";
-            $html .= "<td style ='padding-bottom: 7px; padding-top: 7px;'></td>";
+            $html .= "<td style ='padding-bottom: 5px; padding-top: 5px;'>{$fila['idHabitacion']}</td>";
+            $html .= "<td style ='padding-bottom: 5px; padding-top: 5px;'>{$cantidadHuespedesDia}</td>";
+            $html .= "<td style ='padding-bottom: 5px; padding-top: 5px;'></td>";
+            $html .= "<td style ='padding-bottom: 5px; padding-top: 5px;'></td>";
             $html .= "</tr>";
         }else{
-            $html .= "<td style ='padding-bottom: 7px; padding-top: 7px;'>{$fila['idHabitacion']}</td>";
-            $html .= "<td style ='padding-bottom: 7px; padding-top: 7px;'>{$cantidadHuespedesDia}</td>";
-            $html .= "<td style ='padding-bottom: 7px; padding-top: 7px;'></td>";
-            $html .= "<td style ='padding-bottom: 7px; padding-top: 7px;'>{$nobmreCompleto}</td>";
+            $html .= "<td style ='padding-bottom: 5px; padding-top: 5px;'>{$fila['idHabitacion']}</td>";
+            $html .= "<td style ='padding-bottom: 5px; padding-top: 5px;'>{$cantidadHuespedesDia}</td>";
+            $html .= "<td style ='padding-bottom: 5px; padding-top: 5px;'></td>";
+            $html .= "<td style ='padding-bottom: 5px; padding-top: 5px;'>{$nobmreCompleto}</td>";
             $html .= "</tr>";
         }
     }

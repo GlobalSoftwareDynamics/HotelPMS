@@ -49,6 +49,12 @@ label,p,th,td {
     color: white;
 }
 
+.punteroFecha{
+    background-color: #ffe1ef;
+    border: 1px solid white;
+    color: white;
+}
+
 .finalizada{
     background-color: #c3c3c3;
     border: 1px solid white;

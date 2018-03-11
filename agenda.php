@@ -10,6 +10,20 @@ if(isset($_SESSION['login'])){
     }
     include('declaracionFechas.php');
 
+    if(isset($_POST['addDias'])){
+
+        $result = mysqli_query($link,"SELECT idHabitacionReservada, fechaFin FROM HabitacionReservada WHERE idHabitacionReservada = '{$_POST['idHabitacionReservada']}'");
+        while($fila = mysqli_fetch_array($result)){
+
+            $dateFinNueva = date("Y-m-d", strtotime($fila['fechaFin'] . ' +'.$_POST['dias'].' days'));
+            $query = mysqli_query($link,"UPDATE HabitacionReservada SET fechaFin = '{$dateFinNueva} 12:00:00' WHERE idHabitacionReservada = '{$_POST['idHabitacionReservada']}'");
+            $queryPerformed = "UPDATE HabitacionReservada SET fechaFin = '{$dateFinNueva} 12:00:00' WHERE idHabitacionReservada = '{$_POST['idHabitacionReservada']}'";
+            $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','Fecha Fin','{$queryPerformed}')");
+
+        }
+        
+    }
+
     if (isset($_POST['checkOut'])){
 
         $result = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
@@ -166,6 +180,7 @@ if(isset($_SESSION['login'])){
                                             }
                                             $idReserva = $fila2['idReserva'];
                                             $idHabitacion = $fila2['idHabitacion'];
+                                            $idHabitacionReservada = $fila2['idHabitacionReservada'];
                                             $preferencias = "<strong>Preferencias:</strong> ".$fila2['preferencias'];
                                             $result3 = mysqli_query($link,"SELECT * FROM Recojo WHERE idReserva = '{$fila2['idReserva']}'");
                                             $numrow1 = mysqli_num_rows($result3);
@@ -220,6 +235,7 @@ if(isset($_SESSION['login'])){
                                             }
                                             $idReserva = $fila2['idReserva'];
                                             $idHabitacion = $fila2['idHabitacion'];
+                                            $idHabitacionReservada = $fila2['idHabitacionReservada'];
                                             $preferencias = "<strong>Preferencias:</strong> ".$fila2['preferencias'];
                                             $result3 = mysqli_query($link,"SELECT * FROM Recojo WHERE idReserva = '{$fila2['idReserva']}'");
                                             $numrow1 = mysqli_num_rows($result3);
@@ -273,6 +289,7 @@ if(isset($_SESSION['login'])){
                                                     break;
                                             }
                                             $idHabitacion = $fila2['idHabitacion'];
+                                            $idHabitacionReservada = $fila2['idHabitacionReservada'];
                                             $preferencias = "<strong>Preferencias:</strong> ".$fila2['preferencias'];
                                             $result3 = mysqli_query($link,"SELECT * FROM Recojo WHERE idReserva = '{$fila2['idReserva']}'");
                                             $numrow1 = mysqli_num_rows($result3);
@@ -293,8 +310,14 @@ if(isset($_SESSION['login'])){
                                             }
                                         }
                                     }
+                                    $today = date("Y-m-d");
                                     if ($numrow == 0 && $idReserva == 0){
-                                        echo "<td></td>";
+                                        if($today == $arrayFechas[$i]){
+                                            $class = "punteroFecha";
+                                        }else{
+                                            $class = "";
+                                        }
+                                        echo "<td class='{$class}'></td>";
                                         $idReserva = 0;
                                         $interval = 1;
                                     }elseif($numrow > 0){
@@ -397,6 +420,9 @@ if(isset($_SESSION['login'])){
                 <a href="#" class="context-menu__link" data-action="Edit" id="editar" data-id=""><i class="fa fa-edit"></i> Editar Reserva</a>
             </li>
             <li class="context-menu__item">
+                <a href="#" class="context-menu__link" data-action="AgregarDia" id="agregar" data-id="" data-toggle="modal" data-target=""><i class="fa fa-calendar"></i> Agregar Días</a>
+            </li>
+            <li class="context-menu__item">
                 <a href="#" class="context-menu__link" data-action="Delete" id="eliminar" data-id=""><i class="fa fa-times"></i> Eliminar Reserva</a>
             </li>
         </ul>
@@ -405,13 +431,16 @@ if(isset($_SESSION['login'])){
     <nav id="context-menu1" class="context-menu">
         <ul class="context-menu__items">
             <li class="context-menu__item">
-                <a href="#" class="context-menu__link1" data-action="Consumo" id="consumo" data-id=""><i class="fa fa-edit"></i> Registrar Consumo</a>
+                <a href="#" class="context-menu__link1" data-action="Consumo" id="consumo" data-id=""><i class="fa fa-money"></i> Registrar Consumo</a>
             </li>
             <li class="context-menu__item">
                 <a href="#" class="context-menu__link1" data-action="Checkout" id="checkout" data-id=""><i class="fa fa-sign-out"></i> Registrar Check-Out</a>
             </li>
             <li class="context-menu__item">
-                <a href="#" class="context-menu__link1" data-action="Edit" id="editar1" data-id=""><i class="fa fa-eye"></i> Editar Reserva</a>
+                <a href="#" class="context-menu__link1" data-action="Edit" id="editar1" data-id=""><i class="fa fa-edit"></i> Editar Reserva</a>
+            </li>
+            <li class="context-menu__item">
+                <a href="#" class="context-menu__link1" data-action="AgregarDia" id="agregar1" data-id="" data-toggle="modal" data-target=""><i class="fa fa-calendar"></i> Agregar Días</a>
             </li>
             <li class="context-menu__item">
                 <a href="#" class="context-menu__link1" data-action="View" id="ver1" data-id=""><i class="fa fa-eye"></i> Ver Reserva</a>
@@ -426,6 +455,43 @@ if(isset($_SESSION['login'])){
             </li>
         </ul>
     </nav>
+
+    <?php
+    $result =  mysqli_query($link,"SELECT idReserva, idHabitacion, idHabitacionReservada FROM HabitacionReservada WHERE idEstado IN (3,4)");
+    while($fila = mysqli_fetch_array($result)){
+        ?>
+        <form method="post" action="#">
+            <div class="modal fade" id="<?php echo $fila['idReserva']."_".$fila['idHabitacion'];?>" role="dialog" aria-labelledby="<?php echo $fila['idReserva']."_".$fila['idHabitacion'];?>" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header agendaModal">
+                            <h5 class="modal-title">Agregar Días</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <input type="hidden" name="idHabitacionReservada" value="<?php echo $fila['idHabitacionReservada'];?>">
+                                <div class="form-group row">
+                                    <label class="col-form-label col-3" for="dias">Nro. de Días:</label>
+                                    <div class="col-9">
+                                        <input type="number" class="form-control" name="dias" min="0" id="dias">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar">
+                            <input type="submit" class="btn btn-primary" name="addDias" value="Guardar Cambios">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <?php
+    }
+    ?>
 
     <?php
     include('footer.php');
