@@ -10,6 +10,10 @@ if(isset($_SESSION['login'])){
     }
 	include('declaracionFechas.php');
 
+    if(isset($_GET['idReserva'])) {
+        $_POST['idReserva'] = $_GET['idReserva'];
+    }
+
 	if(isset($_POST['confirmaReserva'])){
 		$update = mysqli_query($link,"UPDATE Reserva SET idEstado = 3 WHERE idReserva = '{$_POST['idReserva']}'");
 		$queryPerformed = "UPDATE Reserva SET idEstado = 3 WHERE idReserva = {$_POST['idReserva']}";
@@ -152,20 +156,7 @@ if(isset($_SESSION['login'])){
 		}
 	}
 
-	if(isset($_GET['idReserva'])){
-		$queryReserva = mysqli_query($link,"SELECT * FROM Reserva WHERE idReserva = '{$_GET['idReserva']}'");
-		while($rowReserva = mysqli_fetch_array($queryReserva)) {
-			$estadoReserva = $rowReserva['idEstado'];
-			$tipoPago = $rowReserva['tipoPago'];
-			$queryHuesped = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = {$rowReserva['idHuesped']}");
-			while($rowHuesped = mysqli_fetch_array($queryHuesped)){
-				$idHuesped = $rowHuesped['idHuesped'];
-				$nombreHuesped = $rowHuesped['nombreCompleto'];
-				$telefonoHuesped = $rowHuesped['telefonoCelular'];
-				$emailHuesped = $rowHuesped['correoElectronico'];
-			}
-		}
-	}elseif(isset($_POST['idReserva'])){
+	if(isset($_POST['idReserva'])){
 		$queryReserva = mysqli_query($link,"SELECT * FROM Reserva WHERE idReserva = '{$_POST['idReserva']}'");
 		while($rowReserva = mysqli_fetch_array($queryReserva)) {
 			$estadoReserva = $rowReserva['idEstado'];
@@ -183,11 +174,29 @@ if(isset($_SESSION['login'])){
 
 	if(isset($_POST['addReservaConfirmada'])){
 		if(!isset($_POST['camaAdicional'])){$camaAdicional = false;}else{$camaAdicional = true;}
-		$insert = mysqli_query($link, "INSERT INTO HabitacionReservada(idHabitacion,idReserva,idEstado,fechaInicio,fechaFin,preferencias,camaAdicional,idTarifa,modificadorCheckIO) VALUES ('{$_POST['nroHabitacion']}','{$_POST['idReserva']}',3,'{$_POST['fechaInicio']}','{$_POST['fechaFin']} 00:00:01','{$_POST['preferencias']}','{$camaAdicional}','{$_POST['tarifa']}',0)");
-		$queryPerformed = "INSERT INTO HabitacionReservada(idHabitacion,idReserva,idEstado,fechaInicio,fechaFin,preferencias,camaAdicional,idTarifa,modificadorCheckIO) VALUES ({$_POST['nroHabitacion']},{$_POST['idReserva']},3,{$_POST['fechaInicio']},{$_POST['fechaFin']} 00:00:01,{$_POST['preferencias']},{$camaAdicional},{$_POST['tarifa']},0)";
+		$insert = mysqli_query($link, "INSERT INTO HabitacionReservada(idHabitacion,idReserva,idEstado,fechaInicio,fechaFin,preferencias,camaAdicional,idTarifa,modificadorCheckIO,idHabitacionReservadaPrevia) VALUES ('{$_POST['nroHabitacion']}','{$_POST['idReserva']}',3,'{$_POST['fechaInicio']}','{$_POST['fechaFin']} 00:00:01','{$_POST['preferencias']}','{$camaAdicional}','{$_POST['tarifa']}',0,null)");
+		$queryPerformed = "INSERT INTO HabitacionReservada(idHabitacion,idReserva,idEstado,fechaInicio,fechaFin,preferencias,camaAdicional,idTarifa,modificadorCheckIO,idHabitacionReservadaPrevia) VALUES ({$_POST['nroHabitacion']},{$_POST['idReserva']},3,{$_POST['fechaInicio']},{$_POST['fechaFin']} 00:00:01,{$_POST['preferencias']},{$camaAdicional},{$_POST['tarifa']},0,null)";
+        $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','HabitacionReservada','{$queryPerformed}')");
+	}
+
+    if(isset($_POST['cambioHabitacion'])){
+        if(!isset($_POST['camaAdicional'])){$camaAdicional = false;}else{$camaAdicional = true;}
+
+        $update = mysqli_query($link, "UPDATE HabitacionReservada SET fechaFin = '{$_POST['fechaInicio']}', idEstado = 5 WHERE idHabitacionReservada = '{$_POST['idHabitacionReservadaAnterior']}'");
+        $queryPerformed = "UPDATE HabitacionReservada SET fechaFin = {$_POST['fechaInicio']} WHERE idHabitacionReservada = {$_POST['idHabitacionReservadaAnterior']}";
         $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','HabitacionReservada','{$queryPerformed}')");
 
-	}
+        $insert = mysqli_query($link, "INSERT INTO HabitacionReservada(idHabitacion,idReserva,idEstado,fechaInicio,fechaFin,preferencias,camaAdicional,idTarifa,modificadorCheckIO,idHabitacionReservadaPrevia) VALUES ('{$_POST['nroHabitacion']}','{$_POST['idReserva']}',4,'{$_POST['fechaInicio']}','{$_POST['fechaFin']} 00:00:01','{$_POST['preferencias']}','{$camaAdicional}','{$_POST['tarifa']}',0,'{$_POST['idHabitacionReservadaAnterior']}')");
+        $queryPerformed = "INSERT INTO HabitacionReservada(idHabitacion,idReserva,idEstado,fechaInicio,fechaFin,preferencias,camaAdicional,idTarifa,modificadorCheckIO,idHabitacionReservadaPrevia) VALUES ({$_POST['nroHabitacion']},{$_POST['idReserva']},4,{$_POST['fechaInicio']},{$_POST['fechaFin']} 00:00:01,{$_POST['preferencias']},{$camaAdicional},{$_POST['tarifa']},0,null)";
+        $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','HabitacionReservada','{$queryPerformed}')");
+
+        $query = mysqli_query($link,"SELECT * FROM Ocupantes WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacionAnterior']}'");
+        while($row = mysqli_fetch_array($query)){
+            $insert = mysqli_query($link, "INSERT INTO Ocupantes(idReserva,idHuesped,idHabitacion,cargos) VALUES ('{$row['idReserva']}','{$row['idHuesped']}','{$_POST['idHabitacionAnterior']}','{$row['cargos']}')");
+            $queryPerformed = "INSERT INTO Ocupantes(idReserva,idHuesped,idHabitacion,cargos) VALUES ({$row['idReserva']},{$row['idHuesped']},{$_POST['idHabitacionAnterior']},{$row['cargos']})";
+            $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','HabitacionReservada','{$queryPerformed}')");
+        }
+    }
 
 	if(isset($_POST['addReservaPendiente'])){
 
@@ -258,612 +267,8 @@ if(isset($_SESSION['login'])){
 		$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','DELETE','Recojo','{$queryPerformed}')");
 	}
 
-	if(isset($_GET['idReserva'])) {
-
-		if ($estadoReserva == '3') {
-
-			$pendiente = mysqli_query($link, "SELECT * FROM ReservaPendiente WHERE idReserva = '{$_GET['idReserva']}'");
-			while ($rowPendiente = mysqli_fetch_array($pendiente)) {
-				?>
-                <section class="container">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card mb-3">
-                                <div class="card-header reservas">
-                                    <i class="fa fa-table"></i> Detalles de la Reserva Preliminar
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <table class="table text-center">
-                                                <thead>
-                                                <tr>
-                                                    <th>Tipo de Habitación</th>
-                                                    <th>Cantidad</th>
-                                                    <th>Fecha Inicio</th>
-                                                    <th>Fecha Fin</th>
-                                                    <th>Preferencias</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-												<?php
-												$query = mysqli_query($link, "SELECT * FROM ReservaPendiente WHERE idReserva = '{$_GET['idReserva']}'");
-												while ($row = mysqli_fetch_array($query)) {
-													echo "<tr>";
-													$query2 = mysqli_query($link, "SELECT * FROM tipohabitacion WHERE idTipoHabitacion = '{$row['idTipoHabitacion']}'");
-													while ($row2 = mysqli_fetch_array($query2)) {
-														echo "<td>{$row2['descripcion']}</td>";
-													}
-													echo "<td>{$row['numeroHabitaciones']}</td>";
-													echo "<td>{$row['fechaInicio']}</td>";
-													echo "<td>{$row['fechaFin']}</td>";
-													echo "<td>{$row['preferencias']}</td>";
-													echo "</tr>";
-												}
-												?>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-				<?php
-			}
-			?>
-
-            <section class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card mb-3">
-                            <div class="card-header reservas">
-                                <i class="fa fa-table"></i> Detalles de la Reserva
-                                <div class="float-right">
-                                    <button name="addRecojo" type="submit" form="formRecojo"
-                                            class="btn btn-light btn-sm" formaction="agenda.php">Guardar Reserva
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-4 offset-2">
-                                        <p><strong>Nombre:</strong> <?php echo $nombreHuesped; ?></p>
-                                        <p><strong>Teléfono:</strong> <?php echo $telefonoHuesped; ?></p>
-                                        <p><strong>DNI:</strong> <?php echo $idHuesped; ?></p>
-                                        <p><strong>Email:</strong> <?php echo $emailHuesped; ?></p>
-                                    </div>
-                                    <div class="col-6">
-                                        <form method="post">
-                                            <input type="hidden" name="idReserva" value="<?php echo $_POST['idReserva'];?>">
-                                            <div class="col-6 text-center">
-                                                <p>Seleccione el tipo de pago:</p>
-                                                <select name="tipoPago" class="form-control">
-						                            <?php
-						                            if($tipoPago == null){
-							                            echo "<option disabled selected>Seleccionar</option>";
-							                            echo "<option value='Crédito'>Crédito</option>";
-							                            echo "<option value='Pago Directo'>Pago Directo</option>";
-							                            echo "<option value='Pago Diferido'>Pago Diferido</option>";
-						                            }else{
-							                            echo "<option selected>{$tipoPago}</option>";
-							                            switch($tipoPago){
-								                            case 'Crédito':
-									                            echo "<option value='Pago Directo'>Pago Directo</option>";
-									                            echo "<option value='Pago Diferido'>Pago Diferido</option>";
-									                            break;
-								                            case 'Pago Directo':
-									                            echo "<option value='Crédito'>Crédito</option>";
-									                            echo "<option value='Pago Diferido'>Pago Diferido</option>";
-									                            break;
-								                            case 'Pago Diferido':
-									                            echo "<option value='Crédito'>Crédito</option>";
-									                            echo "<option value='Pago Directo'>Pago Directo</option>";
-									                            break;
-							                            }
-						                            }
-						                            ?>
-                                                </select>
-                                                <div class="spacer20"></div>
-                                                <input type="submit" value="Guardar" class="btn btn-primary" name="updateTipoPago">
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                </div>
-            </section>
-
-            <section class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card mb-3">
-                            <div class="card-header reservas">
-                                <i class="fa fa-table"></i> Detalles del Recojo
-                            </div>
-                            <div class="card-body">
-                                <form method="post" action="#" id="formRecojo">
-                                    <input type="hidden" name="idReserva" value="<?php echo $_GET['idReserva']; ?>">
-                                    <div class="row">
-                                        <div class="col-12 text-center">
-                                            <table>
-                                                <thead>
-                                                <tr>
-                                                    <th>Lugar de Recojo</th>
-                                                    <th>Persona Principal</th>
-                                                    <th>Fecha y Hora</th>
-                                                    <th>Cantidad de personas</th>
-                                                    <th>Número de ticket</th>
-                                                    <th>Acciones</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr>
-                                                    <td><select class="form-control" name="lugarRecojo">
-                                                            <option selected disabled>Seleccionar lugar de recojo
-                                                            </option>
-                                                            <option value="Aeropuerto">Aeropuerto</option>
-                                                            <option value="Terminal Terrestre">Terminal Terrestre
-                                                            </option>
-                                                        </select></td>
-                                                    <td><input type="text" class="form-control" name="personaPrincipal"
-                                                               placeholder="Persona Principal"></td>
-                                                    <td><input type="datetime-local" class="form-control"
-                                                               name="fechaRecojo" placeholder="Fecha y Hora de Recojo">
-                                                    </td>
-                                                    <td><input type="number" class="form-control" name="numPersonas"
-                                                               placeholder="Número de Personas"></td>
-                                                    <td><input type="text" class="form-control" name="nroTicket"
-                                                               placeholder="Número de Vuelo/Bus"></td>
-                                                    <td><input type="submit" value="Guardar Recojo"
-                                                               class="btn btn-primary" name="addRecojo"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="6"></td>
-                                                </tr>
-												<?php
-												$recojos = mysqli_query($link, "SELECT * FROM Recojo WHERE idReserva = '{$_GET['idReserva']}'");
-												while ($rowRecojos = mysqli_fetch_array($recojos)) {
-													echo "<tr>";
-													echo "<td>{$rowRecojos['lugarRecojo']}</td>";
-													echo "<td>{$rowRecojos['personaPrincipal']}</td>";
-													echo "<td>{$rowRecojos['fechaHora']}</td>";
-													echo "<td>{$rowRecojos['numPersonas']}</td>";
-													echo "<td>{$rowRecojos['nroTicket']}</td>";
-													echo "<td>
-                                                        <form method='post'>
-                                                                    <input type='hidden' name='idRecojo' value='{$rowRecojos['idRecojo']}'>
-                                                                    <input type='hidden' name='idReserva' value='{$_GET['idReserva']}'>
-                                                                    <input type=\"submit\" value=\"Eliminar\" class=\"btn btn-sm btn-primary\" formaction=\"#\" name='deleteRecojo'>
-                                                        </form>
-                                                      </td>
-                                                ";
-													echo "</tr>";
-												}
-												?>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card mb-3">
-                            <div class="card-header reservas">
-                                <i class="fa fa-table"></i> Habitaciones
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-12 text-center">
-                                        <table class="table">
-                                            <thead>
-                                            <tr>
-                                                <th>Check-In</th>
-                                                <th>Check-Out</th>
-                                                <th>Tipo de Habitación</th>
-                                                <th>Habitación</th>
-                                                <th>Cama Adicional</th>
-                                                <th>Tarifa</th>
-                                                <th>Preferencias</th>
-                                                <th>Estado</th>
-                                                <th>Acciones</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <form method="post" action="#">
-                                                <input type="hidden" name="idReserva" value="<?php echo $_GET['idReserva']; ?>">
-                                                <tr>
-                                                    <td>
-                                                        <input type="date" name="fechaInicio" class="form-control" id="inicioCheckIn">
-                                                    </td>
-                                                    <td>
-                                                        <input type="date" name="fechaFin" class="form-control" id="finCheckOut">
-                                                    </td>
-                                                    <td>
-                                                        <select class="form-control" name="tipoHabitacion" onchange="getHabitacion(this.value);getTarifa(this.value)">
-                                                            <option selected disabled>Seleccionar</option>
-															<?php
-															$query = mysqli_query($link, "SELECT * FROM TipoHabitacion");
-															while ($row = mysqli_fetch_array($query)) {
-																echo "<option value='{$row['idTipoHabitacion']}'>{$row['descripcion']}</option>";
-															}
-															?>
-                                                        </select>
-                                                    </td>
-                                                    <td>
-                                                        <select class="form-control" name="nroHabitacion"
-                                                                id="nroHabitacion">
-                                                            <option selected disabled>Seleccionar</option>
-                                                        </select>
-                                                    </td>
-                                                    <td>
-                                                        <input class="form-control" type="checkbox" name="camaAdicional"
-                                                               value="true">
-                                                    </td>
-                                                    <td>
-                                                        <select class="form-control" name="tarifa" id="tarifa">
-                                                            <option selected disabled>Seleccionar</option>
-                                                        </select>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="preferencias" class="form-control">
-                                                    </td>
-                                                    <td>
-                                                        <input disabled readonly class="form-control">
-                                                    </td>
-                                                    <td>
-                                                        <input type="submit" name="addReservaConfirmada"
-                                                               class="btn btn-primary btn" value="Agregar">
-                                                    </td>
-                                                </tr>
-                                            </form>
-											<?php
-											$query = mysqli_query($link, "SELECT * FROM HabitacionReservada WHERE idReserva = '{$_GET['idReserva']}'");
-											while ($row = mysqli_fetch_array($query)) {
-												echo "<tr>";
-												$fechaInicial = substr($row['fechaInicio'], 0, 10);
-												echo "<td>{$fechaInicial}</td>";
-												$fechaFinal = substr($row['fechaFin'], 0, 10);
-												echo "<td>{$fechaFinal}</td>";
-												$query2 = mysqli_query($link, "SELECT * FROM Habitacion WHERE idHabitacion = '{$row['idHabitacion']}'");
-												while ($row2 = mysqli_fetch_array($query2)) {
-													$query3 = mysqli_query($link, "SELECT * FROM TipoHabitacion WHERE idTipoHabitacion = '{$row2['idTipoHabitacion']}'");
-													while ($row3 = mysqli_fetch_array($query3)) {
-														echo "<td>{$row3['descripcion']}</td>";
-													}
-												}
-												echo "<td>{$row['idHabitacion']}</td>";
-												if ($row['camaAdicional'] == 1) {
-													echo "<td>Sí</td>";
-												} else {
-													echo "<td>No</td>";
-												}
-												$query2 = mysqli_query($link, "SELECT * FROM Tarifa WHERE idTarifa = '{$row['idTarifa']}'");
-												while ($row2 = mysqli_fetch_array($query2)) {
-													echo "<td>{$row2['descripcion']}</td>";
-												}
-												echo "<td>{$row['preferencias']}</td>";
-												$query2 = mysqli_query($link, "SELECT * FROM Estado WHERE idEstado = {$row['idEstado']}");
-												while ($row2 = mysqli_fetch_array($query2)) {
-													echo "<td>{$row2['descripcion']}</td>";
-												}
-												echo "<td>
-                                                        <form method='post'>
-                                                            <div class=\"dropdown\">
-                                                                <button class=\"btn btn-outline btn-sm dropdown-toggle\" type=\"button\" id=\"dropdownMenuButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
-                                                                Acciones
-                                                                </button>
-                                                                <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuButton\">
-                                                                    <input type='hidden' name='idHabitacionReservada' value='{$row['idHabitacionReservada']}'>
-                                                                    <input type='hidden' name='idHabitacion' value='{$row['idHabitacion']}'>
-                                                                    <input type='hidden' name='idReserva' value='{$_GET['idReserva']}'>
-                                                                    ";
-												if ($row['idEstado'] == 3){
-												    echo "<input type=\"submit\" value=\"Registrar Check-In\" class=\"dropdown-item\" formaction=\"#\" name='checkinHabitacion'>";
-                                                    echo "<input type=\"submit\" value=\"Asignar Early Check-In\" class=\"dropdown-item\" formaction=\"#\" name='earlyCheckIn'>";
-                                                    echo "<input type=\"submit\" value=\"Asignar Late Check-Out\" class=\"dropdown-item\" formaction=\"#\" name='lateCheckOut'>";
-                                                }elseif ($row['idEstado'] == 4){
-                                                    echo "<input type=\"submit\" value=\"Asignar Early Check-In\" class=\"dropdown-item\" formaction=\"#\" name='earlyCheckIn'>";
-                                                    echo "<input type=\"submit\" value=\"Asignar Late Check-Out\" class=\"dropdown-item\" formaction=\"#\" name='lateCheckOut'>";
-                                                }
-												echo "
-                                                                    <input type=\"submit\" value=\"Eliminar\" class=\"dropdown-item\" formaction=\"#\" name='deleteHabitacion'>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                      </td>
-                                                ";
-												echo "</tr>";
-											}
-											?>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card mb-3">
-                            <div class="card-header reservas">
-                                <i class="fa fa-table"></i> Ocupantes
-                            </div>
-                            <div class="card-body">
-                                <hr>
-                                <div class="row">
-                                    <div class="col-10 offset-1 text-center">
-                                        <table class="table">
-                                            <thead>
-                                            <tr>
-                                                <th colspan="2">Huésped</th>
-                                                <th>Habitación</th>
-                                                <th>Cargos</th>
-                                                <th>Acciones</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <form method="post" action="#" id="formOcupante">
-                                                <input type="hidden" value="<?php echo $_GET['idReserva']; ?>"
-                                                       name="idReserva">
-                                                <tr>
-                                                    <td id="divDni">
-                                                        <input type="text" name="dni" id="dni" class="form-control"
-                                                               placeholder="DNI" onchange="getNombre2(this.value)">
-                                                    </td>
-                                                    <td id="divNombre">
-                                                        <div class="input-group">
-                                                            <input type="text" name="nombres" id="nombres"
-                                                                   class="form-control" placeholder="Nombre Completo"
-                                                                   onchange="getID2(this.value)">&nbsp;&nbsp;&nbsp;&nbsp;
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <select class="form-control" name="idHabitacion">
-                                                            <option selected disabled>Seleccionar</option>
-															<?php
-															$query = mysqli_query($link, "SELECT * FROM HabitacionReservada WHERE idReserva = '{$_GET['idReserva']}'");
-															while ($row = mysqli_fetch_array($query)) {
-																echo "<option value='{$row['idHabitacion']}'>{$row['idHabitacion']}</option>";
-															}
-															?>
-                                                        </select>
-                                                    </td>
-                                                    <td>
-                                                        <input type="checkbox" class="form-control" name="cargos"
-                                                               value="true">
-                                                    </td>
-                                                    <td>
-                                                        <input type="submit" name="addOcupante"
-                                                               class="btn btn-primary btn" value="Agregar">
-                                                    </td>
-                                                </tr>
-                                            </form>
-											<?php
-											$query = mysqli_query($link, "SELECT * FROM Ocupantes WHERE idReserva = '{$_GET['idReserva']}'");
-											while ($row = mysqli_fetch_array($query)) {
-												echo "<tr>";
-												$query2 = mysqli_query($link, "SELECT * FROM Huesped WHERE idHuesped = '{$row['idHuesped']}'");
-												while ($row2 = mysqli_fetch_array($query2)) {
-													echo "<td colspan='2'>{$row2['nombreCompleto']}</td>";
-												}
-												echo "<td>{$row['idHabitacion']}</td>";
-												if ($row['cargos'] == 1) {
-													echo "<td>Sí</td>";
-												} else {
-													echo "<td>No</td>";
-												}
-												echo "<td>
-                                                    <form method='post' action='#'>
-                                                        <input type='hidden' name='idHuesped' value='{$row['idHuesped']}'>
-                                                        <input type='hidden' name='idReserva' value='{$_GET['idReserva']}'>
-                                                        <input type='submit' class='btn btn-sm btn-outline-danger' name='deleteOcupante' value='Eliminar'>
-                                                    </form>
-	                                            </td>";
-												echo "</tr>";
-											}
-											?>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <form method="post" action="#">
-                <div class="modal fade" id="modalHuesped" tabindex="-1" role="dialog" aria-labelledby="modalReserva"
-                     aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Nuevo Huésped</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="container-fluid">
-                                    <input type="hidden" value="<?php echo $_GET['idReserva']; ?>" name="idReserva">
-                                    <div class="row">
-                                        <div class="form-group col-6" id="divDni">
-                                            <label class="col-form-label" for="dni">DNI Titular:</label>
-                                            <input type="number" name="dni" id="dni" class="form-control" min="0">
-                                        </div>
-                                        <div class="form-group col-6" id="divNombre">
-                                            <label class="col-form-label" for="nombres">Nombre Completo:</label>
-                                            <input type="text" name="nombres" id="nombres" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group col-6" id="divTelf">
-                                            <label class="col-form-label" for="telefono">Teléfono Celular:</label>
-                                            <input type="text" name="telefono" id="telefono" class="form-control">
-                                        </div>
-                                        <div class="form-group col-6" id="divEmail">
-                                            <label class="col-form-label" for="email">Correo Electrónico:</label>
-                                            <input type="email" name="email" id="email" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cerrar">
-                                <input type="submit" class="btn btn-primary" name="addReserva" value="Guardar Cambios">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-
-			<?php
-		} elseif ($estadoReserva == '9') {
-			?>
-            <section class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card mb-3">
-                            <div class="card-header reservas">
-                                <i class="fa fa-table"></i> Detalles de la Reserva
-                                <div class="float-right">
-                                    <form method="post" action="agenda.php" id="formReservaPendiente">
-                                        <input type="hidden" value="<?php echo $_GET['idReserva']; ?>" name="idReserva">
-                                        <button type="submit" class="btn btn-sm btn-light" form="formReservaPendiente"
-                                                formaction="agenda.php">Guardar
-                                        </button>
-                                        <button type="submit" class="btn btn-sm btn-light" form="formReservaPendiente"
-                                                formaction="#" name="confirmaReserva">Confirmar Reserva
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <p><strong>Nombre:</strong> <?php echo $nombreHuesped; ?></p>
-                                        <p><strong>Teléfono:</strong> <?php echo $telefonoHuesped; ?></p>
-                                    </div>
-                                    <div class="col-6">
-                                        <p><strong>DNI:</strong> <?php echo $idHuesped; ?></p>
-                                        <p><strong>Email:</strong> <?php echo $emailHuesped; ?></p>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-12 text-center">
-                                        <table class="table table-bordered">
-                                            <thead>
-                                            <tr>
-                                                <th>Tipo de Habitación</th>
-                                                <th>Cant.</th>
-                                                <th>Tarifa</th>
-                                                <th>Fecha In.</th>
-                                                <th>Fecha Fin</th>
-                                                <th>Preferencias</th>
-                                                <th>Acciones</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <form method="post" action="#">
-                                                <input type="hidden" value="<?php echo $_GET['idReserva']; ?>"
-                                                       name="idReserva">
-                                                <tr>
-                                                    <td style="width: 14%">
-                                                        <select class="form-control" name="tipoHabitacion"
-                                                                onchange="getTarifa(this.value)">
-                                                            <option selected disabled>Seleccionar</option>
-															<?php
-															$query = mysqli_query($link, "SELECT * FROM TipoHabitacion");
-															while ($row = mysqli_fetch_array($query)) {
-																echo "<option value='{$row['idTipoHabitacion']}'>{$row['descripcion']}</option>";
-															}
-															?>
-                                                        </select>
-                                                    </td>
-                                                    <td style="width: 10%">
-                                                        <input type="number" min='0' class="form-control"
-                                                               name="numHabitaciones" id="numHabitaciones">
-                                                    </td>
-                                                    <td>
-                                                        <select class="form-control" name="tarifa" id="tarifa">
-                                                            <option selected disabled>Seleccionar</option>
-                                                        </select>
-                                                    </td>
-                                                    <td style="width: 10%;">
-                                                        <input type="date" class="form-control" name="checkin"
-                                                               id="checkin">
-                                                    </td>
-                                                    <td style="width: 10%;">
-                                                        <input type="date" class="form-control" name="checkout"
-                                                               id="checkout">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" class="form-control" name="preferencias">
-                                                    </td>
-                                                    <td>
-                                                        <input type="submit" class="form-control"
-                                                               name="addReservaPendiente" value="Agregar">
-                                                    </td>
-                                                </tr>
-                                            </form>
-											<?php
-											$query = mysqli_query($link, "SELECT * FROM ReservaPendiente WHERE idReserva = '{$_GET['idReserva']}'");
-											while ($row = mysqli_fetch_array($query)) {
-												echo "<tr>";
-												$query2 = mysqli_query($link, "SELECT * FROM TipoHabitacion WHERE idTipoHabitacion = '{$row['idTipoHabitacion']}'");
-												while ($row2 = mysqli_fetch_array($query2)) {
-													$tipoHabitacion = $row2['descripcion'];
-												}
-												echo "<td>{$tipoHabitacion}</td>";
-												echo "<td>{$row['numeroHabitaciones']}</td>";
-												$query2 = mysqli_query($link, "SELECT * FROM Tarifa WHERE idTarifa = '{$row['idTarifa']}'");
-												while ($row2 = mysqli_fetch_array($query2)) {
-													echo "<td>{$row2['descripcion']}</td>";
-												}
-												echo "<td>{$row['fechaInicio']}</td>";
-												echo "<td>{$row['fechaFin']}</td>";
-												echo "<td>{$row['preferencias']}</td>";
-												echo "<td>
-                                                    <form method='post' action='#'>
-                                                        <input type='hidden' name='idTipoHabitacion' value='{$row['idTipoHabitacion']}'>
-                                                        <input type='hidden' name='idReserva' value='{$_GET['idReserva']}'>
-                                                        <input type='submit' class='btn btn-sm btn-outline-danger' name='deleteTipoHabitacion' value='Eliminar'>
-                                                    </form>
-	                                            </td>";
-												echo "</tr>";
-											}
-											?>
-                                            </tbody>
-                                        </table>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-			<?php
-
-		}
-	}elseif(isset($_POST['idReserva'])){
+	if(isset($_POST['idReserva'])){
 		if($estadoReserva == '3') {
-
 			$pendiente = mysqli_query($link,"SELECT * FROM ReservaPendiente WHERE idReserva = '{$_POST['idReserva']}'");
 			while($rowPendiente = mysqli_fetch_array($pendiente)){
 				?>
@@ -987,8 +392,8 @@ if(isset($_SESSION['login'])){
                                 <form method="post" action="#" id="formRecojo">
                                     <input type="hidden" name="idReserva" value="<?php echo $_POST['idReserva'];?>">
                                     <div class="row">
-                                        <div class="col-12 text-center">
-                                            <table>
+                                        <div class="col-12 ">
+                                            <table class="table text-center">
                                                 <thead>
                                                 <tr>
                                                     <th>Lugar de Recojo</th>
@@ -1160,6 +565,7 @@ if(isset($_SESSION['login'])){
                                                 }elseif($row['idEstado'] == 4){
                                                     echo "<input type=\"submit\" value=\"Asignar Early Check-In\" class=\"dropdown-item\" formaction=\"#\" name='earlyCheckIn'>";
                                                     echo "<input type=\"submit\" value=\"Asignar Late Check-Out\" class=\"dropdown-item\" formaction=\"#\" name='lateCheckOut'>";
+                                                    echo "<input type=\"submit\" value=\"Registrar Cambio de Habitación\" class=\"dropdown-item\" formaction=\"cambioHabitacion.php\" name='cambioHabitacion'>";
                                                 }
 												echo "
                                                                     <input type=\"submit\" value=\"Eliminar\" class=\"dropdown-item\" formaction=\"#\" name='deleteHabitacion'>
