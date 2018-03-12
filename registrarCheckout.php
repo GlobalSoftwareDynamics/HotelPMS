@@ -72,24 +72,38 @@ if(isset($_SESSION['login'])){
             }
         }
         $result1 = mysqli_query($link,"SELECT * FROM Ocupantes WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}' AND cargos = 1");
-        while ($fila1 = mysqli_fetch_array($result1)){
-            $result2 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$fila1['idHuesped']}'");
-            while ($fila2 = mysqli_fetch_array($result2)){
-                $nombreCompleto = $fila2['nombreCompleto'];
-                $idHuespedCargos = $fila2['idHuesped'];
-                switch($fila2['vip']){
-                    case 0:
-                        $vip = "";
-                        break;
-                    case 1:
-                        $vip = "<b>(VIP)</b>";
-                        break;
-                }
-                $result3 = mysqli_query($link,"SELECT * FROM Empresa WHERE idEmpresa = '{$fila2['idEmpresa']}'");
-                while ($fila3 = mysqli_fetch_array($result3)){
-                    $nombreEmpresa = $fila3['razonSocial'];
+        $numrow1 = mysqli_num_rows($result1);
+        if($numrow1 > 0){
+            while ($fila1 = mysqli_fetch_array($result1)){
+                $result2 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$fila1['idHuesped']}'");
+                $numrow = mysqli_num_rows($result2);
+                if ($numrow > 0){
+                    while ($fila2 = mysqli_fetch_array($result2)) {
+                        if ($fila2['vip'] == 0) {
+                            $vip = "<b>(VIP)</b>";
+                        }
+                        $nombreHuesped = $fila2['nombreCompleto'];
+                        $idHuesped = $fila2['idHuesped'];
+                        if ($fila2['idEmpresa'] != null) {
+                            $result3 = mysqli_query($link, "SELECT * FROM Empresa WHERE idEmpresa = '{$fila2['idEmpresa']}'");
+                            while ($fila3 = mysqli_fetch_array($result3)) {
+                                $empresa = $fila3['razonSocial'];
+                            }
+                        } else {
+                            $empresa = "Sin Empresa";
+                        }
+                    }
+                }else{
+                    $nombreHuesped = "No Definido";
+                    $idHuesped = "No Definido";
+                    $empresa = "Sin Empresa";
                 }
             }
+        }else{
+            $vip = "";
+            $nombreHuesped = "No Definido";
+            $idHuesped = "No Definido";
+            $empresa = "Sin Empresa";
         }
     }
     ?>
@@ -145,11 +159,11 @@ if(isset($_SESSION['login'])){
                                 </div>
                                 <div class="row">
                                     <div class="col-4"><p><b>Huesped Titular:</b></p></div>
-                                    <div class="col-8"><p><?php echo $nombreCompleto." ".$vip;?></p></div>
+                                    <div class="col-8"><p><?php echo $nombreHuesped." ".$vip;?></p></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-4"><p><b>Empresa:</b></p></div>
-                                    <div class="col-8"><p><?php echo $nombreEmpresa?></p></div>
+                                    <div class="col-8"><p><?php echo $empresa?></p></div>
                                 </div>
                             </div>
                             <div class="col-5">
