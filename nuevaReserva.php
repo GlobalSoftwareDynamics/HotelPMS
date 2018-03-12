@@ -233,7 +233,8 @@ if(isset($_SESSION['login'])){
 	}
 
 	if(isset($_POST['deleteHabitacion'])){
-		$delete = mysqli_query($link,"DELETE FROM HabitacionReservada WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}' AND idHabitacionReservada = '{$_POST['idHabitacionReservada']}'");
+		$delete = mysqli_query($link,"DELETE FROM Ocupantes WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
+	    $delete = mysqli_query($link,"DELETE FROM HabitacionReservada WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}' AND idHabitacionReservada = '{$_POST['idHabitacionReservada']}'");
 		$queryPerformed = "DELETE FROM HabitacionReservada WHERE idReserva = {$_POST['idReserva']} AND idHabitacion = {$_POST['idHabitacion']} AND idHabitacionReservada = {$_POST['idHabitacionReservada']}";
 		$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','DELETE','HABITACION RESERVADA ','{$queryPerformed}')");
 	}
