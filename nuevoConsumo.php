@@ -32,6 +32,12 @@ if(isset($_SESSION['login'])){
     <?php
     $result = mysqli_query($link,"SELECT * FROM Reserva WHERE idReserva = '{$_POST['idReserva']}'");
     while ($fila = mysqli_fetch_array($result)){
+        $result1 = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
+        while ($fila1 = mysqli_fetch_array($result1)){
+            if($fila1['idHabitacionReservadaPrevia'] > 0){
+                $idHabitacionReservadaPrevia = $fila1['idHabitacionReservadaPrevia'];
+            }
+        }
         $result1 = mysqli_query($link,"SELECT * FROM Ocupantes WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}' AND cargos = 1");
         while ($fila1 = mysqli_fetch_array($result1)){
             $result2 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$fila1['idHuesped']}'");
@@ -96,7 +102,24 @@ if(isset($_SESSION['login'])){
                                     <tbody>
                                     <?php
                                     $totalConsumo = 0;
-                                    $result = mysqli_query($link,"SELECT * FROM Transaccion WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
+                                    $result = mysqli_query($link,"SELECT * FROM Transaccion WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}' ORDER BY fechaTransaccion DESC");
+                                    while ($fila = mysqli_fetch_array($result)){
+                                        $result1 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$fila['idHuesped']}'");
+                                        while ($fila1 = mysqli_fetch_array($result1)){
+                                            $nombreCompleto = $fila1['nombreCompleto'];
+                                        }
+                                        echo "<tr>";
+                                        echo "<td>{$fila['idTransaccion']}</td>";
+                                        echo "<td>{$fila['fechaTransaccion']}</td>";
+                                        echo "<td>{$nombreCompleto}</td>";
+                                        echo "<td>{$fila['detalle']}</td>";
+                                        echo "<td>{$fila['tipo']}</td>";
+                                        echo "<td>S/. {$fila['monto']}</td>";
+                                        echo "</tr>";
+
+                                        $totalConsumo = $totalConsumo + $fila['monto'];
+                                    }
+                                    $result = mysqli_query($link,"SELECT * FROM Transaccion WHERE idReserva IN (SELECT idReserva FROM HabitacionReservada WHERE idHabitacionReservada = '{$idHabitacionReservadaPrevia}') AND idHabitacion IN (SELECT idHabitacion FROM HabitacionReservada WHERE idHabitacionReservada = '{$idHabitacionReservadaPrevia}') ORDER BY fechaTransaccion DESC");
                                     while ($fila = mysqli_fetch_array($result)){
                                         $result1 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$fila['idHuesped']}'");
                                         while ($fila1 = mysqli_fetch_array($result1)){

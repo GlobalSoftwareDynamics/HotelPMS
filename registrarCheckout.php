@@ -36,6 +36,9 @@ if(isset($_SESSION['login'])){
     while ($fila = mysqli_fetch_array($result)){
         $result1 = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
         while ($fila1 = mysqli_fetch_array($result1)){
+            if($fila1['idHabitacionReservadaPrevia'] > 0){
+                $idHabitacionReservadaPrevia = $fila1['idHabitacionReservadaPrevia'];
+            }
             $fechaCheckIn = $fila1['fechaInicio'];
             $fechaCheckOut = $fila1['fechaFin'];
         }
@@ -201,7 +204,24 @@ if(isset($_SESSION['login'])){
                                     <tbody>
                                     <?php
                                     $totalConsumo = 0;
-                                    $result = mysqli_query($link,"SELECT * FROM Transaccion WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
+                                    $result = mysqli_query($link,"SELECT * FROM Transaccion WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}' ORDER BY fechaTransaccion DESC");
+                                    while ($fila = mysqli_fetch_array($result)){
+                                        $result1 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$fila['idHuesped']}'");
+                                        while ($fila1 = mysqli_fetch_array($result1)){
+                                            $nombreCompleto = $fila1['nombreCompleto'];
+                                        }
+                                        echo "<tr>";
+                                        echo "<td>{$fila['idTransaccion']}</td>";
+                                        echo "<td>{$fila['fechaTransaccion']}</td>";
+                                        echo "<td>{$nombreCompleto}</td>";
+                                        echo "<td>{$fila['detalle']}</td>";
+                                        echo "<td>{$fila['tipo']}</td>";
+                                        echo "<td>S/. {$fila['monto']}</td>";
+                                        echo "</tr>";
+
+                                        $totalConsumo = $totalConsumo + $fila['monto'];
+                                    }
+                                    $result = mysqli_query($link,"SELECT * FROM Transaccion WHERE idReserva IN (SELECT idReserva FROM HabitacionReservada WHERE idHabitacionReservada = '{$idHabitacionReservadaPrevia}') AND idHabitacion IN (SELECT idHabitacion FROM HabitacionReservada WHERE idHabitacionReservada = '{$idHabitacionReservadaPrevia}') ORDER BY fechaTransaccion DESC");
                                     while ($fila = mysqli_fetch_array($result)){
                                         $result1 = mysqli_query($link,"SELECT * FROM Huesped WHERE idHuesped = '{$fila['idHuesped']}'");
                                         while ($fila1 = mysqli_fetch_array($result1)){
@@ -246,6 +266,32 @@ if(isset($_SESSION['login'])){
                                     $impestos = 0;
                                     $totalEstadia = 0;
                                     $cargoExtra = 0;
+                                    $result = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE idReserva IN (SELECT idReserva FROM HabitacionReservada WHERE idHabitacionReservada = '{$idHabitacionReservadaPrevia}') AND idHabitacion IN (SELECT idHabitacion FROM HabitacionReservada WHERE idHabitacionReservada = '{$idHabitacionReservadaPrevia}')");
+                                    while ($fila = mysqli_fetch_array($result)){
+                                        $fechaInicio = explode(" ",$fila['fechaInicio']);
+                                        $fechaInicio = explode("-",$fechaInicio[0]);
+                                        $date1 = date_create("{$fechaInicio[0]}-{$fechaInicio[1]}-{$fechaInicio[2]}");
+                                        $fechaFin = explode(" ",date("Y-m-d H:m:s"));
+                                        $fechaFinHora = $fechaFin[1];
+                                        $fechaFin = explode("-",$fechaFin[0]);
+                                        $date2 = date_create("{$fechaFin[0]}-{$fechaFin[1]}-{$fechaFin[2]}");
+                                        $interval = date_diff($date1,$date2);
+                                        $interval = $interval->d;
+                                        if($date1 == $date2){
+                                            $interval = $interval +1;
+                                        }
+                                        $result1 = mysqli_query($link,"SELECT * FROM Tarifa WHERE idTarifa = '{$fila['idTarifa']}'");
+                                        while ($fila1 = mysqli_fetch_array($result1)){
+                                            $valorTarifa = $fila1['valor'];
+                                        }
+                                        $lateCheckOutTime = date("12:00:00");
+                                        if ($fila['modificadorCheckIO'] == 2 || $fila['modificadorCheckIO'] == 1){
+                                            $cargoExtra = $valorTarifa / 2;
+                                        }elseif ($fila['modificadorCheckIO'] == 3){
+                                            $cargoExtra = $valorTarifa;
+                                        }
+                                        $totalhabitaciones1 = $valorTarifa * $interval;
+                                    }
                                     $result = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}'");
                                     while ($fila = mysqli_fetch_array($result)){
                                         $fechaInicio = explode(" ",$fila['fechaInicio']);
@@ -272,7 +318,9 @@ if(isset($_SESSION['login'])){
                                         }
                                         $totalhabitaciones = $valorTarifa * $interval;
                                     }
-                                    $totalHabitacionesPaquete = $totalhabitaciones + $valorPaquete;
+                                    $totalHabitacionesFinal = $totalhabitaciones1 + $totalhabitaciones;
+
+                                    $totalHabitacionesPaquete = $totalHabitacionesFinal + $valorPaquete;
                                     $subtotal = $totalHabitacionesPaquete + $totalConsumo + $cargoExtra;
                                     $impestos = ($subtotal / 1.18) * 0.18;
                                     $subtotalSinImpuestos = $subtotal - $impestos;
@@ -280,7 +328,7 @@ if(isset($_SESSION['login'])){
                                     ?>
                                     <tr>
                                         <th>Total Habitación:</th>
-                                        <td>S/. <?php echo round($totalhabitaciones,2);?></td>
+                                        <td>S/. <?php echo round($totalHabitacionesFinal,2);?></td>
                                     </tr>
                                     <tr>
                                         <th>Total Paquete:</th>
