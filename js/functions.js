@@ -547,3 +547,58 @@ function getCalendar(val){
         }
     });
 }
+
+function getNombreEmpresa(val) {
+    $.ajax({
+        type: "POST",
+        url: "getAjax.php",
+        data:{'razonSocialEmpresa':val},
+        success: function(data){
+            $("#divNombre").html(data);
+        }
+    });
+}
+
+function getDniEmpresa(val) {
+    $.ajax({
+        type: "POST",
+        url: "getAjax.php",
+        data:{'nombreHuespedEmpresa':val},
+        success: function(data){
+            $("#divDni").html(data);
+        }
+    });
+}
+
+function getDniEmpresa2(val) {
+    $.ajax({
+        type: "POST",
+        url: "getAjax.php",
+        data:{'nombreHuespedEmpresa2':val},
+        success: function(data){
+            $("#divDni").html(data);
+        }
+    });
+}
+
+function getTelf2(val) {
+    $.ajax({
+        type: "POST",
+        url: "getAjax.php",
+        data:{'nombreHuespedEmpresa3':val},
+        success: function(data){
+            $("#divTelf").html(data);
+        }
+    });
+}
+
+function getEmail2(val) {
+    $.ajax({
+        type: "POST",
+        url: "getAjax.php",
+        data:{'nombreHuespedEmpresa4':val},
+        success: function(data){
+            $("#divEmail").html(data);
+        }
+    });
+}

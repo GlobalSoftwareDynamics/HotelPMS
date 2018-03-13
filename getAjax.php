@@ -58,8 +58,6 @@ if(!empty($_POST['nombreHuespedReserva'])){
 	}
 }
 
-
-
 if(!empty($_POST['nombreHuesped2'])){
 	$flag = true;
 	$result = mysqli_query($link,"SELECT * FROM Huesped WHERE nombreCompleto = '{$_POST['nombreHuesped2']}' OR idHuesped = '{$_POST['nombreHuesped2']}'");
@@ -557,4 +555,66 @@ if(!empty($_POST['fechaGuia'])){
     <?php
 }
 
+if(isset($_POST['razonSocialEmpresa'])){
+    if ($_POST['razonSocialEmpresa'] != '11111111111') {
+        echo "<label class=\"col-form-label\" for=\"nombres\">Nombre Completo:</label>";
+        echo "<select name='nombres' id='nombres' class='form-control' onchange='getDniEmpresa(this.value);getTelf(this.value);getEmail(this.value);'>";
+        echo "<option selected disabled>Seleccionar</option>";
+        $query = mysqli_query($link, "SELECT * FROM Huesped WHERE idEmpresa = '{$_POST['razonSocialEmpresa']}'");
+        while ($row = mysqli_fetch_array($query)) {
+            echo "<option value='{$row['nombreCompleto']}'>{$row['nombreCompleto']}</option>";
+        }
+        echo "</select>";
+    }else{
+        echo "<label class=\"col-form-label\" for=\"nombres\">Nombre Completo:</label>";
+        echo "<input type=\"text\" name=\"nombres\" id=\"nombres\" class=\"form-control\" onchange=\"getDniEmpresa2(this.value);getTelf2(this.value);getEmail2(this.value);\">";
+    }
+}
+
+if(isset($_POST['nombreHuespedEmpresa'])){
+    echo "<label class=\"col-form-label\" for=\"dni\">DNI:</label>";
+    $query = mysqli_query($link, "SELECT * FROM Huesped WHERE nombreCompleto = '{$_POST['nombreHuespedEmpresa']}'");
+    while ($row = mysqli_fetch_array($query)) {
+        echo "<input type='text' name='dni' id='dni' value='{$row['idHuesped']}' readonly class='form-control'>";
+    }
+}
+
+if(isset($_POST['nombreHuespedEmpresa2'])){
+    echo "<label class=\"col-form-label\" for=\"dni\">DNI:</label>";
+    echo "<input type=\"text\" name=\"dni\" id=\"dni\" class=\"form-control\">";
+}
+
+if(isset($_POST['nombreHuespedEmpresa3'])){
+    $flag = true;
+    $result = mysqli_query($link,"SELECT * FROM Huesped WHERE nombreCompleto = '{$_POST['nombreHuespedEmpresa3']}' OR idHuesped = '{$_POST['nombreHuespedEmpresa3']}'");
+    while($row = mysqli_fetch_array($result)){
+        $flag = false;
+        echo "<label class='col-form-label' for='telefono'>Teléfono Celular:</label>
+			<input type='text' name='telefono' id='telefono' class='form-control' value='{$row['telefonoCelular']}'>
+			<input type='hidden' name='antiguoCliente' value='true'>";
+        break;
+    }
+    if($flag){
+        echo "<label class='col-form-label' for='telefono'>Teléfono Celular:</label>
+			<input type='text' name='telefono' id='telefono' class='form-control'>
+			<input type='hidden' name='clienteNuevo' value='true'>";
+    }
+}
+
+if(isset($_POST['nombreHuespedEmpresa4'])){
+    $flag = true;
+    $result = mysqli_query($link,"SELECT * FROM Huesped WHERE nombreCompleto = '{$_POST['nombreHuespedEmpresa4']}' OR idHuesped = '{$_POST['nombreHuespedEmpresa4']}'");
+    while($row = mysqli_fetch_array($result)){
+        $flag = false;
+        echo "<label class='col-form-label' for='email'>Correo Electrónico:</label>
+			<input type='email' name='email' id='email' class='form-control' value='{$row['correoElectronico']}'>
+			<input type='hidden' name='antiguoCliente' value='true'>";
+        break;
+    }
+    if($flag){
+        echo "<label class='col-form-label' for='email'>Correo Electrónico:</label>
+			<input type='email' name='email' id='email' class='form-control'>
+			<input type='hidden' name='clienteNuevo' value='true'>";
+    }
+}
 

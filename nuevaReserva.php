@@ -192,8 +192,8 @@ if(isset($_SESSION['login'])){
 
         $query = mysqli_query($link,"SELECT * FROM Ocupantes WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacionAnterior']}'");
         while($row = mysqli_fetch_array($query)){
-            $insert = mysqli_query($link, "INSERT INTO Ocupantes(idReserva,idHuesped,idHabitacion,cargos) VALUES ('{$row['idReserva']}','{$row['idHuesped']}','{$_POST['idHabitacionAnterior']}','{$row['cargos']}')");
-            $queryPerformed = "INSERT INTO Ocupantes(idReserva,idHuesped,idHabitacion,cargos) VALUES ({$row['idReserva']},{$row['idHuesped']},{$_POST['idHabitacionAnterior']},{$row['cargos']})";
+            $insert = mysqli_query($link, "INSERT INTO Ocupantes(idReserva,idHuesped,idHabitacion,cargos) VALUES ('{$row['idReserva']}','{$row['idHuesped']}','{$_POST['nroHabitacion']}','{$row['cargos']}')");
+            $queryPerformed = "INSERT INTO Ocupantes(idReserva,idHuesped,idHabitacion,cargos) VALUES ({$row['idReserva']},{$row['idHuesped']},{$_POST['nroHabitacion']},{$row['cargos']})";
             $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','HabitacionReservada','{$queryPerformed}')");
         }
     }
