@@ -422,7 +422,7 @@ if(isset($_SESSION['login'])){
                 <a href="#" class="context-menu__link" data-action="Edit" id="editar" data-id=""><i class="fa fa-edit"></i> Editar Reserva</a>
             </li>
             <li class="context-menu__item">
-                <a href="#" class="context-menu__link" data-action="AgregarDia" id="agregar" data-id="" data-toggle="modal" data-target=""><i class="fa fa-calendar"></i> Agregar Días</a>
+                <a href="#" class="context-menu__link" data-action="AgregarDia" id="agregar" data-id="" data-toggle="modal" data-target=""><i class="fa fa-calendar"></i> Agregar Noches</a>
             </li>
             <li class="context-menu__item">
                 <a href="#" class="context-menu__link" data-action="Delete" id="eliminar" data-id=""><i class="fa fa-times"></i> Eliminar Reserva</a>
@@ -442,7 +442,7 @@ if(isset($_SESSION['login'])){
                 <a href="#" class="context-menu__link1" data-action="Edit" id="editar1" data-id=""><i class="fa fa-edit"></i> Editar Reserva</a>
             </li>
             <li class="context-menu__item">
-                <a href="#" class="context-menu__link1" data-action="AgregarDia" id="agregar1" data-id="" data-toggle="modal" data-target=""><i class="fa fa-calendar"></i> Agregar Días</a>
+                <a href="#" class="context-menu__link1" data-action="AgregarDia" id="agregar1" data-id="" data-toggle="modal" data-target=""><i class="fa fa-calendar"></i> Agregar Noches</a>
             </li>
             <li class="context-menu__item">
                 <a href="#" class="context-menu__link1" data-action="View" id="ver1" data-id=""><i class="fa fa-eye"></i> Ver Reserva</a>
@@ -467,7 +467,7 @@ if(isset($_SESSION['login'])){
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header agendaModal">
-                            <h5 class="modal-title">Agregar Días</h5>
+                            <h5 class="modal-title">Agregar Noches</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -476,7 +476,7 @@ if(isset($_SESSION['login'])){
                             <div class="container-fluid">
                                 <input type="hidden" name="idHabitacionReservada" value="<?php echo $fila['idHabitacionReservada'];?>">
                                 <div class="form-group row">
-                                    <label class="col-form-label col-3" for="dias">Nro. de Días:</label>
+                                    <label class="col-form-label col-3" for="dias">Nro. de Noches:</label>
                                     <div class="col-9">
                                         <input type="number" class="form-control" name="dias" min="0" id="dias">
                                     </div>
