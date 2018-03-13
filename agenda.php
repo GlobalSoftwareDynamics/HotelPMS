@@ -422,9 +422,6 @@ if(isset($_SESSION['login'])){
                 <a href="#" class="context-menu__link" data-action="Edit" id="editar" data-id=""><i class="fa fa-edit"></i> Editar Reserva</a>
             </li>
             <li class="context-menu__item">
-                <a href="#" class="context-menu__link" data-action="AgregarDia" id="agregar" data-id="" data-toggle="modal" data-target=""><i class="fa fa-calendar"></i> Agregar Noches</a>
-            </li>
-            <li class="context-menu__item">
                 <a href="#" class="context-menu__link" data-action="Delete" id="eliminar" data-id=""><i class="fa fa-times"></i> Eliminar Reserva</a>
             </li>
         </ul>
@@ -459,7 +456,7 @@ if(isset($_SESSION['login'])){
     </nav>
 
     <?php
-    $result =  mysqli_query($link,"SELECT idReserva, idHabitacion, idHabitacionReservada FROM HabitacionReservada WHERE idEstado IN (3,4)");
+    $result =  mysqli_query($link,"SELECT idReserva, idHabitacion, idHabitacionReservada FROM HabitacionReservada WHERE idEstado = '4'");
     while($fila = mysqli_fetch_array($result)){
         ?>
         <form method="post" action="#">
