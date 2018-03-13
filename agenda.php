@@ -476,8 +476,8 @@ if(isset($_SESSION['login'])){
                             <div class="container-fluid">
                                 <input type="hidden" name="idHabitacionReservada" value="<?php echo $fila['idHabitacionReservada'];?>">
                                 <div class="form-group row">
-                                    <label class="col-form-label col-3" for="dias">Nro. de Noches:</label>
-                                    <div class="col-9">
+                                    <label class="col-form-label col-4" for="dias">Nro. de Noches:</label>
+                                    <div class="col-8">
                                         <input type="number" class="form-control" name="dias" min="0" id="dias">
                                     </div>
                                 </div>
