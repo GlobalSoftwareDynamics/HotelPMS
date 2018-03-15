@@ -101,6 +101,9 @@ if(isset($_SESSION['login'])){
 							<li class="nav-item">
 								<a class="nav-link" data-toggle="tab" href="#checkout" role="tab">Registrados</a>
 							</li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#recojo" role="tab">Recojos</a>
+                            </li>
 						</ul>
 						<div class="tab-content" style="overflow-y: scroll; height: 250px">
 							<div class="tab-pane active" id="arribos" role="tabpanel">
@@ -426,6 +429,78 @@ if(isset($_SESSION['login'])){
                                     ?>
                                     </tbody>
                                 </table>
+                            </div>
+                            <div class="tab-pane active" id="recojo" role="tabpanel">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#hoy3" role="tab">Hoy</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#manana3" role="tab">Mañana</a>
+                                    </li>
+                                </ul>
+                                <div class="spacer10"></div>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="hoy3" role="tabpanel">
+                                        <table class="table text-center">
+                                            <thead>
+                                            <tr>
+                                                <th class="text-center">Huesped</th>
+                                                <th class="text-center">Lugar</th>
+                                                <th class="text-center">Nro. Pasajeros</th>
+                                                <th class="text-center">Hora</th>
+                                                <th class="text-center">Vuelo/Bus</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <?php
+                                            $date = date("Y-m-d");
+                                            $result = mysqli_query($link,"SELECT * FROM Recojo WHERE fechaHora LIKE '{$date}%' ORDER BY fechaHora DESC");
+                                            while ($fila = mysqli_fetch_array($result)){
+                                                echo "<tr>";
+                                                echo "<td>{$fila['personaPrincipal']}</td>";
+                                                echo "<td>{$fila['lugarRecojo']}</td>";
+                                                echo "<td>{$fila['numPersonas']}</td>";
+                                                $hora = explode(" ",$fila['fechaHora']);
+                                                echo "<td>{$hora[1]}</td>";
+                                                echo "<td>{$fila['nroTicket']}</td>";
+                                                echo "</tr>";
+                                            }
+                                            ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane" id="manana3" role="tabpanel">
+                                        <table class="table text-center">
+                                            <thead>
+                                            <tr>
+                                                <th class="text-center">Huesped</th>
+                                                <th class="text-center">Lugar</th>
+                                                <th class="text-center">Nro. Pasajeros</th>
+                                                <th class="text-center">Hora</th>
+                                                <th class="text-center">Vuelo/Bus</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <?php
+                                            $date = date("Y-m-d");
+                                            $date = date('Y-m-d', strtotime($date . ' +1 day'));
+                                            $result = mysqli_query($link,"SELECT * FROM Recojo WHERE fechaHora LIKE '{$date}%' ORDER BY fechaHora DESC");
+                                            while ($fila = mysqli_fetch_array($result)){
+                                                echo "<tr>";
+                                                echo "<td>{$fila['personaPrincipal']}</td>";
+                                                echo "<td>{$fila['lugarRecojo']}</td>";
+                                                echo "<td>{$fila['numPersonas']}</td>";
+                                                $hora = explode(" ",$fila['fechaHora']);
+                                                echo "<td>{$hora[1]}</td>";
+                                                echo "<td>{$fila['nroTicket']}</td>";
+                                                echo "</tr>";
+                                            }
+                                            ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
 						</div>
 					</div>
