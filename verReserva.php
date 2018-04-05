@@ -84,10 +84,6 @@ if(isset($_SESSION['login'])){
                                                 while ($fila2 = mysqli_fetch_array($result2)){
                                                     $tipoHabitacion = $fila2['descripcion'];
                                                 }
-                                                $result2 = mysqli_query($link,"SELECT * FROM Tarifa WHERE idTarifa = '{$fila1['idTarifa']}'");
-                                                while ($fila2 = mysqli_fetch_array($result2)){
-                                                    $tarifa = $fila2['descripcion']."-".$fila2['valor'];
-                                                }
                                                 echo "<tr>";
                                                 echo "<td>{$tipoHabitacion}</td>";
                                                 echo "<td>{$fila1['numeroHabitaciones']}</td>";
@@ -272,10 +268,7 @@ if(isset($_SESSION['login'])){
                                                 if($date1 == $date2){
                                                     $interval = $interval +1;
                                                 }
-                                                $result2 = mysqli_query($link,"SELECT * FROM Tarifa WHERE idTarifa = '{$fila1['idTarifa']}'");
-                                                while ($fila2 = mysqli_fetch_array($result2)){
-                                                    $valorTarifa = $fila2['valor'];
-                                                }
+                                                $valorTarifa = $fila1['idTarifa'];
                                                 $totalHabitacion = $totalHabitacion + ($valorTarifa * $interval);
                                             }
                                             $totalHabitacionesPaquete = $totalhabitaciones + $valorPaquete;
@@ -424,10 +417,7 @@ if(isset($_SESSION['login'])){
                                             }else{
                                                 $estadoActivo = "";
                                             }
-                                            $result3 = mysqli_query($link,"SELECT * FROM Tarifa WHERE idTarifa = '{$fila2['idTarifa']}'");
-                                            while ($fila3 = mysqli_fetch_array($result3)){
-                                                $descTarifa = $fila3['descripcion'];
-                                            }
+                                            $descTarifa = $fila2['idTarifa'];
                                             ?>
                                             <div class="tab-pane <?php echo $estadoActivo;?>" id="<?php echo $fila2['idHabitacion'];?>" role="tabpanel">
                                                 <div class="row">

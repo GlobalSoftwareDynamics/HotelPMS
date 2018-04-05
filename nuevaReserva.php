@@ -10,6 +10,16 @@ if(isset($_SESSION['login'])){
     }
 	include('declaracionFechas.php');
 
+    ?>
+
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+
+    <?php
+
     if(isset($_GET['idReserva'])) {
         $_POST['idReserva'] = $_GET['idReserva'];
     }
@@ -473,7 +483,7 @@ if(isset($_SESSION['login'])){
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <form method="post" action="#">
+                                            <form method="post" action="#" id="formHabitacion">
                                                 <input type="hidden" name="idReserva" value="<?php echo $_POST['idReserva'];?>">
                                                 <tr>
                                                     <td>
@@ -483,7 +493,7 @@ if(isset($_SESSION['login'])){
                                                         <input type="date" name="fechaFin" class="form-control" id="finCheckOut">
                                                     </td>
                                                     <td>
-                                                        <select class="form-control" name="tipoHabitacion" onchange="getHabitacion(this.value);getTarifa(this.value)">
+                                                        <select class="form-control" name="tipoHabitacion" onchange="getHabitacion(this.value);getTarifaTooltip(this.value)">
                                                             <option selected disabled>Seleccionar</option>
 															<?php
 															$query = mysqli_query($link, "SELECT * FROM TipoHabitacion");
@@ -501,10 +511,16 @@ if(isset($_SESSION['login'])){
                                                     <td>
                                                         <input class="form-control" type="checkbox" name="camaAdicional" value="true">
                                                     </td>
-                                                    <td>
-                                                        <select class="form-control" name="tarifa" id="tarifa">
+                                                    <?php
+                                                    if(isset($_POST['tarifa'])){
+                                                        echo $_POST['tarifa'];
+                                                    }
+                                                    ?>
+                                                    <td id="tarifa">
+                                                        <!--<select class="form-control" name="tarifa" id="tarifa">
                                                             <option selected disabled>Seleccionar</option>
-                                                        </select>
+                                                        </select>-->
+                                                        <input type="number" step="0.01" min="0" name="tarifa" data-animation="true" class="form-control" data-toggle="tooltip" data-placement="bottom" title="Seleccione un Tipo de Habitación para ver las tarifas disponibles" form="formHabitacion">
                                                     </td>
                                                     <td>
                                                         <input type="text" name="preferencias" class="form-control">
@@ -538,10 +554,7 @@ if(isset($_SESSION['login'])){
 												}else{
 													echo "<td>No</td>";
 												}
-												$query2 = mysqli_query($link,"SELECT * FROM Tarifa WHERE idTarifa = '{$row['idTarifa']}'");
-												while($row2 = mysqli_fetch_array($query2)){
-													echo "<td>{$row2['descripcion']}</td>";
-												}
+												echo "<td>{$row['idTarifa']}</td>";
 												echo "<td>{$row['preferencias']}</td>";
 												$query2 = mysqli_query($link,"SELECT * FROM Estado WHERE idEstado = {$row['idEstado']}");
 												while($row2 = mysqli_fetch_array($query2)){
@@ -764,7 +777,7 @@ if(isset($_SESSION['login'])){
                                                 <input type="hidden" value="<?php echo $_POST['idReserva'];?>" name="idReserva">
                                                 <tr>
                                                     <td style="width: 14%">
-                                                        <select class="form-control" name="tipoHabitacion" onchange="getTarifa(this.value)">
+                                                        <select class="form-control" name="tipoHabitacion" onchange="getTarifaTooltip(this.value)">
                                                             <option selected disabled>Seleccionar</option>
 															<?php
 															$query = mysqli_query($link, "SELECT * FROM TipoHabitacion");
@@ -778,9 +791,10 @@ if(isset($_SESSION['login'])){
                                                         <input type="number" min='0' class="form-control" name="numHabitaciones" id="numHabitaciones">
                                                     </td>
                                                     <td>
-                                                        <select class="form-control" name="tarifa" id="tarifa">
+                                                        <!--<select class="form-control" name="tarifa" id="tarifa">
                                                             <option selected disabled>Seleccionar</option>
-                                                        </select>
+                                                        </select>-->
+                                                        <input type="number" min="0" name="tarifa" data-animation="true" class="form-control" data-toggle="tooltip" data-placement="bottom" title="Seleccione un Tipo de Habitación para ver las tarifas disponibles">
                                                     </td>
                                                     <td style="width: 10%;">
                                                         <input type="date" class="form-control" name="checkin" id="checkin">

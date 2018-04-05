@@ -618,3 +618,12 @@ if(isset($_POST['nombreHuespedEmpresa4'])){
     }
 }
 
+if(isset($_POST['tipoHabitacionTooltip'])){
+    echo "<input type=\"number\" min=\"0\" name=\"tarifa\" class='form-control' data-placement=\"bottom\" data-toggle=\"tooltip\" data-html='true' title='";
+    $result = mysqli_query($link,"SELECT * FROM Tarifa WHERE idTipoHabitacion = '{$_POST['tipoHabitacionTooltip']}'");
+    while($row = mysqli_fetch_array($result)){
+        echo $row['descripcion']." - ".$row['valor']."<br>";
+        /*echo "<option value='{$row['idTarifa']}'>{$row['descripcion']} - {$row['valor']}</option>";*/
+    }
+    echo "' form='formHabitacion' step='0.01'>";
+}

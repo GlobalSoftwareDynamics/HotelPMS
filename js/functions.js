@@ -515,6 +515,18 @@ function getTarifa(val){
     });
 }
 
+function getTarifaTooltip(val){
+    $.ajax({
+        type: "POST",
+        url: "getAjax.php",
+        data:{'tipoHabitacionTooltip':val},
+        success: function(data){
+            $("#tarifa").html(data);
+            $('[data-toggle="tooltip"]').tooltip();
+        }
+    });
+}
+
 function getDatosOcupante(val){
     $.ajax({
         type: "POST",
