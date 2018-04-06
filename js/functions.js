@@ -123,7 +123,6 @@
                 document.getElementById("ver").setAttribute('data-id',taskItemInContext.getAttribute("data-id")+"_"+taskItemInContext.getAttribute("data-habitacion"));
                 document.getElementById("editar").setAttribute('data-id',taskItemInContext.getAttribute("data-id"));
                 document.getElementById("eliminar").setAttribute('data-id',taskItemInContext.getAttribute("data-id"));
-                document.getElementById("agregar").setAttribute('data-id',taskItemInContext.getAttribute("data-id")+"_"+taskItemInContext.getAttribute("data-habitacion"));
 
                 e.preventDefault();
                 toggleMenuOn();

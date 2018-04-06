@@ -417,6 +417,20 @@ if(!empty($_POST['fechaGuia'])){
                             if($numrow1 > 0){
                                 $recojo = "<strong>Recojo:</strong> Si, por favor revisar información de Reserva. ";
                             }
+                            $result3 = mysqli_query($link,"SELECT * FROM Ocupantes WHERE idReserva = '{$fila2['idReserva']}' AND idHabitacion = '{$fila2['idHabitacion']}' AND Cargos = 1");
+                            while ($fila3 = mysqli_fetch_array($result3)){
+                                $result4 =mysqli_query($link,"SELECT Huesped.nombreCompleto, Empresa.razonSocial FROM huesped INNER JOIN Empresa ON Huesped.idEmpresa = Empresa.idEmpresa WHERE Huesped.idHuesped = '{$fila3['idHuesped']}'");
+                                $numrow = mysqli_num_rows($result4);
+                                if($numrow > 0){
+                                    while ($fila4 = mysqli_fetch_array($result4)){
+                                        $nombreTitular = "<strong>Titular: </strong>".$fila4['nombreCompleto'];
+                                        $empresaTitular = "<strong>Empresa: </strong>".$fila4['razonSocial'];
+                                    }
+                                }else{
+                                    $nombreTitular = "Titular: No definido";
+                                    $empresaTitular = "Empresa: No definido";
+                                }
+                            }
                             $fechaFin = explode(" ",$fila2['fechaFin']);
                             $fechaInicio = explode(" ",$fila2['fechaInicio']);
                             if($fechaFin[0] == $arrayFechas[$i]){
@@ -470,6 +484,20 @@ if(!empty($_POST['fechaGuia'])){
                             $numrow1 = mysqli_num_rows($result3);
                             if($numrow1 > 0){
                                 $recojo = "<strong>Recojo:</strong> Si, por favor revisar información de Reserva. ";
+                            }
+                            $result3 = mysqli_query($link,"SELECT * FROM Ocupantes WHERE idReserva = '{$fila2['idReserva']}' AND idHabitacion = '{$fila2['idHabitacion']}' AND Cargos = 1");
+                            while ($fila3 = mysqli_fetch_array($result3)){
+                                $result4 =mysqli_query($link,"SELECT Huesped.nombreCompleto, Empresa.razonSocial FROM huesped INNER JOIN Empresa ON Huesped.idEmpresa = Empresa.idEmpresa WHERE Huesped.idHuesped = '{$fila3['idHuesped']}'");
+                                $numrow = mysqli_num_rows($result4);
+                                if($numrow > 0){
+                                    while ($fila4 = mysqli_fetch_array($result4)){
+                                        $nombreTitular = "<strong>Titular: </strong>".$fila4['nombreCompleto'];
+                                        $empresaTitular = "<strong>Empresa: </strong>".$fila4['razonSocial'];
+                                    }
+                                }else{
+                                    $nombreTitular = "Titular: No definido";
+                                    $empresaTitular = "Empresa: No definido";
+                                }
                             }
                             $fechaFin = explode(" ",$fila2['fechaFin']);
                             $fechaInicio = explode(" ",$fila2['fechaInicio']);
@@ -525,6 +553,20 @@ if(!empty($_POST['fechaGuia'])){
                             if($numrow1 > 0){
                                 $recojo = "<strong>Recojo:</strong> Si, por favor revisar información de Reserva. ";
                             }
+                            $result3 = mysqli_query($link,"SELECT * FROM Ocupantes WHERE idReserva = '{$fila2['idReserva']}' AND idHabitacion = '{$fila2['idHabitacion']}' AND Cargos = 1");
+                            while ($fila3 = mysqli_fetch_array($result3)){
+                                $result4 =mysqli_query($link,"SELECT Huesped.nombreCompleto, Empresa.razonSocial FROM huesped INNER JOIN Empresa ON Huesped.idEmpresa = Empresa.idEmpresa WHERE Huesped.idHuesped = '{$fila3['idHuesped']}'");
+                                $numrow = mysqli_num_rows($result4);
+                                if($numrow > 0){
+                                    while ($fila4 = mysqli_fetch_array($result4)){
+                                        $nombreTitular = "<strong>Titular: </strong>".$fila4['nombreCompleto'];
+                                        $empresaTitular = "<strong>Empresa: </strong>".$fila4['razonSocial'];
+                                    }
+                                }else{
+                                    $nombreTitular = "Titular: No definido";
+                                    $empresaTitular = "Empresa: No definido";
+                                }
+                            }
                             $fechaFin = explode(" ",$fila2['fechaFin']);
                             $fechaInicio = explode(" ",$fila2['fechaInicio']);
                             if($fechaFin[0] == $arrayFechas[$i]){
@@ -539,12 +581,18 @@ if(!empty($_POST['fechaGuia'])){
                             }
                         }
                     }
+                    $today = date("Y-m-d");
                     if ($numrow == 0 && $idReserva == 0){
-                        echo "<td></td>";
+                        if($today == $arrayFechas[$i]){
+                            $class = "punteroFecha";
+                        }else{
+                            $class = "";
+                        }
+                        echo "<td class='{$class}'></td>";
                         $idReserva = 0;
                         $interval = 1;
                     }elseif($numrow > 0){
-                        echo "<td class='{$clase}' colspan='{$interval}' data-id='{$idReserva}' data-habitacion='{$idHabitacion}'><div class=\"float-right mr-2\"><i class=\"fa fa-info\" data-toggle=\"popover\" data-trigger='hover' data-html=\"true\" title='Información de Reserva' data-content='<strong>Reserva:</strong> {$idReserva}<br>{$preferencias}<br>{$recojo}<br>{$lateCheck}' data-placement=\"top\"></i></div></td>";
+                        echo "<td class='{$clase}' colspan='{$interval}' data-id='{$idReserva}' data-habitacion='{$idHabitacion}'><div class=\"float-right mr-2\"><i class=\"fa fa-info\" data-toggle=\"popover\" data-trigger='hover' data-html=\"true\" title='Información de Reserva' data-content='<strong>Reserva:</strong> {$idReserva}<br>{$nombreTitular}<br>{$empresaTitular}<br>{$preferencias}<br>{$recojo}<br>{$lateCheck}' data-placement=\"top\"></i></div></td>";
                     }
                 }
                 echo "</tr>";
