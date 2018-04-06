@@ -24,6 +24,14 @@ if(isset($_SESSION['login'])){
         $_POST['idReserva'] = $_GET['idReserva'];
     }
 
+    if(isset($_POST['modificarPreferencias'])){
+        $update = mysqli_query($link,"UPDATE HabitacionReservada SET preferencias = '{$_POST['preferencias']}'
+          WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}' AND idHabitacionReservada = '{$_POST['idHabitacionReservada']}'");
+        $queryPerformed = "UPDATE HabitacionReservada SET preferencias = {$_POST['preferencias']}
+          WHERE idReserva = {$_POST['idReserva']} AND idHabitacion = {$_POST['idHabitacion']} AND idHabitacionReservada = {$_POST['idHabitacionReservada']}";
+        $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','PREFERENCIAS DE RESERVA','{$queryPerformed}')");
+    }
+
 	if(isset($_POST['confirmaReserva'])){
 		$update = mysqli_query($link,"UPDATE Reserva SET idEstado = 3 WHERE idReserva = '{$_POST['idReserva']}'");
 		$queryPerformed = "UPDATE Reserva SET idEstado = 3 WHERE idReserva = {$_POST['idReserva']}";
@@ -573,9 +581,11 @@ if(isset($_SESSION['login'])){
                                                                     ";
 												if ($row['idEstado'] == 3){
 												    echo "<input type=\"submit\" value=\"Registrar Check-In\" class=\"dropdown-item\" formaction=\"#\" name='checkinHabitacion'>";
+                                                    echo "<input type=\"button\" value=\"Modificar Preferencias\" class=\"dropdown-item\" data-toggle=\"modal\" data-target=\"#modalHabitacion\" data-preferencias=\"{$row['preferencias']}\" data-habitacion='{$row['idHabitacion']}' data-reserva='{$_POST['idReserva']}' data-habitacionreservada='{$row['idHabitacionReservada']}'>";
                                                     echo "<input type=\"submit\" value=\"Asignar Early Check-In\" class=\"dropdown-item\" formaction=\"#\" name='earlyCheckIn'>";
                                                     echo "<input type=\"submit\" value=\"Asignar Late Check-Out\" class=\"dropdown-item\" formaction=\"#\" name='lateCheckOut'>";
                                                 }elseif($row['idEstado'] == 4){
+                                                    echo "<input type=\"button\" value=\"Modificar Preferencias\" class=\"dropdown-item\" data-toggle=\"modal\" data-target=\"#modalHabitacion\" data-preferencias=\"{$row['preferencias']}\" data-habitacion='{$row['idHabitacion']}' data-reserva='{$_POST['idReserva']}' data-habitacionreservada='{$row['idHabitacionReservada']}'>";
                                                     echo "<input type=\"submit\" value=\"Asignar Early Check-In\" class=\"dropdown-item\" formaction=\"#\" name='earlyCheckIn'>";
                                                     echo "<input type=\"submit\" value=\"Asignar Late Check-Out\" class=\"dropdown-item\" formaction=\"#\" name='lateCheckOut'>";
                                                     echo "<input type=\"submit\" value=\"Registrar Cambio de Habitación\" class=\"dropdown-item\" formaction=\"cambioHabitacion.php\" name='cambioHabitacion'>";
@@ -728,6 +738,49 @@ if(isset($_SESSION['login'])){
                     </div>
                 </div>
             </form>
+
+            <!-- Modal -->
+            <div class="modal fade" id="modalHabitacion" tabindex="-1" role="dialog" aria-labelledby="modalHabitacion" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modificación de Preferencias</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="#" method="post" id="formHabitacionRes">
+                                <!--<div class="form-group row">
+                                    <label for="checkIn" class="col-form-label col-1">CheckIn:</label>
+                                    <div class="col-3">
+                                        <input type="date" class="form-control" name="checkIn" id="checkIn">
+                                    </div>
+                                    <label for="checkOut" class="col-form-label col-1">CheckOut:</label>
+                                    <div class="col-3">
+                                        <input type="date" class="form-control" name="checkOut" id="checkOut">
+                                    </div>
+                                    <label for="cama" class="col-form-label col-2">Cama Adicional:</label>
+                                    <div class="col-1">
+                                        <input type="checkbox" class="form-control mt-3" name="cama" id="cama">
+                                    </div>
+                                </div>-->
+                                <div class="form-group row">
+                                    <h6 class="mx-5">Preferencias</h6>
+                                    <textarea name="preferencias" id="preferencias" cols="30" rows="2" class="form-control mx-5 preferencias"></textarea>
+                                </div>
+                                <input type="hidden" name="idHabitacion" class="idHabitacion">
+                                <input type="hidden" name="idHabitacionReservada" class="idHabitacionReservada">
+                                <input type="hidden" name="idReserva" class="idReserva">
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary" form="formHabitacionRes" name="modificarPreferencias">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 			<?php
 		}elseif($estadoReserva == '9'){
