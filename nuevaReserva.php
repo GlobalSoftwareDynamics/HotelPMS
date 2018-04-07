@@ -751,7 +751,7 @@ if(isset($_SESSION['login'])){
                         </div>
                         <div class="modal-body">
                             <form action="#" method="post" id="formHabitacionRes">
-                                <!--<div class="form-group row">
+                                <div class="form-group row">
                                     <label for="checkIn" class="col-form-label col-1">CheckIn:</label>
                                     <div class="col-3">
                                         <input type="date" class="form-control" name="checkIn" id="checkIn">
@@ -764,7 +764,25 @@ if(isset($_SESSION['login'])){
                                     <div class="col-1">
                                         <input type="checkbox" class="form-control mt-3" name="cama" id="cama">
                                     </div>
-                                </div>-->
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-6">
+                                        <select class="form-control" name="tipoHabitacion" onchange="getHabitacion(this.value);getTarifaTooltip(this.value)">
+                                            <option selected disabled>Seleccionar</option>
+                                            <?php
+                                            $query = mysqli_query($link, "SELECT * FROM TipoHabitacion");
+                                            while ($row = mysqli_fetch_array($query)) {
+                                                echo "<option value='{$row['idTipoHabitacion']}'>{$row['descripcion']}</option>";
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-6">
+                                        <select class="form-control" name="nroHabitacion" id="nroHabitacion">
+                                            <option selected disabled>Seleccionar</option>
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="form-group row">
                                     <h6 class="mx-5">Preferencias</h6>
                                     <textarea name="preferencias" id="preferencias" cols="30" rows="2" class="form-control mx-5 preferencias"></textarea>

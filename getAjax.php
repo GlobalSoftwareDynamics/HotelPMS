@@ -420,16 +420,16 @@ if(!empty($_POST['fechaGuia'])){
                             $result3 = mysqli_query($link,"SELECT * FROM Ocupantes WHERE idReserva = '{$fila2['idReserva']}' AND idHabitacion = '{$fila2['idHabitacion']}' AND Cargos = 1");
                             while ($fila3 = mysqli_fetch_array($result3)){
                                 $result4 =mysqli_query($link,"SELECT Huesped.nombreCompleto, Empresa.razonSocial FROM huesped INNER JOIN Empresa ON Huesped.idEmpresa = Empresa.idEmpresa WHERE Huesped.idHuesped = '{$fila3['idHuesped']}'");
-                                $numrow = mysqli_num_rows($result4);
-                                if($numrow > 0){
-                                    while ($fila4 = mysqli_fetch_array($result4)){
-                                        $nombreTitular = "<strong>Titular: </strong>".$fila4['nombreCompleto'];
-                                        $empresaTitular = "<strong>Empresa: </strong>".$fila4['razonSocial'];
-                                    }
-                                }else{
-                                    $nombreTitular = "Titular: No definido";
-                                    $empresaTitular = "Empresa: No definido";
+                                while ($fila4 = mysqli_fetch_array($result4)){
+                                    $nombreTitular = "<strong>Titular: </strong>".$fila4['nombreCompleto'];
+                                    $empresaTitular = "<strong>Empresa: </strong>".$fila4['razonSocial'];
                                 }
+
+                            }
+                            $numrow6 = mysqli_num_rows($result3);
+                            if($numrow6 == 0){
+                                $nombreTitular = "Titular: No definido";
+                                $empresaTitular = "Empresa: No definido";
                             }
                             $fechaFin = explode(" ",$fila2['fechaFin']);
                             $fechaInicio = explode(" ",$fila2['fechaInicio']);
@@ -488,16 +488,16 @@ if(!empty($_POST['fechaGuia'])){
                             $result3 = mysqli_query($link,"SELECT * FROM Ocupantes WHERE idReserva = '{$fila2['idReserva']}' AND idHabitacion = '{$fila2['idHabitacion']}' AND Cargos = 1");
                             while ($fila3 = mysqli_fetch_array($result3)){
                                 $result4 =mysqli_query($link,"SELECT Huesped.nombreCompleto, Empresa.razonSocial FROM huesped INNER JOIN Empresa ON Huesped.idEmpresa = Empresa.idEmpresa WHERE Huesped.idHuesped = '{$fila3['idHuesped']}'");
-                                $numrow = mysqli_num_rows($result4);
-                                if($numrow > 0){
-                                    while ($fila4 = mysqli_fetch_array($result4)){
-                                        $nombreTitular = "<strong>Titular: </strong>".$fila4['nombreCompleto'];
-                                        $empresaTitular = "<strong>Empresa: </strong>".$fila4['razonSocial'];
-                                    }
-                                }else{
-                                    $nombreTitular = "Titular: No definido";
-                                    $empresaTitular = "Empresa: No definido";
+                                while ($fila4 = mysqli_fetch_array($result4)){
+                                    $nombreTitular = "<strong>Titular: </strong>".$fila4['nombreCompleto'];
+                                    $empresaTitular = "<strong>Empresa: </strong>".$fila4['razonSocial'];
                                 }
+
+                            }
+                            $numrow6 = mysqli_num_rows($result3);
+                            if($numrow6 == 0){
+                                $nombreTitular = "Titular: No definido";
+                                $empresaTitular = "Empresa: No definido";
                             }
                             $fechaFin = explode(" ",$fila2['fechaFin']);
                             $fechaInicio = explode(" ",$fila2['fechaInicio']);
@@ -556,16 +556,16 @@ if(!empty($_POST['fechaGuia'])){
                             $result3 = mysqli_query($link,"SELECT * FROM Ocupantes WHERE idReserva = '{$fila2['idReserva']}' AND idHabitacion = '{$fila2['idHabitacion']}' AND Cargos = 1");
                             while ($fila3 = mysqli_fetch_array($result3)){
                                 $result4 =mysqli_query($link,"SELECT Huesped.nombreCompleto, Empresa.razonSocial FROM huesped INNER JOIN Empresa ON Huesped.idEmpresa = Empresa.idEmpresa WHERE Huesped.idHuesped = '{$fila3['idHuesped']}'");
-                                $numrow = mysqli_num_rows($result4);
-                                if($numrow > 0){
-                                    while ($fila4 = mysqli_fetch_array($result4)){
-                                        $nombreTitular = "<strong>Titular: </strong>".$fila4['nombreCompleto'];
-                                        $empresaTitular = "<strong>Empresa: </strong>".$fila4['razonSocial'];
-                                    }
-                                }else{
-                                    $nombreTitular = "Titular: No definido";
-                                    $empresaTitular = "Empresa: No definido";
+                                while ($fila4 = mysqli_fetch_array($result4)){
+                                    $nombreTitular = "<strong>Titular: </strong>".$fila4['nombreCompleto'];
+                                    $empresaTitular = "<strong>Empresa: </strong>".$fila4['razonSocial'];
                                 }
+
+                            }
+                            $numrow6 = mysqli_num_rows($result3);
+                            if($numrow6 == 0){
+                                $nombreTitular = "Titular: No definido";
+                                $empresaTitular = "Empresa: No definido";
                             }
                             $fechaFin = explode(" ",$fila2['fechaFin']);
                             $fechaInicio = explode(" ",$fila2['fechaInicio']);
