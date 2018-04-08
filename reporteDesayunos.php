@@ -52,10 +52,8 @@ if(isset($_SESSION['login'])){
 
             switch($fila1['modificadorCheckIO']){
                 case 0:
-                    $intervala -= 1;
                     break;
                 case 1:
-                    $intervala -= 1;
                     $date2 = date('Y-m-d', strtotime($date2 . ' -1 day'));
                     break;
                 case 2:
