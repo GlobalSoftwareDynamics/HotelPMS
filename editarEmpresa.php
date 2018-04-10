@@ -18,9 +18,19 @@ if(isset($_SESSION['login'])){
             $id = mysqli_query($link, "SELECT * FROM Contacto");
             $dni += mysqli_num_rows($id);
         }
-		$insert = mysqli_query($link,"INSERT INTO Contacto VALUES ('{$dni}','{$_POST['nombreCompleto']}','{$_POST['telefono']}','{$_POST['anexo']}','{$_POST['email']}','{$_POST['area']}','{$_POST['cargo']}')");
-		$insert = mysqli_query($link,"INSERT INTO ContactoEmpresa VALUES ('{$_POST['idEmpresa']}','{$dni}')");
-	}
+		$query = mysqli_query($link,"INSERT INTO Contacto VALUES ('{$dni}','{$_POST['nombreCompleto']}','{$_POST['telefono']}','{$_POST['anexo']}','{$_POST['email']}','{$_POST['area']}','{$_POST['cargo']}')");
+        $queryPerformed = "INSERT INTO Contacto VALUES ({$dni},{$_POST['nombreCompleto']},{$_POST['telefono']},{$_POST['anexo']},{$_POST['email']},{$_POST['area']},{$_POST['cargo']})";
+        $databaseLog = mysqli_query($link, "INSERT INTO DatabaseLog (idColaborador,fechaHora,evento,tipo,consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','Tarifa','{$queryPerformed}')");
+
+        $query = mysqli_query($link,"INSERT INTO ContactoEmpresa VALUES ('{$_POST['idEmpresa']}','{$dni}')");
+        $queryPerformed = "INSERT INTO ContactoEmpresa VALUES ({$_POST['idEmpresa']},{$dni})";
+        $databaseLog = mysqli_query($link, "INSERT INTO DatabaseLog (idColaborador,fechaHora,evento,tipo,consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','Tarifa','{$queryPerformed}')");
+
+        $query = mysqli_query($link,"INSERT INTO Huesped(idHuesped,idEmpresa,idCiudad,idGenero,nacionalidad_idPais,nombreCompleto,direccion,correoElectronico,codigoPostal,telefonoFijo,telefonoCelular,fechaNacimiento,preferencias,vip) VALUES ('{$dni}','{$_POST['idEmpresa']}',null,null,null,'{$_POST['nombreCompleto']}',null,'{$_POST['email']}',null,null,'{$_POST['telefono']}',null,null,null)");
+        $queryPerformed = "INSERT INTO Huesped(idHuesped,idEmpresa,idCiudad,idGenero,nacionalidad_idPais,nombreCompleto,direccion,correoElectronico,codigoPostal,telefonoFijo,telefonoCelular,fechaNacimiento,preferencias,vip) VALUES ({$dni},{$_POST['idEmpresa']},null,null,null,{$_POST['nombreCompleto']},null,{$_POST['email']},null,null,{$_POST['telefono']},null,null,null)";
+        $databaseLog = mysqli_query($link, "INSERT INTO DatabaseLog (idColaborador,fechaHora,evento,tipo,consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','Tarifa','{$queryPerformed}')");
+
+    }
 
 	if(isset($_POST['eliminar'])){
 	    $flag = false;
