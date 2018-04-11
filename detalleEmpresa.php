@@ -73,23 +73,19 @@ while($row = mysqli_fetch_array($result)) {
                         <thead>
                         <tr>
                             <th>Nombre</th>
-                            <th>Área</th>
-                            <th>Cargo</th>
-                            <th>Teléfono</th>
-                            <th>Anexo</th>
+                            <th>Teléfono Fijo</th>
+                            <th>Teléfono Celular</th>
                             <th>E-Mail</th>
                         </tr>
                         </thead>
                         <tbody>
                         <?php
-                        $query = mysqli_query($link,"SELECT * FROM Contacto WHERE idContacto IN (SELECT idContacto FROM ContactoEmpresa WHERE idEmpresa = '{$_POST['idEmpresa']}')");
+                        $query = mysqli_query($link,"SELECT * FROM Huesped WHERE contacto = 1 AND idEmpresa = '{$_POST['idEmpresa']}')");
                         while($fila = mysqli_fetch_array($query)){
 	                        echo "<tr>";
 	                        echo "<td>{$fila['nombreCompleto']}</td>";
-	                        echo "<td>{$fila['area']}</td>";
-	                        echo "<td>{$fila['cargo']}</td>";
-	                        echo "<td>{$fila['telefono']}</td>";
-	                        echo "<td>{$fila['anexo']}</td>";
+	                        echo "<td>{$fila['telefonoFjo']}</td>";
+                            echo "<td>{$fila['telefonoCelular']}</td>";
 	                        echo "<td>{$fila['correoElectronico']}</td>";
 	                        echo "</tr>";
                         }

@@ -69,7 +69,7 @@ if(isset($_SESSION['login'])){
                                 <div class="col-6">
                                     <div class="row">
                                         <div class="col-4"><p><b>DNI:</b></p></div>
-                                        <div class="col-8"><p><?php echo $_POST['idHuesped']?></p></div>
+                                        <div class="col-8"><p><?php echo $fila['dni']?></p></div>
                                     </div>
                                     <div class="row">
                                         <div class="col-4"><p><b>Nombre Completo:</b></p></div>

@@ -115,6 +115,7 @@ if(isset($_SESSION['login'])){
                         while ($row2 = mysqli_fetch_array($huesped2)){
                             $nombreHuesped = $row2['nombreCompleto'];
                             $idHuesped = $row2['idHuesped'];
+                            $dni = $row2['dni'];
                             $telefonoHuesped = $row2['telefonoCelular'];
                             $emailHuesped = $row2['correoElectronico'];
                             if($row2['idEmpresa'] != null){
@@ -129,6 +130,7 @@ if(isset($_SESSION['login'])){
                     }
                 }else{
                     $nombreHuesped = "No Definido";
+                    $dni = "No Definido";
                     $idHuesped = "No Definido";
                     $telefonoHuesped = "No Definido";
                     $emailHuesped = "No Definido";
@@ -162,7 +164,7 @@ if(isset($_SESSION['login'])){
                                     <div class="col-7">
                                         <div class="row">
                                             <div class="col-5"><p><b>DNI:</b></p></div>
-                                            <div class="col-7"><p><?php echo $idHuesped;?></p></div>
+                                            <div class="col-7"><p><?php echo $dni;?></p></div>
                                         </div>
                                         <div class="row">
                                             <div class="col-5"><p><b>Nombre:</b></p></div>
@@ -454,7 +456,7 @@ if(isset($_SESSION['login'])){
                                                                 <th class="text-center">Fecha Nacimiento</th>
                                                                 <th class="text-center">Email</th>
                                                                 <th class="text-center">VIP</th>
-                                                                <th class="text-center">Cargos</th>
+                                                                <th class="text-center">Titular</th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
@@ -480,7 +482,7 @@ if(isset($_SESSION['login'])){
                                                                             break;
                                                                     }
                                                                     echo "<tr>";
-                                                                    echo "<td>{$fila3['idHuesped']}</td>";
+                                                                    echo "<td>{$fila4['dni']}</td>";
                                                                     echo "<td>{$fila4['nombreCompleto']}</td>";
                                                                     echo "<td>{$fila4['fechaNacimiento']}</td>";
                                                                     echo "<td>{$fila4['correoElectronico']}</td>";
