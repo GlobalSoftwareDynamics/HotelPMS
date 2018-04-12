@@ -18,25 +18,17 @@ if(isset($_SESSION['login'])){
             $_POST['empresa'] = "'".$_POST['empresa']."'";
         }
 
-        $dni = 1;
-        if($_POST['dni'] != ''){
-            $dni = $_POST['dni'];
-        }else{
-            $id = mysqli_query($link, "SELECT * FROM Contacto");
-            $dni += mysqli_num_rows($id);
-        }
-
         if(isset($_POST['vip'])){
             $_POST['vip'] = 1;
         }else{
             $_POST['vip'] = 0;
         }
 
-        $query = mysqli_query($link,"INSERT INTO Huesped(idHuesped,idEmpresa,idCiudad,idGenero,nacionalidad_idPais,nombreCompleto,direccion,correoElectronico,codigoPostal,telefonoFijo,telefonoCelular,fechaNacimiento,preferencias,vip)
-        VALUES ('{$dni}',{$_POST['empresa']},'{$_POST['ciudad']}','{$_POST['genero']}','{$_POST['pais']}','{$_POST['nombreCompleto']}','{$_POST['direccion']}','{$_POST['email']}','{$_POST['codPostal']}','{$_POST['telFijo']}','{$_POST['celular']}','{$_POST['nacimiento']}',NULL,'{$_POST['vip']}')");
+        $query = mysqli_query($link,"INSERT INTO Huesped(idEmpresa,idCiudad,idGenero,nacionalidad_idPais,nombreCompleto,direccion,correoElectronico,codigoPostal,telefonoFijo,telefonoCelular,fechaNacimiento,preferencias,vip,contacto,dni)
+        VALUES ({$_POST['empresa']},'{$_POST['ciudad']}','{$_POST['genero']}','{$_POST['pais']}','{$_POST['nombreCompleto']}','{$_POST['direccion']}','{$_POST['email']}','{$_POST['codPostal']}','{$_POST['telFijo']}','{$_POST['celular']}','{$_POST['nacimiento']}',NULL,'{$_POST['vip']}',0,'{$_POST['dni']}')");
 
-        $queryPerformed = "INSERT INTO Huesped(idHuesped,idEmpresa,idCiudad,idGenero,nacionalidad_idPais,nombreCompleto,direccion,correoElectronico,codigoPostal,telefonoFijo,telefonoCelular,fechaNacimiento,preferencias,vip)
-        VALUES ({$dni},{$_POST['empresa']},{$_POST['ciudad']},{$_POST['genero']},{$_POST['pais']},{$_POST['nombreCompleto']},{$_POST['direccion']},{$_POST['email']},{$_POST['codPostal']},{$_POST['telFijo']},{$_POST['celular']},{$_POST['nacimiento']},NULL,{$_POST['vip']})";
+        $queryPerformed = "INSERT INTO Huesped(idEmpresa,idCiudad,idGenero,nacionalidad_idPais,nombreCompleto,direccion,correoElectronico,codigoPostal,telefonoFijo,telefonoCelular,fechaNacimiento,preferencias,vip,contacto,dni)
+        VALUES ({$_POST['empresa']},{$_POST['ciudad']},{$_POST['genero']},{$_POST['pais']},{$_POST['nombreCompleto']},{$_POST['direccion']},{$_POST['email']},{$_POST['codPostal']},{$_POST['telFijo']},{$_POST['celular']},{$_POST['nacimiento']},NULL,{$_POST['vip']},0,{$_POST['dni']})";
 
         $databaseLog = mysqli_query($link, "INSERT INTO DatabaseLog (idColaborador,fechaHora,evento,tipo,consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','Huesped','{$queryPerformed}')");
 
@@ -110,10 +102,10 @@ if(isset($_SESSION['login'])){
             $_POST['vip'] = 0;
         }
 
-        $query = mysqli_query($link,"UPDATE Huesped SET idHuesped = '{$_POST['dni']}', idEmpresa = {$_POST['empresa']}, idCiudad = {$_POST['ciudad']}, idGenero = {$_POST['genero']}, nacionalidad_idPais = {$_POST['pais']}, nombreCompleto = '{$_POST['nombreCompleto']}', direccion = {$_POST['direccion']}, correoElectronico = '{$_POST['email']}', 
+        $query = mysqli_query($link,"UPDATE Huesped SET dni = '{$_POST['dni']}', idEmpresa = {$_POST['empresa']}, idCiudad = {$_POST['ciudad']}, idGenero = {$_POST['genero']}, nacionalidad_idPais = {$_POST['pais']}, nombreCompleto = '{$_POST['nombreCompleto']}', direccion = {$_POST['direccion']}, correoElectronico = '{$_POST['email']}', 
         codigoPostal = {$_POST['codPostal']}, telefonoCelular = {$_POST['celular']}, telefonoFijo = {$_POST['telFijo']}, fechaNacimiento = {$_POST['nacimiento']}, preferencias = {$_POST['preferencias']}, vip = '{$_POST['vip']}' WHERE idHuesped = '{$_POST['idHuesped']}'");
 
-        $queryPerformed = "UPDATE Huesped SET idHuesped = {$_POST['dni']}, idEmpresa = {$_POST['empresa']}, idCiudad = {$_POST['ciudad']}, idGenero = {$_POST['genero']}, nacionalidad_idPais = {$_POST['pais']}, nombreCompleto = {$_POST['nombreCompleto']}, direccion = {$_POST['direccion']}, correoElectronico = {$_POST['email']}, 
+        $queryPerformed = "UPDATE Huesped SET dni = {$_POST['dni']}, idEmpresa = {$_POST['empresa']}, idCiudad = {$_POST['ciudad']}, idGenero = {$_POST['genero']}, nacionalidad_idPais = {$_POST['pais']}, nombreCompleto = {$_POST['nombreCompleto']}, direccion = {$_POST['direccion']}, correoElectronico = {$_POST['email']}, 
         codigoPostal = {$_POST['codPostal']}, telefonoCelular = {$_POST['celular']}, telefonoFijo = {$_POST['telFijo']}, fechaNacimiento = {$_POST['nacimiento']}, preferencias = {$_POST['preferencias']}, vip = {$_POST['vip']} WHERE idHuesped = {$_POST['idHuesped']}";
 
         $databaseLog = mysqli_query($link, "INSERT INTO DatabaseLog (idColaborador,fechaHora,evento,tipo,consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','Huesped','{$queryPerformed}')");
@@ -224,7 +216,7 @@ if(isset($_SESSION['login'])){
                                     }
                                 }
                                 echo "<tr>";
-                                echo "<td>{$fila['idHuesped']}</td>";
+                                echo "<td>{$fila['dni']}</td>";
                                 echo "<td>{$fila['nombreCompleto']}</td>";
                                 echo "<td>{$empresa}</td>";
                                 echo "<td>{$fila['correoElectronico']}</td>";

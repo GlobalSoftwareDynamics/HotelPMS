@@ -11,25 +11,24 @@ if(isset($_SESSION['login'])){
     }
 
 	if(isset($_POST['addContacto'])){
-        $dni = 1;
-        if($_POST['dni'] != ''){
-            $dni = $_POST['dni'];
-        }else{
-            $id = mysqli_query($link, "SELECT * FROM Contacto");
-            $dni += mysqli_num_rows($id);
-        }
-		$insert = mysqli_query($link,"INSERT INTO Contacto VALUES ('{$dni}','{$_POST['nombreCompleto']}','{$_POST['telefono']}','{$_POST['anexo']}','{$_POST['email']}','{$_POST['area']}','{$_POST['cargo']}')");
-		$insert = mysqli_query($link,"INSERT INTO ContactoEmpresa VALUES ('{$_POST['ruc']}','{$dni}')");
-	}
+
+        $query = mysqli_query($link,"INSERT INTO Huesped(idEmpresa,idCiudad,idGenero,nacionalidad_idPais,nombreCompleto,direccion,correoElectronico,codigoPostal,telefonoFijo,telefonoCelular,fechaNacimiento,preferencias,vip,contacto,dni) VALUES ('{$_POST['idEmpresa']}',null,null,null,'{$_POST['nombreCompleto']}',null,'{$_POST['email']}',null,'{$_POST['telefono']}','{$_POST['anexo']}',null,null,null,1,'{$_POST['dni']}')");
+        $queryPerformed = "INSERT INTO Huesped(idEmpresa,idCiudad,idGenero,nacionalidad_idPais,nombreCompleto,direccion,correoElectronico,codigoPostal,telefonoFijo,telefonoCelular,fechaNacimiento,preferencias,vip,contacto,dni) VALUES ({$_POST['idEmpresa']},null,null,null,{$_POST['nombreCompleto']},null,{$_POST['email']},null,{$_POST['telefono']},{$_POST['anexo']}'null,null,null,1,{$_POST['dni']})";
+        $databaseLog = mysqli_query($link, "INSERT INTO DatabaseLog (idColaborador,fechaHora,evento,tipo,consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','Contacto','{$queryPerformed}')");
+
+    }
 
 	if(isset($_POST['addEmpresa'])){
 		$insert = mysqli_query($link,"INSERT INTO Empresa VALUES ('{$_POST['ruc']}','{$_POST['razonSocial']}','{$_POST['rubro']}','{$_POST['direccion']}')");
 	}
 
 	if(isset($_POST['eliminar'])){
-		$delete = mysqli_query($link,"DELETE FROM ContactoEmpresa WHERE idContacto = '{$_POST['eliminar']}'");
-		$delete = mysqli_query($link,"DELETE FROM Contacto WHERE idContacto = '{$_POST['eliminar']}'");
-	}
+
+        $query = mysqli_query($link,"UPDATE Huesped SET contacto = 0 WHERE idHuesped = '{$_POST['idHuesped']}'");
+        $queryPerformed = "UPDATE Huesped SET contacto = 0 WHERE idHuesped = {$_POST['idHuesped']}";
+        $databaseLog = mysqli_query($link, "INSERT INTO DatabaseLog (idColaborador,fechaHora,evento,tipo,consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','DELETE','Contacto','{$queryPerformed}')");
+
+    }
 		?>
 		<section class="container">
 			<div class="row">
@@ -52,29 +51,25 @@ if(isset($_SESSION['login'])){
 								<thead>
 								<tr>
 									<th>Nombre</th>
-									<th>Área</th>
-									<th>Cargo</th>
-									<th>Teléfono</th>
-									<th>Anexo</th>
+									<th>Teléfono Fijo</th>
+                                    <th>Teléfono Celular</th>
 									<th>E-Mail</th>
                                     <th>Acciones</th>
 								</tr>
 								</thead>
 								<tbody>
 								<?php
-								$query = mysqli_query($link,"SELECT * FROM Contacto WHERE idContacto IN (SELECT idContacto FROM ContactoEmpresa WHERE idEmpresa = '{$_POST['ruc']}')");
+								$query = mysqli_query($link,"SELECT * FROM Huesped WHERE contacto = 1 AND idEmpresa = '{$_POST['ruc']}')");
 								while($fila = mysqli_fetch_array($query)){
 									echo "<tr>";
 									echo "<td>{$fila['nombreCompleto']}</td>";
-									echo "<td>{$fila['area']}</td>";
-									echo "<td>{$fila['cargo']}</td>";
-									echo "<td>{$fila['telefono']}</td>";
-									echo "<td>{$fila['anexo']}</td>";
+									echo "<td>{$fila['telefonoFijo']}</td>";
+									echo "<td>{$fila['telefonoCelular']}</td>";
 									echo "<td>{$fila['correoElectronico']}</td>";
 									echo "<td>
                                             <form method='post' action='#' id='deleteForm'>
                                                 <input type='hidden' name='ruc' value='{$_POST['ruc']}'>
-                                                <button type='submit' name='eliminar' value='{$fila['idContacto']}' class='btn btn-sm btn-outline-danger' form='deleteForm'>Eliminar</button>
+                                                <button type='submit' name='eliminar' value='{$fila['idHuesped']}' class='btn btn-sm btn-outline-danger' form='deleteForm'>Eliminar</button>
                                             </form>
                                         </td>";
 									echo "</tr>";
@@ -110,19 +105,11 @@ if(isset($_SESSION['login'])){
 									<input type="text" name="nombreCompleto" id="nombreCompleto" class="form-control" required>
 								</div>
 								<div class="form-group row">
-									<label class="col-form-label" for="area">Área:</label>
-									<input type="text" name="area" id="area" class="form-control">
-								</div>
-								<div class="form-group row">
-									<label class="col-form-label" for="cargo">Cargo:</label>
-									<input type="text" name="cargo" id="cargo" class="form-control">
-								</div>
-								<div class="form-group row">
-									<label class="col-form-label" for="telefono">Teléfono:</label>
+									<label class="col-form-label" for="telefono">Teléfono Fijo:</label>
 									<input type="text" name="telefono" id="telefono" class="form-control">
 								</div>
 								<div class="form-group row">
-									<label class="col-form-label" for="anexo">Anexo:</label>
+									<label class="col-form-label" for="anexo">Telefono Celular:</label>
 									<input type="text" name="anexo" id="anexo" class="form-control">
 								</div>
 								<div class="form-group row">
