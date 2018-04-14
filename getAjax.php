@@ -415,7 +415,14 @@ if(!empty($_POST['fechaGuia'])){
                             $result3 = mysqli_query($link,"SELECT * FROM Recojo WHERE idReserva = '{$fila2['idReserva']}'");
                             $numrow1 = mysqli_num_rows($result3);
                             if($numrow1 > 0){
-                                $recojo = "<strong>Recojo:</strong> Si, por favor revisar información de Reserva. ";
+                                while($fila5 = mysqli_fetch_array($result3)){
+                                    if($fila5['confirmacion'] == 1){
+                                        $confirmacionRecojo = "Recojo Confirmado.";
+                                    }else{
+                                        $confirmacionRecojo = "";
+                                    }
+                                }
+                                $recojo = "<strong>Recojo:</strong> Si, por favor revisar información de Reserva. ".$confirmacionRecojo;
                             }
                             $result3 = mysqli_query($link,"SELECT * FROM Ocupantes WHERE idReserva = '{$fila2['idReserva']}' AND idHabitacion = '{$fila2['idHabitacion']}' AND Cargos = 1");
                             while ($fila3 = mysqli_fetch_array($result3)){
@@ -428,8 +435,8 @@ if(!empty($_POST['fechaGuia'])){
                             }
                             $numrow6 = mysqli_num_rows($result3);
                             if($numrow6 == 0){
-                                $nombreTitular = "Titular: No definido";
-                                $empresaTitular = "Empresa: No definido";
+                                $nombreTitular = "<b>Titular:</b> No definido";
+                                $empresaTitular = "<b>Empresa:</b> No definido";
                             }
                             $fechaFin = explode(" ",$fila2['fechaFin']);
                             $fechaInicio = explode(" ",$fila2['fechaInicio']);
@@ -483,7 +490,14 @@ if(!empty($_POST['fechaGuia'])){
                             $result3 = mysqli_query($link,"SELECT * FROM Recojo WHERE idReserva = '{$fila2['idReserva']}'");
                             $numrow1 = mysqli_num_rows($result3);
                             if($numrow1 > 0){
-                                $recojo = "<strong>Recojo:</strong> Si, por favor revisar información de Reserva. ";
+                                while($fila5 = mysqli_fetch_array($result3)){
+                                    if($fila5['confirmacion'] == 1){
+                                        $confirmacionRecojo = "Recojo Confirmado.";
+                                    }else{
+                                        $confirmacionRecojo = "";
+                                    }
+                                }
+                                $recojo = "<strong>Recojo:</strong> Si, por favor revisar información de Reserva. ".$confirmacionRecojo;
                             }
                             $result3 = mysqli_query($link,"SELECT * FROM Ocupantes WHERE idReserva = '{$fila2['idReserva']}' AND idHabitacion = '{$fila2['idHabitacion']}' AND Cargos = 1");
                             while ($fila3 = mysqli_fetch_array($result3)){
@@ -496,8 +510,8 @@ if(!empty($_POST['fechaGuia'])){
                             }
                             $numrow6 = mysqli_num_rows($result3);
                             if($numrow6 == 0){
-                                $nombreTitular = "Titular: No definido";
-                                $empresaTitular = "Empresa: No definido";
+                                $nombreTitular = "<b>Titular:</b> No definido";
+                                $empresaTitular = "<b>Empresa:</b> No definido";
                             }
                             $fechaFin = explode(" ",$fila2['fechaFin']);
                             $fechaInicio = explode(" ",$fila2['fechaInicio']);
@@ -551,7 +565,14 @@ if(!empty($_POST['fechaGuia'])){
                             $result3 = mysqli_query($link,"SELECT * FROM Recojo WHERE idReserva = '{$fila2['idReserva']}'");
                             $numrow1 = mysqli_num_rows($result3);
                             if($numrow1 > 0){
-                                $recojo = "<strong>Recojo:</strong> Si, por favor revisar información de Reserva. ";
+                                while($fila5 = mysqli_fetch_array($result3)){
+                                    if($fila5['confirmacion'] == 1){
+                                        $confirmacionRecojo = "Recojo Confirmado.";
+                                    }else{
+                                        $confirmacionRecojo = "";
+                                    }
+                                }
+                                $recojo = "<strong>Recojo:</strong> Si, por favor revisar información de Reserva. ".$confirmacionRecojo;
                             }
                             $result3 = mysqli_query($link,"SELECT * FROM Ocupantes WHERE idReserva = '{$fila2['idReserva']}' AND idHabitacion = '{$fila2['idHabitacion']}' AND Cargos = 1");
                             while ($fila3 = mysqli_fetch_array($result3)){
@@ -564,8 +585,8 @@ if(!empty($_POST['fechaGuia'])){
                             }
                             $numrow6 = mysqli_num_rows($result3);
                             if($numrow6 == 0){
-                                $nombreTitular = "Titular: No definido";
-                                $empresaTitular = "Empresa: No definido";
+                                $nombreTitular = "<b>Titular:</b> No definido";
+                                $empresaTitular = "<b>Empresa:</b> No definido";
                             }
                             $fechaFin = explode(" ",$fila2['fechaFin']);
                             $fechaInicio = explode(" ",$fila2['fechaInicio']);

@@ -46,10 +46,6 @@ while($row = mysqli_fetch_array($result)) {
                                 <div class="col-4"><p><b>Dirección Fiscal:</b></p></div>
                                 <div class="col-8"><p><?php echo $row['direccionFiscal'];?></p></div>
                             </div>
-                            <div class="row">
-                                <div class="col-4"><p><b>Desc. Corporativo:</b></p></div>
-                                <div class="col-8"><p><?php echo $row['descuentoCorporativo'];?></p></div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -80,13 +76,13 @@ while($row = mysqli_fetch_array($result)) {
                         </thead>
                         <tbody>
                         <?php
-                        $query = mysqli_query($link,"SELECT * FROM Huesped WHERE contacto = 1 AND idEmpresa = '{$_POST['idEmpresa']}')");
-                        while($fila = mysqli_fetch_array($query)){
+                        $query1 = mysqli_query($link,"SELECT * FROM Huesped WHERE contacto = 1 AND idEmpresa = '{$_POST['idEmpresa']}'");
+                        while($fila1 = mysqli_fetch_array($query1)){
 	                        echo "<tr>";
-	                        echo "<td>{$fila['nombreCompleto']}</td>";
-	                        echo "<td>{$fila['telefonoFjo']}</td>";
-                            echo "<td>{$fila['telefonoCelular']}</td>";
-	                        echo "<td>{$fila['correoElectronico']}</td>";
+	                        echo "<td>{$fila1['nombreCompleto']}</td>";
+	                        echo "<td>{$fila1['telefonoFijo']}</td>";
+                            echo "<td>{$fila1['telefonoCelular']}</td>";
+	                        echo "<td>{$fila1['correoElectronico']}</td>";
 	                        echo "</tr>";
                         }
                         ?>
