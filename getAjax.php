@@ -694,5 +694,5 @@ if(isset($_POST['tipoHabitacionTooltip'])){
         echo $row['descripcion']." - ".$row['valor']."<br>";
         /*echo "<option value='{$row['idTarifa']}'>{$row['descripcion']} - {$row['valor']}</option>";*/
     }
-    echo "' form='formHabitacion' step='0.01'>";
+    echo "' form='formAddHabitacion' step='0.01'>";
 }

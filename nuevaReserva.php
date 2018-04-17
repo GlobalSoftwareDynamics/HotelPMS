@@ -488,6 +488,9 @@ if(isset($_SESSION['login'])){
                         <div class="card mb-3">
                             <div class="card-header reservas">
                                 <i class="fa fa-table"></i> Habitaciones
+                                <div class="pull-right">
+                                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalAddHabitacion">Agregar Habitación</button>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="row">
@@ -507,56 +510,6 @@ if(isset($_SESSION['login'])){
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <form method="post" action="#" id="formHabitacion">
-                                                <input type="hidden" name="idReserva" value="<?php echo $_POST['idReserva'];?>">
-                                                <tr>
-                                                    <td>
-                                                        <input type="date" name="fechaInicio" class="form-control" id="inicioCheckIn">
-                                                    </td>
-                                                    <td>
-                                                        <input type="date" name="fechaFin" class="form-control" id="finCheckOut">
-                                                    </td>
-                                                    <td>
-                                                        <select class="form-control" name="tipoHabitacion" onchange="getHabitacion(this.value);getTarifaTooltip(this.value)">
-                                                            <option selected disabled>Seleccionar</option>
-															<?php
-															$query = mysqli_query($link, "SELECT * FROM TipoHabitacion");
-															while ($row = mysqli_fetch_array($query)) {
-																echo "<option value='{$row['idTipoHabitacion']}'>{$row['descripcion']}</option>";
-															}
-															?>
-                                                        </select>
-                                                    </td>
-                                                    <td>
-                                                        <select class="form-control" name="nroHabitacion" id="nroHabitacion">
-                                                            <option selected disabled>Seleccionar</option>
-                                                        </select>
-                                                    </td>
-                                                    <td>
-                                                        <input class="form-control" type="checkbox" name="camaAdicional" value="true">
-                                                    </td>
-                                                    <?php
-                                                    if(isset($_POST['tarifa'])){
-                                                        echo $_POST['tarifa'];
-                                                    }
-                                                    ?>
-                                                    <td id="tarifa">
-                                                        <!--<select class="form-control" name="tarifa" id="tarifa">
-                                                            <option selected disabled>Seleccionar</option>
-                                                        </select>-->
-                                                        <input type="number" step="0.01" min="0" name="tarifa" data-animation="true" class="form-control" data-toggle="tooltip" data-placement="bottom" title="Seleccione un Tipo de Habitación para ver las tarifas disponibles" form="formHabitacion">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" name="preferencias" class="form-control">
-                                                    </td>
-                                                    <td>
-                                                        <input disabled readonly class="form-control">
-                                                    </td>
-                                                    <td>
-                                                        <input type="submit" name="addReservaConfirmada" class="btn btn-primary btn" value="Agregar">
-                                                    </td>
-                                                </tr>
-                                            </form>
 											<?php
 											$query = mysqli_query($link,"SELECT * FROM HabitacionReservada WHERE idReserva = '{$_POST['idReserva']}'");
 											while($row = mysqli_fetch_array($query)){
@@ -756,7 +709,7 @@ if(isset($_SESSION['login'])){
             </form>
 
             <!-- Modal -->
-            <div class="modal fade" id="modalHabitacion" tabindex="-1" role="dialog" aria-labelledby="modalHabitacion" aria-hidden="true">
+            <!--<div class="modal fade" id="modalHabitacion" tabindex="-1" role="dialog" aria-labelledby="modalHabitacion" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -786,11 +739,11 @@ if(isset($_SESSION['login'])){
                                         <select class="form-control" name="tipoHabitacion" onchange="getHabitacion(this.value);getTarifaTooltip(this.value)">
                                             <option selected disabled>Seleccionar</option>
                                             <?php
-                                            $query = mysqli_query($link, "SELECT * FROM TipoHabitacion");
+/*                                            $query = mysqli_query($link, "SELECT * FROM TipoHabitacion");
                                             while ($row = mysqli_fetch_array($query)) {
                                                 echo "<option value='{$row['idTipoHabitacion']}'>{$row['descripcion']}</option>";
                                             }
-                                            ?>
+                                            */?>
                                         </select>
                                     </div>
                                     <div class="col-6">
@@ -811,6 +764,62 @@ if(isset($_SESSION['login'])){
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                             <button type="submit" class="btn btn-primary" form="formHabitacionRes" name="modificarPreferencias">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+
+            <div class="modal fade" id="modalAddHabitacion" tabindex="-1" role="dialog" aria-labelledby="modalAddHabitacionLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalAddHabitacionLabel">Agregar Habitación</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="#" method="post" id="formAddHabitacion">
+                                <input type="hidden" name="idReserva" value="<?php echo $_POST['idReserva'];?>">
+                                <div class="form-group row">
+                                    <label for="inicioCheckIn" class="col-form-label col-2 offset-1">Check In</label>
+                                    <input type="date" name="fechaInicio" class="form-control col-3" id="inicioCheckIn">
+                                    <label for="finCheckOut" class="col-form-label col-2">Check Out</label>
+                                    <input type="date" name="fechaFin" class="form-control col-3" id="finCheckOut">
+                                </div>
+                                <div class="form-group row">
+                                    <label for="tipoHabitacion" class="col-form-label col-2 offset-1">Tipo Hab.</label>
+                                    <select class="form-control col-3" name="tipoHabitacion" onchange="getHabitacion(this.value);getTarifaTooltip(this.value)">
+                                        <option selected disabled>Seleccionar</option>
+                                        <?php
+                                        $query = mysqli_query($link, "SELECT * FROM TipoHabitacion");
+                                        while ($row = mysqli_fetch_array($query)) {
+                                            echo "<option value='{$row['idTipoHabitacion']}'>{$row['descripcion']}</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                    <label for="nroHabitacion" class="col-form-label col-2">Número Hab.</label>
+                                    <select class="form-control col-3" name="nroHabitacion" id="nroHabitacion">
+                                        <option selected disabled>Seleccionar</option>
+                                    </select>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="camaAdicional" class="col-form-label col-2 offset-1">Cama Adicional</label>
+                                    <input class="form-control col-1 mt-2" type="checkbox" name="camaAdicional"  id="camaAdicional" value="true">
+                                    <label for="inputTarifa" class="col-form-label col-2 offset-2">Tarifa</label>
+                                    <div id="tarifa" class="col-3 px-0">
+                                        <input type="number" step="0.01" min="0" name="tarifa" id="inputTarifa" data-animation="true" class="form-control col-12" data-toggle="tooltip" data-placement="bottom" title="Seleccione un Tipo de Habitación para ver las tarifas disponibles" form="formHabitacion">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="preferencias" class="col-form-label col-2 offset-1">Preferencias</label>
+                                    <textarea name="preferencias" id="preferencias" cols="30" rows="3" class="form-control col-8"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary" form="formAddHabitacion" name="addReservaConfirmada">Guardar</button>
                         </div>
                     </div>
                 </div>
