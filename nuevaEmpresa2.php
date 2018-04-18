@@ -59,7 +59,7 @@ if(isset($_SESSION['login'])){
 								</thead>
 								<tbody>
 								<?php
-								$query = mysqli_query($link,"SELECT * FROM Huesped WHERE contacto = 1 AND idEmpresa = '{$_POST['ruc']}')");
+								$query = mysqli_query($link,"SELECT * FROM Huesped WHERE contacto = 1 AND idEmpresa = '{$_POST['ruc']}'");
 								while($fila = mysqli_fetch_array($query)){
 									echo "<tr>";
 									echo "<td>{$fila['nombreCompleto']}</td>";

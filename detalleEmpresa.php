@@ -117,7 +117,7 @@ while($row = mysqli_fetch_array($result)) {
                             </thead>
                             <tbody>
                             <?php
-                            $query = mysqli_query($link,"SELECT * FROM Huesped WHERE idEmpresa = '{$_POST['idEmpresa']}'");
+                            $query = mysqli_query($link,"SELECT * FROM Huesped WHERE idEmpresa = '{$_POST['idEmpresa']}' AND contacto = 0");
                             while($fila = mysqli_fetch_array($query)){
                                 echo "<tr>";
                                     echo "<td>{$fila['idHuesped']}</td>";
