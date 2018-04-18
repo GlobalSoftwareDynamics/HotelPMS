@@ -8,9 +8,13 @@
         var idHabitacionReservada = button.data('habitacionreservada');
         var idReserva = button.data('reserva');
         var preferencias = button.data('preferencias'); // Extract info from data-* attributes
+        var checkinedit = button.data('checkinedit');
+        var checkoutedit = button.data('checkoutedit');
         // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
         // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
         var modal = $(this);
+        modal.find('.checkinedit').val(checkinedit);
+        modal.find('.checkoutedit').val(checkoutedit);
         modal.find('.preferencias').val(preferencias);
         modal.find('.idHabitacion').val(idHabitacion);
         modal.find('.idHabitacionReservada').val(idHabitacionReservada);

@@ -25,9 +25,9 @@ if(isset($_SESSION['login'])){
     }
 
     if(isset($_POST['modificarPreferencias'])){
-        $update = mysqli_query($link,"UPDATE HabitacionReservada SET preferencias = '{$_POST['preferencias']}'
+        $update = mysqli_query($link,"UPDATE HabitacionReservada SET preferencias = '{$_POST['preferenciasEditar']}', fechaInicio = '{$_POST['checkInEditar']}', fechaFin = '{$_POST['checkOutEditar']}'
           WHERE idReserva = '{$_POST['idReserva']}' AND idHabitacion = '{$_POST['idHabitacion']}' AND idHabitacionReservada = '{$_POST['idHabitacionReservada']}'");
-        $queryPerformed = "UPDATE HabitacionReservada SET preferencias = {$_POST['preferencias']}
+        $queryPerformed = "UPDATE HabitacionReservada SET preferencias = {$_POST['preferenciasEditar']}, fechaInicio = {$_POST['checkInEditar']}, fechaFin = {$_POST['checkOutEditar']}
           WHERE idReserva = {$_POST['idReserva']} AND idHabitacion = {$_POST['idHabitacion']} AND idHabitacionReservada = {$_POST['idHabitacionReservada']}";
         $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','PREFERENCIAS DE RESERVA','{$queryPerformed}')");
     }
@@ -235,7 +235,7 @@ if(isset($_SESSION['login'])){
 
 	if(isset($_POST['addReservaPendiente'])){
 
-		$insert = mysqli_query($link,"INSERT INTO ReservaPendiente VALUES 
+		$insert = mysqli_query($link,"INSERT INTO ReservaPendiente (idTipoHabitacion, idReserva, numeroHabitaciones, fechaInicio, fechaFin, preferencias, idTarifa) VALUES 
         ('{$_POST['tipoHabitacion']}','{$_POST['idReserva']}','{$_POST['numHabitaciones']}','{$_POST['checkin']}','{$_POST['checkout']}','{$_POST['preferencias']}','{$_POST['tarifa']}')");
 
 		$queryPerformed = "INSERT INTO ReservaPendiente VALUES 
@@ -243,6 +243,12 @@ if(isset($_SESSION['login'])){
 
 		$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','INSERT','DATOS RESERVA PENDIENTE','{$queryPerformed}')");
 	}
+
+	if(isset($_POST['deleteTipoHabitacion'])){
+        $delete = mysqli_query($link,"DELETE FROM ReservaPendiente WHERE idReserva = '{$_POST['idReserva']}' AND idTipoHabitacion = '{$_POST['idTipoHabitacion']}'");
+        $queryPerformed = "DELETE FROM ReservaPendiente WHERE idReserva = {$_POST['idReserva']} AND idTipoHabitacion = {$_POST['idTipoHabitacion']}";
+        $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','DELETE','DATOS RESERVA PENDIENTE','{$queryPerformed}')");
+    }
 
 	if(isset($_POST['addOcupante'])){
         $idHuespedUsado = null;
@@ -550,11 +556,11 @@ if(isset($_SESSION['login'])){
                                                                     ";
 												if ($row['idEstado'] == 3){
 												    echo "<input type=\"submit\" value=\"Registrar Check-In\" class=\"dropdown-item\" formaction=\"#\" name='checkinHabitacion'>";
-                                                    echo "<input type=\"button\" value=\"Modificar Preferencias\" class=\"dropdown-item\" data-toggle=\"modal\" data-target=\"#modalHabitacion\" data-preferencias=\"{$row['preferencias']}\" data-habitacion='{$row['idHabitacion']}' data-reserva='{$_POST['idReserva']}' data-habitacionreservada='{$row['idHabitacionReservada']}'>";
+                                                    echo "<input type=\"button\" value=\"Modificar Datos\" class=\"dropdown-item\" data-toggle=\"modal\" data-target=\"#modalHabitacion\" data-preferencias=\"{$row['preferencias']}\" data-habitacion='{$row['idHabitacion']}' data-reserva='{$_POST['idReserva']}' data-habitacionreservada='{$row['idHabitacionReservada']}' data-checkinedit='{$row['fechaInicio']}' data-checkoutedit='{$row['fechaFin']}'>";
                                                     echo "<input type=\"submit\" value=\"Asignar Early Check-In\" class=\"dropdown-item\" formaction=\"#\" name='earlyCheckIn'>";
                                                     echo "<input type=\"submit\" value=\"Asignar Late Check-Out\" class=\"dropdown-item\" formaction=\"#\" name='lateCheckOut'>";
                                                 }elseif($row['idEstado'] == 4){
-                                                    echo "<input type=\"button\" value=\"Modificar Preferencias\" class=\"dropdown-item\" data-toggle=\"modal\" data-target=\"#modalHabitacion\" data-preferencias=\"{$row['preferencias']}\" data-habitacion='{$row['idHabitacion']}' data-reserva='{$_POST['idReserva']}' data-habitacionreservada='{$row['idHabitacionReservada']}'>";
+                                                    echo "<input type=\"button\" value=\"Modificar Datos\" class=\"dropdown-item\" data-toggle=\"modal\" data-target=\"#modalHabitacion\" data-preferencias=\"{$row['preferencias']}\" data-habitacion='{$row['idHabitacion']}' data-reserva='{$_POST['idReserva']}' data-habitacionreservada='{$row['idHabitacionReservada']}' data-checkinedit='{$row['fechaInicio']}' data-checkoutedit='{$row['fechaFin']}'>";
                                                     echo "<input type=\"submit\" value=\"Asignar Early Check-In\" class=\"dropdown-item\" formaction=\"#\" name='earlyCheckIn'>";
                                                     echo "<input type=\"submit\" value=\"Asignar Late Check-Out\" class=\"dropdown-item\" formaction=\"#\" name='lateCheckOut'>";
                                                     echo "<input type=\"submit\" value=\"Registrar Cambio de Habitación\" class=\"dropdown-item\" formaction=\"cambioHabitacion.php\" name='cambioHabitacion'>";
@@ -709,7 +715,7 @@ if(isset($_SESSION['login'])){
             </form>
 
             <!-- Modal -->
-            <!--<div class="modal fade" id="modalHabitacion" tabindex="-1" role="dialog" aria-labelledby="modalHabitacion" aria-hidden="true">
+            <div class="modal fade" id="modalHabitacion" tabindex="-1" role="dialog" aria-labelledby="modalHabitacion" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -721,40 +727,18 @@ if(isset($_SESSION['login'])){
                         <div class="modal-body">
                             <form action="#" method="post" id="formHabitacionRes">
                                 <div class="form-group row">
-                                    <label for="checkIn" class="col-form-label col-1">CheckIn:</label>
+                                    <label for="checkInEditar" class="col-form-label col-1 offset-1">CheckIn:</label>
                                     <div class="col-3">
-                                        <input type="date" class="form-control" name="checkIn" id="checkIn">
+                                        <input type="date" class="form-control checkinedit" name="checkInEditar" id="checkInEditar" required>
                                     </div>
-                                    <label for="checkOut" class="col-form-label col-1">CheckOut:</label>
+                                    <label for="checkOutEditar" class="col-form-label col-1 offset-1">CheckOut:</label>
                                     <div class="col-3">
-                                        <input type="date" class="form-control" name="checkOut" id="checkOut">
-                                    </div>
-                                    <label for="cama" class="col-form-label col-2">Cama Adicional:</label>
-                                    <div class="col-1">
-                                        <input type="checkbox" class="form-control mt-3" name="cama" id="cama">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-6">
-                                        <select class="form-control" name="tipoHabitacion" onchange="getHabitacion(this.value);getTarifaTooltip(this.value)">
-                                            <option selected disabled>Seleccionar</option>
-                                            <?php
-/*                                            $query = mysqli_query($link, "SELECT * FROM TipoHabitacion");
-                                            while ($row = mysqli_fetch_array($query)) {
-                                                echo "<option value='{$row['idTipoHabitacion']}'>{$row['descripcion']}</option>";
-                                            }
-                                            */?>
-                                        </select>
-                                    </div>
-                                    <div class="col-6">
-                                        <select class="form-control" name="nroHabitacion" id="nroHabitacion">
-                                            <option selected disabled>Seleccionar</option>
-                                        </select>
+                                        <input type="date" class="form-control checkoutedit" name="checkOutEditar" id="checkOutEditar" required>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <h6 class="mx-5">Preferencias</h6>
-                                    <textarea name="preferencias" id="preferencias" cols="30" rows="2" class="form-control mx-5 preferencias"></textarea>
+                                    <textarea name="preferenciasEditar" id="preferenciasEditar" cols="30" rows="2" class="form-control mx-5 preferencias"></textarea>
                                 </div>
                                 <input type="hidden" name="idHabitacion" class="idHabitacion">
                                 <input type="hidden" name="idHabitacionReservada" class="idHabitacionReservada">
@@ -767,7 +751,7 @@ if(isset($_SESSION['login'])){
                         </div>
                     </div>
                 </div>
-            </div>-->
+            </div>
 
             <div class="modal fade" id="modalAddHabitacion" tabindex="-1" role="dialog" aria-labelledby="modalAddHabitacionLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
@@ -849,7 +833,7 @@ if(isset($_SESSION['login'])){
                                         <p><strong>Teléfono:</strong> <?php echo $telefonoHuesped; ?></p>
                                     </div>
                                     <div class="col-6">
-                                        <p><strong>DNI:</strong> <?php echo $idHuesped; ?></p>
+                                        <p><strong>DNI:</strong> <?php echo $dniHuesped; ?></p>
                                         <p><strong>Email:</strong> <?php echo $emailHuesped; ?></p>
                                     </div>
                                 </div>
@@ -916,10 +900,7 @@ if(isset($_SESSION['login'])){
 												}
 												echo "<td>{$tipoHabitacion}</td>";
 												echo "<td>{$row['numeroHabitaciones']}</td>";
-												$query2 = mysqli_query($link,"SELECT * FROM Tarifa WHERE idTarifa = '{$row['idTarifa']}'");
-												while($row2 = mysqli_fetch_array($query2)){
-													echo "<td>{$row2['descripcion']}</td>";
-												}
+                                                echo "<td>{$row['idTarifa']}</td>";
 												echo "<td>{$row['fechaInicio']}</td>";
 												echo "<td>{$row['fechaFin']}</td>";
 												echo "<td>{$row['preferencias']}</td>";

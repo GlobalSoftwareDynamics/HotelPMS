@@ -41,13 +41,13 @@ if(!empty($_POST['nombreHuesped'])){
 
 if(!empty($_POST['nombreHuespedReserva'])){
 	$flag = true;
-	$result = mysqli_query($link,"SELECT * FROM Huesped WHERE nombreCompleto = '{$_POST['nombreHuespedReserva']}' OR idHuesped = '{$_POST['nombreHuespedReserva']}'");
+	$result = mysqli_query($link,"SELECT * FROM Huesped WHERE nombreCompleto = '{$_POST['nombreHuespedReserva']}' OR dni = '{$_POST['nombreHuespedReserva']}'");
 	while($row = mysqli_fetch_array($result)){
 		$flag = false;
 		echo "<select class='form-control' name='dni' id='dni' onchange='getNombre2(this.value);' form='formOcupante'>";
 		$result2 = mysqli_query($link,"SELECT * FROM Huesped WHERE nombreCompleto = '{$_POST['nombreHuespedReserva']}'");
 		while($row2 = mysqli_fetch_array($result2)){
-			echo "<option value='{$row2['idHuesped']}'>{$row2['idHuesped']}</option>";
+			echo "<option value='{$row2['dni']}'>{$row2['dni']}</option>";
 		}
 		echo "</select>";
 		break;
@@ -644,7 +644,7 @@ if(isset($_POST['nombreHuespedEmpresa'])){
     echo "<label class=\"col-form-label\" for=\"dni\">DNI:</label>";
     $query = mysqli_query($link, "SELECT * FROM Huesped WHERE nombreCompleto = '{$_POST['nombreHuespedEmpresa']}'");
     while ($row = mysqli_fetch_array($query)) {
-        echo "<input type='text' name='dni' id='dni' value='{$row['idHuesped']}' readonly class='form-control'>";
+        echo "<input type='text' name='dni' id='dni' value='{$row['dni']}' readonly class='form-control'>";
     }
 }
 
