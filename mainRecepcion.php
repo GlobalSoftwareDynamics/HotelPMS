@@ -433,7 +433,7 @@ if(isset($_SESSION['login'])){
                             <div class="tab-pane" id="recojo" role="tabpanel">
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link" data-toggle="tab" href="#hoy3" role="tab">Hoy</a>
+                                        <a class="nav-link active" data-toggle="tab" href="#hoy3" role="tab">Hoy</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-toggle="tab" href="#manana3" role="tab">Mañana</a>

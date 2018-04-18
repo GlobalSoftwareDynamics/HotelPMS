@@ -307,6 +307,14 @@ if(isset($_SESSION['login'])){
 		$databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','DELETE','Recojo','{$queryPerformed}')");
 	}
 
+	if(isset($_POST['confirmarRecojo'])){
+
+        $update = mysqli_query($link,"UPDATE Recojo SET confirmacion = 1 WHERE idRecojo = '{$_POST['idRecojo']}'");
+        $queryPerformed = "UPDATE Recojo SET confirmacion = 1 WHERE idRecojo = {$_POST['idRecojo']}";
+        $databaseLog = mysqli_query($link,"INSERT INTO DatabaseLog (idColaborador, fechaHora, evento, tipo, consulta) VALUES ('{$_SESSION['user']}','{$dateTime}','UPDATE','CONFIRMACION RECOJO','{$queryPerformed}')");
+
+    }
+
 	if(isset($_POST['idReserva'])){
 		if($estadoReserva == '3') {
 			$pendiente = mysqli_query($link,"SELECT * FROM ReservaPendiente WHERE idReserva = '{$_POST['idReserva']}'");
@@ -469,9 +477,17 @@ if(isset($_SESSION['login'])){
 													echo "<td>{$rowRecojos['nroTicket']}</td>";
 													echo "<td>
                                                         <form method='post'>
-                                                                    <input type='hidden' name='idRecojo' value='{$rowRecojos['idRecojo']}'>
-                                                                    <input type='hidden' name='idReserva' value='{$_POST['idReserva']}'>
-                                                                    <input type=\"submit\" value=\"Eliminar\" class=\"btn btn-sm btn-primary\" formaction=\"#\" name='deleteRecojo'>
+                                                            <div class=\"dropdown\">
+                                                                    <button class=\"btn btn-outline btn-sm dropdown-toggle\" type=\"button\" id=\"dropdownMenuButton\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
+                                                                    Acciones
+                                                                    </button>
+                                                                    <div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuButton\">
+                                                                        <input type='hidden' name='idRecojo' value='{$rowRecojos['idRecojo']}'>
+                                                                        <input type='hidden' name='idReserva' value='{$_POST['idReserva']}'>
+                                                                        <input type=\"submit\" value=\"Confirmar\" class=\"dropdown-item\" formaction=\"#\" name='confirmarRecojo'>
+                                                                        <input type=\"submit\" value=\"Eliminar\" class=\"dropdown-item\" formaction=\"#\" name='deleteRecojo'>
+                                                                    </div>
+                                                            </div>
                                                         </form>
                                                       </td>
                                                 ";

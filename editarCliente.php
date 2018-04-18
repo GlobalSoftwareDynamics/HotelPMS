@@ -116,7 +116,7 @@ if(isset($_SESSION['login'])){
                                     <div class="form-group row">
                                         <label for="nacimiento" class="col-4 col-form-label">Fecha de Nacimiento:</label>
                                         <div class="col-8">
-                                            <input class="form-control" type="text" id="nacimiento" name="nacimiento" value="<?php echo $fila['fechaNacimiento'];?>">
+                                            <input class="form-control" type="date" id="nacimiento" name="nacimiento" value="<?php echo $fila['fechaNacimiento'];?>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
