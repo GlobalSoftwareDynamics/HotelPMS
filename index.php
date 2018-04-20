@@ -34,7 +34,7 @@ include('login.php'); // Includes Login Script
         <div class="row">
             <div class="col-12 col-xl-4 login-sec">
                 <div id="logo">
-                    <img src="img/logo.png" width="200" class="centered">
+                    <img src="img/LOGO%20CASAGRANDE.png" width="200" class="centered">
                 </div>
                 <h2 class="text-center"></h2>
                 <form class="login-form" method="post" action="#">

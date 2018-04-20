@@ -625,7 +625,7 @@ if(!empty($_POST['fechaGuia'])){
 }
 
 if(isset($_POST['razonSocialEmpresa'])){
-    if ($_POST['razonSocialEmpresa'] != '11111111111') {
+    if (($_POST['razonSocialEmpresa'] != '11111111111')&&($_POST['razonSocialEmpresa'] != '80')&&($_POST['razonSocialEmpresa'] != '81')) {
         echo "<label class=\"col-form-label\" for=\"nombres\">Nombre Completo:</label>";
         echo "<select name='nombres' id='nombres' class='form-control' onchange='getDniEmpresa(this.value);getTelf(this.value);getEmail(this.value);'>";
         echo "<option selected disabled>Seleccionar</option>";

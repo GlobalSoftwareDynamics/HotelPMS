@@ -2,9 +2,9 @@
 
 body{
     height: 100%;
-    background: #0a89af;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to bottom, #0f95cd, #0a89af);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to bottom, #0e9acd, #0a89af); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: #9b9b9b;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, #9b9b9b, #878787);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #9b9b9b, #878787); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .login-block{
@@ -37,11 +37,11 @@ body{
 .carousel-caption{text-align:left; left:5%;}
 .login-sec{padding: 50px 30px; position:relative;}
 .login-sec .copy-text{position:absolute; width:80%; bottom:20px; font-size:13px; text-align:center;}
-.login-sec .copy-text i{color:#FEB58A;}
-.login-sec .copy-text a{color:#E36262;}
-.login-sec h2{margin-bottom:30px; font-weight:800; font-size:30px; color: #DE6262;}
-.login-sec h2:after{content:" "; width:100px; height:5px; background: #0a6187; display:block; margin-top:20px; border-radius:3px; margin-left:auto;margin-right:auto}
-.btn-login{background: #0a6187; color:#fff; font-weight:600;}
+.login-sec .copy-text i{color:#9b9b9b;}
+.login-sec .copy-text a{color:#9b9b9b;}
+.login-sec h2{margin-bottom:30px; font-weight:800; font-size:30px; color: #9b9b9b;}
+.login-sec h2:after{content:" "; width:100px; height:5px; background: #9b9b9b; display:block; margin-top:20px; border-radius:3px; margin-left:auto;margin-right:auto}
+.btn-login{background: #309b33; color:#fff; font-weight:600;}
 .banner-text{width:70%; position:absolute; bottom:40px; padding-left:20px;}
 .banner-text h2{color:#fff; font-weight:600;}
 .banner-text h2:after{content:" "; width:100px; height:5px; background:#FFF; display:block; margin-top:20px; border-radius:3px;}
